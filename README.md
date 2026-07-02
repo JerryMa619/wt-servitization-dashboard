@@ -4,6 +4,8 @@ Public dashboard URL: [https://jerryma619.github.io/wt-servitization-dashboard/]
 
 Local dashboard URL: [http://127.0.0.1:5173/](http://127.0.0.1:5173/)
 
+Enhanced local dashboard URL: [http://127.0.0.1:5173/enhanced](http://127.0.0.1:5173/enhanced)
+
 > Note: this GitHub Pages URL becomes publicly accessible after the dashboard is published from a public GitHub Pages source. The current development repository may remain private, but the deployed site or release repository must be public for open access.
 
 ## Overview
@@ -34,6 +36,7 @@ Local dashboard:
 
 ```text
 http://127.0.0.1:5173/
+http://127.0.0.1:5173/enhanced
 ```
 
 ## Build

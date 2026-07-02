@@ -7,7 +7,10 @@ import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-
 import {
   Activity,
   AlertTriangle,
+  BarChart3,
   ClipboardCheck,
+  ClipboardList,
+  Database,
   Gauge,
   MapPin,
   RotateCcw,
@@ -138,8 +141,25 @@ type DashboardDataset = {
     evidenceBoundary: string;
   };
   service: {
-    availability: { availability: number; description: string } | null;
+    availability: {
+      availability: number;
+      total_hours?: number;
+      planned_downtime_h?: number;
+      unplanned_downtime_h?: number;
+      description: string;
+    } | null;
     kpiSettlement: { actual_availability: number; contractual_target: number; delta_pp: number; settlement_gbp: number; status: string } | null;
+    validationConditions?: {
+      VC1_latency?: { p95_ms: number; vc1_pass: boolean };
+      VC2_provenance?: { audit_rate_pct: number; vc2_pass: boolean; issues?: string[] };
+      VC3_delta_availability?: {
+        baseline_availability: number;
+        baseline_downtime_h: number;
+        dt_availability: number;
+        delta_pp: number;
+        vc3_pass: boolean;
+      };
+    };
   };
   history: HistoryPoint[];
 };
@@ -353,6 +373,7 @@ const tcsParameters = {
 };
 
 function App() {
+  const enhancedMode = window.location.pathname.replace(/\/+$/, "") === "/enhanced";
   const [cursor, setCursor] = useState(0);
   const [history, setHistory] = useState<HistoryPoint[]>(() =>
     makeInitialReplayHistory()
@@ -538,12 +559,16 @@ function App() {
       <header className="topbar">
         <div>
           <p className="eyebrow">WT Servitization Digital Twin</p>
-          <h1>Operation, Evidence Chain and Contract State</h1>
+          <h1>{enhancedMode ? "Enhanced Operation, Service and Cost Intelligence" : "Operation, Evidence Chain and Contract State"}</h1>
           <span className="data-source">
             {manualPoint ? "Manual scenario mode" : "Auto DT closed-loop simulation"} | {dataset.summary?.totalAcquisitions ?? replayHistory.length} acquisitions | {site.sourceStatus}
           </span>
         </div>
         <div className="top-actions">
+          <a className="secondary-action" href={enhancedMode ? "/" : "/enhanced"}>
+            <Workflow size={15} />
+            {enhancedMode ? "Standard dashboard" : "Enhanced dashboard"}
+          </a>
           <button className="secondary-action" type="button" onClick={() => setInputOpen(true)}>
             <SlidersHorizontal size={15} />
             Input scenario
@@ -580,6 +605,17 @@ function App() {
           onEvidence={() => setEvidenceOpen(true)}
         />
       </section>
+
+      {enhancedMode ? (
+        <EnhancedDashboardModules
+          latest={latest}
+          history={chartHistory}
+          serviceState={serviceState}
+          execution={serviceExecution}
+          autoStats={autoStats}
+          position={currentPosition}
+        />
+      ) : null}
 
       <section className="dt-chain">
         <div className="section-title">
@@ -1027,6 +1063,144 @@ function DecisionPanel({
   );
 }
 
+function EnhancedDashboardModules({
+  latest,
+  history,
+  serviceState,
+  execution,
+  autoStats,
+  position
+}: {
+  latest: HistoryPoint;
+  history: HistoryPoint[];
+  serviceState: ServiceState;
+  execution: ServiceExecution | null;
+  autoStats: AutoServiceStats;
+  position: LivePosition;
+}) {
+  const confidence = modelConfidence(latest, history);
+  const qualityRows = dataQualityRows(latest, position, confidence);
+  const ledgerRows = serviceLedgerRows(latest, history, serviceState, execution, autoStats);
+  const kpis = cumulativeKpis(latest, autoStats);
+  const traceRows = ontologyTraceRows(latest, serviceState, position);
+
+  return (
+    <section className="enhanced-dashboard" aria-label="Enhanced DT servitization modules">
+      <div className="enhanced-title">
+        <div className="section-title">
+          <Database size={18} />
+          <h2>Enhanced DT Servitization Layer</h2>
+        </div>
+        <p>Additional evidence for model trust, data quality, service history, cumulative KPI and ontology trace.</p>
+      </div>
+
+      <div className="enhanced-grid">
+        <section className="panel enhanced-panel">
+          <div className="activity-header">
+            <ShieldCheck size={17} />
+            <span>Model Confidence</span>
+          </div>
+          <div className="confidence-stack">
+            <ConfidenceBar label="Crack detection" value={confidence.crackDetection} note={`Anomaly score ${confidence.anomalyScore.toFixed(0)} / 100`} />
+            <ConfidenceBar label="RUL confidence" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} h`} />
+            <ConfidenceBar label="Decision confidence" value={confidence.decisionConfidence} note={maintenanceActions[serviceDecisionByTcs(latest, serviceState).action].label} />
+          </div>
+        </section>
+
+        <section className="panel enhanced-panel">
+          <div className="activity-header">
+            <Activity size={17} />
+            <span>Data Quality and Sensor Health</span>
+          </div>
+          <div className="quality-list">
+            {qualityRows.map((row) => (
+              <div className={`quality-row ${row.status}`} key={row.label}>
+                <span>{row.label}</span>
+                <strong>{row.value}</strong>
+                <small>{row.note}</small>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="enhanced-grid wide">
+        <section className="panel enhanced-panel">
+          <div className="activity-header">
+            <ClipboardList size={17} />
+            <span>Service History and Work Order Ledger</span>
+          </div>
+          <div className="ledger-table" role="table" aria-label="Service work order ledger">
+            <div className="ledger-head" role="row">
+              <span>Time</span>
+              <span>Service</span>
+              <span>Evidence</span>
+              <span>Outcome</span>
+            </div>
+            {ledgerRows.map((row) => (
+              <div className="ledger-row" role="row" key={`${row.time}-${row.service}`}>
+                <span>{row.time}</span>
+                <strong>{row.service}</strong>
+                <span>{row.evidence}</span>
+                <b>{row.outcome}</b>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel enhanced-panel">
+          <div className="activity-header">
+            <BarChart3 size={17} />
+            <span>Cumulative Servitization KPI</span>
+          </div>
+          <div className="kpi-ledger">
+            {kpis.map((kpi) => (
+              <div key={kpi.label}>
+                <span>{kpi.label}</span>
+                <strong>{kpi.value}</strong>
+                <small>{kpi.note}</small>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section className="panel enhanced-panel ontology-panel">
+        <div className="activity-header">
+          <Workflow size={17} />
+          <span>Ontology Trace: Observation to Service Activity</span>
+        </div>
+        <div className="ontology-trace">
+          {traceRows.map((row, index) => (
+            <div className="ontology-step" key={row.entity}>
+              <i>{index + 1}</i>
+              <div>
+                <span>{row.entity}</span>
+                <strong>{row.instance}</strong>
+                <small>{row.evidence}</small>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </section>
+  );
+}
+
+function ConfidenceBar({ label, value, note }: { label: string; value: number; note: string }) {
+  const pct = Math.round(clamp(value, 0, 1) * 100);
+  return (
+    <div className="confidence-bar">
+      <div>
+        <span>{label}</span>
+        <b>{pct}%</b>
+      </div>
+      <i aria-hidden="true"><em style={{ width: `${pct}%` }} /></i>
+      <small>{note}</small>
+    </div>
+  );
+}
+
 function Chart({ title, option }: { title: string; option: object }) {
   return (
     <section className="panel chart-panel">
@@ -1048,6 +1222,7 @@ function EvidenceModal({
   onClose: () => void;
 }) {
   const meta = stateMeta[serviceState];
+  const tcsDecision = serviceDecisionByTcs(latest, serviceState);
 
   return (
     <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="Evidence chain">
@@ -1064,7 +1239,7 @@ function EvidenceModal({
           <EvidenceItem label="FeatureVector" value={`RMS ${latest.vibrationRms.toFixed(3)} g | kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
           <EvidenceItem label="RULEstimate" value={`p10 ${latest.rulP10} h | p50 ${latest.rulP50} h | p90 ${latest.rulP90} h`} />
           <EvidenceItem label="ServiceState" value={serviceState} accent={meta.color} />
-          <EvidenceItem label="ServiceActionRecommendation" value={meta.action} />
+          <EvidenceItem label="ServiceActionRecommendation" value={`${maintenanceActions[tcsDecision.action].label} | TCS ${formatGbp(tcsDecision.totalCost)} | residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`} />
           <EvidenceItem label="ContractKPI" value={meta.kpi} />
         </div>
       </section>
@@ -1511,6 +1686,214 @@ function formatCostItemValue(value: number) {
 
 function formatGbp(value: number) {
   return `GBP ${Math.round(value).toLocaleString("en-GB")}`;
+}
+
+function formatPct(value: number) {
+  return `${(value * 100).toFixed(1)}%`;
+}
+
+function modelConfidence(latest: HistoryPoint, history: HistoryPoint[]) {
+  const crackMm = latest.crackMm ?? 0;
+  const crackFactor = clamp(crackMm / 80, 0, 1);
+  const vibrationSignal = clamp((latest.vibrationRms - 0.035) / 0.16, 0, 1);
+  const kurtosisSignal = clamp((latest.kurtosis - 2.7) / 6.8, 0, 1);
+  const modalSignal = clamp((27.55 - latest.modalF1) / 7, 0, 1);
+  const windPenalty = latest.windSpeed > 11 ? 0.08 : latest.windSpeed > 8 ? 0.04 : 0;
+  const rulSpread = Math.max(0, latest.rulP90 - latest.rulP10);
+  const recentRul = history.slice(-8).map((point) => point.rulP50);
+  const rulSwing = recentRul.length > 1 ? Math.max(...recentRul) - Math.min(...recentRul) : 0;
+  const anomalyScore = clamp((crackFactor * 0.46 + vibrationSignal * 0.24 + kurtosisSignal * 0.2 + modalSignal * 0.1) * 100, 0, 100);
+  const crackDetection = clamp(0.66 + crackFactor * 0.18 + vibrationSignal * 0.1 + kurtosisSignal * 0.08 - windPenalty, 0.58, 0.98);
+  const rulConfidence = clamp(1 - rulSpread / 940 - rulSwing / 1200, 0.42, 0.94);
+  const tcsDecision = serviceDecisionByTcs(latest, latest.serviceState ?? serviceStateFromCondition(latest));
+  const decisionConfidence = clamp(crackDetection * 0.42 + rulConfidence * 0.34 + (1 - tcsDecision.residualRiskScore) * 0.24, 0.5, 0.98);
+
+  return {
+    crackDetection,
+    rulConfidence,
+    decisionConfidence,
+    anomalyScore
+  };
+}
+
+function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidence: ReturnType<typeof modelConfidence>) {
+  const vc1 = dataset.service?.validationConditions?.VC1_latency;
+  const vc2 = dataset.service?.validationConditions?.VC2_provenance;
+  const rows = [
+    {
+      label: "GPS context",
+      value: `${position.lat.toFixed(4)}, ${position.lon.toFixed(4)}`,
+      note: `${position.source}${position.accuracy ? `, accuracy ${position.accuracy.toFixed(0)} m` : ""}`,
+      status: position.accuracy != null && position.accuracy > 50 ? "warn" : "pass"
+    },
+    {
+      label: "Telemetry freshness",
+      value: latest.t,
+      note: latest.source ?? "auto-simulation",
+      status: "pass"
+    },
+    {
+      label: "Vibration feature quality",
+      value: `${latest.vibrationRms.toFixed(3)} g / k ${latest.kurtosis.toFixed(2)}`,
+      note: confidence.anomalyScore > 65 ? "High anomaly content; service layer should preserve raw evidence." : "Signal within expected model range.",
+      status: latest.vibrationRms > 0.26 || latest.kurtosis > 10 ? "warn" : "pass"
+    },
+    {
+      label: "RUL interval logic",
+      value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
+      note: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "p10 <= p50 <= p90" : "RUL bounds conflict.",
+      status: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "pass" : "warn"
+    },
+    {
+      label: "Latency validation",
+      value: vc1 ? `${vc1.p95_ms.toFixed(1)} ms p95` : "n/a",
+      note: vc1?.vc1_pass ? "VC1 pass" : "Awaiting validation evidence",
+      status: vc1?.vc1_pass ? "pass" : "warn"
+    },
+    {
+      label: "Ontology provenance",
+      value: vc2 ? `${vc2.audit_rate_pct.toFixed(0)}% audit` : "n/a",
+      note: vc2?.vc2_pass ? "VC2 pass; transitions are traceable." : "Review provenance issues.",
+      status: vc2?.vc2_pass ? "pass" : "warn"
+    }
+  ];
+
+  return rows;
+}
+
+function serviceLedgerRows(
+  latest: HistoryPoint,
+  history: HistoryPoint[],
+  serviceState: ServiceState,
+  execution: ServiceExecution | null,
+  autoStats: AutoServiceStats
+) {
+  const decision = serviceDecisionByTcs(latest, serviceState);
+  const completedPoint = [...history].reverse().find((point) => point.serviceMode === "post-service");
+  const downtimePoint = [...history].reverse().find((point) => point.serviceMode === "in-downtime");
+  const rows = [
+    {
+      time: latest.t,
+      service: maintenanceActions[decision.action].label,
+      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, p10 ${latest.rulP10} h`,
+      outcome: `Selected by TCS ${formatGbp(decision.totalCost)}`
+    }
+  ];
+
+  if (execution) {
+    rows.push({
+      time: autoStats.lastCompletedAt ?? latest.t,
+      service: maintenanceActions[execution.action].label,
+      evidence: `${execution.downtimeH.toFixed(1)} h downtime, ${execution.status}`,
+      outcome: execution.note
+    });
+  } else if (completedPoint?.serviceAction) {
+    rows.push({
+      time: completedPoint.t,
+      service: maintenanceActions[completedPoint.serviceAction].label,
+      evidence: completedPoint.serviceNote ?? "Post-service state update",
+      outcome: `${completedPoint.crackMm?.toFixed(1) ?? "0.0"} mm crack, p50 ${completedPoint.rulP50} h`
+    });
+  } else if (downtimePoint?.serviceAction) {
+    rows.push({
+      time: downtimePoint.t,
+      service: maintenanceActions[downtimePoint.serviceAction].label,
+      evidence: downtimePoint.serviceNote ?? "Service in downtime",
+      outcome: "Work order in progress"
+    });
+  }
+
+  rows.push({
+    time: "Next",
+    service: serviceState === "Nominal" || serviceState === "Watch" ? "Continue monitoring" : "Planner review",
+    evidence: `Residual risk ${decision.residualRiskScore.toFixed(2)}, residual crack ${decision.residualCrackMm.toFixed(1)} mm`,
+    outcome: serviceState === "MaintenanceDue" || serviceState === "Critical" ? "Dispatch window required" : "No immediate downtime"
+  });
+
+  return rows.slice(0, 4);
+}
+
+function cumulativeKpis(latest: HistoryPoint, autoStats: AutoServiceStats) {
+  const vc3 = dataset.service?.validationConditions?.VC3_delta_availability;
+  const settlement = dataset.service?.kpiSettlement;
+  const currentDecision = serviceDecisionByTcs(latest, latest.serviceState ?? serviceStateFromCondition(latest));
+  const currentAvailability = latest.availabilityPct != null ? latest.availabilityPct / 100 : settlement?.actual_availability ?? 0.976;
+  const baselineDowntime = vc3?.baseline_downtime_h ?? 144;
+  const plannedDowntime = dataset.service?.availability?.planned_downtime_h ?? autoStats.totalDowntimeH;
+  const avoidedDowntime = Math.max(0, baselineDowntime - plannedDowntime);
+
+  return [
+    {
+      label: "DT availability",
+      value: formatPct(currentAvailability),
+      note: vc3 ? `Baseline ${formatPct(vc3.baseline_availability)}, delta ${vc3.delta_pp.toFixed(1)} pp` : "Live availability from service state"
+    },
+    {
+      label: "Avoided downtime",
+      value: `${avoidedDowntime.toFixed(1)} h`,
+      note: `Baseline ${baselineDowntime} h vs DT planned ${plannedDowntime} h`
+    },
+    {
+      label: "Contract settlement",
+      value: settlement ? `${settlement.status} ${formatGbp(settlement.settlement_gbp)}` : "Pending",
+      note: settlement ? `Target ${formatPct(settlement.contractual_target)}, actual ${formatPct(settlement.actual_availability)}` : "No settlement source"
+    },
+    {
+      label: "Current TCS exposure",
+      value: formatGbp(currentDecision.totalCost),
+      note: `${maintenanceActions[currentDecision.action].label}, residual risk ${currentDecision.residualRiskScore.toFixed(2)}`
+    },
+    {
+      label: "Closed-loop services",
+      value: String(autoStats.completedServices),
+      note: `${autoStats.totalDowntimeH.toFixed(1)} h downtime accumulated`
+    }
+  ];
+}
+
+function ontologyTraceRows(latest: HistoryPoint, serviceState: ServiceState, position: LivePosition) {
+  const decision = serviceDecisionByTcs(latest, serviceState);
+  const observationId = `ObservationWindow-${String(latest.acquisitionIndex ?? 0).padStart(4, "0")}`;
+
+  return [
+    {
+      entity: "Observation",
+      instance: observationId,
+      evidence: `GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)}; wind ${latest.windSpeed.toFixed(1)} m/s`
+    },
+    {
+      entity: "FeatureVector",
+      instance: `Blade-A features @ ${latest.t}`,
+      evidence: `RMS ${latest.vibrationRms.toFixed(3)} g, kurtosis ${latest.kurtosis.toFixed(2)}, f1 ${latest.modalF1.toFixed(2)} Hz`
+    },
+    {
+      entity: "ConditionEvent",
+      instance: `${latest.crackState ?? "C?"} crack state`,
+      evidence: `Crack ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`
+    },
+    {
+      entity: "RULEstimate",
+      instance: `p10/p50/p90 ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
+      evidence: "RUL uncertainty band passed to service decision layer"
+    },
+    {
+      entity: "ServiceState",
+      instance: serviceState,
+      evidence: stateMeta[serviceState].kpi
+    },
+    {
+      entity: "ServiceActivity",
+      instance: maintenanceActions[decision.action].label,
+      evidence: `TCS ${formatGbp(decision.totalCost)}, residual risk ${decision.residualRiskScore.toFixed(2)}`
+    },
+    {
+      entity: "ContractKPI",
+      instance: dataset.service?.kpiSettlement?.status ?? "KPI monitoring",
+      evidence: dataset.service?.kpiSettlement
+        ? `Settlement ${formatGbp(dataset.service.kpiSettlement.settlement_gbp)}`
+        : "Availability and downtime evidence accumulated"
+    }
+  ];
 }
 
 function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceActionKey, downtimeH: number): HistoryPoint {
