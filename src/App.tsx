@@ -108,6 +108,19 @@ type AutoServiceStats = {
   lastCompletedAt?: string;
 };
 
+type ServiceCostEstimate = {
+  action: MaintenanceActionKey;
+  totalCost: number;
+  directCost: number;
+  downtimeCost: number;
+  logisticsCost: number;
+  contractCost: number;
+  residualRiskCost: number;
+  residualRiskScore: number;
+  residualCrackMm: number;
+  residualRulP10: number;
+};
+
 type DashboardDataset = {
   generatedAt: string;
   site: {
@@ -309,6 +322,26 @@ const maintenanceActions: Record<
     rulGain: 35,
     vibrationFactor: 0.98
   }
+};
+
+const serviceEconomics: Record<
+  MaintenanceActionKey,
+  { directCost: number; logisticsCost: number; planningCredit: number; riskMultiplier: number }
+> = {
+  "condition-inspection": { directCost: 180, logisticsCost: 40, planningCredit: 0, riskMultiplier: 0.92 },
+  "spare-prepositioning": { directCost: 420, logisticsCost: 280, planningCredit: 220, riskMultiplier: 0.78 },
+  "preactive-maintenance": { directCost: 1250, logisticsCost: 320, planningCredit: 130, riskMultiplier: 0.58 },
+  "predictive-maintenance": { directCost: 2300, logisticsCost: 420, planningCredit: 280, riskMultiplier: 0.35 },
+  "proactive-maintenance": { directCost: 2650, logisticsCost: 520, planningCredit: 340, riskMultiplier: 0.3 },
+  "active-maintenance": { directCost: 3850, logisticsCost: 740, planningCredit: 120, riskMultiplier: 0.22 },
+  "corrective-maintenance": { directCost: 7800, logisticsCost: 1350, planningCredit: 0, riskMultiplier: 0.08 }
+};
+
+const tcsParameters = {
+  downtimeCostPerHour: 95,
+  availabilityPenaltyPerHour: 42,
+  energyValuePerKwh: 0.28,
+  unplannedFailureConsequence: 9800
 };
 
 function App() {
@@ -861,6 +894,12 @@ function DecisionPanel({
   const settlement = dataset.service?.kpiSettlement;
   const activity = servitizationActivity(latest, serviceState);
   const actionConfig = maintenanceActions[selectedAction];
+  const recommendedTcs = estimateTcs(latest, suggestedAction);
+  const selectedTcs = estimateTcs(latest, selectedAction, downtimeH);
+  const tcsAlternatives = serviceCandidatesForState(latest, serviceState)
+    .map((action) => estimateTcs(latest, action))
+    .sort((a, b) => a.totalCost - b.totalCost)
+    .slice(0, 4);
 
   useEffect(() => {
     setSelectedAction(suggestedAction);
@@ -901,6 +940,10 @@ function DecisionPanel({
           <dd>{settlement ? `${settlement.status} GBP ${settlement.settlement_gbp}` : `${energyYield} kWh eq.`}</dd>
         </div>
         <div>
+          <dt>TCS selected</dt>
+          <dd>{formatGbp(recommendedTcs.totalCost)}</dd>
+        </div>
+        <div>
           <dt>Auto downtime</dt>
           <dd>{autoStats.totalDowntimeH.toFixed(1)} h</dd>
         </div>
@@ -912,6 +955,36 @@ function DecisionPanel({
           </dd>
         </div>
       </dl>
+      <div className="tcs-output">
+        <div className="activity-header">
+          <ClipboardCheck size={17} />
+          <span>Total Cost of Servitization</span>
+        </div>
+        <div className="tcs-hero">
+          <strong>{formatGbp(recommendedTcs.totalCost)}</strong>
+          <span>{maintenanceActions[recommendedTcs.action].label}</span>
+        </div>
+        <div className="tcs-grid">
+          <span>Service</span>
+          <b>{formatGbp(recommendedTcs.directCost)}</b>
+          <span>Downtime</span>
+          <b>{formatGbp(recommendedTcs.downtimeCost)}</b>
+          <span>Logistics</span>
+          <b>{formatGbp(recommendedTcs.logisticsCost)}</b>
+          <span>Contract</span>
+          <b>{formatGbp(recommendedTcs.contractCost)}</b>
+          <span>Residual risk</span>
+          <b>{formatGbp(recommendedTcs.residualRiskCost)}</b>
+        </div>
+        <div className="tcs-alternatives">
+          {tcsAlternatives.map((estimate) => (
+            <div className={estimate.action === suggestedAction ? "tcs-option selected" : "tcs-option"} key={estimate.action}>
+              <span>{maintenanceActions[estimate.action].label}</span>
+              <b>{formatGbp(estimate.totalCost)}</b>
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="activity-output">
         <div className="activity-header">
           <Wrench size={17} />
@@ -954,7 +1027,9 @@ function DecisionPanel({
             onChange={(event) => setDowntimeH(Number(event.target.value))}
           />
         </label>
-        <p>{actionConfig.description}</p>
+        <p>
+          {actionConfig.description} Selected TCS estimate: {formatGbp(selectedTcs.totalCost)}; residual risk score {selectedTcs.residualRiskScore.toFixed(2)}.
+        </p>
         {execution ? (
           <div className={execution.status === "completed" ? "service-run completed" : "service-run"}>
             <strong>{maintenanceActions[execution.action].label}</strong>
@@ -1235,11 +1310,10 @@ function inferCrackFromRul(rulP10: number) {
 function automaticMaintenanceAction(point: HistoryPoint): MaintenanceActionKey | null {
   const serviceState = point.serviceState ?? serviceStateFromCondition(point);
   const crackMm = point.crackMm ?? 0;
-  const growthRate = point.crackGrowthRateMmH ?? 0;
+  const decision = serviceDecisionByTcs(point, serviceState);
 
-  if (serviceState === "OutOfContract" || crackMm >= 80 || point.rulP10 < 120) return "corrective-maintenance";
-  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) return "active-maintenance";
-  if (crackMm >= 45 || (crackMm >= 38 && (point.rulP10 < 360 || growthRate >= 0.9))) return "predictive-maintenance";
+  if (decision.action === "condition-inspection" || decision.action === "spare-prepositioning") return null;
+  if (crackMm >= 45 || point.rulP10 < 360 || decision.residualRiskScore > 0.42) return decision.action;
   return null;
 }
 
@@ -1264,18 +1338,94 @@ function makeDowntimePoint(point: HistoryPoint, runtime: AutoServiceRuntime): Hi
 }
 
 function suggestedMaintenanceAction(point: HistoryPoint, serviceState: ServiceState): MaintenanceActionKey {
+  return serviceDecisionByTcs(point, serviceState).action;
+}
+
+function serviceDecisionByTcs(point: HistoryPoint, serviceState: ServiceState) {
+  const candidates = serviceCandidatesForState(point, serviceState);
+  const estimates = candidates
+    .map((action) => estimateTcs(point, action))
+    .sort((a, b) => a.totalCost - b.totalCost);
+  const riskFiltered = estimates.filter((estimate) => isRiskAcceptableAfterAction(point, estimate, serviceState));
+
+  return riskFiltered[0] ?? estimates[0];
+}
+
+function serviceCandidatesForState(point: HistoryPoint, serviceState: ServiceState): MaintenanceActionKey[] {
   const crackMm = point.crackMm ?? 0;
 
-  if (serviceState === "OutOfContract" || crackMm >= 80 || point.rulP10 < 120) return "corrective-maintenance";
-  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) return "active-maintenance";
-  if (crackMm >= 45 || point.rulP10 < 360) return "predictive-maintenance";
-  if (crackMm >= 30 || serviceState === "Degraded") return "spare-prepositioning";
-  return "condition-inspection";
+  if (serviceState === "OutOfContract" || crackMm >= 80) return ["corrective-maintenance", "active-maintenance"];
+  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) {
+    return ["active-maintenance", "corrective-maintenance", "predictive-maintenance"];
+  }
+  if (crackMm >= 45 || point.rulP10 < 360) {
+    return ["predictive-maintenance", "proactive-maintenance", "active-maintenance", "spare-prepositioning"];
+  }
+  if (crackMm >= 30 || serviceState === "Degraded") {
+    return ["spare-prepositioning", "preactive-maintenance", "predictive-maintenance", "condition-inspection"];
+  }
+  if (crackMm >= 20 || serviceState === "Watch") {
+    return ["condition-inspection", "spare-prepositioning", "preactive-maintenance"];
+  }
+  return ["condition-inspection", "spare-prepositioning"];
+}
+
+function isRiskAcceptableAfterAction(point: HistoryPoint, estimate: ServiceCostEstimate, serviceState: ServiceState) {
+  const crackMm = point.crackMm ?? 0;
+
+  if (serviceState === "OutOfContract" || crackMm >= 80) return estimate.residualCrackMm < 20 && estimate.residualRiskScore < 0.24;
+  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) return estimate.residualCrackMm < 45 && estimate.residualRiskScore < 0.34;
+  if (crackMm >= 45 || point.rulP10 < 360) return estimate.residualCrackMm < 35 && estimate.residualRiskScore < 0.42;
+  if (crackMm >= 30 || serviceState === "Degraded") return estimate.residualRiskScore < 0.56;
+  return estimate.residualRiskScore < 0.72;
+}
+
+function estimateTcs(point: HistoryPoint, action: MaintenanceActionKey, downtimeOverride?: number): ServiceCostEstimate {
+  const actionConfig = maintenanceActions[action];
+  const economics = serviceEconomics[action];
+  const downtimeH = downtimeOverride ?? actionConfig.defaultDowntimeH;
+  const crackBefore = point.crackMm ?? 0;
+  const residualCrackMm = Number(clamp(crackBefore * (1 - actionConfig.crackReduction), 0, 80).toFixed(1));
+  const residualRulP10 = Math.max(0, Math.round(point.rulP10 + actionConfig.rulGain * 0.62));
+  const residualRiskScore =
+    residualRiskAfterAction(point, residualCrackMm, residualRulP10) * economics.riskMultiplier;
+  const downtimeCost = downtimeH * tcsParameters.downtimeCostPerHour + (point.power / 1000) * downtimeH * tcsParameters.energyValuePerKwh;
+  const contractCost = downtimeH * tcsParameters.availabilityPenaltyPerHour * (point.rulP10 < 360 ? 1.25 : 1);
+  const residualRiskCost = Math.pow(residualRiskScore, 2) * tcsParameters.unplannedFailureConsequence;
+  const totalCost = Math.max(
+    0,
+    economics.directCost + economics.logisticsCost + downtimeCost + contractCost + residualRiskCost - economics.planningCredit
+  );
+
+  return {
+    action,
+    totalCost: Math.round(totalCost),
+    directCost: Math.round(economics.directCost),
+    downtimeCost: Math.round(downtimeCost),
+    logisticsCost: Math.round(Math.max(0, economics.logisticsCost - economics.planningCredit)),
+    contractCost: Math.round(contractCost),
+    residualRiskCost: Math.round(residualRiskCost),
+    residualRiskScore: Number(residualRiskScore.toFixed(3)),
+    residualCrackMm,
+    residualRulP10
+  };
+}
+
+function residualRiskAfterAction(point: HistoryPoint, residualCrackMm: number, residualRulP10: number) {
+  const crackRisk = clamp(residualCrackMm / 80, 0, 1) * 0.48;
+  const rulRisk = clamp(1 - residualRulP10 / 900, 0, 1) * 0.32;
+  const vibrationRisk = clamp((point.vibrationRms - 0.04) / 0.18, 0, 1) * 0.13;
+  const loadRisk = clamp((point.windSpeed - 7) / 7, 0, 1) * 0.07;
+  return clamp(crackRisk + rulRisk + vibrationRisk + loadRisk, 0.02, 0.98);
 }
 
 function availabilityAfterDowntime(downtimeH: number) {
   const downtimePenalty = (clamp(downtimeH, 0, 168) / (30 * 24)) * 100;
   return Number(clamp(99.4 - downtimePenalty, 82, 99.4).toFixed(1));
+}
+
+function formatGbp(value: number) {
+  return `GBP ${Math.round(value).toLocaleString("en-GB")}`;
 }
 
 function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceActionKey, downtimeH: number): HistoryPoint {
@@ -1461,13 +1611,15 @@ function operatingRegime(windSpeed: number) {
 function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState) {
   const growthEvidence = latest.crackGrowthRateMmH != null ? `, crack growth +${latest.crackGrowthRateMmH.toFixed(2)} mm/tick` : "";
   const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, p10 RUL ${latest.rulP10} h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
+  const tcsDecision = serviceDecisionByTcs(latest, serviceState);
+  const tcsEvidence = `${maintenanceActions[tcsDecision.action].label}, TCS ${formatGbp(tcsDecision.totalCost)}, residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`;
 
   if (serviceState === "Nominal") {
     return {
       name: "Performance reporting and normal monitoring",
       trigger: "The asset remains inside the contractual operating envelope.",
-      evidence: baseEvidence,
-      kpiEffect: "Availability evidence is accumulated for monthly reporting.",
+      evidence: `${baseEvidence}; ${tcsEvidence}`,
+      kpiEffect: "TCS remains below the intervention threshold, so availability evidence is accumulated for reporting.",
       authority: "Automated reporting"
     };
   }
@@ -1476,8 +1628,8 @@ function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState)
     return {
       name: "Enhanced monitoring and non-intrusive inspection",
       trigger: "Early crack class entered; the service layer increases observation density while the WT remains operational.",
-      evidence: baseEvidence,
-      kpiEffect: "Protects availability by avoiding unnecessary downtime at C2-level damage.",
+      evidence: `${baseEvidence}; ${tcsEvidence}`,
+      kpiEffect: "TCS favours monitoring over downtime because residual risk is still cheaper than stopping production.",
       authority: "Service planner review"
     };
   }
@@ -1486,8 +1638,8 @@ function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState)
     return {
       name: "Maintenance-window planning and spare preparation",
       trigger: "C3-level degradation is service-relevant, but automatic downtime is deferred until crack/RUL evidence crosses the planned-maintenance threshold.",
-      evidence: baseEvidence,
-      kpiEffect: "Reduces future unplanned downtime exposure without immediately stopping production.",
+      evidence: `${baseEvidence}; ${tcsEvidence}`,
+      kpiEffect: "TCS shifts from pure monitoring to preparation, reducing future logistics and failure-risk cost.",
       authority: "Planner approval required"
     };
   }
@@ -1496,8 +1648,8 @@ function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState)
     return {
       name: "Planned blade maintenance execution",
       trigger: "C4/C5 or low-RUL evidence has crossed the intervention threshold.",
-      evidence: baseEvidence,
-      kpiEffect: "Converts corrective-risk exposure into planned downtime.",
+      evidence: `${baseEvidence}; ${tcsEvidence}`,
+      kpiEffect: "TCS now favours planned downtime because residual failure cost exceeds service and downtime cost.",
       authority: "Technician dispatch approval"
     };
   }
@@ -1505,8 +1657,8 @@ function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState)
   return {
     name: "Contract-boundary hold or removal recommendation",
     trigger: "The asset is outside the acceptable service envelope.",
-    evidence: baseEvidence,
-    kpiEffect: "Prevents unsupported availability or safety commitment.",
+    evidence: `${baseEvidence}; ${tcsEvidence}`,
+    kpiEffect: "TCS is dominated by failure consequence and contract exposure, so corrective intervention is preferred.",
     authority: "Contract manager and operator confirmation"
   };
 }

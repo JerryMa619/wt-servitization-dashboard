@@ -760,6 +760,92 @@ h2 {
   line-height: 1.25;
 }
 
+.tcs-output {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 12px;
+  border: 1px solid rgba(216, 163, 77, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(35, 27, 13, 0.62), rgba(9, 14, 13, 0.84)),
+    rgba(13, 20, 20, 0.82);
+  box-shadow: 0 0 22px rgba(216, 163, 77, 0.08);
+}
+
+.tcs-hero {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tcs-hero strong {
+  color: #f0c777;
+  font-size: 1.28rem;
+  line-height: 1;
+}
+
+.tcs-hero span {
+  color: #d9e7e3;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.tcs-grid {
+  display: grid;
+  grid-template-columns: minmax(72px, 1fr) minmax(68px, auto);
+  gap: 6px 10px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(216, 163, 77, 0.2);
+}
+
+.tcs-grid span {
+  color: #9db2ab;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.tcs-grid b {
+  color: #f4fbf8;
+  font-size: 0.76rem;
+  text-align: right;
+}
+
+.tcs-alternatives {
+  display: grid;
+  gap: 6px;
+}
+
+.tcs-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 8px;
+  border: 1px solid rgba(128, 169, 158, 0.18);
+  border-radius: 8px;
+  background: rgba(8, 14, 13, 0.52);
+}
+
+.tcs-option.selected {
+  border-color: rgba(240, 199, 119, 0.5);
+  background: rgba(74, 52, 17, 0.48);
+}
+
+.tcs-option span {
+  color: #d9e7e3;
+  font-size: 0.74rem;
+  font-weight: 760;
+}
+
+.tcs-option b {
+  color: #f0c777;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
 .service-action-box {
   display: grid;
   gap: 10px;
