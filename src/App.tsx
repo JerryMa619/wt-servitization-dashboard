@@ -220,19 +220,19 @@ const stateMeta: Record<ServiceState, { color: string; bg: string; action: strin
   Watch: {
     color: "#b7791f",
     bg: "#fff5dd",
-    action: "Condition-based inspection",
+    action: "Enhanced monitoring and inspection",
     kpi: "Availability under watch"
   },
   Degraded: {
     color: "#c05621",
     bg: "#fff0e6",
-    action: "Plan maintenance window",
+    action: "Plan service window and pre-position spares",
     kpi: "Energy yield at risk"
   },
   MaintenanceDue: {
     color: "#b83232",
     bg: "#ffe8e8",
-    action: "Create blade work order",
+    action: "Execute planned blade maintenance",
     kpi: "Contract penalty exposure"
   },
   Critical: {
@@ -850,7 +850,7 @@ function DecisionPanel({
   onEvidence: () => void;
   onExecuteAction: (action: MaintenanceActionKey, downtimeH: number) => void;
 }) {
-  const suggestedAction = suggestedMaintenanceAction(serviceState);
+  const suggestedAction = suggestedMaintenanceAction(latest, serviceState);
   const [selectedAction, setSelectedAction] = useState<MaintenanceActionKey>(suggestedAction);
   const [downtimeH, setDowntimeH] = useState(maintenanceActions[suggestedAction].defaultDowntimeH);
   const meta = stateMeta[serviceState];
@@ -886,7 +886,7 @@ function DecisionPanel({
       <dl className="decision-list">
         <div>
           <dt>Recommended action</dt>
-          <dd>{meta.action}</dd>
+          <dd>{maintenanceActions[suggestedAction].label}</dd>
         </div>
         <div>
           <dt>KPI status</dt>
@@ -1235,10 +1235,11 @@ function inferCrackFromRul(rulP10: number) {
 function automaticMaintenanceAction(point: HistoryPoint): MaintenanceActionKey | null {
   const serviceState = point.serviceState ?? serviceStateFromCondition(point);
   const crackMm = point.crackMm ?? 0;
+  const growthRate = point.crackGrowthRateMmH ?? 0;
 
-  if (serviceState === "OutOfContract" || serviceState === "Critical") return "corrective-maintenance";
-  if (serviceState === "MaintenanceDue") return "active-maintenance";
-  if (serviceState === "Degraded" && (crackMm >= 38 || point.rulP10 < 430)) return "predictive-maintenance";
+  if (serviceState === "OutOfContract" || crackMm >= 80 || point.rulP10 < 120) return "corrective-maintenance";
+  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) return "active-maintenance";
+  if (crackMm >= 45 || (crackMm >= 38 && (point.rulP10 < 360 || growthRate >= 0.9))) return "predictive-maintenance";
   return null;
 }
 
@@ -1262,13 +1263,14 @@ function makeDowntimePoint(point: HistoryPoint, runtime: AutoServiceRuntime): Hi
   };
 }
 
-function suggestedMaintenanceAction(serviceState: ServiceState): MaintenanceActionKey {
-  if (serviceState === "Nominal") return "condition-inspection";
-  if (serviceState === "Watch") return "condition-inspection";
-  if (serviceState === "Degraded") return "predictive-maintenance";
-  if (serviceState === "MaintenanceDue") return "active-maintenance";
-  if (serviceState === "Critical" || serviceState === "OutOfContract") return "corrective-maintenance";
-  return "predictive-maintenance";
+function suggestedMaintenanceAction(point: HistoryPoint, serviceState: ServiceState): MaintenanceActionKey {
+  const crackMm = point.crackMm ?? 0;
+
+  if (serviceState === "OutOfContract" || crackMm >= 80 || point.rulP10 < 120) return "corrective-maintenance";
+  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) return "active-maintenance";
+  if (crackMm >= 45 || point.rulP10 < 360) return "predictive-maintenance";
+  if (crackMm >= 30 || serviceState === "Degraded") return "spare-prepositioning";
+  return "condition-inspection";
 }
 
 function availabilityAfterDowntime(downtimeH: number) {
@@ -1472,28 +1474,28 @@ function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState)
 
   if (serviceState === "Watch") {
     return {
-      name: "Condition-based inspection candidate",
-      trigger: "Early warning state entered; the service layer increases observation density.",
+      name: "Enhanced monitoring and non-intrusive inspection",
+      trigger: "Early crack class entered; the service layer increases observation density while the WT remains operational.",
       evidence: baseEvidence,
-      kpiEffect: "Protects availability by preparing low-cost inspection before degradation escalates.",
+      kpiEffect: "Protects availability by avoiding unnecessary downtime at C2-level damage.",
       authority: "Service planner review"
     };
   }
 
   if (serviceState === "Degraded") {
     return {
-      name: "Maintenance-window planning",
-      trigger: "RUL and crack-state evidence indicate a service-relevant degradation region.",
+      name: "Maintenance-window planning and spare preparation",
+      trigger: "C3-level degradation is service-relevant, but automatic downtime is deferred until crack/RUL evidence crosses the planned-maintenance threshold.",
       evidence: baseEvidence,
-      kpiEffect: "Reduces unplanned downtime exposure and energy-yield risk.",
+      kpiEffect: "Reduces future unplanned downtime exposure without immediately stopping production.",
       authority: "Planner approval required"
     };
   }
 
   if (serviceState === "MaintenanceDue") {
     return {
-      name: "Blade maintenance work-order preparation",
-      trigger: "Intervention threshold is reached in the Chapter 5 service-state mapping.",
+      name: "Planned blade maintenance execution",
+      trigger: "C4/C5 or low-RUL evidence has crossed the intervention threshold.",
       evidence: baseEvidence,
       kpiEffect: "Converts corrective-risk exposure into planned downtime.",
       authority: "Technician dispatch approval"
