@@ -223,6 +223,14 @@ function makeInitialHistory() {
   return points;
 }
 
+function makeInitialReplayHistory() {
+  if (replayHistory.length === 0) return makeInitialHistory();
+
+  const firstCrackIndex = replayHistory.findIndex((point) => (point.crackMm ?? 0) > 0);
+  const initialLength = firstCrackIndex > 0 ? firstCrackIndex : Math.min(1, replayHistory.length);
+  return replayHistory.slice(0, initialLength);
+}
+
 const stateMeta: Record<ServiceState, { color: string; bg: string; action: string; kpi: string }> = {
   Nominal: {
     color: "#16835b",
@@ -345,9 +353,9 @@ const tcsParameters = {
 };
 
 function App() {
-  const [cursor, setCursor] = useState(() => (replayHistory.length > 48 ? 48 : 0));
+  const [cursor, setCursor] = useState(0);
   const [history, setHistory] = useState<HistoryPoint[]>(() =>
-    replayHistory.length > 0 ? replayHistory.slice(0, Math.min(48, replayHistory.length)) : makeInitialHistory()
+    makeInitialReplayHistory()
   );
   const [evidenceOpen, setEvidenceOpen] = useState(false);
   const [inputOpen, setInputOpen] = useState(false);
@@ -781,8 +789,8 @@ function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceS
   const meta = stateMeta[serviceState];
   const crackMm = latest.crackMm ?? 0;
   const severity = clamp(crackMm / 80, 0, 1);
-  const crackWidth = 10 + severity * 58;
-  const crackOpacity = crackMm > 0 ? 0.95 : 0.18;
+  const crackWidth = severity * 68;
+  const crackOpacity = crackMm > 0 ? clamp(0.28 + severity * 0.67, 0, 0.95) : 0;
   const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(0)} mm crack | p10 RUL ${latest.rulP10} h`;
   const regime = operatingRegime(latest.windSpeed);
   const serviceAction = latest.serviceAction ? maintenanceActions[latest.serviceAction] : null;
