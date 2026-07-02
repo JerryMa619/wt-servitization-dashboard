@@ -1234,12 +1234,11 @@ function inferCrackFromRul(rulP10: number) {
 
 function automaticMaintenanceAction(point: HistoryPoint): MaintenanceActionKey | null {
   const serviceState = point.serviceState ?? serviceStateFromCondition(point);
-  const growthRate = point.crackGrowthRateMmH ?? 0;
+  const crackMm = point.crackMm ?? 0;
 
   if (serviceState === "OutOfContract" || serviceState === "Critical") return "corrective-maintenance";
   if (serviceState === "MaintenanceDue") return "active-maintenance";
-  if (serviceState === "Degraded") return "predictive-maintenance";
-  if (serviceState === "Watch" && (growthRate >= 0.42 || point.rulP10 < 640)) return "preactive-maintenance";
+  if (serviceState === "Degraded" && (crackMm >= 38 || point.rulP10 < 430)) return "predictive-maintenance";
   return null;
 }
 
@@ -1265,7 +1264,7 @@ function makeDowntimePoint(point: HistoryPoint, runtime: AutoServiceRuntime): Hi
 
 function suggestedMaintenanceAction(serviceState: ServiceState): MaintenanceActionKey {
   if (serviceState === "Nominal") return "condition-inspection";
-  if (serviceState === "Watch") return "preactive-maintenance";
+  if (serviceState === "Watch") return "condition-inspection";
   if (serviceState === "Degraded") return "predictive-maintenance";
   if (serviceState === "MaintenanceDue") return "active-maintenance";
   if (serviceState === "Critical" || serviceState === "OutOfContract") return "corrective-maintenance";
