@@ -1091,8 +1091,36 @@ function EnhancedDashboardModules({
           <Database size={18} />
           <h2>Enhanced DT Servitization Layer</h2>
         </div>
-        <p>Additional evidence for model trust, data quality, service history, cumulative KPI and ontology trace.</p>
+        <p>ISO 23247-oriented architecture view plus evidence for model trust, data quality, service history, cumulative KPI and ontology trace.</p>
       </div>
+
+      <section className="panel enhanced-panel iso-architecture-panel">
+        <div className="activity-header">
+          <Workflow size={17} />
+          <span>ISO 23247 DT Architecture Mapping</span>
+        </div>
+        <div className="architecture-grid">
+          {isoArchitectureLayers(latest, serviceState).map((layer) => (
+            <div className="architecture-layer" key={layer.entity}>
+              <div className="architecture-layer-head">
+                <span>{layer.entity}</span>
+                <strong>{layer.title}</strong>
+              </div>
+              {layer.subLayers.map((subLayer) => (
+                <div className="architecture-sub-layer" key={subLayer.name}>
+                  <b>{subLayer.name}</b>
+                  <p>{subLayer.role}</p>
+                  <ul>
+                    {subLayer.modules.map((module) => (
+                      <li key={module}>{module}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
 
       <div className="enhanced-grid">
         <section className="panel enhanced-panel">
@@ -1892,6 +1920,109 @@ function ontologyTraceRows(latest: HistoryPoint, serviceState: ServiceState, pos
       evidence: dataset.service?.kpiSettlement
         ? `Settlement ${formatGbp(dataset.service.kpiSettlement.settlement_gbp)}`
         : "Availability and downtime evidence accumulated"
+    }
+  ];
+}
+
+function isoArchitectureLayers(latest: HistoryPoint, serviceState: ServiceState) {
+  const decision = serviceDecisionByTcs(latest, serviceState);
+
+  return [
+    {
+      entity: "OME",
+      title: "Observable Manufacturing Element",
+      subLayers: [
+        {
+          name: "Physical asset context",
+          role: "Wind turbine, blade and operating environment observed by the DT.",
+          modules: [
+            `${site.asset} / ${site.component}`,
+            "WT Operation animation",
+            "GPS and real site map"
+          ]
+        },
+        {
+          name: "Condition signals",
+          role: "Physical signals that expose crack growth and operating load.",
+          modules: [
+            `Wind ${latest.windSpeed.toFixed(1)} m/s`,
+            `Vibration ${latest.vibrationRms.toFixed(3)} g`,
+            `Crack ${latest.crackMm?.toFixed(1) ?? "0.0"} mm`
+          ]
+        }
+      ]
+    },
+    {
+      entity: "DCE / DCDCE",
+      title: "Device Communication and Data Collection Entity",
+      subLayers: [
+        {
+          name: "Acquisition and transport",
+          role: "Moves raw condition and context evidence into the digital environment.",
+          modules: [
+            "GPS stream / manual GPS",
+            "Wind and vibration telemetry",
+            "Chapter 5 controlled C0-C6 replay"
+          ]
+        },
+        {
+          name: "Quality and provenance gateway",
+          role: "Checks freshness, feature validity, latency and provenance before model use.",
+          modules: [
+            "Data Quality and Sensor Health",
+            "VC1 latency validation",
+            "VC2 provenance audit"
+          ]
+        }
+      ]
+    },
+    {
+      entity: "DTE",
+      title: "Digital Twin Entity",
+      subLayers: [
+        {
+          name: "Information model",
+          role: "Transforms observations into feature vectors, crack state and RUL uncertainty.",
+          modules: [
+            "FeatureVector",
+            `RUL ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
+            "Ontology Trace"
+          ]
+        },
+        {
+          name: "Prediction and decision model",
+          role: "Combines crack, RUL and TCS to select the service activity.",
+          modules: [
+            "Model Confidence",
+            "Service Decision",
+            `TCS-selected ${maintenanceActions[decision.action].label}`
+          ]
+        }
+      ]
+    },
+    {
+      entity: "UE",
+      title: "User Entity",
+      subLayers: [
+        {
+          name: "Decision support interface",
+          role: "Presents recommended service, evidence and operating implications to users.",
+          modules: [
+            "Auto Service Options",
+            "Service History and Work Order Ledger",
+            "Input scenario"
+          ]
+        },
+        {
+          name: "Servitization KPI governance",
+          role: "Connects DT outputs to contract, downtime and service value.",
+          modules: [
+            "Cumulative Servitization KPI",
+            "Contract settlement",
+            "Evidence chain modal"
+          ]
+        }
+      ]
     }
   ];
 }
