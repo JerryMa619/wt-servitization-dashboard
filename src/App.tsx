@@ -896,10 +896,10 @@ function DecisionPanel({
   const actionConfig = maintenanceActions[selectedAction];
   const recommendedTcs = estimateTcs(latest, suggestedAction);
   const selectedTcs = estimateTcs(latest, selectedAction, downtimeH);
-  const tcsAlternatives = serviceCandidatesForState(latest, serviceState)
+  const tcsAlternatives = (Object.keys(maintenanceActions) as MaintenanceActionKey[])
     .map((action) => estimateTcs(latest, action))
-    .sort((a, b) => a.totalCost - b.totalCost)
-    .slice(0, 4);
+    .sort((a, b) => a.totalCost - b.totalCost);
+  const maxTcsCost = Math.max(...tcsAlternatives.map((estimate) => estimate.totalCost), 1);
 
   useEffect(() => {
     setSelectedAction(suggestedAction);
@@ -977,9 +977,23 @@ function DecisionPanel({
           <b>{formatGbp(recommendedTcs.residualRiskCost)}</b>
         </div>
         <div className="tcs-alternatives">
+          <div className="tcs-table-head">
+            <span>Strategy cost comparison</span>
+            <b>Total / risk</b>
+          </div>
           {tcsAlternatives.map((estimate) => (
             <div className={estimate.action === suggestedAction ? "tcs-option selected" : "tcs-option"} key={estimate.action}>
-              <span>{maintenanceActions[estimate.action].label}</span>
+              <div className="tcs-option-main">
+                <span>{maintenanceActions[estimate.action].label}</span>
+                <small>
+                  downtime {maintenanceActions[estimate.action].defaultDowntimeH.toFixed(1)} h | residual risk {estimate.residualRiskScore.toFixed(2)}
+                </small>
+                <span
+                  aria-hidden="true"
+                  className="tcs-cost-bar"
+                  style={{ width: `${Math.max(6, (estimate.totalCost / maxTcsCost) * 100)}%` }}
+                />
+              </div>
               <b>{formatGbp(estimate.totalCost)}</b>
             </div>
           ))}
