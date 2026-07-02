@@ -509,46 +509,6 @@ function App() {
     );
   }
 
-  function executeMaintenanceAction(action: MaintenanceActionKey, downtimeH: number) {
-    const actionConfig = maintenanceActions[action];
-    const boundedDowntime = clamp(downtimeH, 0.25, 168);
-    const current = latest;
-    const inProgressPoint: HistoryPoint = {
-      ...current,
-      t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
-      source: "service-action",
-      rpm: 0,
-      power: 0,
-      serviceMode: "in-downtime",
-      serviceAction: action,
-      downtimeH: boundedDowntime,
-      availabilityPct: availabilityAfterDowntime(boundedDowntime),
-      serviceState: "MaintenanceDue",
-      serviceNote: `${actionConfig.label} in progress during ${boundedDowntime.toFixed(1)} h downtime`
-    };
-
-    setManualPoint(inProgressPoint);
-    setServiceExecution({
-      action,
-      downtimeH: boundedDowntime,
-      status: "in-progress",
-      mode: "manual",
-      note: actionConfig.description
-    });
-
-    window.setTimeout(() => {
-      const repaired = applyMaintenanceResult(current, action, boundedDowntime);
-      setManualPoint(repaired);
-      setServiceExecution({
-        action,
-        downtimeH: boundedDowntime,
-        status: "completed",
-        mode: "manual",
-        note: `${actionConfig.label} completed; WT state updated from post-service evidence.`
-      });
-    }, 2200);
-  }
-
   const dtNodes: Node[] = useMemo(
     () => [
       flowNode("gps", "GPS + Wind", "Context provenance", 0, 30, chainStep === 0),
@@ -618,7 +578,6 @@ function App() {
           execution={serviceExecution}
           autoStats={autoStats}
           onEvidence={() => setEvidenceOpen(true)}
-          onExecuteAction={executeMaintenanceAction}
         />
       </section>
 
@@ -881,19 +840,15 @@ function DecisionPanel({
   serviceState,
   execution,
   autoStats,
-  onEvidence,
-  onExecuteAction
+  onEvidence
 }: {
   latest: HistoryPoint;
   serviceState: ServiceState;
   execution: ServiceExecution | null;
   autoStats: AutoServiceStats;
   onEvidence: () => void;
-  onExecuteAction: (action: MaintenanceActionKey, downtimeH: number) => void;
 }) {
   const suggestedAction = suggestedMaintenanceAction(latest, serviceState);
-  const [selectedAction, setSelectedAction] = useState<MaintenanceActionKey>(suggestedAction);
-  const [downtimeH, setDowntimeH] = useState(maintenanceActions[suggestedAction].defaultDowntimeH);
   const meta = stateMeta[serviceState];
   const availability = latest.availabilityPct ?? (dataset.service?.kpiSettlement?.actual_availability
     ? dataset.service.kpiSettlement.actual_availability * 100
@@ -901,24 +856,12 @@ function DecisionPanel({
   const energyYield = Math.round(1760 + latest.power * 0.42);
   const settlement = dataset.service?.kpiSettlement;
   const activity = servitizationActivity(latest, serviceState);
-  const actionConfig = maintenanceActions[selectedAction];
   const recommendedTcs = estimateTcs(latest, suggestedAction);
-  const selectedTcs = estimateTcs(latest, selectedAction, downtimeH);
+  const autoServiceOptions = serviceCandidatesForState(latest, serviceState).map((action) => estimateTcs(latest, action));
   const tcsAlternatives = (Object.keys(maintenanceActions) as MaintenanceActionKey[])
     .map((action) => estimateTcs(latest, action))
     .sort((a, b) => a.totalCost - b.totalCost);
   const maxTcsCost = Math.max(...tcsAlternatives.map((estimate) => estimate.totalCost), 1);
-
-  useEffect(() => {
-    setSelectedAction(suggestedAction);
-    setDowntimeH(maintenanceActions[suggestedAction].defaultDowntimeH);
-  }, [suggestedAction]);
-
-  function changeAction(value: string) {
-    const action = value as MaintenanceActionKey;
-    setSelectedAction(action);
-    setDowntimeH(maintenanceActions[action].defaultDowntimeH);
-  }
 
   return (
     <section className="panel decision-panel">
@@ -990,19 +933,33 @@ function DecisionPanel({
             <b>Total / risk</b>
           </div>
           {tcsAlternatives.map((estimate) => (
-            <div className={estimate.action === suggestedAction ? "tcs-option selected" : "tcs-option"} key={estimate.action}>
-              <div className="tcs-option-main">
-                <span>{maintenanceActions[estimate.action].label}</span>
-                <small>
-                  downtime {maintenanceActions[estimate.action].defaultDowntimeH.toFixed(1)} h | residual risk {estimate.residualRiskScore.toFixed(2)}
-                </small>
-                <span
-                  aria-hidden="true"
-                  className="tcs-cost-bar"
-                  style={{ width: `${Math.max(6, (estimate.totalCost / maxTcsCost) * 100)}%` }}
-                />
+            <div className={estimate.action === suggestedAction ? "tcs-option selected" : "tcs-option"} key={estimate.action} tabIndex={0}>
+              <div className="tcs-option-row">
+                <div className="tcs-option-main">
+                  <span>{maintenanceActions[estimate.action].label}</span>
+                  <small>
+                    downtime {maintenanceActions[estimate.action].defaultDowntimeH.toFixed(1)} h | residual risk {estimate.residualRiskScore.toFixed(2)}
+                  </small>
+                  <span
+                    aria-hidden="true"
+                    className="tcs-cost-bar"
+                    style={{ width: `${Math.max(6, (estimate.totalCost / maxTcsCost) * 100)}%` }}
+                  />
+                </div>
+                <b>{formatGbp(estimate.totalCost)}</b>
               </div>
-              <b>{formatGbp(estimate.totalCost)}</b>
+              <div className="tcs-breakdown" aria-label={`${maintenanceActions[estimate.action].label} cost breakdown`}>
+                <span>Service</span>
+                <b>{formatGbp(estimate.directCost)}</b>
+                <span>Downtime</span>
+                <b>{formatGbp(estimate.downtimeCost)}</b>
+                <span>Logistics</span>
+                <b>{formatGbp(estimate.logisticsCost)}</b>
+                <span>Contract</span>
+                <b>{formatGbp(estimate.contractCost)}</b>
+                <span>Residual risk</span>
+                <b>{formatGbp(estimate.residualRiskCost)}</b>
+              </div>
             </div>
           ))}
         </div>
@@ -1023,47 +980,31 @@ function DecisionPanel({
           <b>{activity.authority}</b>
         </div>
       </div>
-      <div className="service-action-box">
+      <div className="auto-service-box">
         <div className="activity-header">
           <Wrench size={17} />
-          <span>Servitization Action</span>
+          <span>Auto Service Options</span>
         </div>
-        <label>
-          <span>Action type</span>
-          <select value={selectedAction} onChange={(event) => changeAction(event.target.value)}>
-            {Object.entries(maintenanceActions).map(([key, action]) => (
-              <option key={key} value={key}>
-                {action.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Downtime for service h</span>
-          <input
-            type="number"
-            min="0.25"
-            max="168"
-            step="0.25"
-            value={downtimeH}
-            onChange={(event) => setDowntimeH(Number(event.target.value))}
-          />
-        </label>
-        <p>
-          {actionConfig.description} Selected TCS estimate: {formatGbp(selectedTcs.totalCost)}; residual risk score {selectedTcs.residualRiskScore.toFixed(2)}.
-        </p>
+        <div className="auto-service-list">
+          {autoServiceOptions.map((estimate, index) => (
+            <div className={estimate.action === suggestedAction ? "auto-service-option selected" : "auto-service-option"} key={estimate.action}>
+              <strong>{index + 1}. {maintenanceActions[estimate.action].label}</strong>
+              <span>{maintenanceActions[estimate.action].description}</span>
+              <small>
+                downtime {maintenanceActions[estimate.action].defaultDowntimeH.toFixed(1)} h | TCS {formatGbp(estimate.totalCost)} | residual risk {estimate.residualRiskScore.toFixed(2)}
+              </small>
+            </div>
+          ))}
+        </div>
         {execution ? (
           <div className={execution.status === "completed" ? "service-run completed" : "service-run"}>
             <strong>{maintenanceActions[execution.action].label}</strong>
             <span>
-              {execution.mode === "auto" ? "Auto-selected" : "Manual"} | {execution.status === "in-progress" ? "Downtime in progress" : "Completed"} | {execution.downtimeH.toFixed(1)} h downtime
+              Auto-selected | {execution.status === "in-progress" ? "Downtime in progress" : "Completed"} | {execution.downtimeH.toFixed(1)} h downtime
             </span>
             <small>{execution.note}</small>
           </div>
         ) : null}
-        <button className="primary-action compact" type="button" onClick={() => onExecuteAction(selectedAction, downtimeH)}>
-          Execute service action
-        </button>
       </div>
       <button className="primary-action" onClick={onEvidence}>
         <Workflow size={16} />
