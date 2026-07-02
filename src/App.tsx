@@ -857,6 +857,7 @@ function DecisionPanel({
   const settlement = dataset.service?.kpiSettlement;
   const activity = servitizationActivity(latest, serviceState);
   const recommendedTcs = estimateTcs(latest, suggestedAction);
+  const recommendedCostGroups = tcsCostGroups(recommendedTcs, latest);
   const autoServiceOptions = serviceCandidatesForState(latest, serviceState).map((action) => estimateTcs(latest, action));
   const tcsAlternatives = (Object.keys(maintenanceActions) as MaintenanceActionKey[])
     .map((action) => estimateTcs(latest, action))
@@ -915,17 +916,23 @@ function DecisionPanel({
           <strong>{formatGbp(recommendedTcs.totalCost)}</strong>
           <span>{maintenanceActions[recommendedTcs.action].label}</span>
         </div>
-        <div className="tcs-grid">
-          <span>Service</span>
-          <b>{formatGbp(recommendedTcs.directCost)}</b>
-          <span>Downtime</span>
-          <b>{formatGbp(recommendedTcs.downtimeCost)}</b>
-          <span>Logistics</span>
-          <b>{formatGbp(recommendedTcs.logisticsCost)}</b>
-          <span>Contract</span>
-          <b>{formatGbp(recommendedTcs.contractCost)}</b>
-          <span>Residual risk</span>
-          <b>{formatGbp(recommendedTcs.residualRiskCost)}</b>
+        <div className="tcs-summary-grid">
+          {recommendedCostGroups.map((group) => (
+            <div className="tcs-cost-card" key={group.label}>
+              <div className="tcs-cost-card-head">
+                <span>{group.label}</span>
+                <b>{formatGbp(group.total)}</b>
+              </div>
+              <ul>
+                {group.items.map((item) => (
+                  <li key={item.label}>
+                    <span>{item.label}</span>
+                    <b>{formatCostItemValue(item.value)}</b>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
         <div className="tcs-alternatives">
           <div className="tcs-table-head">
@@ -949,16 +956,22 @@ function DecisionPanel({
                 <b>{formatGbp(estimate.totalCost)}</b>
               </div>
               <div className="tcs-breakdown" aria-label={`${maintenanceActions[estimate.action].label} cost breakdown`}>
-                <span>Service</span>
-                <b>{formatGbp(estimate.directCost)}</b>
-                <span>Downtime</span>
-                <b>{formatGbp(estimate.downtimeCost)}</b>
-                <span>Logistics</span>
-                <b>{formatGbp(estimate.logisticsCost)}</b>
-                <span>Contract</span>
-                <b>{formatGbp(estimate.contractCost)}</b>
-                <span>Residual risk</span>
-                <b>{formatGbp(estimate.residualRiskCost)}</b>
+                {tcsCostGroups(estimate, latest).map((group) => (
+                  <div className="tcs-breakdown-group" key={group.label}>
+                    <div>
+                      <span>{group.label}</span>
+                      <b>{formatGbp(group.total)}</b>
+                    </div>
+                    <ul>
+                      {group.items.map((item) => (
+                        <li key={item.label}>
+                          <span>{item.label}</span>
+                          <b>{formatCostItemValue(item.value)}</b>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
@@ -1385,6 +1398,115 @@ function residualRiskAfterAction(point: HistoryPoint, residualCrackMm: number, r
 function availabilityAfterDowntime(downtimeH: number) {
   const downtimePenalty = (clamp(downtimeH, 0, 168) / (30 * 24)) * 100;
   return Number(clamp(99.4 - downtimePenalty, 82, 99.4).toFixed(1));
+}
+
+function tcsCostGroups(estimate: ServiceCostEstimate, point: HistoryPoint) {
+  const actionConfig = maintenanceActions[estimate.action];
+  const economics = serviceEconomics[estimate.action];
+  const downtimeH = actionConfig.defaultDowntimeH;
+  const downtimeOperatingCost = Math.round(downtimeH * tcsParameters.downtimeCostPerHour);
+  const lostGenerationCost = estimate.downtimeCost - downtimeOperatingCost;
+  const contractBase = Math.round(downtimeH * tcsParameters.availabilityPenaltyPerHour);
+  const contractUplift = estimate.contractCost - contractBase;
+  const logisticsGross = economics.logisticsCost;
+  const planningCredit = economics.planningCredit;
+
+  return [
+    {
+      label: "Service",
+      total: estimate.directCost,
+      items: serviceDirectCostItems(estimate.action, estimate.directCost)
+    },
+    {
+      label: "Downtime",
+      total: estimate.downtimeCost,
+      items: [
+        { label: `${downtimeH.toFixed(1)} h service window`, value: downtimeOperatingCost },
+        { label: `${point.power} W lost generation`, value: lostGenerationCost }
+      ]
+    },
+    {
+      label: "Logistics",
+      total: estimate.logisticsCost,
+      items: [
+        { label: "Mobilisation and travel", value: Math.round(logisticsGross * 0.55) },
+        { label: "Spare slot / tooling reserve", value: Math.round(logisticsGross * 0.45) },
+        ...(planningCredit > 0 ? [{ label: "Planning credit", value: -planningCredit }] : [])
+      ]
+    },
+    {
+      label: "Contract",
+      total: estimate.contractCost,
+      items: [
+        { label: "Availability exposure", value: contractBase },
+        ...(contractUplift > 0 ? [{ label: "Low-RUL penalty uplift", value: contractUplift }] : [])
+      ]
+    },
+    {
+      label: "Residual risk",
+      total: estimate.residualRiskCost,
+      items: residualRiskCostItems(estimate, point)
+    }
+  ];
+}
+
+function serviceDirectCostItems(action: MaintenanceActionKey, total: number) {
+  if (action === "condition-inspection") {
+    return splitCost(total, [
+      ["NDT inspection labour", 0.62],
+      ["Sensor review and report", 0.38]
+    ]);
+  }
+
+  if (action === "spare-prepositioning") {
+    return splitCost(total, [
+      ["Supplier reservation", 0.7],
+      ["Procurement handling", 0.3]
+    ]);
+  }
+
+  if (action === "corrective-maintenance") {
+    return splitCost(total, [
+      ["Blade replacement kit", 0.58],
+      ["Emergency repair labour", 0.28],
+      ["Post-repair validation", 0.14]
+    ]);
+  }
+
+  return splitCost(total, [
+    ["Blade repair material", 0.45],
+    ["Technician labour", 0.35],
+    ["Calibration and validation", 0.2]
+  ]);
+}
+
+function splitCost(total: number, specs: Array<[string, number]>) {
+  let allocated = 0;
+  return specs.map(([label, weight], index) => {
+    const value = index === specs.length - 1 ? total - allocated : Math.round(total * weight);
+    allocated += value;
+    return { label, value };
+  });
+}
+
+function residualRiskCostItems(estimate: ServiceCostEstimate, point: HistoryPoint) {
+  const crackDriver = clamp(estimate.residualCrackMm / 80, 0, 1) * 0.48;
+  const rulDriver = clamp(1 - estimate.residualRulP10 / 900, 0, 1) * 0.32;
+  const vibrationDriver = clamp((point.vibrationRms - 0.04) / 0.18, 0, 1) * 0.13;
+  const loadDriver = clamp((point.windSpeed - 7) / 7, 0, 1) * 0.07;
+  const totalDriver = crackDriver + rulDriver + vibrationDriver + loadDriver || 1;
+
+  return splitCost(estimate.residualRiskCost, [
+    [`Crack exposure ${estimate.residualCrackMm.toFixed(1)} mm`, crackDriver / totalDriver],
+    [`RUL exposure p10 ${estimate.residualRulP10} h`, rulDriver / totalDriver],
+    ["Vibration/load uncertainty", (vibrationDriver + loadDriver) / totalDriver]
+  ]);
+}
+
+function formatCostItemValue(value: number) {
+  if (Math.round(value) === 0) return "Low";
+  if (value < 0) return `-GBP ${Math.round(Math.abs(value)).toLocaleString("en-GB")}`;
+  return formatGbp(value);
 }
 
 function formatGbp(value: number) {

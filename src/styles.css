@@ -793,24 +793,71 @@ h2 {
   text-align: right;
 }
 
-.tcs-grid {
+.tcs-summary-grid {
   display: grid;
-  grid-template-columns: minmax(72px, 1fr) minmax(68px, auto);
-  gap: 6px 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
   padding-top: 9px;
   border-top: 1px solid rgba(216, 163, 77, 0.2);
 }
 
-.tcs-grid span {
-  color: #9db2ab;
-  font-size: 0.74rem;
-  font-weight: 800;
+.tcs-cost-card {
+  display: grid;
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid rgba(128, 169, 158, 0.16);
+  border-radius: 8px;
+  background: rgba(8, 14, 13, 0.48);
 }
 
-.tcs-grid b {
+.tcs-cost-card-head,
+.tcs-cost-card li,
+.tcs-breakdown-group > div,
+.tcs-breakdown-group li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tcs-cost-card-head span,
+.tcs-breakdown-group > div span {
+  color: #f0c777;
+  font-size: 0.73rem;
+  font-weight: 860;
+}
+
+.tcs-cost-card-head b,
+.tcs-breakdown-group > div b {
   color: #f4fbf8;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   text-align: right;
+  white-space: nowrap;
+}
+
+.tcs-cost-card ul,
+.tcs-breakdown-group ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tcs-cost-card li span,
+.tcs-breakdown-group li span {
+  color: #9db2ab;
+  font-size: 0.67rem;
+  line-height: 1.15;
+}
+
+.tcs-cost-card li b,
+.tcs-breakdown-group li b {
+  color: #d9e7e3;
+  font-size: 0.67rem;
+  font-weight: 760;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .tcs-alternatives {
@@ -912,8 +959,8 @@ h2 {
 
 .tcs-breakdown {
   display: grid;
-  grid-template-columns: minmax(80px, 1fr) minmax(68px, auto);
-  gap: 5px 10px;
+  grid-template-columns: 1fr;
+  gap: 8px;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
@@ -928,25 +975,22 @@ h2 {
 
 .tcs-option:hover .tcs-breakdown,
 .tcs-option:focus .tcs-breakdown,
-.tcs-option:focus-within .tcs-breakdown {
-  max-height: 130px;
+.tcs-option:focus-within .tcs-breakdown,
+.tcs-option.selected .tcs-breakdown {
+  max-height: 720px;
   opacity: 1;
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid rgba(128, 169, 158, 0.16);
 }
 
-.tcs-breakdown span {
-  color: #8fa7a0;
-  font-size: 0.68rem;
-  font-weight: 800;
-}
-
-.tcs-breakdown b {
-  color: #f4fbf8;
-  font-size: 0.7rem;
-  text-align: right;
-  white-space: nowrap;
+.tcs-breakdown-group {
+  display: grid;
+  gap: 5px;
+  padding: 8px;
+  border: 1px solid rgba(128, 169, 158, 0.12);
+  border-radius: 7px;
+  background: rgba(5, 11, 11, 0.38);
 }
 
 .auto-service-box {
