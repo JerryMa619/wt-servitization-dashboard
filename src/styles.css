@@ -234,7 +234,8 @@ h2 {
 
 .main-grid {
   display: grid;
-  grid-template-columns: minmax(260px, 0.95fr) minmax(360px, 1.4fr) minmax(270px, 0.85fr);
+  align-items: start;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.25fr) minmax(360px, 1.05fr);
   gap: 14px;
   margin-bottom: 14px;
 }
@@ -636,57 +637,117 @@ h2 {
 }
 
 .decision-panel {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  align-content: start;
+  gap: 12px;
 }
 
-.state-card {
+.decision-column {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+}
+
+.tcs-panel,
+.service-activity-panel,
+.auto-service-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.tcs-panel .tcs-output,
+.service-activity-panel .activity-output,
+.auto-service-panel .auto-service-box {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.decision-command-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(100, 226, 189, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(18, 35, 32, 0.94), rgba(9, 14, 14, 0.96)),
+    rgba(12, 18, 18, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 28px rgba(100, 226, 189, 0.08);
+}
+
+.decision-state,
+.decision-selected-action {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.decision-selected-action {
+  padding-left: 12px;
+  border-left: 1px solid rgba(128, 169, 158, 0.22);
+}
+
+.decision-state span,
+.decision-selected-action span,
+.decision-metric span {
+  color: #8fa7a0;
+  font-size: 0.69rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.decision-state strong {
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.decision-state p,
+.decision-selected-action small,
+.decision-metric small {
+  margin: 0;
+  color: #9db2ab;
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.decision-selected-action b {
+  color: #f4fbf8;
+  font-size: 0.98rem;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.decision-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.decision-metric {
   display: grid;
   gap: 4px;
-  padding: 16px;
-  border: 1px solid;
+  min-height: 74px;
+  padding: 9px;
+  border: 1px solid rgba(128, 169, 158, 0.15);
   border-radius: 8px;
-  background: rgba(14, 22, 21, 0.86) !important;
-  box-shadow: 0 0 24px color-mix(in srgb, currentColor 18%, transparent);
+  background:
+    linear-gradient(180deg, rgba(15, 25, 24, 0.82), rgba(7, 12, 12, 0.72)),
+    rgba(8, 14, 13, 0.62);
 }
 
-.state-card span {
-  color: #9db2ab;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.state-card strong {
-  font-size: 1.6rem;
-}
-
-.decision-list {
-  display: grid;
-  gap: 9px;
-  margin: 14px 0;
-}
-
-.decision-list div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid rgba(128, 169, 158, 0.22);
-}
-
-.decision-list dt {
-  color: #8fa7a0;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.decision-list dd {
-  margin: 0;
+.decision-metric b {
   color: #f4fbf8;
-  font-size: 0.88rem;
-  font-weight: 750;
-  text-align: right;
+  font-size: 0.82rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .primary-action {
@@ -710,7 +771,7 @@ h2 {
 .activity-output {
   display: grid;
   gap: 8px;
-  margin: 0 0 14px;
+  margin: 0;
   padding: 12px;
   border: 1px solid rgba(100, 226, 189, 0.25);
   border-radius: 8px;
@@ -736,9 +797,13 @@ h2 {
 }
 
 .activity-output > p {
+  display: -webkit-box;
+  overflow: hidden;
   color: #a4b8b1;
   font-size: 0.83rem;
   line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .activity-grid {
@@ -763,22 +828,38 @@ h2 {
 
 .tcs-output {
   display: grid;
-  gap: 10px;
-  margin: 0 0 14px;
+  gap: 11px;
+  margin: 0;
   padding: 12px;
   border: 1px solid rgba(216, 163, 77, 0.28);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(35, 27, 13, 0.62), rgba(9, 14, 13, 0.84)),
+    linear-gradient(180deg, rgba(30, 25, 16, 0.56), rgba(9, 14, 13, 0.86)),
     rgba(13, 20, 20, 0.82);
   box-shadow: 0 0 22px rgba(216, 163, 77, 0.08);
 }
 
 .tcs-hero {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: minmax(120px, 0.56fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(240, 199, 119, 0.2);
+  border-radius: 8px;
+  background: rgba(5, 11, 11, 0.38);
+}
+
+.tcs-hero div {
+  display: grid;
+  gap: 3px;
+}
+
+.tcs-hero div span {
+  color: #9db2ab;
+  font-size: 0.68rem;
+  font-weight: 850;
+  text-transform: uppercase;
 }
 
 .tcs-hero strong {
@@ -787,28 +868,41 @@ h2 {
   line-height: 1;
 }
 
-.tcs-hero span {
+.tcs-hero p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
   color: #d9e7e3;
-  font-size: 0.8rem;
-  font-weight: 800;
-  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .tcs-summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  padding-top: 9px;
-  border-top: 1px solid rgba(216, 163, 77, 0.2);
 }
 
 .tcs-cost-card {
   display: grid;
-  gap: 7px;
-  padding: 9px;
+  gap: 6px;
+  padding: 8px;
   border: 1px solid rgba(128, 169, 158, 0.16);
   border-radius: 8px;
-  background: rgba(8, 14, 13, 0.48);
+  background: rgba(8, 14, 13, 0.42);
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.tcs-cost-card:hover,
+.tcs-cost-card:focus {
+  border-color: rgba(240, 199, 119, 0.34);
+  background: rgba(18, 18, 12, 0.68);
 }
 
 .tcs-cost-card-head,
@@ -824,14 +918,14 @@ h2 {
 .tcs-cost-card-head span,
 .tcs-breakdown-group > div span {
   color: #f0c777;
-  font-size: 0.73rem;
+  font-size: 0.7rem;
   font-weight: 860;
 }
 
 .tcs-cost-card-head b,
 .tcs-breakdown-group > div b {
   color: #f4fbf8;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   text-align: right;
   white-space: nowrap;
 }
@@ -845,17 +939,34 @@ h2 {
   list-style: none;
 }
 
+.tcs-cost-card ul {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 180ms ease,
+    opacity 160ms ease,
+    padding-top 160ms ease;
+}
+
+.tcs-cost-card:hover ul,
+.tcs-cost-card:focus ul {
+  max-height: 150px;
+  opacity: 1;
+  padding-top: 3px;
+}
+
 .tcs-cost-card li span,
 .tcs-breakdown-group li span {
   color: #9db2ab;
-  font-size: 0.67rem;
+  font-size: 0.65rem;
   line-height: 1.15;
 }
 
 .tcs-cost-card li b,
 .tcs-breakdown-group li b {
   color: #d9e7e3;
-  font-size: 0.67rem;
+  font-size: 0.65rem;
   font-weight: 760;
   text-align: right;
   white-space: nowrap;
@@ -864,6 +975,21 @@ h2 {
 .tcs-alternatives {
   display: grid;
   gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: 4px;
+  padding-right: 4px;
+  border-top: 1px solid rgba(216, 163, 77, 0.18);
+}
+
+.tcs-alternatives::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tcs-alternatives::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(128, 169, 158, 0.26);
 }
 
 .tcs-table-head {
@@ -886,7 +1012,7 @@ h2 {
 .tcs-option {
   display: grid;
   gap: 0;
-  padding: 7px 8px;
+  padding: 8px;
   border: 1px solid rgba(128, 169, 158, 0.18);
   border-radius: 8px;
   background: rgba(8, 14, 13, 0.52);
@@ -906,7 +1032,9 @@ h2 {
 
 .tcs-option.selected {
   border-color: rgba(240, 199, 119, 0.5);
-  background: rgba(74, 52, 17, 0.48);
+  background:
+    linear-gradient(90deg, rgba(74, 52, 17, 0.52), rgba(8, 14, 13, 0.58)),
+    rgba(8, 14, 13, 0.52);
 }
 
 .tcs-option-row {
@@ -933,7 +1061,7 @@ h2 {
 
 .tcs-option-main small {
   color: #9db2ab;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   line-height: 1.2;
 }
 
@@ -976,8 +1104,7 @@ h2 {
 
 .tcs-option:hover .tcs-breakdown,
 .tcs-option:focus .tcs-breakdown,
-.tcs-option:focus-within .tcs-breakdown,
-.tcs-option.selected .tcs-breakdown {
+.tcs-option:focus-within .tcs-breakdown {
   max-height: 720px;
   opacity: 1;
   margin-top: 8px;
@@ -996,8 +1123,8 @@ h2 {
 
 .auto-service-box {
   display: grid;
-  gap: 10px;
-  margin: 0 0 14px;
+  gap: 8px;
+  margin: 0;
   padding: 12px;
   border: 1px solid rgba(128, 169, 158, 0.26);
   border-radius: 8px;
@@ -1013,8 +1140,8 @@ h2 {
 
 .auto-service-option {
   display: grid;
-  gap: 4px;
-  padding: 9px 10px;
+  gap: 3px;
+  padding: 8px 9px;
   border: 1px solid rgba(128, 169, 158, 0.18);
   border-radius: 8px;
   background: rgba(8, 14, 13, 0.48);
@@ -1032,9 +1159,13 @@ h2 {
 }
 
 .auto-service-option span {
+  display: -webkit-box;
+  overflow: hidden;
   color: #a4b8b1;
-  font-size: 0.76rem;
-  line-height: 1.35;
+  font-size: 0.7rem;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .auto-service-option small {
@@ -1082,6 +1213,10 @@ h2 {
 .primary-action.compact {
   min-height: 38px;
   padding: 0 16px;
+}
+
+.decision-panel .primary-action {
+  margin-top: 0;
 }
 
 .enhanced-dashboard {
@@ -1708,6 +1843,10 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .decision-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .main-grid {
     grid-template-columns: 1fr;
   }
@@ -1736,6 +1875,20 @@ h2 {
   .metric-row,
   .chart-grid {
     grid-template-columns: 1fr;
+  }
+
+  .decision-command-card,
+  .decision-metric-grid,
+  .tcs-hero,
+  .tcs-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-selected-action {
+    padding-top: 10px;
+    padding-left: 0;
+    border-top: 1px solid rgba(128, 169, 158, 0.22);
+    border-left: 0;
   }
 
   .enhanced-title {

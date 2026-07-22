@@ -904,62 +904,75 @@ function DecisionPanel({
     .map((action) => estimateTcs(latest, action))
     .sort((a, b) => a.totalCost - b.totalCost);
   const maxTcsCost = Math.max(...tcsAlternatives.map((estimate) => estimate.totalCost), 1);
+  const decisionMetrics = [
+    { label: "Availability", value: `${availability.toFixed(1)}%`, note: meta.kpi },
+    { label: "Crack length", value: `${(latest.crackMm ?? 0).toFixed(1)} mm`, note: `${latest.crackState ?? crackStateFromMm(latest.crackMm ?? 0)} detected` },
+    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`, note: "p10 / p50 / p90" },
+    {
+      label: "Contract",
+      value: settlement ? settlement.status : `${energyYield} kWh eq.`,
+      note: settlement ? formatGbp(settlement.settlement_gbp) : "production value"
+    },
+    { label: "Downtime", value: `${autoStats.totalDowntimeH.toFixed(1)} h`, note: `${autoStats.completedServices} completed services` },
+    {
+      label: "Residual risk",
+      value: recommendedTcs.residualRiskScore.toFixed(2),
+      note: `Residual crack ${recommendedTcs.residualCrackMm.toFixed(1)} mm`
+    }
+  ];
 
   return (
-    <section className="panel decision-panel">
+    <div className="decision-column">
+      <section className="panel decision-panel">
       <div className="section-title">
         <ClipboardCheck size={18} />
         <h2>Service Decision</h2>
       </div>
-      <div className="state-card" style={{ borderColor: meta.color, background: meta.bg }}>
-        <span>Current Service-State</span>
-        <strong style={{ color: meta.color }}>{serviceState}</strong>
+      <div className="decision-command-card" style={{ borderColor: meta.color }}>
+        <div className="decision-state">
+          <span>Current service-state</span>
+          <strong style={{ color: meta.color }}>{serviceState}</strong>
+          <p>{meta.kpi}</p>
+        </div>
+        <div className="decision-selected-action">
+          <span>TCS-selected service</span>
+          <b>{maintenanceActions[suggestedAction].label}</b>
+          <small>{formatGbp(recommendedTcs.totalCost)} | downtime {maintenanceActions[suggestedAction].defaultDowntimeH.toFixed(1)} h</small>
+        </div>
       </div>
-      <dl className="decision-list">
-        <div>
-          <dt>Recommended action</dt>
-          <dd>{maintenanceActions[suggestedAction].label}</dd>
-        </div>
-        <div>
-          <dt>KPI status</dt>
-          <dd>{meta.kpi}</dd>
-        </div>
-        <div>
-          <dt>Availability</dt>
-          <dd>{availability.toFixed(1)}%</dd>
-        </div>
-        <div>
-          <dt>Contract status</dt>
-          <dd>{settlement ? `${settlement.status} GBP ${settlement.settlement_gbp}` : `${energyYield} kWh eq.`}</dd>
-        </div>
-        <div>
-          <dt>TCS selected</dt>
-          <dd>{formatGbp(recommendedTcs.totalCost)}</dd>
-        </div>
-        <div>
-          <dt>Auto downtime</dt>
-          <dd>{autoStats.totalDowntimeH.toFixed(1)} h</dd>
-        </div>
-        <div>
-          <dt>Auto services</dt>
-          <dd>
-            {autoStats.completedServices}
-            {autoStats.lastAction ? ` | ${maintenanceActions[autoStats.lastAction].label}` : ""}
-          </dd>
-        </div>
-      </dl>
+
+      <div className="decision-metric-grid">
+        {decisionMetrics.map((metric) => (
+          <div className="decision-metric" key={metric.label}>
+            <span>{metric.label}</span>
+            <b>{metric.value}</b>
+            <small>{metric.note}</small>
+          </div>
+        ))}
+      </div>
+
+      <button className="primary-action" onClick={onEvidence}>
+        <Workflow size={16} />
+        Evidence chain
+      </button>
+    </section>
+
+    <section className="panel tcs-panel">
       <div className="tcs-output">
         <div className="activity-header">
           <ClipboardCheck size={17} />
           <span>Total Cost of Servitization</span>
         </div>
         <div className="tcs-hero">
-          <strong>{formatGbp(recommendedTcs.totalCost)}</strong>
-          <span>{maintenanceActions[recommendedTcs.action].label}</span>
+          <div>
+            <span>Selected strategy cost</span>
+            <strong>{formatGbp(recommendedTcs.totalCost)}</strong>
+          </div>
+          <p>{maintenanceActions[recommendedTcs.action].description}</p>
         </div>
         <div className="tcs-summary-grid">
           {recommendedCostGroups.map((group) => (
-            <div className="tcs-cost-card" key={group.label}>
+            <div className="tcs-cost-card" key={group.label} tabIndex={0}>
               <div className="tcs-cost-card-head">
                 <span>{group.label}</span>
                 <b>{formatGbp(group.total)}</b>
@@ -1018,6 +1031,9 @@ function DecisionPanel({
           ))}
         </div>
       </div>
+    </section>
+
+    <section className="panel service-activity-panel">
       <div className="activity-output">
         <div className="activity-header">
           <Wrench size={17} />
@@ -1034,6 +1050,9 @@ function DecisionPanel({
           <b>{activity.authority}</b>
         </div>
       </div>
+    </section>
+
+    <section className="panel auto-service-panel">
       <div className="auto-service-box">
         <div className="activity-header">
           <Wrench size={17} />
@@ -1060,11 +1079,8 @@ function DecisionPanel({
           </div>
         ) : null}
       </div>
-      <button className="primary-action" onClick={onEvidence}>
-        <Workflow size={16} />
-        Evidence chain
-      </button>
     </section>
+    </div>
   );
 }
 
