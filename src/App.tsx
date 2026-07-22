@@ -373,7 +373,12 @@ const tcsParameters = {
 };
 
 function App() {
-  const enhancedMode = window.location.pathname.replace(/\/+$/, "") === "/enhanced";
+  const basePath = import.meta.env.BASE_URL.replace(/\/+$/, "");
+  const currentPath = window.location.pathname.replace(/\/+$/, "");
+  const routePath = basePath && currentPath.startsWith(basePath) ? currentPath.slice(basePath.length) || "/" : currentPath || "/";
+  const enhancedMode = routePath === "/enhanced";
+  const standardDashboardHref = import.meta.env.BASE_URL;
+  const enhancedDashboardHref = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/enhanced`;
   const [cursor, setCursor] = useState(0);
   const [history, setHistory] = useState<HistoryPoint[]>(() =>
     makeInitialReplayHistory()
@@ -565,7 +570,7 @@ function App() {
           </span>
         </div>
         <div className="top-actions">
-          <a className="secondary-action" href={enhancedMode ? "/" : "/enhanced"}>
+          <a className="secondary-action" href={enhancedMode ? standardDashboardHref : enhancedDashboardHref}>
             <Workflow size={15} />
             {enhancedMode ? "Standard dashboard" : "Enhanced dashboard"}
           </a>

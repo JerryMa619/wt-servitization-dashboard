@@ -34,6 +34,12 @@ jobs:
       - name: Build dashboard
         run: npm run build
 
+      - name: Prepare GitHub Pages routes
+        run: |
+          mkdir -p dist/enhanced
+          cp dist/index.html dist/enhanced/index.html
+          cp dist/index.html dist/404.html
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
