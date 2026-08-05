@@ -235,9 +235,16 @@ h2 {
 .main-grid {
   display: grid;
   align-items: start;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.25fr) minmax(360px, 1.05fr);
+  grid-template-columns: minmax(520px, 1.18fr) minmax(420px, 0.82fr);
   gap: 14px;
   margin-bottom: 14px;
+}
+
+.asset-column {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
 }
 
 .panel {
@@ -261,7 +268,7 @@ h2 {
 .leaflet-map-shell {
   position: relative;
   overflow: hidden;
-  height: 278px;
+  height: clamp(260px, 30vw, 360px);
   border: 1px solid rgba(105, 190, 164, 0.34);
   border-radius: 8px;
   background: #0d1514;
@@ -392,13 +399,13 @@ h2 {
 }
 
 .turbine-panel {
-  min-height: 360px;
+  min-height: 420px;
 }
 
 .turbine-stage {
   position: relative;
   overflow: hidden;
-  height: 278px;
+  height: clamp(300px, 32vw, 390px);
   border: 1px solid rgba(105, 190, 164, 0.34);
   border-radius: 8px;
   background:
@@ -727,7 +734,7 @@ h2 {
 
 .decision-metric-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
   gap: 8px;
 }
 
@@ -841,8 +848,8 @@ h2 {
 
 .tcs-hero {
   display: grid;
-  grid-template-columns: minmax(120px, 0.56fr) minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: minmax(128px, 0.72fr) minmax(0, 1fr);
+  gap: 12px;
   align-items: center;
   padding: 10px;
   border: 1px solid rgba(240, 199, 119, 0.2);
@@ -882,7 +889,7 @@ h2 {
 
 .tcs-summary-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   gap: 8px;
 }
 

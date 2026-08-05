@@ -600,8 +600,10 @@ function App() {
       </section>
 
       <section className="main-grid">
-        <SiteMap latest={latest} serviceState={serviceState} position={currentPosition} gpsError={gpsError} onEnableGps={enableDeviceGps} />
-        <TurbinePanel latest={latest} serviceState={serviceState} />
+        <div className="asset-column">
+          <SiteMap latest={latest} serviceState={serviceState} position={currentPosition} gpsError={gpsError} onEnableGps={enableDeviceGps} />
+          <TurbinePanel latest={latest} serviceState={serviceState} />
+        </div>
         <DecisionPanel
           latest={latest}
           serviceState={serviceState}
