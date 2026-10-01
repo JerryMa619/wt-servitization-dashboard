@@ -75,3 +75,20 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Verified desktop and 390/320px contract comparison and semantic result layouts. Refreshed screenshots and machine-readable verification records are committed with this handoff.
 - Implementation commit: `b2b1717`. Contract comparison remains an explicit research scenario; capacity budgets are hypothetical and do not establish measured availability or contractual compliance.
 - Local review: http://127.0.0.1:5178/cmapss/ . GitHub review remains draft PR #2; no merge or public deployment was performed.
+
+## 2026-10-02 — four-subset replay (v0.4)
+
+- Continued the planned FD002–FD004 extension. Preserved the FD001 replay, baseline and guide; added separate subset fits using fold-local, training-only operating-condition normalization.
+- Added on-demand replay loading with SHA-256 verification, dataset selector, full-test endpoint comparison, reset/cancellation/error/retry handling and scoped operating/fault-mode context.
+- Dataset identity now flows through assets, model/source provenance, charts, contract comparisons, JSON exports, RDF and semantic result downloads. Source ontology and SHACL profile are unchanged.
+- Audited the readme discrepancy: FD004 actual files contain 249 train / 248 test engines; local test/RUL bytes match the original ZIP. Counts and evaluation use the actual files.
+- All 4,835 snapshots passed model/contract checks; 32 endpoints passed real SPARQL/SHACL with exact dataset/source identities. Every new subset's configured contract passed. Independent raw-source checks verified all displayed observations and labels. All endpoint metrics can be recomputed from committed evaluation audit files.
+- Original FD001 model, semantic and contract tests, ontology verification and ten ontology/twin tests passed. Production build passed with the pre-existing large-bundle warning.
+- See MULTI_DATASET.md for methodology, actual counts, interpretation, provenance and reproduction. Final browser verification is recorded below.
+
+### v0.4 final production verification
+
+- All four browser suites passed at the production preview base `/wt-servitization-dashboard/`, with zero page errors. Existing standard/enhanced routes and FD001 guide/contract/semantic checks remain intact.
+- New tests cover all added subsets, dataset-aware JSON/RDF/results downloads, policy/evaluation/playback reset, cancellation, HTTP failure/retry and corrupted-artifact rejection/retry. An initial test-handler cleanup race was corrected by allowing the deliberately delayed interception to finish before removing it; no application error was involved.
+- Desktop and 390/320px layouts passed. Visual review prompted wider mobile dataset/engine controls; the affected multi-dataset and original browser suites were rerun successfully after the CSS change.
+- Implementation commit: `7b387e2`. Final documentation and screenshots follow in the handoff commit. Local URL remains http://127.0.0.1:5178/cmapss/ . Draft PR #2 remains unmerged and no public deployment was performed.

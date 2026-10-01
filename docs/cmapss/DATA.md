@@ -1,5 +1,7 @@
 # C-MAPSS data and model provenance
 
+This document describes the preserved FD001 baseline. For the FD002–FD004 extension, full-test metrics and FD004 source-count discrepancy, see [MULTI_DATASET.md](MULTI_DATASET.md).
+
 ## Inputs
 
 NASA Turbofan Engine Degradation Simulation Data Set, FD001. [Repository and citation](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/).

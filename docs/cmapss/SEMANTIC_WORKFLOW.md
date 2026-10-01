@@ -80,3 +80,7 @@ PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs CHROME_EXECUTABLE=/path
 ## Implementation limits
 
 The RDF store is a per-run browser snapshot, not a persistent triple-store service. Query choices are reviewed SELECT queries; arbitrary user queries and external graph imports are intentionally outside this implementation. The added semantic-query bundle is about 389 kB gzipped and lazy-loaded on first execution. Vite reports large shared/query chunks. Compatible dependency patches were applied; the existing ECharts 5.x moderate advisory remains and requires a separate major-version migration to address. No new semantic-library advisory remained in the recorded audit.
+
+## Four-subset support (application v0.4)
+
+The unchanged cycle profile 0.3.0 also validates FD002–FD004. Asset URNs, model/source identifiers, JSON and download names include the selected dataset. The generator rejects a mismatched dataset/model prefix or missing source hash. Switching subsets clears prior semantic results. See [MULTI_DATASET.md](MULTI_DATASET.md).

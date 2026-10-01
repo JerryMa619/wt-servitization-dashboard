@@ -38,3 +38,7 @@ PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs CHROME_EXECUTABLE=/path
 ```
 
 The browser script accepts `DASHBOARD_URL` (default <http://127.0.0.1:5178/>), captures desktop/mobile views and checks replay, scenario changes, semantic inspection, exports, short trajectories and existing routes. Screenshots and machine-readable results are in `screenshots/cmapss/`. Python causal-prefix verification and regeneration require the raw NASA files.
+
+## v0.4 — compare the four subsets
+
+Select **Dataset** in replay controls. **Twin overview** compares full-test endpoint RMSE and interval coverage for all four separately trained models. Explore DT framework, ontology and service decisions using each subset's own evidence. Switching resets replay/evaluation/policy. Return to FD001 for the original guided story and curated contract examples. See [MULTI_DATASET.md](MULTI_DATASET.md) for the FD004 count discrepancy and model limitations.
