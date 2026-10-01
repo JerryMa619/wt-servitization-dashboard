@@ -25,7 +25,8 @@ The implementation is aligned with the project theme of digital twinning serviti
 - Service decision layer for predictive, preactive, proactive, active, and corrective maintenance.
 - TCS comparison across service strategies.
 - Cost item breakdown for service, downtime, logistics, contract exposure, and residual risk.
-- ISO 23247 servitization DT evidence chain visualization.
+- Integrated turbine / ISO 23247 architecture overlay with state-driven flow highlighting.
+- Recorded service-event replay synchronizing blade crack, RUL, rotor targets and modeled downtime.
 - Interactive ontology instance graph, source-derived class explorer and service decision history on both dashboard routes.
 
 ## Ontology Module
@@ -41,6 +42,18 @@ The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologyS
 Design, implementation, changes and validation evidence: [implementation log](docs/ontology/IMPLEMENTATION_LOG.md), [module specification](docs/ontology/DESIGN.md), [interaction verification](screenshots/ontology/verification.json), [public deployment verification](screenshots/ontology/publication.json).
 
 ![Ontology graph](screenshots/ontology/live-desktop.png)
+
+## Integrated Digital Twin Workspace
+
+Both routes now start with **WT Operation & Digital Twin**. The default view keeps the existing animated turbine alongside live operating evidence and the current service proposal. Turn on **Architecture overlay** to inspect OME, DCDCE, DTE, UE and the cross-system CSE band. DTE separates Operation & Management, Application & Service, and Resource Access & Interchange. Service-state, TCS, authorisation and contract modules are marked as research extensions, not additional ISO-mandated entities.
+
+Select the blade or **RUL evidence** to highlight the matching architecture module. Node details link to the ontology evidence, and the live TCS link opens the comparison section. Once an automatic intervention is recorded, choose it from the event selector or use **Replay on turbine** in Decision Trace. Step, play or pause the recorded pre-service, downtime and post-service snapshots; **Return to live operation** restores current readings. The rest of the dashboard remains live during replay, clearly separated from the historical workspace.
+
+Replay uses the same bounded session event store as ontology. Original intervention costs / recommendation are preserved even when post-service readings imply a new recommendation. Downtime hours are compressed model time, not elapsed real hours. The replay is a recorded simulation walkthrough, not a measured execution trace or engine performance profile. Authorization, physical actuation and measured outcome assessment are not connected. Contract KPI remains a Chapter 5 dataset reference. Manual scenarios still use the existing input window and do not auto-execute services.
+
+Design and process record: [workspace specification](docs/twin/DESIGN.md), [implementation log](docs/twin/IMPLEMENTATION_LOG.md), [browser verification](screenshots/twin/verification.json).
+
+![Integrated architecture](screenshots/twin/architecture-desktop.png)
 
 ## Local Development
 
@@ -72,6 +85,7 @@ Use Node.js 22.6 or later for the TypeScript model tests (the deployment workflo
 npm run sync:ontology
 npm run check:ontology
 npm run test:ontology
+npm run test:twin
 npm run build
 ```
 
@@ -81,6 +95,7 @@ Browser verification requires Playwright and a Chromium browser. With Playwright
 
 ```bash
 node scripts/verify-ontology-ui.mjs
+node scripts/verify-twin-ui.mjs
 ```
 
 Optional environment variables: `PLAYWRIGHT_MODULE` (absolute path to the installed Playwright module), `CHROME_EXECUTABLE` (browser executable) and `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). Screenshots and results are saved under `screenshots/ontology/`. Browser verification accelerates only the simulator interval in a separate test tab; the dashboard's normal simulation rate is unchanged.

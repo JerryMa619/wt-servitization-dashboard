@@ -1,0 +1,12 @@
+{
+  "verifiedAt": "2026-10-01T22:04:22.346Z",
+  "base": "http://127.0.0.1:5173/",
+  "results": [
+    "Standard route: rotor motion, crack / RUL selection, 12 architecture modules and ontology navigation passed.",
+    "820 px and 390 px layouts: no page overflow; architecture retains internal horizontal scrolling.",
+    "Enhanced route: automatic event completion, synchronized downtime (RPM 0), repaired crack / RUL, frozen replay, matching ontology frame, playback / pause and return to live passed.",
+    "Reduced-motion preference respected; no browser runtime errors.",
+    "Screenshot pixel checks passed."
+  ],
+  "failures": []
+}

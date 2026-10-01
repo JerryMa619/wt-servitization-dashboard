@@ -14,6 +14,13 @@ try {
     const url = new URL(path, base).href;
     const response = await page.goto(url, { waitUntil: 'domcontentloaded' });
     assert.equal(response.status(), 200);
+    const twin = page.getByRole('region', { name: 'Integrated wind turbine digital twin' });
+    await twin.waitFor();
+    await twin.getByRole('switch', { name: 'Architecture overlay' }).check();
+    assert.equal(await twin.locator('.twin-module-node').count(), 12);
+    await twin.getByRole('button', { name: 'RUL evidence', exact: true }).click();
+    assert.equal(await twin.locator('.twin-module-detail h3').innerText(), 'RUL prediction');
+    await twin.getByRole('button', { name: 'Ontology', exact: true }).click();
     const module = page.getByRole('region', { name: 'Ontology and decision evidence' });
     await module.waitFor();
     await module.getByRole('tab', { name: 'Ontology Schema' }).click();
@@ -23,10 +30,11 @@ try {
     assert.equal(source.status(), 200);
     assert.ok((await source.text()).includes('sdt:ServiceActionRecommendation'));
     assert.deepEqual(errors, []);
-    results.push({ url, status: response.status(), ontologyModule: 'loaded', schemaClasses: 50, sourceStatus: source.status(), browserErrors: errors });
+    results.push({ url, status: response.status(), twinWorkspace: 'loaded', architectureModules: 12, rulOntologyNavigation: 'passed', ontologyModule: 'loaded', schemaClasses: 50, sourceStatus: source.status(), browserErrors: errors });
     await page.close();
   }
   writeFileSync(new URL('../screenshots/ontology/publication.json', import.meta.url), JSON.stringify({ verifiedAt: new Date().toISOString(), results }, null, 2) + '\n');
+  writeFileSync(new URL('../screenshots/twin/publication.json', import.meta.url), JSON.stringify({ verifiedAt: new Date().toISOString(), results }, null, 2) + '\n');
   console.log(JSON.stringify(results));
 } finally {
   await browser.close();

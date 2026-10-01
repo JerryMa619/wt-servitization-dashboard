@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactECharts from "echarts-for-react";
-import ReactFlow, { Background, Edge, MarkerType, Node } from "reactflow";
 import { motion } from "framer-motion";
 import L from "leaflet";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
@@ -13,6 +12,7 @@ import {
   Database,
   Gauge,
   MapPin,
+  Network,
   RotateCcw,
   ShieldCheck,
   SlidersHorizontal,
@@ -23,8 +23,9 @@ import {
   X
 } from "lucide-react";
 import dashboardData from "./data/dashboardData.json";
-import OntologyPanel from "./ontology/OntologyPanel";
-import { actionTypes, type OntologyExecution, type OntologySnapshot } from "./ontology/model";
+import OntologyPanel, { type OntologyFocusRequest } from "./ontology/OntologyPanel";
+import { actionTypes, updateExecutionLog, type OntologyExecution, type OntologySnapshot } from "./ontology/model";
+import TwinWorkspace, { type ReplayRequest } from "./twin/TwinWorkspace";
 
 type ServiceState = "Nominal" | "Watch" | "Degraded" | "MaintenanceDue" | "Critical" | "OutOfContract";
 type MaintenanceActionKey =
@@ -62,6 +63,7 @@ type HistoryPoint = {
   serviceMode?: "in-downtime" | "post-service";
   serviceAction?: MaintenanceActionKey;
   downtimeH?: number;
+  elapsedDowntimeH?: number;
   availabilityPct?: number;
   serviceNote?: string;
   crackGrowthRateMmH?: number;
@@ -104,6 +106,7 @@ type AutoServiceRuntime = {
   action: MaintenanceActionKey;
   downtimeH: number;
   ticksRemaining: number;
+  totalTicks: number;
   preServicePoint: HistoryPoint;
   ontology: OntologyExecution;
 };
@@ -391,8 +394,10 @@ function App() {
   const [inputOpen, setInputOpen] = useState(false);
   const [manualPoint, setManualPoint] = useState<HistoryPoint | null>(null);
   const [serviceExecution, setServiceExecution] = useState<ServiceExecution | null>(null);
+  const [ontologyEvents, setOntologyEvents] = useState<OntologyExecution[]>([]);
+  const [ontologyFocus, setOntologyFocus] = useState<OntologyFocusRequest | null>(null);
+  const [replayRequest, setReplayRequest] = useState<ReplayRequest | null>(null);
   const [autoStats, setAutoStats] = useState<AutoServiceStats>({ totalDowntimeH: 0, completedServices: 0 });
-  const [chainStep, setChainStep] = useState(0);
   const [devicePosition, setDevicePosition] = useState<LivePosition | null>(null);
   const [gpsError, setGpsError] = useState<string | null>(null);
   const gpsWatchRef = useRef<number | null>(null);
@@ -401,10 +406,12 @@ function App() {
   const autoPostServiceOverrideRef = useRef(false);
   const autoCooldownRef = useRef(0);
   const ontologySessionRef = useRef(crypto.randomUUID());
+  const historyRef = useRef(history);
+  const linkedRequestRef = useRef(0);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setHistory((current) => {
+      const current = historyRef.current;
         const prior = current[current.length - 1];
         const replayPoint =
           replayHistory.length > 0 ? replayHistory[cursor % replayHistory.length] : makePoint(current.length, prior);
@@ -417,6 +424,13 @@ function App() {
             if (activeService.ticksRemaining > 1) {
               activeService.ticksRemaining -= 1;
               next = makeDowntimePoint(activeService.preServicePoint, activeService);
+              const during = ontologySnapshot(next, devicePosition ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-during`);
+              activeService.ontology = {
+                ...activeService.ontology,
+                during: [...(activeService.ontology.during ?? []), during],
+                progress: { elapsedH: next.elapsedDowntimeH ?? 0, totalH: activeService.downtimeH }
+              };
+              setServiceExecution({ action: activeService.action, downtimeH: activeService.downtimeH, status: "in-progress", mode: "auto", note: next.serviceNote ?? "Simulated downtime", ontology: activeService.ontology });
             } else {
               next = applyMaintenanceResult(activeService.preServicePoint, activeService.action, activeService.downtimeH);
               next = {
@@ -440,6 +454,7 @@ function App() {
                 ontology: {
                   ...activeService.ontology,
                   status: "completed",
+                  progress: { elapsedH: activeService.downtimeH, totalH: activeService.downtimeH },
                   after: ontologySnapshot(next, devicePosition ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-after`)
                 },
                 note: `${maintenanceActions[activeService.action].label} completed automatically; crack, RUL and vibration are updated.`
@@ -457,6 +472,7 @@ function App() {
                   action,
                   downtimeH,
                   ticksRemaining: downtimeTicksFromHours(downtimeH),
+                  totalTicks: downtimeTicksFromHours(downtimeH),
                   preServicePoint: next,
                   ontology: {
                     id: `${ontologySessionRef.current}-service-${cursor}`,
@@ -464,11 +480,14 @@ function App() {
                     label: maintenanceActions[action].label,
                     status: "in-progress" as const,
                     downtimeH,
+                    during: [] as OntologySnapshot[],
+                    progress: { elapsedH: 0, totalH: downtimeH },
                     before: ontologySnapshot(next, devicePosition ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-before`)
                   }
                 };
                 autoServiceRef.current = runtime;
                 next = makeDowntimePoint(next, runtime);
+                runtime.ontology.during.push(ontologySnapshot(next, devicePosition ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-during`));
                 setServiceExecution({
                   action,
                   downtimeH,
@@ -482,14 +501,18 @@ function App() {
           }
         }
 
-        return [...current.slice(1), next];
-      });
+      const nextHistory = [...current.slice(1), next];
+      historyRef.current = nextHistory;
+      setHistory(nextHistory);
       setCursor((current) => current + 1);
-      setChainStep((step) => (step + 1) % 6);
     }, 1400);
 
     return () => window.clearInterval(timer);
   }, [cursor]);
+
+  useEffect(() => {
+    if (serviceExecution?.ontology) setOntologyEvents((current) => updateExecutionLog(current, serviceExecution.ontology!));
+  }, [serviceExecution]);
 
   useEffect(() => {
     manualPointRef.current = manualPoint;
@@ -524,6 +547,12 @@ function App() {
         }
       : null;
   const currentPosition = manualPosition ?? devicePosition ?? replayPosition;
+  const liveSnapshot = useMemo(() => ontologySnapshot(latest, currentPosition, `${ontologySessionRef.current}-reading-${cursor}-${latest.source ?? "replay"}`), [latest, currentPosition.lat, currentPosition.lon, currentPosition.source, cursor]);
+
+  function focusOntology(nodeId: string, eventId: string, snapshot?: OntologySnapshot) {
+    setOntologyFocus({ id: ++linkedRequestRef.current, nodeId, eventId, snapshot });
+    document.getElementById("ontology-module")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   function enableDeviceGps() {
     if (!("geolocation" in navigator)) {
@@ -553,30 +582,6 @@ function App() {
       { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
     );
   }
-
-  const dtNodes: Node[] = useMemo(
-    () => [
-      flowNode("gps", "GPS + Wind", "Context provenance", 0, 30, chainStep === 0),
-      flowNode("ome", "OME", "Turbine-01 / Blade-A", 170, 30, chainStep === 1),
-      flowNode("dcdce", "DCDCE", "Sensor / ESP32 / Jetson", 350, 30, chainStep === 2),
-      flowNode("dte", "DTE", "Feature / RUL / Ontology", 550, 30, chainStep === 3),
-      flowNode("state", "Service-State", serviceState, 760, 30, chainStep === 4, meta.color),
-      flowNode("ue", "UE + KPI", "Action / Contract KPI", 970, 30, chainStep === 5)
-    ],
-    [chainStep, meta.color, serviceState]
-  );
-
-  const dtEdges: Edge[] = useMemo(
-    () => [
-      flowEdge("gps-ome", "gps", "ome", chainStep === 0),
-      flowEdge("ome-dcdce", "ome", "dcdce", chainStep === 1),
-      flowEdge("dcdce-dte", "dcdce", "dte", chainStep === 2),
-      flowEdge("dte-state", "dte", "state", chainStep === 3),
-      flowEdge("state-ue", "state", "ue", chainStep === 4),
-      flowEdge("ue-gps", "ue", "gps", chainStep === 5, true)
-    ],
-    [chainStep]
-  );
 
   return (
     <main className="dashboard">
@@ -618,10 +623,19 @@ function App() {
         <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} h`} sub="p10 / p50 / p90 from replay" />
       </section>
 
-      <section className="main-grid">
+      <TwinWorkspace
+        snapshot={liveSnapshot}
+        executions={ontologyEvents}
+        activeExecution={serviceExecution?.ontology ?? null}
+        request={replayRequest}
+        renderTurbine={(view, select, selected) => <TurbinePanel latest={view.reading as HistoryPoint} serviceState={view.serviceState as ServiceState} embedded linked={selected === "condition" || selected === "rul" || selected === "tcs" || selected === "recommendation"} onCrackSelect={() => select("condition")} onRulSelect={() => select("rul")} />}
+        onOntology={focusOntology}
+        onCosts={() => document.getElementById("tcs-panel")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+      />
+
+      <section className="main-grid support-grid">
         <div className="asset-column">
           <SiteMap latest={latest} serviceState={serviceState} position={currentPosition} gpsError={gpsError} onEnableGps={enableDeviceGps} />
-          <TurbinePanel latest={latest} serviceState={serviceState} />
         </div>
         <DecisionPanel
           latest={latest}
@@ -632,10 +646,15 @@ function App() {
         />
       </section>
 
-      <OntologyPanel
-        snapshot={ontologySnapshot(latest, currentPosition, `${ontologySessionRef.current}-reading-${cursor}-${latest.source ?? "replay"}`)}
-        execution={serviceExecution?.ontology ?? null}
-      />
+      <div id="ontology-module"><OntologyPanel
+        snapshot={liveSnapshot}
+        executions={ontologyEvents}
+        focusRequest={ontologyFocus}
+        onReplay={(eventId) => {
+          setReplayRequest({ id: ++linkedRequestRef.current, eventId });
+          document.getElementById("twin-workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+      /></div>
 
       {enhancedMode ? (
         <EnhancedDashboardModules
@@ -647,31 +666,6 @@ function App() {
           position={currentPosition}
         />
       ) : null}
-
-      <section className="dt-chain">
-        <div className="section-title">
-          <Workflow size={18} />
-          <h2>ISO 23247 Servitization DT Evidence Chain</h2>
-        </div>
-        <p className="chain-caption">
-          Chapter 3 framework entities plus Chapter 4 ontology trace: context evidence becomes RUL, service state, action and contract KPI.
-        </p>
-        <div className="flow-shell">
-          <ReactFlow
-            nodes={dtNodes}
-            edges={dtEdges}
-            fitView
-            nodesDraggable={false}
-            nodesConnectable={false}
-            elementsSelectable={false}
-            zoomOnScroll={false}
-            panOnDrag={false}
-            preventScrolling={false}
-          >
-            <Background color="#d7dee8" gap={18} />
-          </ReactFlow>
-        </div>
-      </section>
 
       <section className="chart-grid" aria-label="Dynamic telemetry charts">
         <Chart title="Wind Speed" option={lineOption(timeLabels, [{ name: "m/s", data: chartHistory.map((p) => p.windSpeed), color: "#26876d" }], "m/s")} />
@@ -806,7 +800,7 @@ function MapRecenter({ center }: { center: [number, number] }) {
   return null;
 }
 
-function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceState: ServiceState }) {
+function TurbinePanel({ latest, serviceState, embedded = false, linked = false, onCrackSelect, onRulSelect }: { latest: HistoryPoint; serviceState: ServiceState; embedded?: boolean; linked?: boolean; onCrackSelect?: () => void; onRulSelect?: () => void }) {
   const bladesRef = useRef<HTMLDivElement | null>(null);
   const bladeAngleRef = useRef(0);
   const visualVelocityRef = useRef(0);
@@ -817,7 +811,7 @@ function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceS
   const severity = clamp(crackMm / 80, 0, 1);
   const crackWidth = severity * 68;
   const crackOpacity = crackMm > 0 ? clamp(0.28 + severity * 0.67, 0, 0.95) : 0;
-  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(0)} mm crack | p10 RUL ${latest.rulP10} h`;
+  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | p10 RUL ${latest.rulP10} h`;
   const regime = operatingRegime(latest.windSpeed);
   const serviceAction = latest.serviceAction ? maintenanceActions[latest.serviceAction] : null;
   const serviceLabel =
@@ -840,9 +834,10 @@ function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceS
       const deltaSeconds = Math.min((timestamp - lastTimestamp) / 1000, 0.05);
       lastTimestamp = timestamp;
       const targetVelocity =
-        serviceModeRef.current === "in-downtime" ? 0 : clamp((rpmRef.current / 680) * 560, 0, 720);
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches || serviceModeRef.current === "in-downtime" ? 0 : clamp((rpmRef.current / 680) * 560, 0, 720);
       const response = 1 - Math.exp(-deltaSeconds * 3.2);
       visualVelocityRef.current += (targetVelocity - visualVelocityRef.current) * response;
+      if (targetVelocity === 0 && visualVelocityRef.current < 0.05) visualVelocityRef.current = 0;
       bladeAngleRef.current = (bladeAngleRef.current + visualVelocityRef.current * deltaSeconds) % 360;
 
       if (bladesRef.current) {
@@ -857,7 +852,7 @@ function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceS
   }, []);
 
   return (
-    <section className="panel turbine-panel">
+    <section className={`${embedded ? "" : "panel "}turbine-panel ${linked ? "blade-linked" : ""}`} aria-label="Wind turbine physical animation" data-rpm={latest.rpm} data-crack-mm={crackMm} data-rul-p10={latest.rulP10} data-service-mode={latest.serviceMode ?? 'monitoring'}>
       <div className="section-title">
         <Gauge size={18} />
         <h2>WT Operation</h2>
@@ -882,11 +877,12 @@ function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceS
             />
           </div>
           <div className="hub" style={{ borderColor: meta.color }} />
+          {onCrackSelect && <button className="blade-inspect" title="Inspect blade crack evidence" aria-label="Inspect blade crack evidence" onClick={onCrackSelect} />}
         </div>
         <div className="sensor-dot" style={{ background: meta.color }} />
         <div className="crack-readout" style={{ borderColor: meta.color }}>
           <span>Blade crack detection</span>
-          <strong>{crackLabel}</strong>
+          <button onClick={onCrackSelect} aria-label="Open blade condition"><Network size={14} /><strong>{crackLabel}</strong></button>
           <em>{serviceLabel ?? `RUL band ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`}</em>
         </div>
         <div className="ground-band" />
@@ -895,8 +891,9 @@ function TurbinePanel({ latest, serviceState }: { latest: HistoryPoint; serviceS
         <span>RPM <strong>{latest.rpm}</strong></span>
         <span>Power <strong>{latest.power} W</strong></span>
         <span>f1 <strong>{latest.modalF1.toFixed(2)} Hz</strong></span>
-        <span>Crack <strong>{crackMm.toFixed(0)} mm</strong></span>
+        <span>Crack <strong>{crackMm.toFixed(1)} mm</strong></span>
         <span>Regime <strong>{regime}</strong></span>
+        {onRulSelect && <button onClick={onRulSelect}><Waves size={14} />RUL evidence</button>}
       </div>
     </section>
   );
@@ -983,7 +980,7 @@ function DecisionPanel({
       </button>
     </section>
 
-    <section className="panel tcs-panel">
+    <section className="panel tcs-panel" id="tcs-panel">
       <div className="tcs-output">
         <div className="activity-header">
           <ClipboardCheck size={17} />
@@ -1137,36 +1134,8 @@ function EnhancedDashboardModules({
           <Database size={18} />
           <h2>Enhanced DT Servitization Layer</h2>
         </div>
-        <p>ISO 23247-oriented architecture view plus evidence for model trust, data quality, service history, cumulative KPI and ontology trace.</p>
+        <p>Model trust, data quality, service history and cumulative KPI evidence.</p>
       </div>
-
-      <section className="panel enhanced-panel iso-architecture-panel">
-        <div className="activity-header">
-          <Workflow size={17} />
-          <span>ISO 23247 DT Architecture Mapping</span>
-        </div>
-        <div className="architecture-grid">
-          {isoArchitectureLayers(latest, serviceState).map((layer) => (
-            <div className="architecture-layer" key={layer.entity}>
-              <div className="architecture-layer-head">
-                <span>{layer.entity}</span>
-                <strong>{layer.title}</strong>
-              </div>
-              {layer.subLayers.map((subLayer) => (
-                <div className="architecture-sub-layer" key={subLayer.name}>
-                  <b>{subLayer.name}</b>
-                  <p>{subLayer.role}</p>
-                  <ul>
-                    {subLayer.modules.map((module) => (
-                      <li key={module}>{module}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
 
       <div className="enhanced-grid">
         <section className="panel enhanced-panel">
@@ -1538,6 +1507,7 @@ function makeDowntimePoint(point: HistoryPoint, runtime: AutoServiceRuntime): Hi
     serviceMode: "in-downtime",
     serviceAction: runtime.action,
     downtimeH: runtime.downtimeH,
+    elapsedDowntimeH: Number((runtime.downtimeH * (runtime.totalTicks - runtime.ticksRemaining) / runtime.totalTicks).toFixed(2)),
     availabilityPct: availabilityAfterDowntime(runtime.downtimeH),
     serviceState: "MaintenanceDue",
     serviceNote: `Auto ${maintenanceActions[runtime.action].label} in progress; planned downtime ${runtime.downtimeH.toFixed(1)} h.`
@@ -1938,109 +1908,6 @@ function ontologySnapshot(latest: HistoryPoint, position: LivePosition, id: stri
   };
 }
 
-function isoArchitectureLayers(latest: HistoryPoint, serviceState: ServiceState) {
-  const decision = serviceDecisionByTcs(latest, serviceState);
-
-  return [
-    {
-      entity: "OME",
-      title: "Observable Manufacturing Element",
-      subLayers: [
-        {
-          name: "Physical asset context",
-          role: "Wind turbine, blade and operating environment observed by the DT.",
-          modules: [
-            `${site.asset} / ${site.component}`,
-            "WT Operation animation",
-            "GPS and real site map"
-          ]
-        },
-        {
-          name: "Condition signals",
-          role: "Physical signals that expose crack growth and operating load.",
-          modules: [
-            `Wind ${latest.windSpeed.toFixed(1)} m/s`,
-            `Vibration ${latest.vibrationRms.toFixed(3)} g`,
-            `Crack ${latest.crackMm?.toFixed(1) ?? "0.0"} mm`
-          ]
-        }
-      ]
-    },
-    {
-      entity: "DCE / DCDCE",
-      title: "Device Communication and Data Collection Entity",
-      subLayers: [
-        {
-          name: "Acquisition and transport",
-          role: "Moves raw condition and context evidence into the digital environment.",
-          modules: [
-            "GPS stream / manual GPS",
-            "Wind and vibration telemetry",
-            "Chapter 5 controlled C0-C6 replay"
-          ]
-        },
-        {
-          name: "Quality and provenance gateway",
-          role: "Checks freshness, feature validity, latency and provenance before model use.",
-          modules: [
-            "Data Quality and Sensor Health",
-            "VC1 latency validation",
-            "VC2 provenance audit"
-          ]
-        }
-      ]
-    },
-    {
-      entity: "DTE",
-      title: "Digital Twin Entity",
-      subLayers: [
-        {
-          name: "Information model",
-          role: "Transforms observations into feature vectors, crack state and RUL uncertainty.",
-          modules: [
-            "FeatureVector",
-            `RUL ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
-            "Ontology Trace"
-          ]
-        },
-        {
-          name: "Prediction and decision model",
-          role: "Combines crack, RUL and TCS to select the service activity.",
-          modules: [
-            "Model Confidence",
-            "Service Decision",
-            `TCS-selected ${maintenanceActions[decision.action].label}`
-          ]
-        }
-      ]
-    },
-    {
-      entity: "UE",
-      title: "User Entity",
-      subLayers: [
-        {
-          name: "Decision support interface",
-          role: "Presents recommended service, evidence and operating implications to users.",
-          modules: [
-            "Auto Service Options",
-            "Service History and Work Order Ledger",
-            "Input scenario"
-          ]
-        },
-        {
-          name: "Servitization KPI governance",
-          role: "Connects DT outputs to contract, downtime and service value.",
-          modules: [
-            "Cumulative Servitization KPI",
-            "Contract settlement",
-            "Evidence chain modal"
-          ]
-        }
-      ]
-    }
-  ];
-}
-
 function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceActionKey, downtimeH: number): HistoryPoint {
   const actionConfig = maintenanceActions[action];
   const crackBefore = current.crackMm ?? 0;
@@ -2273,34 +2140,6 @@ function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState)
     evidence: `${baseEvidence}; ${tcsEvidence}`,
     kpiEffect: "TCS is dominated by failure consequence and contract exposure, so corrective intervention is preferred.",
     authority: "Contract manager and operator confirmation"
-  };
-}
-
-function flowNode(id: string, title: string, subtitle: string, x: number, y: number, active: boolean, color = "#317f6d"): Node {
-  return {
-    id,
-    position: { x, y },
-    data: {
-      label: (
-        <div className={active ? "flow-node active" : "flow-node"} style={active ? { borderColor: color } : undefined}>
-          <strong>{title}</strong>
-          <span>{subtitle}</span>
-        </div>
-      )
-    },
-    style: { border: "none", background: "transparent", padding: 0, width: 165 }
-  };
-}
-
-function flowEdge(id: string, source: string, target: string, active: boolean, feedback = false): Edge {
-  return {
-    id,
-    source,
-    target,
-    animated: active,
-    type: feedback ? "smoothstep" : "default",
-    markerEnd: { type: MarkerType.ArrowClosed, color: active ? "#26876d" : "#9aa8b8" },
-    style: { stroke: active ? "#26876d" : "#9aa8b8", strokeWidth: active ? 3 : 2 }
   };
 }
 
