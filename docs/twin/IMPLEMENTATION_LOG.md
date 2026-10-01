@@ -28,4 +28,12 @@ Reviewed the current simulation, rotor animation, TCS policy, ontology event sto
 - Final local twin browser checks passed: 12 modules, crack / RUL inspection, matching ontology frame, replay controls, real recorded downtime RPM 0, repaired crack / RUL, continuing live simulation, no runtime errors, no page overflow at 820 / 390 px, reduced-motion behavior and screenshot pixel checks.
 - Screenshots and timestamped results: `screenshots/twin/`.
 
-Deployment status and public checks are recorded below after publication completes. No private project chapter source or downloaded PDF is uploaded as part of this change.
+No private project chapter source or downloaded PDF is uploaded as part of this change.
+
+### Publication
+
+- Implementation commit: `30a1c70` (`feat: integrate turbine architecture and recorded service replay`).
+- [GitHub Pages deployment 36932817091](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36932817091) completed successfully, including ontology / twin model checks and production build.
+- Public browser verification returned HTTP 200 for both [standard](https://jerryma619.github.io/wt-servitization-dashboard/) and [enhanced](https://jerryma619.github.io/wt-servitization-dashboard/enhanced/) routes.
+- Both published pages loaded the integrated workspace, 12 architecture modules, RUL inspection / ontology navigation, 50-class schema and downloadable ontology source with no browser runtime errors.
+- Timestamped evidence: `screenshots/twin/publication.json` and `screenshots/ontology/publication.json`.
