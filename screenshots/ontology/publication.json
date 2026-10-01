@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-01T20:07:00.057Z",
+  "results": [
+    {
+      "url": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "status": 200,
+      "ontologyModule": "loaded",
+      "schemaClasses": 50,
+      "sourceStatus": 200,
+      "browserErrors": []
+    },
+    {
+      "url": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "status": 200,
+      "ontologyModule": "loaded",
+      "schemaClasses": 50,
+      "sourceStatus": 200,
+      "browserErrors": []
+    }
+  ]
+}

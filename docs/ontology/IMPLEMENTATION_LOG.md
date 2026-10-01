@@ -44,4 +44,12 @@ Implementation and verification results are appended after the corresponding che
 - Final verification: production build passed; ontology source check passed; 5/5 model tests passed; standard/enhanced route interactions and all three mobile views passed with no module overflow or browser runtime errors.
 - Dependency audit reported five advisories in the existing dependency tree (`baseline-browser-mapping`, `browserslist`, `echarts`, `nanoid`, `postcss`), none naming N3. ECharts' available fix is a major-version upgrade. These are recorded for separate dependency maintenance; this ontology change does not apply a forced upgrade.
 
-Publication status is recorded after GitHub deployment completes.
+## GitHub publication
+
+- Feature commit: `c7389ee` (`feat: add interactive ontology and service decision evidence`).
+- Design/verification commit: `17bfad8` (`docs: record ontology design, implementation and verification`).
+- Pushed both commits to `origin/main` in `JerryMa619/wt-servitization-dashboard`.
+- GitHub Pages [run 36919013842](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36919013842) completed successfully, including source/model checks and production build.
+- Published-route Chrome verification returned HTTP 200 on both standard and enhanced routes, loaded the ontology module and 50-class browser, downloaded the source T-Box successfully and reported no browser runtime errors. Receipt: `screenshots/ontology/publication.json`.
+- Local development server was started at `http://127.0.0.1:5173/`; enhanced route: `http://127.0.0.1:5173/enhanced/`.
+- Publication verification script and receipt are committed with this log. Subsequent documentation-only commits use the same Pages workflow.

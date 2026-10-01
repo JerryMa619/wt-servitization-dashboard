@@ -38,7 +38,7 @@ The **Ontology & Decision Evidence** section sits below WT operation and TCS/ser
 
 The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologySchema.json`. The instance graph is a dashboard projection, not SPARQL query or OWL reasoner output. SHACL definitions are available but live SHACL validation is not executed. Human authorisation, measured intervention assessment and model/policy feedback are not supplied by the simulator and remain explicitly unconfirmed. ISO entity labels are dashboard mappings, separate from OWL class inheritance. Cost values come from the existing TCS model, not native SDT cost properties.
 
-Design, implementation, changes and validation evidence: [implementation log](docs/ontology/IMPLEMENTATION_LOG.md), [module specification](docs/ontology/DESIGN.md), [verification results](screenshots/ontology/verification.json).
+Design, implementation, changes and validation evidence: [implementation log](docs/ontology/IMPLEMENTATION_LOG.md), [module specification](docs/ontology/DESIGN.md), [interaction verification](screenshots/ontology/verification.json), [public deployment verification](screenshots/ontology/publication.json).
 
 ![Ontology graph](screenshots/ontology/live-desktop.png)
 
@@ -84,6 +84,8 @@ node scripts/verify-ontology-ui.mjs
 ```
 
 Optional environment variables: `PLAYWRIGHT_MODULE` (absolute path to the installed Playwright module), `CHROME_EXECUTABLE` (browser executable) and `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). Screenshots and results are saved under `screenshots/ontology/`. Browser verification accelerates only the simulator interval in a separate test tab; the dashboard's normal simulation rate is unchanged.
+
+`node scripts/verify-ontology-publication.mjs` checks the public standard/enhanced routes, ontology browser and source download using the same optional browser environment variables. Its default URL is the GitHub Pages site; results are written to `screenshots/ontology/publication.json`.
 
 ## Data
 
