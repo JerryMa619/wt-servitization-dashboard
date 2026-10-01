@@ -45,13 +45,15 @@ Design, implementation, changes and validation evidence: [implementation log](do
 
 ## Integrated Digital Twin Workspace
 
-Both routes now start with **WT Operation & Digital Twin**. The default view keeps the existing animated turbine alongside live operating evidence and the current service proposal. Turn on **Architecture overlay** to inspect OME, DCDCE, DTE, UE and the cross-system CSE band. DTE separates Operation & Management, Application & Service, and Resource Access & Interchange. Service-state, TCS, authorisation and contract modules are marked as research extensions, not additional ISO-mandated entities.
+Both routes start with **WT Operation & Digital Twin**, with the animated turbine and **Architecture overlay** visible by default. The framework stays visible across monitoring, decisions, maintenance, post-service updates and subsequent cycles; only the user can hide it. Inspect OME, DCDCE, DTE, UE and the cross-system CSE band. DTE separates Operation & Management, Application & Service, and Resource Access & Interchange. Service-state, TCS, authorisation and contract modules are research extensions, not additional ISO-mandated entities.
 
 Select the blade or **RUL evidence** to highlight the matching architecture module. Node details link to the ontology evidence, and the live TCS link opens the comparison section. Once an automatic intervention is recorded, choose it from the event selector or use **Replay on turbine** in Decision Trace. Step, play or pause the recorded pre-service, downtime and post-service snapshots; **Return to live operation** restores current readings. The rest of the dashboard remains live during replay, clearly separated from the historical workspace.
 
 Replay uses the same bounded session event store as ontology. Original intervention costs / recommendation are preserved even when post-service readings imply a new recommendation. Downtime hours are compressed model time, not elapsed real hours. The replay is a recorded simulation walkthrough, not a measured execution trace or engine performance profile. Authorization, physical actuation and measured outcome assessment are not connected. Contract KPI remains a Chapter 5 dataset reference. Manual scenarios still use the existing input window and do not auto-execute services.
 
 Design and process record: [workspace specification](docs/twin/DESIGN.md), [implementation log](docs/twin/IMPLEMENTATION_LOG.md), [browser verification](screenshots/twin/verification.json), [public verification](screenshots/twin/publication.json).
+
+Continuous Framework fix: [root cause and repair](docs/twin/FRAMEWORK_CONTINUITY_FIX.md), [two-cycle visibility/flow regression](screenshots/framework/verification.json). New telemetry preserves measured graph dimensions; completion does not hide the framework or stop live monitoring flow.
 
 ![Integrated architecture](screenshots/twin/architecture-desktop.png)
 
@@ -106,6 +108,7 @@ Browser verification requires Playwright and a Chromium browser. With Playwright
 node scripts/verify-ontology-ui.mjs
 node scripts/verify-twin-ui.mjs
 node scripts/verify-fixes-ui.mjs
+node scripts/verify-framework-cycle.mjs
 ```
 
 Environment variables: `PLAYWRIGHT_MODULE` (absolute installed Playwright module path), `CHROME_EXECUTABLE` (browser executable), and optional `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). The repair verification script uses the first two variables; other browser scripts can use a normally installed Playwright package. Results are saved under `screenshots/ontology/`, `screenshots/twin/` and `screenshots/fixes/`. Tests accelerate only the simulator in isolated tabs; normal application timing is unchanged.

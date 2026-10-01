@@ -16,7 +16,8 @@ try {
   const twin = page.getByRole('region', { name: 'Integrated wind turbine digital twin' });
   await twin.waitFor();
   await twin.scrollIntoViewIfNeeded();
-  assert.equal(await twin.getByRole('switch', { name: 'Architecture overlay' }).isChecked(), false);
+  assert.equal(await twin.getByRole('switch', { name: 'Architecture overlay' }).isChecked(), true);
+  await twin.getByRole('switch', { name: 'Architecture overlay' }).uncheck();
   const blades = twin.locator('.blades');
   const angle = await blades.getAttribute('style');
   await page.waitForTimeout(250);

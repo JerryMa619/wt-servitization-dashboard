@@ -39,10 +39,17 @@ export function replayFrames(execution: OntologyExecution): ReplayFrame[] {
 }
 
 export function activeModules(stage: WorkflowStage): ModuleId[] {
-  if (stage === 'downtime') return ['control', 'execution'];
-  if (stage === 'result') return ['collection', 'registry', 'condition'];
-  if (stage === 'decision') return ['state', 'tcs', 'recommendation'];
-  return ['collection', 'registry', 'condition', 'rul'];
+  return [...new Set(activeConnections(stage).flatMap(([source, target]) => [source, target]))];
+}
+
+export function activeConnections(stage: WorkflowStage): [ModuleId, ModuleId][] {
+  const acquisition: [ModuleId, ModuleId][] = [['collection', 'registry'], ['registry', 'access']];
+  // Acquisition remains active while a proposal or simulated intervention is processed.
+  if (stage === 'downtime') return [...acquisition, ['recommendation', 'execution'], ['execution', 'control']];
+  const monitoring: [ModuleId, ModuleId][] = [...acquisition, ['collection', 'condition'], ['condition', 'rul']];
+  if (stage === 'result') return [...monitoring, ['execution', 'collection'], ['condition', 'state']];
+  if (stage === 'decision') return [...monitoring, ['condition', 'state'], ['rul', 'tcs'], ['state', 'tcs'], ['tcs', 'recommendation']];
+  return monitoring;
 }
 
 export function moduleValue(id: ModuleId, snapshot: OntologySnapshot, execution: OntologyExecution | null, stage: WorkflowStage): string {

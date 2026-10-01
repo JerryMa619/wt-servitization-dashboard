@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { replayFrames, workflowStage, activeModules, architectureModules, moduleValue } from '../src/twin/model.ts';
+import { replayFrames, workflowStage, activeModules, activeConnections, architectureModules, moduleValue } from '../src/twin/model.ts';
 import { updateExecutionLog, buildSemanticGraph } from '../src/ontology/model.ts';
 
 const candidate = { action: 'predictive-maintenance', label: 'Predictive maintenance', type: 'sdt:PredictiveMaintenance', totalCost: 3200, residualRiskScore: 0.3, acceptable: true, costs: [] };
@@ -26,8 +26,22 @@ test('workflow follows recorded service mode, not crack class or a cycling clock
   assert.equal(workflowStage(before), 'decision');
   assert.equal(workflowStage(during), 'downtime');
   assert.equal(workflowStage(after), 'result');
-  assert.deepEqual(activeModules('downtime'), ['control', 'execution']);
+  assert.ok(activeModules('downtime').includes('control'));
+  assert.ok(activeModules('downtime').includes('collection'));
   assert.ok(!activeModules('result').includes('kpi'));
+});
+
+test('framework flow remains connected through completion and the next monitoring cycle', () => {
+  for (const stage of ['monitor', 'decision', 'downtime', 'result', 'monitor', 'decision']) {
+    const links = activeConnections(stage);
+    assert.ok(links.some(([from, to]) => from === 'collection' && to === 'registry'));
+    assert.ok(links.some(([from, to]) => from === 'registry' && to === 'access'));
+    assert.ok(!activeModules(stage).includes('authorisation'));
+    assert.ok(!activeModules(stage).includes('kpi'));
+  }
+  assert.ok(activeConnections('decision').some(([from, to]) => from === 'condition' && to === 'rul'));
+  assert.ok(activeConnections('result').some(([from, to]) => from === 'execution' && to === 'collection'));
+  assert.ok(!activeModules('monitor').includes('execution'));
 });
 
 test('progress updates are captured, cloned and idempotent in the shared event log', () => {
