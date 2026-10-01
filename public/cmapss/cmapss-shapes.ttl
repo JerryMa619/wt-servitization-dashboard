@@ -69,3 +69,30 @@ cm:CandidateShape a sh:NodeShape ; sh:targetClass cm:ActionCandidate ;
   sh:property [ sh:path cm:directCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
   sh:property [ sh:path cm:riskCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
   sh:property [ sh:path cm:reviewCycles ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] .
+
+cm:ConfiguredContractShape a sh:NodeShape ; sh:targetClass cm:ConfiguredContract ;
+ sh:property [ sh:path cm:contractName ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+ sh:property [ sh:path cm:responsibility ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+ sh:property [ sh:path cm:contractVersion ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+ sh:property [ sh:path cm:appliedPolicy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:Policy ] ;
+ sh:property [ sh:path sdt:hasKPI ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:CapacityBudget ] ;
+ sh:property [ sh:path cm:consequenceRatio ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+ sh:property [ sh:path cm:maintenanceCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+ sh:property [ sh:path cm:leadMultiplier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+ sh:property [ sh:path cm:guardrailCycles ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:consequenceRatio) ; sh:equals cm:consequenceRatio ; sh:message "Applied consequence ratio must equal the named contract assumption." ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:maintenanceCost) ; sh:equals cm:maintenanceCost ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:leadMultiplier) ; sh:equals cm:leadMultiplier ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:guardrailCycles) ; sh:equals cm:guardrailCycles ; sh:message "Applied intervention margin must equal the named contract assumption." ] .
+cm:CapacityBudgetShape a sh:NodeShape ; sh:targetClass cm:CapacityBudget ;
+ sh:property [ sh:path cm:assumption ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+ sh:property [ sh:path cm:periodUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue cm:ScheduledCycleOpportunity ] ;
+ sh:property [ sh:path sdt:targetValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+ sh:property [ sh:path cm:periodSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+ sh:property [ sh:path cm:plannedLossSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals cm:periodSlots ] ;
+ sh:property [ sh:path cm:unplannedLossSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals cm:periodSlots ] ;
+ sh:property [ sh:path cm:allowedLossSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals cm:periodSlots ] ;
+ sh:property [ sh:path cm:plannedMarginSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+ sh:property [ sh:path cm:plannedCapacityProxy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+ sh:property [ sh:path cm:unplannedCapacityProxy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+ sh:property [ sh:path cm:plannedFits ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .

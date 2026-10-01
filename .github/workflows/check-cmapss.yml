@@ -21,4 +21,5 @@ jobs:
       - run: npm run test:twin
       - run: npm run test:cmapss
       - run: npm run test:cmapss:semantic
+      - run: npm run test:cmapss:contracts
       - run: npm run build

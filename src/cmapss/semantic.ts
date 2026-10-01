@@ -1,6 +1,7 @@
 import { DataFactory, Parser, Store, Writer } from 'n3';
 import type { Quad } from '@rdfjs/types';
 import { decide, state, type Point, type Scenario } from './model.ts';
+import { capacityBudget, matchesPolicy, type ContractTerms } from './contracts.ts';
 
 export const NS = {
   cm: 'https://w3id.org/sdt-cmapss/demo#', sdt: 'http://purl.org/sdt/',
@@ -14,16 +15,17 @@ export const iri = (term: string) => {
   return nn(prefix in NS ? NS[prefix as keyof typeof NS] + local : term);
 };
 export type SemanticInput = {
-  engine: number; point: Point; scenario: Scenario;
+  engine: number; point: Point; scenario: Scenario; contract?: ContractTerms;
   provenance: { model: string; baselineSHA256: string; exporterSHA256: string; files: Record<string, string>; ontologySHA256: string; sensorNumbers: number[] };
 };
 export type Defect = 'none' | 'missing-unit' | 'missing-evidence';
 export function createDataset(input: SemanticInput, defect: Defect = 'none') {
-  const { engine, point: p, scenario, provenance } = input;
+  const { engine, point: p, scenario, provenance, contract } = input;
+  if(contract && !matchesPolicy(contract,scenario)) throw new Error('Named contract does not match the current policy');
   const store = new Store();
   const asset = `urn:cmapss:FD001:engine:${engine}`;
   const frame = `${asset}:cycle:${p.cycle}`;
-  const variant = `${frame}:scenario:${scenario.consequence}_${scenario.maintenance}_${scenario.leadMultiplier}_${scenario.gate}`;
+  const variant = `${frame}:scenario:${scenario.consequence}_${scenario.maintenance}_${scenario.leadMultiplier}_${scenario.gate}${contract?`:contract:${contract.id}:v${contract.version}:kpi:${contract.target}_${contract.periodSlots}_${contract.plannedLossSlots}_${contract.unplannedLossSlots}`:''}`;
   const estimate = `${frame}:estimate:${provenance.model}`;
   const window = `${frame}:window`;
   const rec = `${variant}:recommendation`;
@@ -68,6 +70,19 @@ export function createDataset(input: SemanticInput, defect: Defect = 'none') {
   value(estimate, 'cm:cycle', p.cycle, 'xsd:integer'); link(estimate, 'prov:wasDerivedFrom', window); link(estimate, 'cm:generatedWith', model);
   type(policy, 'cm:Policy');
   for (const [name,v] of Object.entries({consequenceRatio:scenario.consequence, maintenanceCost:scenario.maintenance, leadMultiplier:scenario.leadMultiplier, guardrailCycles:scenario.gate})) value(policy, `cm:${name}`, v, 'xsd:decimal');
+  if(contract) {
+    const id = `${variant}:contract`;
+    const kpi = `${id}:capacity-kpi`;
+    const budget = capacityBudget(contract);
+    type(id, 'cm:ConfiguredContract'); value(id,'cm:contractName',contract.name); value(id,'cm:contractVersion',contract.version);
+    value(id,'cm:responsibility',contract.responsibility); link(id,'cm:appliedPolicy',policy);
+    for(const [name,v] of Object.entries({consequenceRatio:contract.policy.consequence,maintenanceCost:contract.policy.maintenance,leadMultiplier:contract.policy.leadMultiplier,guardrailCycles:contract.policy.gate})) value(id,`cm:${name}`,v,'xsd:decimal');
+    link(id,'sdt:hasKPI',kpi); type(kpi,'sdt:ContractKPI'); type(kpi,'cm:CapacityBudget');
+    value(kpi,'cm:assumption',true,'xsd:boolean'); link(kpi,'cm:periodUnit','cm:ScheduledCycleOpportunity');
+    value(kpi,'sdt:targetValue',contract.target,'xsd:decimal');
+    for(const [name,v] of Object.entries({periodSlots:contract.periodSlots,plannedLossSlots:contract.plannedLossSlots,unplannedLossSlots:contract.unplannedLossSlots,allowedLossSlots:budget.allowedLossSlots,plannedMarginSlots:budget.plannedMarginSlots,plannedCapacityProxy:budget.ifOnePlannedLoss,unplannedCapacityProxy:budget.ifOneUnplannedLoss})) value(kpi,`cm:${name}`,v,'xsd:decimal');
+    value(kpi,'cm:plannedFits',budget.plannedFits,'xsd:boolean');
+  }
   type(rec, 'sdt:ServiceActionRecommendation'); value(rec, 'sdt:recommendationStatus', 'proposed');
   link(rec, 'cm:forAsset', asset); link(rec, 'cm:basedOnEstimate', estimate); link(rec, 'cm:usesPolicy', policy);
   [estimate,policy,`${variant}:contract`].forEach(entity => link(rec, 'prov:wasDerivedFrom', entity));
@@ -110,7 +125,7 @@ export async function executeSemantic(input: SemanticInput, shapesText: string, 
     conforms: report.conforms, triples: store.size, rows,
     violations: report.results.map(r=>({focus: r.focusNode?.value ?? '', path: r.path?.value ?? '', message:r.message.map(m=>m.value).join('; '), constraint:r.sourceConstraintComponent?.value ?? ''})),
     datasetTTL: await turtle(store), reportTTL: await turtle(report.dataset), query,
-    scope: 'C-MAPSS application profile 0.2.0; SHACL Core only; no OWL inference or full SDT conformance claim',
+    scope: 'C-MAPSS application profile 0.3.0; SHACL Core only; no OWL inference or full SDT conformance claim',
     defect
   };
 }

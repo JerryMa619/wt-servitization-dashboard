@@ -6,7 +6,8 @@ const base = (import.meta as unknown as { env: { BASE_URL: string } }).env.BASE_
 const queries = [
   { id: 'evidence', label: 'Why this recommendation?' },
   { id: 'candidates', label: 'Which alternatives are eligible?' },
-  { id: 'observations', label: 'Which observations and source support it?' }
+  { id: 'observations', label: 'Which observations and source support it?' },
+  { id: 'contract', label: 'What contract and KPI budget govern this advice?' }
 ];
 type Result = Awaited<ReturnType<typeof executeSemantic>> & { key: string; engine: number; cycle: number; shapesSHA256: string; datasetSHA256: string };
 export default function SemanticWorkbench({ input, onPause }: { input: SemanticInput; onPause: () => void }) {
@@ -46,7 +47,8 @@ export default function SemanticWorkbench({ input, onPause }: { input: SemanticI
   const columns = current?.rows.length ? Object.keys(current.rows[0]) : [];
   const display = (v:string) => /^-?\d+\.\d+$/.test(v) ? String(Number(v)) : compact(v);
   return <section className="cm-semantic" aria-label="Executable semantic workflow">
-    <div className="cm-semantic-intro"><div><h3>Execute against this snapshot</h3><p>Generate RDF → run SHACL Core → execute SPARQL. All three steps run locally in your browser for the current engine, cycle and scenario.</p></div><span className="cm-pill">Application profile v0.2.0</span></div>
+    <div className="cm-semantic-intro"><div><h3>Execute against this snapshot</h3><p>Generate RDF → run SHACL Core → execute SPARQL. All three steps run locally in your browser for the current engine, cycle and scenario.</p></div><span className="cm-pill">Application profile v0.3.0</span></div>
+    <p className="cm-caption">Contract: {input.contract?.name??'Baseline/custom policy; apply a named contract in Service decisions to query its KPI budget.'}</p>
     <div className="cm-semantic-controls">
       <label>Evidence question<select aria-label="Semantic query" value={queryId} onChange={e=>setQueryId(e.target.value)}>{queries.map(q=><option key={q.id} value={q.id}>{q.label}</option>)}</select></label>
       <label>Validation example<select aria-label="Validation example" value={defect} onChange={e=>setDefect(e.target.value as Defect)}><option value="none">Current snapshot</option><option value="missing-unit">Test copy: remove cycle unit</option><option value="missing-evidence">Test copy: remove recommendation evidence link</option></select></label>
@@ -60,7 +62,7 @@ export default function SemanticWorkbench({ input, onPause }: { input: SemanticI
         <div className={`cm-semantic-status ${current.conforms?'pass':'fail'}`}><ShieldCheck size={22}/><div><strong data-testid="shacl-result">{current.conforms?'CONFORMS · C-MAPSS profile':'NON-CONFORMING · evidence incomplete'}</strong><span>Engine {current.engine} · cycle {current.cycle} · {current.triples} triples · {current.rows.length} query rows · {current.violations.length} validation results</span></div></div>
         {!current.conforms&&<p className="cm-semantic-warning">This RDF snapshot is not ready for evidence use. The query still runs for diagnosis; its rows are not a validation pass.</p>}
         {!!current.violations.length&&<div className="cm-violations">{current.violations.map((v,i)=><div key={i}><strong>{compact(v.path) || compact(v.constraint)}</strong><p>{v.message || compact(v.constraint)}</p><small>{v.focus}</small></div>)}</div>}
-        <div className="cm-table-wrap"><table aria-label="SPARQL results"><thead><tr>{columns.map(c=><th key={c}>?{c}</th>)}</tr></thead><tbody>{current.rows.map((row,i)=><tr key={i}>{columns.map(c=><td key={c}>{display(row[c])}</td>)}</tr>)}</tbody></table>{!current.rows.length&&<p className="cm-caption">No rows: required links or units may be missing for this query.</p>}</div>
+        <div className="cm-table-wrap"><table aria-label="SPARQL results"><thead><tr>{columns.map(c=><th key={c}>?{c}</th>)}</tr></thead><tbody>{current.rows.map((row,i)=><tr key={i}>{columns.map(c=><td key={c}>{display(row[c])}</td>)}</tr>)}</tbody></table>{!current.rows.length&&<p className="cm-caption">{queryId==='contract'&&!input.contract?'No named contract is applied. Select one in Service decisions to query its budget.':'No rows: required links or units may be missing for this query.'}</p>}</div>
         <details className="cm-query"><summary>Inspect executed SPARQL</summary><pre>{current.query}</pre></details>
         <div className="cm-semantic-downloads">{(['dataset','report','query','results'] as const).map(kind=><button key={kind} className="cm-button" onClick={()=>download(kind)}><Download size={14}/>{({dataset:'RDF snapshot',report:'SHACL report',query:'SPARQL query',results:'Results + hashes'})[kind]}</button>)}</div>
       </>}

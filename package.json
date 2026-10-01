@@ -13,7 +13,8 @@
     "test:ontology": "node --experimental-strip-types scripts/test-ontology.mjs",
     "test:cmapss": "node --experimental-strip-types scripts/test-cmapss.mjs",
     "test:twin": "node --experimental-strip-types scripts/test-twin.mjs",
-    "test:cmapss:semantic": "node --experimental-strip-types scripts/test-cmapss-semantic.mjs"
+    "test:cmapss:semantic": "node --experimental-strip-types scripts/test-cmapss-semantic.mjs",
+    "test:cmapss:contracts": "node --experimental-strip-types scripts/test-cmapss-contracts.mjs"
   },
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^5.4.1",

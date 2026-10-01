@@ -6,7 +6,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-cm: a owl:Ontology ; owl:versionInfo "0.2.0" ;
+cm: a owl:Ontology ; owl:versionInfo "0.3.0" ;
   rdfs:label "C-MAPSS replay application profile" ;
   rdfs:comment "Local application namespace; URI registration/resolution is not claimed. Reuses selected SDT terms without modifying its T-Box. The accompanying shapes validate this profile, not the full source ontology. No OWL reasoning is performed." .
 cm:CycleRULEstimate a owl:Class ;
@@ -60,3 +60,23 @@ cm:modelId a owl:DatatypeProperty ; rdfs:range xsd:string .
 cm:sourceOntologySHA256 a owl:DatatypeProperty ; rdfs:range xsd:string .
 
 cm:exporterSHA256 a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+# Named, explicitly assumed contract plans; no time-availability or settlement assertion.
+cm:ConfiguredContract a owl:Class ; rdfs:subClassOf sdt:Contract .
+cm:CapacityBudget a owl:Class ; rdfs:subClassOf sdt:ContractKPI ;
+ rdfs:comment "Budget over assumed scheduled cycle opportunities, not measured time availability." .
+cm:ScheduledCycleOpportunity a owl:NamedIndividual ;
+ rdfs:label "Assumed scheduled operating-cycle opportunity" .
+cm:contractName a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:contractVersion a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:responsibility a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:appliedPolicy a owl:ObjectProperty ; rdfs:range cm:Policy .
+cm:periodUnit a owl:ObjectProperty .
+cm:periodSlots a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:plannedLossSlots a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:unplannedLossSlots a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:allowedLossSlots a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:plannedMarginSlots a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:plannedCapacityProxy a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:unplannedCapacityProxy a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:plannedFits a owl:DatatypeProperty ; rdfs:range xsd:boolean .
