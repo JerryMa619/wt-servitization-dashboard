@@ -23,6 +23,8 @@ import {
   X
 } from "lucide-react";
 import dashboardData from "./data/dashboardData.json";
+import OntologyPanel from "./ontology/OntologyPanel";
+import { actionTypes, type OntologyExecution, type OntologySnapshot } from "./ontology/model";
 
 type ServiceState = "Nominal" | "Watch" | "Degraded" | "MaintenanceDue" | "Critical" | "OutOfContract";
 type MaintenanceActionKey =
@@ -95,6 +97,7 @@ type ServiceExecution = {
   status: "in-progress" | "completed";
   note: string;
   mode?: "manual" | "auto";
+  ontology?: OntologyExecution;
 };
 
 type AutoServiceRuntime = {
@@ -102,6 +105,7 @@ type AutoServiceRuntime = {
   downtimeH: number;
   ticksRemaining: number;
   preServicePoint: HistoryPoint;
+  ontology: OntologyExecution;
 };
 
 type AutoServiceStats = {
@@ -396,6 +400,7 @@ function App() {
   const autoServiceRef = useRef<AutoServiceRuntime | null>(null);
   const autoPostServiceOverrideRef = useRef(false);
   const autoCooldownRef = useRef(0);
+  const ontologySessionRef = useRef(crypto.randomUUID());
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -432,6 +437,11 @@ function App() {
                 downtimeH: activeService.downtimeH,
                 status: "completed",
                 mode: "auto",
+                ontology: {
+                  ...activeService.ontology,
+                  status: "completed",
+                  after: ontologySnapshot(next, devicePosition ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-after`)
+                },
                 note: `${maintenanceActions[activeService.action].label} completed automatically; crack, RUL and vibration are updated.`
               });
             }
@@ -447,7 +457,15 @@ function App() {
                   action,
                   downtimeH,
                   ticksRemaining: downtimeTicksFromHours(downtimeH),
-                  preServicePoint: next
+                  preServicePoint: next,
+                  ontology: {
+                    id: `${ontologySessionRef.current}-service-${cursor}`,
+                    action,
+                    label: maintenanceActions[action].label,
+                    status: "in-progress" as const,
+                    downtimeH,
+                    before: ontologySnapshot(next, devicePosition ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-before`)
+                  }
                 };
                 autoServiceRef.current = runtime;
                 next = makeDowntimePoint(next, runtime);
@@ -456,6 +474,7 @@ function App() {
                   downtimeH,
                   status: "in-progress",
                   mode: "auto",
+                  ontology: runtime.ontology,
                   note: `Auto DT selected ${maintenanceActions[action].label} from crack/RUL evidence.`
                 });
               }
@@ -612,6 +631,11 @@ function App() {
           onEvidence={() => setEvidenceOpen(true)}
         />
       </section>
+
+      <OntologyPanel
+        snapshot={ontologySnapshot(latest, currentPosition, `${ontologySessionRef.current}-reading-${cursor}-${latest.source ?? "replay"}`)}
+        execution={serviceExecution?.ontology ?? null}
+      />
 
       {enhancedMode ? (
         <EnhancedDashboardModules
@@ -1105,7 +1129,6 @@ function EnhancedDashboardModules({
   const qualityRows = dataQualityRows(latest, position, confidence);
   const ledgerRows = serviceLedgerRows(latest, history, serviceState, execution, autoStats);
   const kpis = cumulativeKpis(latest, autoStats);
-  const traceRows = ontologyTraceRows(latest, serviceState, position);
 
   return (
     <section className="enhanced-dashboard" aria-label="Enhanced DT servitization modules">
@@ -1216,24 +1239,6 @@ function EnhancedDashboardModules({
         </section>
       </div>
 
-      <section className="panel enhanced-panel ontology-panel">
-        <div className="activity-header">
-          <Workflow size={17} />
-          <span>Ontology Trace: Observation to Service Activity</span>
-        </div>
-        <div className="ontology-trace">
-          {traceRows.map((row, index) => (
-            <div className="ontology-step" key={row.entity}>
-              <i>{index + 1}</i>
-              <div>
-                <span>{row.entity}</span>
-                <strong>{row.instance}</strong>
-                <small>{row.evidence}</small>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </section>
   );
 }
@@ -1902,49 +1907,35 @@ function cumulativeKpis(latest: HistoryPoint, autoStats: AutoServiceStats) {
   ];
 }
 
-function ontologyTraceRows(latest: HistoryPoint, serviceState: ServiceState, position: LivePosition) {
+function ontologySnapshot(latest: HistoryPoint, position: LivePosition, id: string): OntologySnapshot {
+  const serviceState = latest.serviceState ?? serviceStateFromCondition(latest);
   const decision = serviceDecisionByTcs(latest, serviceState);
-  const observationId = `ObservationWindow-${String(latest.acquisitionIndex ?? 0).padStart(4, "0")}`;
-
-  return [
-    {
-      entity: "Observation",
-      instance: observationId,
-      evidence: `GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)}; wind ${latest.windSpeed.toFixed(1)} m/s`
-    },
-    {
-      entity: "FeatureVector",
-      instance: `Blade-A features @ ${latest.t}`,
-      evidence: `RMS ${latest.vibrationRms.toFixed(3)} g, kurtosis ${latest.kurtosis.toFixed(2)}, f1 ${latest.modalF1.toFixed(2)} Hz`
-    },
-    {
-      entity: "ConditionEvent",
-      instance: `${latest.crackState ?? "C?"} crack state`,
-      evidence: `Crack ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`
-    },
-    {
-      entity: "RULEstimate",
-      instance: `p10/p50/p90 ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
-      evidence: "RUL uncertainty band passed to service decision layer"
-    },
-    {
-      entity: "ServiceState",
-      instance: serviceState,
-      evidence: stateMeta[serviceState].kpi
-    },
-    {
-      entity: "ServiceActivity",
-      instance: maintenanceActions[decision.action].label,
-      evidence: `TCS ${formatGbp(decision.totalCost)}, residual risk ${decision.residualRiskScore.toFixed(2)}`
-    },
-    {
-      entity: "ContractKPI",
-      instance: dataset.service?.kpiSettlement?.status ?? "KPI monitoring",
-      evidence: dataset.service?.kpiSettlement
-        ? `Settlement ${formatGbp(dataset.service.kpiSettlement.settlement_gbp)}`
-        : "Availability and downtime evidence accumulated"
-    }
-  ];
+  const candidates = serviceCandidatesForState(latest, serviceState).map((action) => {
+    const estimate = estimateTcs(latest, action);
+    return {
+      action,
+      label: maintenanceActions[action].label,
+      type: actionTypes[action],
+      totalCost: estimate.totalCost,
+      residualRiskScore: estimate.residualRiskScore,
+      acceptable: isRiskAcceptableAfterAction(latest, estimate, serviceState),
+      costs: tcsCostGroups(estimate, latest).map((group) => ({ label: group.label, value: group.total }))
+    };
+  });
+  const settlement = dataset.service?.kpiSettlement;
+  return {
+    id,
+    capturedAt: new Date().toISOString(),
+    reading: { ...latest },
+    asset: site.asset,
+    component: site.component,
+    serviceState,
+    position: { lat: position.lat, lon: position.lon, source: position.source },
+    candidates,
+    recommendation: candidates.find((candidate) => candidate.action === decision.action)!,
+    selectionBasis: "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+    contract: settlement ? { actual: settlement.actual_availability, target: settlement.contractual_target, status: settlement.status } : null
+  };
 }
 
 function isoArchitectureLayers(latest: HistoryPoint, serviceState: ServiceState) {

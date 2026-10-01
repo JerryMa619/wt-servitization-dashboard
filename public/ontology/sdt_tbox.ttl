@@ -1,0 +1,1135 @@
+## ============================================================
+## Servitization Digital Twin Ontology (sdt:)
+## T-Box — OWL 2 DL
+## ============================================================
+## A BFO/IOF-grounded ontology for ISO 23247-based Digital Twin
+## platforms operating under outcome-based servitization contracts.
+##
+## 50 classes · 38 object properties · 26 data properties
+## Integrates: SOSA/SSN (observation), PROV-O (provenance)
+## ============================================================
+
+@prefix sdt:   <http://purl.org/sdt/> .
+@prefix bfo:   <http://purl.obolibrary.org/obo/> .
+@prefix iof:   <https://spec.industrialontologies.org/ontology/core/Core/> .
+@prefix sosa:  <http://www.w3.org/ns/sosa/> .
+@prefix ssn:   <http://www.w3.org/ns/ssn/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+## ============================================================
+## Ontology Declaration
+## ============================================================
+
+<http://purl.org/sdt/>
+    a owl:Ontology ;
+    rdfs:label "Servitization Digital Twin Ontology (sdt:)"@en ;
+    rdfs:comment "A BFO/IOF-grounded OWL 2 DL ontology providing the formal data structure for ISO 23247-based Digital Twin platforms under outcome-based servitization contracts. Covers all 8 Observable Manufacturing Elements (Equipment, Material, Product, Process, Personnel, Facility, Environment, Supporting Documents) plus a cross-cutting condition-and-prognostics module."@en ;
+    dcterms:creator "Jerry Ma" ;
+    dcterms:created "2026-04-21"^^xsd:date ;
+    owl:versionInfo "1.0.0" ;
+    owl:versionIRI <http://purl.org/sdt/1.0.0> ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> .
+
+
+## ============================================================
+## External Class Declarations (stubs for referenced classes)
+## ============================================================
+## These declare the external classes we reference as
+## superclasses. When owl:imports are resolved in Protege,
+## the full definitions will be loaded.
+
+# --- BFO 2020 (ISO/IEC 21838-2) ---
+bfo:BFO_0000040   a owl:Class ; rdfs:label "MaterialEntity"@en .
+bfo:BFO_0000015   a owl:Class ; rdfs:label "Process"@en .
+bfo:BFO_0000023   a owl:Class ; rdfs:label "Role"@en .
+bfo:BFO_0000016   a owl:Class ; rdfs:label "Disposition"@en .
+bfo:BFO_0000019   a owl:Class ; rdfs:label "Quality"@en .
+bfo:BFO_0000029   a owl:Class ; rdfs:label "Site"@en .
+bfo:BFO_0000031   a owl:Class ; rdfs:label "GenericallyDependentContinuant"@en .
+bfo:BFO_0000020   a owl:Class ; rdfs:label "SpecificallyDependentContinuant"@en .
+bfo:BFO_0000002   a owl:Class ; rdfs:label "Continuant"@en .
+bfo:BFO_0000003   a owl:Class ; rdfs:label "Occurrent"@en .
+bfo:BFO_0000004   a owl:Class ; rdfs:label "IndependentContinuant"@en .
+bfo:BFO_0000030   a owl:Class ; rdfs:label "Object"@en .
+
+# BFO object properties
+bfo:BFO_0000053   a owl:ObjectProperty ; rdfs:label "bearerOf"@en .
+bfo:BFO_0000052   a owl:ObjectProperty ; rdfs:label "inheresIn"@en .
+
+# --- IOF Core ---
+iof:MaterialArtifact    a owl:Class ; rdfs:label "MaterialArtifact"@en ;
+    rdfs:subClassOf bfo:BFO_0000040 .
+iof:PlannedProcess      a owl:Class ; rdfs:label "PlannedProcess"@en ;
+    rdfs:subClassOf bfo:BFO_0000015 .
+iof:InformationContentEntity  a owl:Class ; rdfs:label "InformationContentEntity"@en ;
+    rdfs:subClassOf bfo:BFO_0000031 .
+iof:MaintainedAsset     a owl:Class ; rdfs:label "MaintainedAsset"@en ;
+    rdfs:subClassOf iof:MaterialArtifact .
+
+# --- SOSA / SSN ---
+sosa:Sensor             a owl:Class ; rdfs:label "Sensor"@en .
+sosa:Observation        a owl:Class ; rdfs:label "Observation"@en .
+sosa:ObservableProperty a owl:Class ; rdfs:label "ObservableProperty"@en .
+sosa:FeatureOfInterest  a owl:Class ; rdfs:label "FeatureOfInterest"@en .
+sosa:observes           a owl:ObjectProperty ; rdfs:label "observes"@en .
+sosa:madeBySensor       a owl:ObjectProperty ; rdfs:label "madeBySensor"@en .
+sosa:hasFeatureOfInterest a owl:ObjectProperty ; rdfs:label "hasFeatureOfInterest"@en .
+sosa:hasResult          a owl:ObjectProperty ; rdfs:label "hasResult"@en .
+sosa:resultTime         a owl:DatatypeProperty ; rdfs:label "resultTime"@en .
+ssn:System              a owl:Class ; rdfs:label "System"@en .
+ssn:Deployment          a owl:Class ; rdfs:label "Deployment"@en .
+ssn:isPropertyOf        a owl:ObjectProperty ; rdfs:label "isPropertyOf"@en .
+
+# --- PROV-O ---
+prov:Entity             a owl:Class ; rdfs:label "Entity"@en .
+prov:Activity           a owl:Class ; rdfs:label "Activity"@en .
+prov:Agent              a owl:Class ; rdfs:label "Agent"@en .
+prov:wasDerivedFrom     a owl:ObjectProperty ; rdfs:label "wasDerivedFrom"@en .
+prov:wasGeneratedBy     a owl:ObjectProperty ; rdfs:label "wasGeneratedBy"@en .
+prov:wasAttributedTo    a owl:ObjectProperty ; rdfs:label "wasAttributedTo"@en .
+
+
+## ============================================================
+## MODULE 1: EQUIPMENT (ISO 23247 OME: Equipment)
+## BFO grounding: MaterialEntity
+## CQs: 1, 2, 4, 8, 10
+## ============================================================
+
+sdt:Asset
+    a owl:Class ;
+    rdfs:subClassOf iof:MaterialArtifact ;
+    rdfs:label "Asset"@en ;
+    rdfs:comment "A high-value physical asset that is the subject of a servitization contract. Grounded in iof:MaterialArtifact because an asset is an intentionally manufactured artefact."@en ;
+    skos:example "Micro wind turbine, gas turbine engine, CNC machine"@en .
+
+sdt:Component
+    a owl:Class ;
+    rdfs:subClassOf iof:MaterialArtifact ;
+    rdfs:label "Component"@en ;
+    rdfs:comment "A replaceable sub-part of an asset with an identifiable failure mode. RUL estimation is performed at the component level because different components exhibit different degradation mechanisms."@en ;
+    skos:example "Turbine blade, gearbox bearing, rotor shaft"@en .
+
+sdt:Sensor
+    a owl:Class ;
+    rdfs:subClassOf sosa:Sensor ;
+    rdfs:subClassOf bfo:BFO_0000040 ;
+    rdfs:label "Sensor"@en ;
+    rdfs:comment "A physical sensing device deployed on a component to measure observable properties. Inherits from sosa:Sensor and is additionally aligned with bfo:MaterialEntity."@en ;
+    skos:example "Vibration accelerometer, thermocouple, strain gauge"@en .
+
+
+## ============================================================
+## MODULE 2: MATERIAL (ISO 23247 OME: Material)
+## BFO grounding: MaterialEntity
+## CQs: 6, 10
+## ============================================================
+
+sdt:SparePart
+    a owl:Class ;
+    rdfs:subClassOf iof:MaterialArtifact ;
+    rdfs:label "SparePart"@en ;
+    rdfs:comment "A replacement component held in inventory for corrective or preventive maintenance. Linked to the component it replaces via sdt:isSpareFor and to a depot via sdt:storedAt."@en ;
+    skos:example "Replacement blade, bearing kit"@en .
+
+sdt:Consumable
+    a owl:Class ;
+    rdfs:subClassOf iof:MaterialArtifact ;
+    rdfs:label "Consumable"@en ;
+    rdfs:comment "A material consumed during a maintenance process (lubricants, sealants, calibration fluids) that is not a structural replacement."@en ;
+    skos:example "Gearbox lubricant, blade sealant"@en .
+
+
+## ============================================================
+## MODULE 3: PRODUCT (ISO 23247 OME: Product)
+## BFO grounding: GenericallyDependentContinuant / ICE
+## CQs: 3, 9, 10
+## ============================================================
+
+sdt:ServiceOffering
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:label "ServiceOffering"@en ;
+    rdfs:comment "A defined service in the manufacturer's catalogue (e.g., vibration-based condition monitoring, predictive blade replacement)."@en .
+
+sdt:Contract
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:label "Contract"@en ;
+    rdfs:comment "A servitization contract governing an asset. Three subclasses capture Tukker's result-oriented PSS archetypes."@en .
+
+sdt:AvailabilityContract
+    a owl:Class ;
+    rdfs:subClassOf sdt:Contract ;
+    rdfs:label "AvailabilityContract"@en ;
+    rdfs:comment "Guarantees asset availability (e.g., 95% uptime per quarter). Exemplified by Rolls-Royce Power-by-the-Hour."@en .
+
+sdt:PerformanceBasedContract
+    a owl:Class ;
+    rdfs:subClassOf sdt:Contract ;
+    rdfs:label "PerformanceBasedContract"@en ;
+    rdfs:comment "Guarantees asset performance (e.g., thrust output, energy conversion efficiency). Exemplified by Performance-Based Logistics (PBL)."@en .
+
+sdt:OutcomeBasedContract
+    a owl:Class ;
+    rdfs:subClassOf sdt:Contract ;
+    rdfs:label "OutcomeBasedContract"@en ;
+    rdfs:comment "Guarantees a business outcome (e.g., energy yield in MWh). The most advanced servitization form."@en .
+
+sdt:ContractKPI
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:label "ContractKPI"@en ;
+    rdfs:comment "A quantitative metric bound by a contract with target and threshold values. KPIs operationalise the contractual guarantee (e.g., availability >= 95%)."@en .
+
+sdt:Obligation
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:label "Obligation"@en ;
+    rdfs:comment "A contractual obligation specifying an action the service provider must perform (e.g., respond to Degraded state within 4 hours)."@en .
+
+sdt:PenaltyClause
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:label "PenaltyClause"@en ;
+    rdfs:comment "A financial penalty defined for KPI underperformance (e.g., $5,000 per percentage point below availability threshold)."@en .
+
+sdt:SettlementRecord
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "SettlementRecord"@en ;
+    rdfs:comment "A time-stamped record of a KPI settlement computation for a billing period, with full PROV-O provenance linking the settlement value to underlying sensor observations."@en .
+
+sdt:ServiceActionRecommendation
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "ServiceActionRecommendation"@en ;
+    rdfs:comment "An advisory information object proposing a service action on the basis of condition, prognostic, contract and cost evidence. It is distinct from authorisation and physical execution."@en .
+
+sdt:FeedbackUpdateRecord
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "FeedbackUpdateRecord"@en ;
+    rdfs:comment "A provenance-bearing record stating whether post-action evidence confirms the expected effect and whether the model, threshold, policy or no element requires update."@en .
+
+
+## ============================================================
+## MODULE 4: PROCESS (ISO 23247 OME: Process)
+## BFO grounding: Process / PlannedProcess
+## CQs: 4, 5, 7, 10
+## ============================================================
+
+sdt:ServiceProcess
+    a owl:Class ;
+    rdfs:subClassOf iof:PlannedProcess ;
+    rdfs:label "ServiceProcess"@en ;
+    rdfs:comment "Abstract superclass for all intentional service activities in the servitization lifecycle."@en .
+
+sdt:MaintenanceProcess
+    a owl:Class ;
+    rdfs:subClassOf sdt:ServiceProcess ;
+    rdfs:label "MaintenanceProcess"@en ;
+    rdfs:comment "Abstract superclass for maintenance activities, classified by strategy per EN 13306:2017."@en .
+
+sdt:CorrectiveMaintenance
+    a owl:Class ;
+    rdfs:subClassOf sdt:MaintenanceProcess ;
+    rdfs:label "CorrectiveMaintenance"@en ;
+    rdfs:comment "Maintenance carried out after fault recognition, intended to restore the item to a state in which it can perform its required function (EN 13306)."@en .
+
+sdt:PreventiveMaintenance
+    a owl:Class ;
+    rdfs:subClassOf sdt:MaintenanceProcess ;
+    rdfs:label "PreventiveMaintenance"@en ;
+    rdfs:comment "Maintenance carried out at predetermined intervals or according to prescribed criteria, intended to reduce the probability of failure (EN 13306)."@en .
+
+sdt:PredictiveMaintenance
+    a owl:Class ;
+    rdfs:subClassOf sdt:MaintenanceProcess ;
+    rdfs:label "PredictiveMaintenance"@en ;
+    rdfs:comment "Condition-based maintenance carried out following a forecast derived from analysis and evaluation of significant degradation parameters (EN 13306)."@en .
+
+sdt:InspectionProcess
+    a owl:Class ;
+    rdfs:subClassOf sdt:ServiceProcess ;
+    rdfs:label "InspectionProcess"@en ;
+    rdfs:comment "A conformity evaluation by observation and judgement, accompanied as appropriate by measurement, testing or gauging (EN 13306)."@en .
+
+sdt:ServiceStateTransition
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000015 ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "ServiceStateTransition"@en ;
+    rdfs:comment "The process of transitioning an asset from one ServiceState to another (e.g., Nominal to Watch). Each transition has a specific time, causal antecedent, and authorising stakeholder."@en .
+
+sdt:KPISettlementProcess
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000015 ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "KPISettlementProcess"@en ;
+    rdfs:comment "The process of computing and recording the KPI settlement for a billing period. Produces a SettlementRecord as prov:Entity."@en .
+
+sdt:MonitoringCampaign
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000015 ;
+    rdfs:label "MonitoringCampaign"@en ;
+    rdfs:comment "A sustained period of condition monitoring on an asset (e.g., 30-day continuous vibration monitoring). Aligns with ISO 13374-1 data acquisition block."@en .
+
+sdt:ActionAuthorisation
+    a owl:Class ;
+    rdfs:subClassOf iof:PlannedProcess ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "ActionAuthorisation"@en ;
+    rdfs:comment "A human or governed system activity that accepts, rejects or overrides a ServiceActionRecommendation before execution."@en .
+
+sdt:ActionExecution
+    a owl:Class ;
+    rdfs:subClassOf sdt:ServiceProcess ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "ActionExecution"@en ;
+    rdfs:comment "The time-bounded execution of an authorised service action. It records what was actually done, by whom, where and with what completion status."@en .
+
+sdt:InterventionOutcomeAssessment
+    a owl:Class ;
+    rdfs:subClassOf iof:PlannedProcess ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "InterventionOutcomeAssessment"@en ;
+    rdfs:comment "An evaluation activity comparing post-action observations and KPI evidence with the pre-action state and expected intervention effect."@en .
+
+sdt:PostActionObservation
+    a owl:Class ;
+    rdfs:subClassOf sosa:Observation ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "PostActionObservation"@en ;
+    rdfs:comment "An observation collected after an ActionExecution to determine whether asset condition, service state or contractual performance changed as expected."@en .
+
+
+## ============================================================
+## MODULE 5: PERSONNEL (ISO 23247 OME: Personnel)
+## BFO grounding: Role
+## CQs: 7, 10
+## ============================================================
+
+sdt:StakeholderRole
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000023 ;
+    rdfs:label "StakeholderRole"@en ;
+    rdfs:comment "Abstract superclass for all servitization stakeholder roles. Modelled as BFO Role because what matters is the role's responsibilities and authorisations."@en .
+
+sdt:ServiceProviderRole
+    a owl:Class ;
+    rdfs:subClassOf sdt:StakeholderRole ;
+    rdfs:label "ServiceProviderRole"@en ;
+    rdfs:comment "The role of the OEM or service provider who bears the contractual risk and delivers the service outcome."@en .
+
+sdt:CustomerRole
+    a owl:Class ;
+    rdfs:subClassOf sdt:StakeholderRole ;
+    rdfs:label "CustomerRole"@en ;
+    rdfs:comment "The role of the customer who receives the service outcome and pays the contractual fee."@en .
+
+sdt:OperatorRole
+    a owl:Class ;
+    rdfs:subClassOf sdt:StakeholderRole ;
+    rdfs:label "OperatorRole"@en ;
+    rdfs:comment "The role of the person or team operating the asset on a day-to-day basis, generating operational data."@en .
+
+sdt:MaintenanceTechnicianRole
+    a owl:Class ;
+    rdfs:subClassOf sdt:StakeholderRole ;
+    rdfs:label "MaintenanceTechnicianRole"@en ;
+    rdfs:comment "The role of the technician who performs maintenance actions on the asset."@en .
+
+
+## ============================================================
+## MODULE 6: FACILITY (ISO 23247 OME: Facility)
+## BFO grounding: Site
+## CQs: 6, 10
+## ============================================================
+
+sdt:OperatingSite
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000029 ;
+    rdfs:label "OperatingSite"@en ;
+    rdfs:comment "The physical location where an asset is deployed and operating (e.g., a wind farm, an airline hub)."@en .
+
+sdt:ServiceCenter
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000029 ;
+    rdfs:label "ServiceCenter"@en ;
+    rdfs:comment "A facility where maintenance and overhaul activities are performed, typically owned by the service provider."@en .
+
+sdt:SparePartDepot
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000029 ;
+    rdfs:label "SparePartDepot"@en ;
+    rdfs:comment "A storage facility for spare parts and consumables."@en .
+
+
+## ============================================================
+## MODULE 7: ENVIRONMENT (ISO 23247 OME: Environment)
+## BFO grounding: Quality
+## CQs: 8, 10
+## ============================================================
+
+sdt:OperatingEnvironment
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000019 ;
+    rdfs:label "OperatingEnvironment"@en ;
+    rdfs:comment "A measurable environmental condition at an operating site that affects asset degradation or performance (wind speed, temperature, humidity, salt-spray exposure)."@en .
+
+
+## ============================================================
+## MODULE 8: SUPPORTING DOCUMENTS (ISO 23247 OME: Supporting Documents)
+## BFO grounding: GenericallyDependentContinuant / ICE
+## CQs: 7, 9, 10
+## ============================================================
+
+sdt:SupportingDocument
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:label "SupportingDocument"@en ;
+    rdfs:comment "A document that supports the servitization lifecycle — includes maintenance records, compliance certificates, inspection reports, and contractual annexes. Grounded in iof:InformationContentEntity because documents are information-bearing artefacts."@en ;
+    skos:example "Inspection report, service log, calibration certificate"@en .
+
+sdt:MaintenanceRecord
+    a owl:Class ;
+    rdfs:subClassOf sdt:SupportingDocument ;
+    rdfs:label "MaintenanceRecord"@en ;
+    rdfs:comment "A time-stamped record of a maintenance action performed on an asset or component. Links to the MaintenanceProcess that generated it via PROV-O provenance."@en ;
+    rdfs:subClassOf prov:Entity ;
+    skos:example "Work order report, post-maintenance inspection form"@en .
+
+sdt:ComplianceCertificate
+    a owl:Class ;
+    rdfs:subClassOf sdt:SupportingDocument ;
+    rdfs:label "ComplianceCertificate"@en ;
+    rdfs:comment "A certificate attesting that an asset, component, or process complies with a regulatory or contractual standard (e.g., ISO 13849 safety certification, airworthiness directive)."@en ;
+    skos:example "Airworthiness certificate, CE marking declaration"@en .
+
+
+## ============================================================
+## CROSS-CUTTING: Condition Assessment & Prognostics
+## Spans Equipment, Process, Product modules
+## CQs: 1, 2, 3, 4, 5, 8, 10
+## ============================================================
+
+sdt:FailureMode
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000016 ;
+    rdfs:label "FailureMode"@en ;
+    rdfs:comment "An identified failure mechanism for a component, modelled as BFO Disposition because a failure mode is a potentiality that inheres in the component. Aligned with IEC 60812 FMEA."@en ;
+    skos:example "Fatigue crack in blade root, bearing spalling"@en .
+
+sdt:DegradationMechanism
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000016 ;
+    rdfs:label "DegradationMechanism"@en ;
+    rdfs:comment "The physical mechanism through which a failure mode progresses (e.g., fatigue crack propagation, corrosion, wear)."@en .
+
+sdt:ConditionIndicator
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000019 ;
+    rdfs:label "ConditionIndicator"@en ;
+    rdfs:comment "A measurable quality of a component that indicates its condition (e.g., vibration amplitude, crack length). Bridge between raw observations and diagnostic assessment, per ISO 13374-1."@en .
+
+sdt:ConditionEvent
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000015 ;
+    rdfs:label "ConditionEvent"@en ;
+    rdfs:comment "A time-stamped event asserting a condition level on a component."@en .
+
+sdt:CriticalFailureEvent
+    a owl:Class ;
+    rdfs:subClassOf sdt:ConditionEvent ;
+    rdfs:label "CriticalFailureEvent"@en ;
+    rdfs:comment "A ConditionEvent where the condition indicator exceeds a critical threshold AND the affected asset is governed by an active contract. Defined by an OWL equivalentClass axiom."@en ;
+    owl:equivalentClass [
+        a owl:Class ;
+        owl:intersectionOf (
+            sdt:ConditionEvent
+            [ a owl:Restriction ;
+              owl:onProperty sdt:crackLength_mm ;
+              owl:someValuesFrom [
+                  a rdfs:Datatype ;
+                  owl:onDatatype xsd:decimal ;
+                  owl:withRestrictions ( [ xsd:minExclusive "40.0"^^xsd:decimal ] )
+              ]
+            ]
+            [ a owl:Restriction ;
+              owl:onProperty sdt:affects ;
+              owl:someValuesFrom [
+                  a owl:Restriction ;
+                  owl:onProperty sdt:governedBy ;
+                  owl:someValuesFrom sdt:ActiveContract
+              ]
+            ]
+        )
+    ] .
+
+sdt:SafetyEvent
+    a owl:Class ;
+    rdfs:subClassOf sdt:ConditionEvent ;
+    rdfs:label "SafetyEvent"@en ;
+    rdfs:comment "A condition event with safety implications requiring immediate action, regardless of contractual status."@en .
+
+sdt:RULEstimate
+    a owl:Class ;
+    rdfs:subClassOf iof:InformationContentEntity ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "RULEstimate"@en ;
+    rdfs:comment "A time-stamped remaining useful life prediction with percentile uncertainty quantification (p10, p50, p90). Captures epistemic uncertainty essential for risk-informed servitization decisions."@en .
+
+sdt:ServiceState
+    a owl:Class ;
+    rdfs:subClassOf bfo:BFO_0000023 ;
+    rdfs:label "ServiceState"@en ;
+    rdfs:comment "A discrete service-contract state that inheres in an asset: {Nominal, Watch, Degraded, MaintenanceDue, OutOfContract}. Modelled as BFO Role because the asset plays a different function in each state within the servitization relationship."@en .
+
+sdt:ActiveContract
+    a owl:Class ;
+    rdfs:subClassOf sdt:Contract ;
+    rdfs:label "ActiveContract"@en ;
+    rdfs:comment "A derived class: a Contract whose start date is in the past and end date is in the future. Ensures time-aware contractual reasoning."@en ;
+    rdfs:comment "Note: full temporal derivation requires SPARQL/SWRL; the OWL stub enables DL reasoning patterns."@en .
+
+
+## ============================================================
+## DISJOINTNESS AXIOMS
+## ============================================================
+
+# Contract subtypes are pairwise disjoint
+[] a owl:AllDisjointClasses ;
+   owl:members ( sdt:AvailabilityContract
+                 sdt:PerformanceBasedContract
+                 sdt:OutcomeBasedContract ) .
+
+# Maintenance subtypes are pairwise disjoint
+[] a owl:AllDisjointClasses ;
+   owl:members ( sdt:CorrectiveMaintenance
+                 sdt:PreventiveMaintenance
+                 sdt:PredictiveMaintenance ) .
+
+# StakeholderRole subtypes are pairwise disjoint
+[] a owl:AllDisjointClasses ;
+   owl:members ( sdt:ServiceProviderRole
+                 sdt:CustomerRole
+                 sdt:OperatorRole
+                 sdt:MaintenanceTechnicianRole ) .
+
+# Facility subtypes are pairwise disjoint
+[] a owl:AllDisjointClasses ;
+   owl:members ( sdt:OperatingSite
+                 sdt:ServiceCenter
+                 sdt:SparePartDepot ) .
+
+# Supporting Document subtypes are pairwise disjoint
+[] a owl:AllDisjointClasses ;
+   owl:members ( sdt:MaintenanceRecord
+                 sdt:ComplianceCertificate ) .
+
+# Cross-cutting event subtypes are disjoint
+[] a owl:AllDisjointClasses ;
+   owl:members ( sdt:CriticalFailureEvent
+                 sdt:SafetyEvent ) .
+
+# FailureMode vs DegradationMechanism
+sdt:FailureMode owl:disjointWith sdt:DegradationMechanism .
+
+# SparePart vs Consumable
+sdt:SparePart owl:disjointWith sdt:Consumable .
+
+
+## ============================================================
+## CARDINALITY RESTRICTIONS
+## ============================================================
+
+# Every Asset must have at least one Component
+sdt:Asset rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:hasComponent ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every Asset must have exactly one currentState
+sdt:Asset rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:currentState ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every Asset must be governed by exactly one Contract
+sdt:Asset rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:governedBy ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every Contract must have at least one KPI
+sdt:Contract rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:hasKPI ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every RULEstimate must have all four percentile values
+sdt:RULEstimate rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:p10RULhours ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+sdt:RULEstimate rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:p50RULhours ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+sdt:RULEstimate rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:p90RULhours ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+sdt:RULEstimate rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:meanRULhours ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every ConditionEvent must affect exactly one Component
+sdt:ConditionEvent rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:affects ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every MaintenanceProcess must have a performedBy
+sdt:MaintenanceProcess rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:performedBy ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every ActionExecution must realise one recommendation
+sdt:ActionExecution rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:executesRecommendation ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every outcome assessment must evaluate an execution
+sdt:InterventionOutcomeAssessment rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty sdt:assessesExecution ;
+    owl:cardinality "1"^^xsd:nonNegativeInteger
+] .
+
+# Every ServiceStateTransition must have provenance
+sdt:ServiceStateTransition rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty prov:wasDerivedFrom ;
+    owl:minCardinality "1"^^xsd:nonNegativeInteger
+] .
+
+
+## ============================================================
+## OBJECT PROPERTIES (31)
+## ============================================================
+
+# --- Equipment module ---
+
+sdt:hasComponent
+    a owl:ObjectProperty ;
+    rdfs:label "hasComponent"@en ;
+    rdfs:comment "Asset decomposition hierarchy — links an Asset to its Components."@en ;
+    rdfs:domain sdt:Asset ;
+    rdfs:range sdt:Component .
+
+sdt:hasSubComponent
+    a owl:ObjectProperty ;
+    rdfs:label "hasSubComponent"@en ;
+    rdfs:comment "Sub-component nesting (recursive) — links a Component to a sub-Component."@en ;
+    rdfs:domain sdt:Component ;
+    rdfs:range sdt:Component .
+
+sdt:monitoredBy
+    a owl:ObjectProperty ;
+    rdfs:label "monitoredBy"@en ;
+    rdfs:comment "Sensor deployment on a component — links a Component to the Sensor(s) monitoring it."@en ;
+    rdfs:domain sdt:Component ;
+    rdfs:range sdt:Sensor ;
+    owl:inverseOf sdt:monitors .
+
+sdt:monitors
+    a owl:ObjectProperty ;
+    rdfs:label "monitors"@en ;
+    rdfs:comment "Inverse of monitoredBy — links a Sensor to the Component it monitors."@en ;
+    rdfs:domain sdt:Sensor ;
+    rdfs:range sdt:Component .
+
+sdt:currentState
+    a owl:ObjectProperty ;
+    rdfs:label "currentState"@en ;
+    rdfs:comment "Current service state of the asset — links an Asset to its ServiceState."@en ;
+    rdfs:domain sdt:Asset ;
+    rdfs:range sdt:ServiceState .
+
+sdt:operatedAt
+    a owl:ObjectProperty ;
+    rdfs:label "operatedAt"@en ;
+    rdfs:comment "Deployment site of the asset — links an Asset to its OperatingSite."@en ;
+    rdfs:domain sdt:Asset ;
+    rdfs:range sdt:OperatingSite .
+
+sdt:exposedTo
+    a owl:ObjectProperty ;
+    rdfs:label "exposedTo"@en ;
+    rdfs:comment "Environmental conditions affecting the asset — links an Asset to OperatingEnvironment."@en ;
+    rdfs:domain sdt:Asset ;
+    rdfs:range sdt:OperatingEnvironment .
+
+# --- Material module ---
+
+sdt:isSpareFor
+    a owl:ObjectProperty ;
+    rdfs:label "isSpareFor"@en ;
+    rdfs:comment "Which component type this spare part replaces."@en ;
+    rdfs:domain sdt:SparePart ;
+    rdfs:range sdt:Component .
+
+sdt:storedAt
+    a owl:ObjectProperty ;
+    rdfs:label "storedAt"@en ;
+    rdfs:comment "Inventory location of the spare part."@en ;
+    rdfs:domain sdt:SparePart ;
+    rdfs:range sdt:SparePartDepot .
+
+# --- Supporting Documents module ---
+
+sdt:hasDocument
+    a owl:ObjectProperty ;
+    rdfs:label "hasDocument"@en ;
+    rdfs:comment "Links an entity (Asset, Component, MaintenanceProcess) to its associated SupportingDocument(s)."@en ;
+    rdfs:domain sdt:MaintenanceProcess ;
+    rdfs:range sdt:SupportingDocument .
+
+# --- Product module ---
+
+sdt:governedBy
+    a owl:ObjectProperty ;
+    rdfs:label "governedBy"@en ;
+    rdfs:comment "Contract governing the asset — links an Asset to its Contract."@en ;
+    rdfs:domain sdt:Asset ;
+    rdfs:range sdt:Contract .
+
+sdt:hasKPI
+    a owl:ObjectProperty ;
+    rdfs:label "hasKPI"@en ;
+    rdfs:comment "KPIs defined by the contract."@en ;
+    rdfs:domain sdt:Contract ;
+    rdfs:range sdt:ContractKPI .
+
+sdt:hasObligation
+    a owl:ObjectProperty ;
+    rdfs:label "hasObligation"@en ;
+    rdfs:comment "Obligations imposed by the contract."@en ;
+    rdfs:domain sdt:Contract ;
+    rdfs:range sdt:Obligation .
+
+sdt:hasPenaltyClause
+    a owl:ObjectProperty ;
+    rdfs:label "hasPenaltyClause"@en ;
+    rdfs:comment "Penalty for KPI underperformance."@en ;
+    rdfs:domain sdt:ContractKPI ;
+    rdfs:range sdt:PenaltyClause .
+
+sdt:settledBy
+    a owl:ObjectProperty ;
+    rdfs:label "settledBy"@en ;
+    rdfs:comment "Settlement record for a billing period."@en ;
+    rdfs:domain sdt:ContractKPI ;
+    rdfs:range sdt:SettlementRecord .
+
+sdt:kpiAtRiskOf
+    a owl:ObjectProperty ;
+    rdfs:label "kpiAtRiskOf"@en ;
+    rdfs:comment "Links a ContractKPI to the FailureMode that puts it at risk."@en ;
+    rdfs:domain sdt:ContractKPI ;
+    rdfs:range sdt:FailureMode .
+
+# --- Process module ---
+
+sdt:offersService
+    a owl:ObjectProperty ;
+    rdfs:label "offersService"@en ;
+    rdfs:comment "Service catalogue linkage — links a ServiceOffering to the ServiceProcess it delivers."@en ;
+    rdfs:domain sdt:ServiceOffering ;
+    rdfs:range sdt:ServiceProcess .
+
+sdt:satisfiesKPI
+    a owl:ObjectProperty ;
+    rdfs:label "satisfiesKPI"@en ;
+    rdfs:comment "Service contributes to KPI fulfilment."@en ;
+    rdfs:domain sdt:ServiceProcess ;
+    rdfs:range sdt:ContractKPI .
+
+sdt:requiresSparePart
+    a owl:ObjectProperty ;
+    rdfs:label "requiresSparePart"@en ;
+    rdfs:comment "Spare part needed for maintenance."@en ;
+    rdfs:domain sdt:MaintenanceProcess ;
+    rdfs:range sdt:SparePart .
+
+sdt:requiresConsumable
+    a owl:ObjectProperty ;
+    rdfs:label "requiresConsumable"@en ;
+    rdfs:comment "Consumable needed for maintenance."@en ;
+    rdfs:domain sdt:MaintenanceProcess ;
+    rdfs:range sdt:Consumable .
+
+sdt:performedAt
+    a owl:ObjectProperty ;
+    rdfs:label "performedAt"@en ;
+    rdfs:comment "Where maintenance is performed — links a ServiceProcess to a ServiceCenter."@en ;
+    rdfs:domain sdt:ServiceProcess ;
+    rdfs:range sdt:ServiceCenter .
+
+sdt:performedBy
+    a owl:ObjectProperty ;
+    rdfs:label "performedBy"@en ;
+    rdfs:comment "Who performs the service action — links a ServiceProcess to a StakeholderRole."@en ;
+    rdfs:domain sdt:ServiceProcess ;
+    rdfs:range sdt:StakeholderRole .
+
+sdt:recommendsAction
+    a owl:ObjectProperty ;
+    rdfs:label "recommendsAction"@en ;
+    rdfs:comment "Links an advisory recommendation to the proposed service process or action type."@en ;
+    rdfs:domain sdt:ServiceActionRecommendation ;
+    rdfs:range sdt:ServiceProcess .
+
+sdt:authorisesRecommendation
+    a owl:ObjectProperty ;
+    rdfs:label "authorisesRecommendation"@en ;
+    rdfs:comment "Links an authorisation activity to the recommendation that was accepted, rejected or overridden."@en ;
+    rdfs:domain sdt:ActionAuthorisation ;
+    rdfs:range sdt:ServiceActionRecommendation .
+
+sdt:executesRecommendation
+    a owl:ObjectProperty ;
+    rdfs:label "executesRecommendation"@en ;
+    rdfs:comment "Links the action actually executed to the recommendation that motivated it."@en ;
+    rdfs:domain sdt:ActionExecution ;
+    rdfs:range sdt:ServiceActionRecommendation .
+
+sdt:hasPostActionObservation
+    a owl:ObjectProperty ;
+    rdfs:label "hasPostActionObservation"@en ;
+    rdfs:comment "Links an executed action to observations collected after completion."@en ;
+    rdfs:domain sdt:ActionExecution ;
+    rdfs:range sdt:PostActionObservation .
+
+sdt:assessesExecution
+    a owl:ObjectProperty ;
+    rdfs:label "assessesExecution"@en ;
+    rdfs:comment "Links an outcome-assessment activity to the executed action being evaluated."@en ;
+    rdfs:domain sdt:InterventionOutcomeAssessment ;
+    rdfs:range sdt:ActionExecution .
+
+sdt:informsNextDecision
+    a owl:ObjectProperty ;
+    rdfs:label "informsNextDecision"@en ;
+    rdfs:comment "Links an intervention outcome assessment to the next ServiceStateTransition or decision event it informs."@en ;
+    rdfs:domain sdt:InterventionOutcomeAssessment ;
+    rdfs:range sdt:ServiceStateTransition .
+
+sdt:producesFeedbackUpdate
+    a owl:ObjectProperty ;
+    rdfs:label "producesFeedbackUpdate"@en ;
+    rdfs:comment "Links an intervention outcome assessment to its model, threshold or policy feedback record."@en ;
+    rdfs:domain sdt:InterventionOutcomeAssessment ;
+    rdfs:range sdt:FeedbackUpdateRecord .
+
+# --- Cross-cutting ---
+
+sdt:hasFailureMode
+    a owl:ObjectProperty ;
+    rdfs:label "hasFailureMode"@en ;
+    rdfs:comment "Identified failure modes of a component."@en ;
+    rdfs:domain sdt:Component ;
+    rdfs:range sdt:FailureMode .
+
+sdt:hasDegradationMechanism
+    a owl:ObjectProperty ;
+    rdfs:label "hasDegradationMechanism"@en ;
+    rdfs:comment "Physical degradation mechanism of a component."@en ;
+    rdfs:domain sdt:Component ;
+    rdfs:range sdt:DegradationMechanism .
+
+sdt:hasRUL
+    a owl:ObjectProperty ;
+    rdfs:label "hasRUL"@en ;
+    rdfs:comment "Latest RUL prediction for a component."@en ;
+    rdfs:domain sdt:Component ;
+    rdfs:range sdt:RULEstimate .
+
+sdt:affects
+    a owl:ObjectProperty ;
+    rdfs:label "affects"@en ;
+    rdfs:comment "Which component the condition event concerns."@en ;
+    rdfs:domain sdt:ConditionEvent ;
+    rdfs:range sdt:Component .
+
+sdt:realisesFailureMode
+    a owl:ObjectProperty ;
+    rdfs:label "realisesFailureMode"@en ;
+    rdfs:comment "Failure mode manifested by a condition event."@en ;
+    rdfs:domain sdt:ConditionEvent ;
+    rdfs:range sdt:FailureMode .
+
+
+## ============================================================
+## DATA PROPERTIES (22)
+## ============================================================
+
+# --- Supporting Documents ---
+sdt:documentDate
+    a owl:DatatypeProperty ;
+    rdfs:label "documentDate"@en ;
+    rdfs:comment "Date the supporting document was issued or recorded."@en ;
+    rdfs:domain sdt:SupportingDocument ;
+    rdfs:range xsd:date .
+
+sdt:documentType
+    a owl:DatatypeProperty ;
+    rdfs:label "documentType"@en ;
+    rdfs:comment "Category label for the document (e.g., 'Inspection Report', 'Work Order', 'Compliance Certificate')."@en ;
+    rdfs:domain sdt:SupportingDocument ;
+    rdfs:range xsd:string .
+
+# --- RUL Estimate ---
+sdt:meanRULhours
+    a owl:DatatypeProperty ;
+    rdfs:label "meanRULhours"@en ;
+    rdfs:comment "Mean predicted remaining useful life in hours."@en ;
+    rdfs:domain sdt:RULEstimate ;
+    rdfs:range xsd:decimal .
+
+sdt:p10RULhours
+    a owl:DatatypeProperty ;
+    rdfs:label "p10RULhours"@en ;
+    rdfs:comment "10th percentile RUL in hours (risk-averse estimate)."@en ;
+    rdfs:domain sdt:RULEstimate ;
+    rdfs:range xsd:decimal .
+
+sdt:p50RULhours
+    a owl:DatatypeProperty ;
+    rdfs:label "p50RULhours"@en ;
+    rdfs:comment "Median (50th percentile) RUL estimate in hours."@en ;
+    rdfs:domain sdt:RULEstimate ;
+    rdfs:range xsd:decimal .
+
+sdt:p90RULhours
+    a owl:DatatypeProperty ;
+    rdfs:label "p90RULhours"@en ;
+    rdfs:comment "90th percentile RUL in hours (optimistic estimate)."@en ;
+    rdfs:domain sdt:RULEstimate ;
+    rdfs:range xsd:decimal .
+
+sdt:emittedAt
+    a owl:DatatypeProperty ;
+    rdfs:label "emittedAt"@en ;
+    rdfs:comment "Timestamp of RUL emission."@en ;
+    rdfs:domain sdt:RULEstimate ;
+    rdfs:range xsd:dateTime .
+
+# --- Condition Event ---
+sdt:crackLength_mm
+    a owl:DatatypeProperty ;
+    rdfs:label "crackLength_mm"@en ;
+    rdfs:comment "Ground-truth or estimated crack length in millimetres."@en ;
+    rdfs:domain sdt:ConditionEvent ;
+    rdfs:range xsd:decimal .
+
+sdt:severityClass
+    a owl:DatatypeProperty ;
+    rdfs:label "severityClass"@en ;
+    rdfs:comment "Severity classification label (e.g., C0-C6)."@en ;
+    rdfs:domain sdt:ConditionEvent ;
+    rdfs:range xsd:string .
+
+# --- Contract KPI ---
+sdt:threshold
+    a owl:DatatypeProperty ;
+    rdfs:label "threshold"@en ;
+    rdfs:comment "Contractual threshold value for the KPI."@en ;
+    rdfs:domain sdt:ContractKPI ;
+    rdfs:range xsd:decimal .
+
+sdt:targetValue
+    a owl:DatatypeProperty ;
+    rdfs:label "targetValue"@en ;
+    rdfs:comment "Contractual target value for the KPI."@en ;
+    rdfs:domain sdt:ContractKPI ;
+    rdfs:range xsd:decimal .
+
+# --- Penalty ---
+sdt:penaltyRateUSD
+    a owl:DatatypeProperty ;
+    rdfs:label "penaltyRateUSD"@en ;
+    rdfs:comment "Penalty per unit shortfall in USD."@en ;
+    rdfs:domain sdt:PenaltyClause ;
+    rdfs:range xsd:decimal .
+
+# --- Contract ---
+sdt:contractStartDate
+    a owl:DatatypeProperty ;
+    rdfs:label "contractStartDate"@en ;
+    rdfs:comment "Contract start date."@en ;
+    rdfs:domain sdt:Contract ;
+    rdfs:range xsd:date .
+
+sdt:contractEndDate
+    a owl:DatatypeProperty ;
+    rdfs:label "contractEndDate"@en ;
+    rdfs:comment "Contract end date."@en ;
+    rdfs:domain sdt:Contract ;
+    rdfs:range xsd:date .
+
+sdt:billingPeriod
+    a owl:DatatypeProperty ;
+    rdfs:label "billingPeriod"@en ;
+    rdfs:comment "Billing period (e.g., monthly, quarterly)."@en ;
+    rdfs:domain sdt:Contract ;
+    rdfs:range xsd:string .
+
+# --- Service State ---
+sdt:stateLabel
+    a owl:DatatypeProperty ;
+    rdfs:label "stateLabel"@en ;
+    rdfs:comment "State name: one of {Nominal, Watch, Degraded, MaintenanceDue, OutOfContract}."@en ;
+    rdfs:domain sdt:ServiceState ;
+    rdfs:range xsd:string .
+
+# --- Service State Transition ---
+sdt:transitionTime
+    a owl:DatatypeProperty ;
+    rdfs:label "transitionTime"@en ;
+    rdfs:comment "Timestamp when the service-state transition occurred."@en ;
+    rdfs:domain sdt:ServiceStateTransition ;
+    rdfs:range xsd:dateTime .
+
+# --- Condition Indicator ---
+sdt:healthScore
+    a owl:DatatypeProperty ;
+    rdfs:label "healthScore"@en ;
+    rdfs:comment "Normalised health score in range [0, 1]."@en ;
+    rdfs:domain sdt:ConditionIndicator ;
+    rdfs:range xsd:decimal .
+
+# --- Settlement Record ---
+sdt:settlementValue
+    a owl:DatatypeProperty ;
+    rdfs:label "settlementValue"@en ;
+    rdfs:comment "Settlement amount for the billing period."@en ;
+    rdfs:domain sdt:SettlementRecord ;
+    rdfs:range xsd:decimal .
+
+sdt:settlementDate
+    a owl:DatatypeProperty ;
+    rdfs:label "settlementDate"@en ;
+    rdfs:comment "Date of settlement computation."@en ;
+    rdfs:domain sdt:SettlementRecord ;
+    rdfs:range xsd:date .
+
+# --- Operating Environment ---
+sdt:windSpeedMS
+    a owl:DatatypeProperty ;
+    rdfs:label "windSpeedMS"@en ;
+    rdfs:comment "Wind speed in metres per second."@en ;
+    rdfs:domain sdt:OperatingEnvironment ;
+    rdfs:range xsd:decimal .
+
+sdt:ambientTempC
+    a owl:DatatypeProperty ;
+    rdfs:label "ambientTempC"@en ;
+    rdfs:comment "Ambient temperature in degrees Celsius."@en ;
+    rdfs:domain sdt:OperatingEnvironment ;
+    rdfs:range xsd:decimal .
+
+# --- Action-feedback loop ---
+sdt:recommendationStatus
+    a owl:DatatypeProperty ;
+    rdfs:label "recommendationStatus"@en ;
+    rdfs:comment "Lifecycle status of a recommendation, for example proposed, accepted, rejected or overridden."@en ;
+    rdfs:domain sdt:ServiceActionRecommendation ;
+    rdfs:range xsd:string .
+
+sdt:executionStatus
+    a owl:DatatypeProperty ;
+    rdfs:label "executionStatus"@en ;
+    rdfs:comment "Completion status of an ActionExecution, for example completed, partial, deferred or failed."@en ;
+    rdfs:domain sdt:ActionExecution ;
+    rdfs:range xsd:string .
+
+sdt:outcomeStatus
+    a owl:DatatypeProperty ;
+    rdfs:label "outcomeStatus"@en ;
+    rdfs:comment "Assessment of whether the intervention effect was confirmed, partially confirmed, not confirmed or inconclusive."@en ;
+    rdfs:domain sdt:InterventionOutcomeAssessment ;
+    rdfs:range xsd:string .
+
+sdt:assessedAt
+    a owl:DatatypeProperty ;
+    rdfs:label "assessedAt"@en ;
+    rdfs:comment "Timestamp at which the intervention outcome was assessed."@en ;
+    rdfs:domain sdt:InterventionOutcomeAssessment ;
+    rdfs:range xsd:dateTime .
+
+
+## ============================================================
+## ADDITIONAL OBJECT PROPERTY: authorisedBy
+## (Referenced in §4.5.17 SPARQL CONSTRUCT rules)
+## ============================================================
+
+sdt:authorisedBy
+    a owl:ObjectProperty ;
+    rdfs:label "authorisedBy"@en ;
+    rdfs:comment "Links a ServiceStateTransition to the StakeholderRole who authorised it."@en ;
+    rdfs:domain sdt:ServiceStateTransition ;
+    rdfs:range sdt:StakeholderRole .
+
+sdt:fromState
+    a owl:ObjectProperty ;
+    rdfs:label "fromState"@en ;
+    rdfs:comment "The ServiceState before a transition."@en ;
+    rdfs:domain sdt:ServiceStateTransition ;
+    rdfs:range sdt:ServiceState .
+
+sdt:toState
+    a owl:ObjectProperty ;
+    rdfs:label "toState"@en ;
+    rdfs:comment "The ServiceState after a transition."@en ;
+    rdfs:domain sdt:ServiceStateTransition ;
+    rdfs:range sdt:ServiceState .
+
+sdt:triggeredBy
+    a owl:ObjectProperty ;
+    rdfs:label "triggeredBy"@en ;
+    rdfs:comment "The ConditionEvent that triggered a ServiceStateTransition."@en ;
+    rdfs:domain sdt:ServiceStateTransition ;
+    rdfs:range sdt:ConditionEvent .
+
+
+## ============================================================
+## END OF T-BOX
+## ============================================================
+## Total: 50 classes, 38 object properties, 26 data properties
+## Includes the recommendation-authorisation-execution-outcome-feedback loop
+## ============================================================

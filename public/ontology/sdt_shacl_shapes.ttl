@@ -1,0 +1,565 @@
+## ============================================================
+## Servitization Digital Twin Ontology — SHACL Shapes
+## Data quality constraints for A-Box validation
+## ============================================================
+## These shapes enforce the cardinality and structural constraints
+## described in §4.5.19. They are loaded alongside the T-Box and
+## validated against any A-Box at import time.
+##
+## Shapes correspond 1:1 to the OWL restrictions in the T-Box
+## but are expressed in SHACL for closed-world, instance-level
+## enforcement (OWL restrictions are open-world).
+## ============================================================
+
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix sdt:    <http://purl.org/sdt/> .
+@prefix sosa:   <http://www.w3.org/ns/sosa/> .
+@prefix ssn:    <http://www.w3.org/ns/ssn/> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+
+
+## ============================================================
+## SHAPE 1: Asset — must have component(s), contract, state, site
+## ============================================================
+
+sdt:AssetShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:Asset ;
+    sh:name "Asset shape" ;
+    sh:description "Every Asset must have at least one Component, exactly one Contract, exactly one ServiceState, and an OperatingSite." ;
+
+    sh:property [
+        sh:path sdt:hasComponent ;
+        sh:minCount 1 ;
+        sh:class sdt:Component ;
+        sh:name "hasComponent" ;
+        sh:message "Asset must have at least one sdt:Component via sdt:hasComponent."
+    ] ;
+
+    sh:property [
+        sh:path sdt:governedBy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:Contract ;
+        sh:name "governedBy" ;
+        sh:message "Asset must be governed by exactly one sdt:Contract."
+    ] ;
+
+    sh:property [
+        sh:path sdt:currentState ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:ServiceState ;
+        sh:name "currentState" ;
+        sh:message "Asset must have exactly one sdt:ServiceState via sdt:currentState."
+    ] ;
+
+    sh:property [
+        sh:path sdt:operatedAt ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:OperatingSite ;
+        sh:name "operatedAt" ;
+        sh:message "Asset should be deployed at exactly one sdt:OperatingSite."
+    ] .
+
+
+## ============================================================
+## SHAPE 2: Component — must link to asset context
+## ============================================================
+
+sdt:ComponentShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:Component ;
+    sh:name "Component shape" ;
+    sh:description "Every Component must have a label." ;
+
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:name "label" ;
+        sh:message "Component must have at least one rdfs:label."
+    ] .
+
+
+## ============================================================
+## SHAPE 3: Contract — must have KPI(s) and dates
+## ============================================================
+
+sdt:ContractShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:Contract ;
+    sh:name "Contract shape" ;
+    sh:description "Every Contract must have at least one KPI, a start date, an end date, and a billing period." ;
+
+    sh:property [
+        sh:path sdt:hasKPI ;
+        sh:minCount 1 ;
+        sh:class sdt:ContractKPI ;
+        sh:name "hasKPI" ;
+        sh:message "Contract must have at least one sdt:ContractKPI."
+    ] ;
+
+    sh:property [
+        sh:path sdt:contractStartDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:name "contractStartDate" ;
+        sh:message "Contract must have exactly one start date."
+    ] ;
+
+    sh:property [
+        sh:path sdt:contractEndDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:name "contractEndDate" ;
+        sh:message "Contract must have exactly one end date."
+    ] ;
+
+    sh:property [
+        sh:path sdt:billingPeriod ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:name "billingPeriod" ;
+        sh:message "Contract must specify a billing period."
+    ] .
+
+
+## ============================================================
+## SHAPE 4: ContractKPI — must have threshold and penalty
+## ============================================================
+
+sdt:ContractKPIShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ContractKPI ;
+    sh:name "ContractKPI shape" ;
+    sh:description "Every KPI must have a numeric threshold and a PenaltyClause." ;
+
+    sh:property [
+        sh:path sdt:threshold ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "threshold" ;
+        sh:message "ContractKPI must have exactly one numeric threshold."
+    ] ;
+
+    sh:property [
+        sh:path sdt:hasPenaltyClause ;
+        sh:minCount 1 ;
+        sh:class sdt:PenaltyClause ;
+        sh:name "hasPenaltyClause" ;
+        sh:message "ContractKPI must have at least one PenaltyClause."
+    ] .
+
+
+## ============================================================
+## SHAPE 5: RULEstimate — must have all four percentiles
+## ============================================================
+
+sdt:RULEstimateShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:RULEstimate ;
+    sh:name "RULEstimate shape" ;
+    sh:description "Every RUL estimate must carry p10, p50, p90, mean values and a timestamp." ;
+
+    sh:property [
+        sh:path sdt:p10RULhours ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "p10RULhours" ;
+        sh:message "RULEstimate must have exactly one p10 value."
+    ] ;
+
+    sh:property [
+        sh:path sdt:p50RULhours ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "p50RULhours" ;
+        sh:message "RULEstimate must have exactly one p50 value."
+    ] ;
+
+    sh:property [
+        sh:path sdt:p90RULhours ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "p90RULhours" ;
+        sh:message "RULEstimate must have exactly one p90 value."
+    ] ;
+
+    sh:property [
+        sh:path sdt:meanRULhours ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "meanRULhours" ;
+        sh:message "RULEstimate must have exactly one mean value."
+    ] ;
+
+    sh:property [
+        sh:path sdt:emittedAt ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:name "emittedAt" ;
+        sh:message "RULEstimate must have exactly one emission timestamp."
+    ] .
+
+
+## ============================================================
+## SHAPE 6: ConditionEvent — must affect a component
+## ============================================================
+
+sdt:ConditionEventShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ConditionEvent ;
+    sh:name "ConditionEvent shape" ;
+    sh:description "Every ConditionEvent must affect exactly one Component and carry a severity class." ;
+
+    sh:property [
+        sh:path sdt:affects ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:Component ;
+        sh:name "affects" ;
+        sh:message "ConditionEvent must affect exactly one sdt:Component."
+    ] ;
+
+    sh:property [
+        sh:path sdt:severityClass ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:name "severityClass" ;
+        sh:message "ConditionEvent must have a severity class label."
+    ] .
+
+
+## ============================================================
+## SHAPE 7: ServiceStateTransition — provenance required
+## ============================================================
+
+sdt:ServiceStateTransitionShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ServiceStateTransition ;
+    sh:name "ServiceStateTransition shape" ;
+    sh:description "Every transition must have from/to states, a trigger, an authoriser, a timestamp, and provenance." ;
+
+    sh:property [
+        sh:path sdt:fromState ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:ServiceState ;
+        sh:name "fromState" ;
+        sh:message "Transition must have exactly one fromState."
+    ] ;
+
+    sh:property [
+        sh:path sdt:toState ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:ServiceState ;
+        sh:name "toState" ;
+        sh:message "Transition must have exactly one toState."
+    ] ;
+
+    sh:property [
+        sh:path sdt:triggeredBy ;
+        sh:minCount 1 ;
+        sh:class sdt:ConditionEvent ;
+        sh:name "triggeredBy" ;
+        sh:message "Transition must be triggered by at least one ConditionEvent."
+    ] ;
+
+    sh:property [
+        sh:path sdt:authorisedBy ;
+        sh:minCount 1 ;
+        sh:class sdt:StakeholderRole ;
+        sh:name "authorisedBy" ;
+        sh:message "Transition must be authorised by a StakeholderRole."
+    ] ;
+
+    sh:property [
+        sh:path sdt:transitionTime ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:name "transitionTime" ;
+        sh:message "Transition must have exactly one timestamp."
+    ] ;
+
+    sh:property [
+        sh:path prov:wasDerivedFrom ;
+        sh:minCount 1 ;
+        sh:name "wasDerivedFrom" ;
+        sh:message "Transition must carry prov:wasDerivedFrom provenance."
+    ] .
+
+
+## ============================================================
+## SHAPE 8: MaintenanceProcess — must have performer
+## ============================================================
+
+sdt:MaintenanceProcessShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:MaintenanceProcess ;
+    sh:name "MaintenanceProcess shape" ;
+    sh:description "Every MaintenanceProcess must be performed by at least one StakeholderRole." ;
+
+    sh:property [
+        sh:path sdt:performedBy ;
+        sh:minCount 1 ;
+        sh:class sdt:StakeholderRole ;
+        sh:name "performedBy" ;
+        sh:message "MaintenanceProcess must have at least one sdt:performedBy link."
+    ] .
+
+
+## ============================================================
+## SHAPE 9: ServiceState — must have a valid label
+## ============================================================
+
+sdt:ServiceStateShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ServiceState ;
+    sh:name "ServiceState shape" ;
+    sh:description "Every ServiceState must have a stateLabel from the controlled vocabulary." ;
+
+    sh:property [
+        sh:path sdt:stateLabel ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:in ( "Nominal" "Watch" "Degraded" "MaintenanceDue" "OutOfContract" ) ;
+        sh:name "stateLabel" ;
+        sh:message "ServiceState stateLabel must be one of {Nominal, Watch, Degraded, MaintenanceDue, OutOfContract}."
+    ] .
+
+
+## ============================================================
+## SHAPE 10: SettlementRecord — must have value and date
+## ============================================================
+
+sdt:SettlementRecordShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:SettlementRecord ;
+    sh:name "SettlementRecord shape" ;
+    sh:description "Every SettlementRecord must have a settlement value, date, and provenance." ;
+
+    sh:property [
+        sh:path sdt:settlementValue ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "settlementValue" ;
+        sh:message "SettlementRecord must have exactly one settlement value."
+    ] ;
+
+    sh:property [
+        sh:path sdt:settlementDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:name "settlementDate" ;
+        sh:message "SettlementRecord must have exactly one settlement date."
+    ] ;
+
+    sh:property [
+        sh:path prov:wasGeneratedBy ;
+        sh:minCount 1 ;
+        sh:name "wasGeneratedBy" ;
+        sh:message "SettlementRecord must link to the generating KPISettlementProcess via prov:wasGeneratedBy."
+    ] .
+
+
+## ============================================================
+## SHAPE 11: PenaltyClause — must have a rate
+## ============================================================
+
+sdt:PenaltyClauseShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:PenaltyClause ;
+    sh:name "PenaltyClause shape" ;
+    sh:description "Every PenaltyClause must specify a penalty rate." ;
+
+    sh:property [
+        sh:path sdt:penaltyRateUSD ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:name "penaltyRateUSD" ;
+        sh:message "PenaltyClause must have exactly one penalty rate."
+    ] .
+
+
+## ============================================================
+## SHAPE 12: SupportingDocument — must have date and type
+## ============================================================
+
+sdt:SupportingDocumentShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:SupportingDocument ;
+    sh:name "SupportingDocument shape" ;
+    sh:description "Every SupportingDocument must have a document date and type." ;
+
+    sh:property [
+        sh:path sdt:documentDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:name "documentDate" ;
+        sh:message "SupportingDocument must have exactly one document date."
+    ] ;
+
+    sh:property [
+        sh:path sdt:documentType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:name "documentType" ;
+        sh:message "SupportingDocument must have exactly one document type label."
+    ] .
+
+
+## ============================================================
+## SHAPE 13: ServiceActionRecommendation
+## ============================================================
+
+sdt:ServiceActionRecommendationShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ServiceActionRecommendation ;
+    sh:name "ServiceActionRecommendation shape" ;
+    sh:property [
+        sh:path sdt:recommendsAction ;
+        sh:minCount 1 ;
+        sh:class sdt:ServiceProcess ;
+        sh:message "Recommendation must identify at least one proposed ServiceProcess."
+    ] ;
+    sh:property [
+        sh:path sdt:recommendationStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Recommendation must have exactly one lifecycle status."
+    ] .
+
+
+## ============================================================
+## SHAPE 14: ActionAuthorisation
+## ============================================================
+
+sdt:ActionAuthorisationShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ActionAuthorisation ;
+    sh:name "ActionAuthorisation shape" ;
+    sh:property [
+        sh:path sdt:authorisesRecommendation ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:ServiceActionRecommendation ;
+        sh:message "Authorisation must identify exactly one recommendation."
+    ] .
+
+
+## ============================================================
+## SHAPE 15: ActionExecution
+## ============================================================
+
+sdt:ActionExecutionShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:ActionExecution ;
+    sh:name "ActionExecution shape" ;
+    sh:property [
+        sh:path sdt:executesRecommendation ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:ServiceActionRecommendation ;
+        sh:message "Execution must identify exactly one originating recommendation."
+    ] ;
+    sh:property [
+        sh:path sdt:executionStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Execution must have exactly one completion status."
+    ] ;
+    sh:property [
+        sh:path sdt:hasPostActionObservation ;
+        sh:minCount 1 ;
+        sh:class sdt:PostActionObservation ;
+        sh:message "Execution must link to at least one post-action observation."
+    ] .
+
+
+## ============================================================
+## SHAPE 16: InterventionOutcomeAssessment
+## ============================================================
+
+sdt:InterventionOutcomeAssessmentShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:InterventionOutcomeAssessment ;
+    sh:name "InterventionOutcomeAssessment shape" ;
+    sh:property [
+        sh:path sdt:assessesExecution ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class sdt:ActionExecution ;
+        sh:message "Outcome assessment must identify exactly one execution."
+    ] ;
+    sh:property [
+        sh:path sdt:outcomeStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Outcome assessment must have exactly one outcome status."
+    ] ;
+    sh:property [
+        sh:path sdt:assessedAt ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:dateTime ;
+        sh:message "Outcome assessment must have exactly one assessment timestamp."
+    ] ;
+    sh:property [
+        sh:path sdt:producesFeedbackUpdate ;
+        sh:minCount 1 ;
+        sh:class sdt:FeedbackUpdateRecord ;
+        sh:message "Outcome assessment must produce a feedback update record."
+    ] .
+
+
+## ============================================================
+## SHAPE 17: FeedbackUpdateRecord
+## ============================================================
+
+sdt:FeedbackUpdateRecordShape
+    a sh:NodeShape ;
+    sh:targetClass sdt:FeedbackUpdateRecord ;
+    sh:name "FeedbackUpdateRecord shape" ;
+    sh:property [
+        sh:path prov:wasGeneratedBy ;
+        sh:minCount 1 ;
+        sh:class sdt:InterventionOutcomeAssessment ;
+        sh:message "Feedback update must link to its generating outcome assessment."
+    ] .
+
+
+## ============================================================
+## END OF SHACL SHAPES
+## ============================================================
+## Total: 17 shapes constraining the key A-Box entity types
+## Enforces: cardinality, datatype, class membership,
+##           controlled vocabulary (ServiceState labels),
+##           provenance requirements (PROV-O links)
+## ============================================================

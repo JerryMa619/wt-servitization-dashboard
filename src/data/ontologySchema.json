@@ -1,0 +1,1310 @@
+{
+  "source": "Chapter 4 / sdt_tbox.ttl",
+  "version": "1.0.0",
+  "sha256": "925a2b4cdb97a5dc5c2dfda7408202921865bc847d9607cdfbaee808ef5bb6ce",
+  "license": "CC BY 4.0",
+  "counts": {
+    "classes": 50,
+    "objectProperties": 38,
+    "dataProperties": 26,
+    "shapes": 17
+  },
+  "classes": [
+    {
+      "id": "sdt:ActionAuthorisation",
+      "uri": "http://purl.org/sdt/ActionAuthorisation",
+      "label": "ActionAuthorisation",
+      "description": "A human or governed system activity that accepts, rejects or overrides a ServiceActionRecommendation before execution.",
+      "parents": [
+        "iof:PlannedProcess",
+        "prov:Activity"
+      ]
+    },
+    {
+      "id": "sdt:ActionExecution",
+      "uri": "http://purl.org/sdt/ActionExecution",
+      "label": "ActionExecution",
+      "description": "The time-bounded execution of an authorised service action. It records what was actually done, by whom, where and with what completion status.",
+      "parents": [
+        "prov:Activity",
+        "sdt:ServiceProcess"
+      ]
+    },
+    {
+      "id": "sdt:ActiveContract",
+      "uri": "http://purl.org/sdt/ActiveContract",
+      "label": "ActiveContract",
+      "description": "A derived class: a Contract whose start date is in the past and end date is in the future. Ensures time-aware contractual reasoning.",
+      "parents": [
+        "sdt:Contract"
+      ]
+    },
+    {
+      "id": "sdt:Asset",
+      "uri": "http://purl.org/sdt/Asset",
+      "label": "Asset",
+      "description": "A high-value physical asset that is the subject of a servitization contract. Grounded in iof:MaterialArtifact because an asset is an intentionally manufactured artefact.",
+      "parents": [
+        "iof:MaterialArtifact"
+      ]
+    },
+    {
+      "id": "sdt:AvailabilityContract",
+      "uri": "http://purl.org/sdt/AvailabilityContract",
+      "label": "AvailabilityContract",
+      "description": "Guarantees asset availability (e.g., 95% uptime per quarter). Exemplified by Rolls-Royce Power-by-the-Hour.",
+      "parents": [
+        "sdt:Contract"
+      ]
+    },
+    {
+      "id": "sdt:ComplianceCertificate",
+      "uri": "http://purl.org/sdt/ComplianceCertificate",
+      "label": "ComplianceCertificate",
+      "description": "A certificate attesting that an asset, component, or process complies with a regulatory or contractual standard (e.g., ISO 13849 safety certification, airworthiness directive).",
+      "parents": [
+        "sdt:SupportingDocument"
+      ]
+    },
+    {
+      "id": "sdt:Component",
+      "uri": "http://purl.org/sdt/Component",
+      "label": "Component",
+      "description": "A replaceable sub-part of an asset with an identifiable failure mode. RUL estimation is performed at the component level because different components exhibit different degradation mechanisms.",
+      "parents": [
+        "iof:MaterialArtifact"
+      ]
+    },
+    {
+      "id": "sdt:ConditionEvent",
+      "uri": "http://purl.org/sdt/ConditionEvent",
+      "label": "ConditionEvent",
+      "description": "A time-stamped event asserting a condition level on a component.",
+      "parents": [
+        "bfo:BFO_0000015"
+      ]
+    },
+    {
+      "id": "sdt:ConditionIndicator",
+      "uri": "http://purl.org/sdt/ConditionIndicator",
+      "label": "ConditionIndicator",
+      "description": "A measurable quality of a component that indicates its condition (e.g., vibration amplitude, crack length). Bridge between raw observations and diagnostic assessment, per ISO 13374-1.",
+      "parents": [
+        "bfo:BFO_0000019"
+      ]
+    },
+    {
+      "id": "sdt:Consumable",
+      "uri": "http://purl.org/sdt/Consumable",
+      "label": "Consumable",
+      "description": "A material consumed during a maintenance process (lubricants, sealants, calibration fluids) that is not a structural replacement.",
+      "parents": [
+        "iof:MaterialArtifact"
+      ]
+    },
+    {
+      "id": "sdt:Contract",
+      "uri": "http://purl.org/sdt/Contract",
+      "label": "Contract",
+      "description": "A servitization contract governing an asset. Three subclasses capture Tukker's result-oriented PSS archetypes.",
+      "parents": [
+        "iof:InformationContentEntity"
+      ]
+    },
+    {
+      "id": "sdt:ContractKPI",
+      "uri": "http://purl.org/sdt/ContractKPI",
+      "label": "ContractKPI",
+      "description": "A quantitative metric bound by a contract with target and threshold values. KPIs operationalise the contractual guarantee (e.g., availability >= 95%).",
+      "parents": [
+        "iof:InformationContentEntity"
+      ]
+    },
+    {
+      "id": "sdt:CorrectiveMaintenance",
+      "uri": "http://purl.org/sdt/CorrectiveMaintenance",
+      "label": "CorrectiveMaintenance",
+      "description": "Maintenance carried out after fault recognition, intended to restore the item to a state in which it can perform its required function (EN 13306).",
+      "parents": [
+        "sdt:MaintenanceProcess"
+      ]
+    },
+    {
+      "id": "sdt:CriticalFailureEvent",
+      "uri": "http://purl.org/sdt/CriticalFailureEvent",
+      "label": "CriticalFailureEvent",
+      "description": "A ConditionEvent where the condition indicator exceeds a critical threshold AND the affected asset is governed by an active contract. Defined by an OWL equivalentClass axiom.",
+      "parents": [
+        "sdt:ConditionEvent"
+      ]
+    },
+    {
+      "id": "sdt:CustomerRole",
+      "uri": "http://purl.org/sdt/CustomerRole",
+      "label": "CustomerRole",
+      "description": "The role of the customer who receives the service outcome and pays the contractual fee.",
+      "parents": [
+        "sdt:StakeholderRole"
+      ]
+    },
+    {
+      "id": "sdt:DegradationMechanism",
+      "uri": "http://purl.org/sdt/DegradationMechanism",
+      "label": "DegradationMechanism",
+      "description": "The physical mechanism through which a failure mode progresses (e.g., fatigue crack propagation, corrosion, wear).",
+      "parents": [
+        "bfo:BFO_0000016"
+      ]
+    },
+    {
+      "id": "sdt:FailureMode",
+      "uri": "http://purl.org/sdt/FailureMode",
+      "label": "FailureMode",
+      "description": "An identified failure mechanism for a component, modelled as BFO Disposition because a failure mode is a potentiality that inheres in the component. Aligned with IEC 60812 FMEA.",
+      "parents": [
+        "bfo:BFO_0000016"
+      ]
+    },
+    {
+      "id": "sdt:FeedbackUpdateRecord",
+      "uri": "http://purl.org/sdt/FeedbackUpdateRecord",
+      "label": "FeedbackUpdateRecord",
+      "description": "A provenance-bearing record stating whether post-action evidence confirms the expected effect and whether the model, threshold, policy or no element requires update.",
+      "parents": [
+        "iof:InformationContentEntity",
+        "prov:Entity"
+      ]
+    },
+    {
+      "id": "sdt:InspectionProcess",
+      "uri": "http://purl.org/sdt/InspectionProcess",
+      "label": "InspectionProcess",
+      "description": "A conformity evaluation by observation and judgement, accompanied as appropriate by measurement, testing or gauging (EN 13306).",
+      "parents": [
+        "sdt:ServiceProcess"
+      ]
+    },
+    {
+      "id": "sdt:InterventionOutcomeAssessment",
+      "uri": "http://purl.org/sdt/InterventionOutcomeAssessment",
+      "label": "InterventionOutcomeAssessment",
+      "description": "An evaluation activity comparing post-action observations and KPI evidence with the pre-action state and expected intervention effect.",
+      "parents": [
+        "iof:PlannedProcess",
+        "prov:Activity"
+      ]
+    },
+    {
+      "id": "sdt:KPISettlementProcess",
+      "uri": "http://purl.org/sdt/KPISettlementProcess",
+      "label": "KPISettlementProcess",
+      "description": "The process of computing and recording the KPI settlement for a billing period. Produces a SettlementRecord as prov:Entity.",
+      "parents": [
+        "bfo:BFO_0000015",
+        "prov:Activity"
+      ]
+    },
+    {
+      "id": "sdt:MaintenanceProcess",
+      "uri": "http://purl.org/sdt/MaintenanceProcess",
+      "label": "MaintenanceProcess",
+      "description": "Abstract superclass for maintenance activities, classified by strategy per EN 13306:2017.",
+      "parents": [
+        "sdt:ServiceProcess"
+      ]
+    },
+    {
+      "id": "sdt:MaintenanceRecord",
+      "uri": "http://purl.org/sdt/MaintenanceRecord",
+      "label": "MaintenanceRecord",
+      "description": "A time-stamped record of a maintenance action performed on an asset or component. Links to the MaintenanceProcess that generated it via PROV-O provenance.",
+      "parents": [
+        "prov:Entity",
+        "sdt:SupportingDocument"
+      ]
+    },
+    {
+      "id": "sdt:MaintenanceTechnicianRole",
+      "uri": "http://purl.org/sdt/MaintenanceTechnicianRole",
+      "label": "MaintenanceTechnicianRole",
+      "description": "The role of the technician who performs maintenance actions on the asset.",
+      "parents": [
+        "sdt:StakeholderRole"
+      ]
+    },
+    {
+      "id": "sdt:MonitoringCampaign",
+      "uri": "http://purl.org/sdt/MonitoringCampaign",
+      "label": "MonitoringCampaign",
+      "description": "A sustained period of condition monitoring on an asset (e.g., 30-day continuous vibration monitoring). Aligns with ISO 13374-1 data acquisition block.",
+      "parents": [
+        "bfo:BFO_0000015"
+      ]
+    },
+    {
+      "id": "sdt:Obligation",
+      "uri": "http://purl.org/sdt/Obligation",
+      "label": "Obligation",
+      "description": "A contractual obligation specifying an action the service provider must perform (e.g., respond to Degraded state within 4 hours).",
+      "parents": [
+        "iof:InformationContentEntity"
+      ]
+    },
+    {
+      "id": "sdt:OperatingEnvironment",
+      "uri": "http://purl.org/sdt/OperatingEnvironment",
+      "label": "OperatingEnvironment",
+      "description": "A measurable environmental condition at an operating site that affects asset degradation or performance (wind speed, temperature, humidity, salt-spray exposure).",
+      "parents": [
+        "bfo:BFO_0000019"
+      ]
+    },
+    {
+      "id": "sdt:OperatingSite",
+      "uri": "http://purl.org/sdt/OperatingSite",
+      "label": "OperatingSite",
+      "description": "The physical location where an asset is deployed and operating (e.g., a wind farm, an airline hub).",
+      "parents": [
+        "bfo:BFO_0000029"
+      ]
+    },
+    {
+      "id": "sdt:OperatorRole",
+      "uri": "http://purl.org/sdt/OperatorRole",
+      "label": "OperatorRole",
+      "description": "The role of the person or team operating the asset on a day-to-day basis, generating operational data.",
+      "parents": [
+        "sdt:StakeholderRole"
+      ]
+    },
+    {
+      "id": "sdt:OutcomeBasedContract",
+      "uri": "http://purl.org/sdt/OutcomeBasedContract",
+      "label": "OutcomeBasedContract",
+      "description": "Guarantees a business outcome (e.g., energy yield in MWh). The most advanced servitization form.",
+      "parents": [
+        "sdt:Contract"
+      ]
+    },
+    {
+      "id": "sdt:PenaltyClause",
+      "uri": "http://purl.org/sdt/PenaltyClause",
+      "label": "PenaltyClause",
+      "description": "A financial penalty defined for KPI underperformance (e.g., $5,000 per percentage point below availability threshold).",
+      "parents": [
+        "iof:InformationContentEntity"
+      ]
+    },
+    {
+      "id": "sdt:PerformanceBasedContract",
+      "uri": "http://purl.org/sdt/PerformanceBasedContract",
+      "label": "PerformanceBasedContract",
+      "description": "Guarantees asset performance (e.g., thrust output, energy conversion efficiency). Exemplified by Performance-Based Logistics (PBL).",
+      "parents": [
+        "sdt:Contract"
+      ]
+    },
+    {
+      "id": "sdt:PostActionObservation",
+      "uri": "http://purl.org/sdt/PostActionObservation",
+      "label": "PostActionObservation",
+      "description": "An observation collected after an ActionExecution to determine whether asset condition, service state or contractual performance changed as expected.",
+      "parents": [
+        "prov:Entity",
+        "sosa:Observation"
+      ]
+    },
+    {
+      "id": "sdt:PredictiveMaintenance",
+      "uri": "http://purl.org/sdt/PredictiveMaintenance",
+      "label": "PredictiveMaintenance",
+      "description": "Condition-based maintenance carried out following a forecast derived from analysis and evaluation of significant degradation parameters (EN 13306).",
+      "parents": [
+        "sdt:MaintenanceProcess"
+      ]
+    },
+    {
+      "id": "sdt:PreventiveMaintenance",
+      "uri": "http://purl.org/sdt/PreventiveMaintenance",
+      "label": "PreventiveMaintenance",
+      "description": "Maintenance carried out at predetermined intervals or according to prescribed criteria, intended to reduce the probability of failure (EN 13306).",
+      "parents": [
+        "sdt:MaintenanceProcess"
+      ]
+    },
+    {
+      "id": "sdt:RULEstimate",
+      "uri": "http://purl.org/sdt/RULEstimate",
+      "label": "RULEstimate",
+      "description": "A time-stamped remaining useful life prediction with percentile uncertainty quantification (p10, p50, p90). Captures epistemic uncertainty essential for risk-informed servitization decisions.",
+      "parents": [
+        "iof:InformationContentEntity",
+        "prov:Entity"
+      ]
+    },
+    {
+      "id": "sdt:SafetyEvent",
+      "uri": "http://purl.org/sdt/SafetyEvent",
+      "label": "SafetyEvent",
+      "description": "A condition event with safety implications requiring immediate action, regardless of contractual status.",
+      "parents": [
+        "sdt:ConditionEvent"
+      ]
+    },
+    {
+      "id": "sdt:Sensor",
+      "uri": "http://purl.org/sdt/Sensor",
+      "label": "Sensor",
+      "description": "A physical sensing device deployed on a component to measure observable properties. Inherits from sosa:Sensor and is additionally aligned with bfo:MaterialEntity.",
+      "parents": [
+        "bfo:BFO_0000040",
+        "sosa:Sensor"
+      ]
+    },
+    {
+      "id": "sdt:ServiceActionRecommendation",
+      "uri": "http://purl.org/sdt/ServiceActionRecommendation",
+      "label": "ServiceActionRecommendation",
+      "description": "An advisory information object proposing a service action on the basis of condition, prognostic, contract and cost evidence. It is distinct from authorisation and physical execution.",
+      "parents": [
+        "iof:InformationContentEntity",
+        "prov:Entity"
+      ]
+    },
+    {
+      "id": "sdt:ServiceCenter",
+      "uri": "http://purl.org/sdt/ServiceCenter",
+      "label": "ServiceCenter",
+      "description": "A facility where maintenance and overhaul activities are performed, typically owned by the service provider.",
+      "parents": [
+        "bfo:BFO_0000029"
+      ]
+    },
+    {
+      "id": "sdt:ServiceOffering",
+      "uri": "http://purl.org/sdt/ServiceOffering",
+      "label": "ServiceOffering",
+      "description": "A defined service in the manufacturer's catalogue (e.g., vibration-based condition monitoring, predictive blade replacement).",
+      "parents": [
+        "iof:InformationContentEntity"
+      ]
+    },
+    {
+      "id": "sdt:ServiceProcess",
+      "uri": "http://purl.org/sdt/ServiceProcess",
+      "label": "ServiceProcess",
+      "description": "Abstract superclass for all intentional service activities in the servitization lifecycle.",
+      "parents": [
+        "iof:PlannedProcess"
+      ]
+    },
+    {
+      "id": "sdt:ServiceProviderRole",
+      "uri": "http://purl.org/sdt/ServiceProviderRole",
+      "label": "ServiceProviderRole",
+      "description": "The role of the OEM or service provider who bears the contractual risk and delivers the service outcome.",
+      "parents": [
+        "sdt:StakeholderRole"
+      ]
+    },
+    {
+      "id": "sdt:ServiceState",
+      "uri": "http://purl.org/sdt/ServiceState",
+      "label": "ServiceState",
+      "description": "A discrete service-contract state that inheres in an asset: {Nominal, Watch, Degraded, MaintenanceDue, OutOfContract}. Modelled as BFO Role because the asset plays a different function in each state within the servitization relationship.",
+      "parents": [
+        "bfo:BFO_0000023"
+      ]
+    },
+    {
+      "id": "sdt:ServiceStateTransition",
+      "uri": "http://purl.org/sdt/ServiceStateTransition",
+      "label": "ServiceStateTransition",
+      "description": "The process of transitioning an asset from one ServiceState to another (e.g., Nominal to Watch). Each transition has a specific time, causal antecedent, and authorising stakeholder.",
+      "parents": [
+        "bfo:BFO_0000015",
+        "prov:Activity"
+      ]
+    },
+    {
+      "id": "sdt:SettlementRecord",
+      "uri": "http://purl.org/sdt/SettlementRecord",
+      "label": "SettlementRecord",
+      "description": "A time-stamped record of a KPI settlement computation for a billing period, with full PROV-O provenance linking the settlement value to underlying sensor observations.",
+      "parents": [
+        "iof:InformationContentEntity",
+        "prov:Entity"
+      ]
+    },
+    {
+      "id": "sdt:SparePart",
+      "uri": "http://purl.org/sdt/SparePart",
+      "label": "SparePart",
+      "description": "A replacement component held in inventory for corrective or preventive maintenance. Linked to the component it replaces via sdt:isSpareFor and to a depot via sdt:storedAt.",
+      "parents": [
+        "iof:MaterialArtifact"
+      ]
+    },
+    {
+      "id": "sdt:SparePartDepot",
+      "uri": "http://purl.org/sdt/SparePartDepot",
+      "label": "SparePartDepot",
+      "description": "A storage facility for spare parts and consumables.",
+      "parents": [
+        "bfo:BFO_0000029"
+      ]
+    },
+    {
+      "id": "sdt:StakeholderRole",
+      "uri": "http://purl.org/sdt/StakeholderRole",
+      "label": "StakeholderRole",
+      "description": "Abstract superclass for all servitization stakeholder roles. Modelled as BFO Role because what matters is the role's responsibilities and authorisations.",
+      "parents": [
+        "bfo:BFO_0000023"
+      ]
+    },
+    {
+      "id": "sdt:SupportingDocument",
+      "uri": "http://purl.org/sdt/SupportingDocument",
+      "label": "SupportingDocument",
+      "description": "A document that supports the servitization lifecycle — includes maintenance records, compliance certificates, inspection reports, and contractual annexes. Grounded in iof:InformationContentEntity because documents are information-bearing artefacts.",
+      "parents": [
+        "iof:InformationContentEntity"
+      ]
+    }
+  ],
+  "properties": [
+    {
+      "id": "sdt:affects",
+      "uri": "http://purl.org/sdt/affects",
+      "label": "affects",
+      "description": "Which component the condition event concerns.",
+      "kind": "object",
+      "domain": [
+        "sdt:ConditionEvent"
+      ],
+      "range": [
+        "sdt:Component"
+      ]
+    },
+    {
+      "id": "sdt:assessesExecution",
+      "uri": "http://purl.org/sdt/assessesExecution",
+      "label": "assessesExecution",
+      "description": "Links an outcome-assessment activity to the executed action being evaluated.",
+      "kind": "object",
+      "domain": [
+        "sdt:InterventionOutcomeAssessment"
+      ],
+      "range": [
+        "sdt:ActionExecution"
+      ]
+    },
+    {
+      "id": "sdt:authorisedBy",
+      "uri": "http://purl.org/sdt/authorisedBy",
+      "label": "authorisedBy",
+      "description": "Links a ServiceStateTransition to the StakeholderRole who authorised it.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceStateTransition"
+      ],
+      "range": [
+        "sdt:StakeholderRole"
+      ]
+    },
+    {
+      "id": "sdt:authorisesRecommendation",
+      "uri": "http://purl.org/sdt/authorisesRecommendation",
+      "label": "authorisesRecommendation",
+      "description": "Links an authorisation activity to the recommendation that was accepted, rejected or overridden.",
+      "kind": "object",
+      "domain": [
+        "sdt:ActionAuthorisation"
+      ],
+      "range": [
+        "sdt:ServiceActionRecommendation"
+      ]
+    },
+    {
+      "id": "sdt:currentState",
+      "uri": "http://purl.org/sdt/currentState",
+      "label": "currentState",
+      "description": "Current service state of the asset — links an Asset to its ServiceState.",
+      "kind": "object",
+      "domain": [
+        "sdt:Asset"
+      ],
+      "range": [
+        "sdt:ServiceState"
+      ]
+    },
+    {
+      "id": "sdt:executesRecommendation",
+      "uri": "http://purl.org/sdt/executesRecommendation",
+      "label": "executesRecommendation",
+      "description": "Links the action actually executed to the recommendation that motivated it.",
+      "kind": "object",
+      "domain": [
+        "sdt:ActionExecution"
+      ],
+      "range": [
+        "sdt:ServiceActionRecommendation"
+      ]
+    },
+    {
+      "id": "sdt:exposedTo",
+      "uri": "http://purl.org/sdt/exposedTo",
+      "label": "exposedTo",
+      "description": "Environmental conditions affecting the asset — links an Asset to OperatingEnvironment.",
+      "kind": "object",
+      "domain": [
+        "sdt:Asset"
+      ],
+      "range": [
+        "sdt:OperatingEnvironment"
+      ]
+    },
+    {
+      "id": "sdt:fromState",
+      "uri": "http://purl.org/sdt/fromState",
+      "label": "fromState",
+      "description": "The ServiceState before a transition.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceStateTransition"
+      ],
+      "range": [
+        "sdt:ServiceState"
+      ]
+    },
+    {
+      "id": "sdt:governedBy",
+      "uri": "http://purl.org/sdt/governedBy",
+      "label": "governedBy",
+      "description": "Contract governing the asset — links an Asset to its Contract.",
+      "kind": "object",
+      "domain": [
+        "sdt:Asset"
+      ],
+      "range": [
+        "sdt:Contract"
+      ]
+    },
+    {
+      "id": "sdt:hasComponent",
+      "uri": "http://purl.org/sdt/hasComponent",
+      "label": "hasComponent",
+      "description": "Asset decomposition hierarchy — links an Asset to its Components.",
+      "kind": "object",
+      "domain": [
+        "sdt:Asset"
+      ],
+      "range": [
+        "sdt:Component"
+      ]
+    },
+    {
+      "id": "sdt:hasDegradationMechanism",
+      "uri": "http://purl.org/sdt/hasDegradationMechanism",
+      "label": "hasDegradationMechanism",
+      "description": "Physical degradation mechanism of a component.",
+      "kind": "object",
+      "domain": [
+        "sdt:Component"
+      ],
+      "range": [
+        "sdt:DegradationMechanism"
+      ]
+    },
+    {
+      "id": "sdt:hasDocument",
+      "uri": "http://purl.org/sdt/hasDocument",
+      "label": "hasDocument",
+      "description": "Links an entity (Asset, Component, MaintenanceProcess) to its associated SupportingDocument(s).",
+      "kind": "object",
+      "domain": [
+        "sdt:MaintenanceProcess"
+      ],
+      "range": [
+        "sdt:SupportingDocument"
+      ]
+    },
+    {
+      "id": "sdt:hasFailureMode",
+      "uri": "http://purl.org/sdt/hasFailureMode",
+      "label": "hasFailureMode",
+      "description": "Identified failure modes of a component.",
+      "kind": "object",
+      "domain": [
+        "sdt:Component"
+      ],
+      "range": [
+        "sdt:FailureMode"
+      ]
+    },
+    {
+      "id": "sdt:hasKPI",
+      "uri": "http://purl.org/sdt/hasKPI",
+      "label": "hasKPI",
+      "description": "KPIs defined by the contract.",
+      "kind": "object",
+      "domain": [
+        "sdt:Contract"
+      ],
+      "range": [
+        "sdt:ContractKPI"
+      ]
+    },
+    {
+      "id": "sdt:hasObligation",
+      "uri": "http://purl.org/sdt/hasObligation",
+      "label": "hasObligation",
+      "description": "Obligations imposed by the contract.",
+      "kind": "object",
+      "domain": [
+        "sdt:Contract"
+      ],
+      "range": [
+        "sdt:Obligation"
+      ]
+    },
+    {
+      "id": "sdt:hasPenaltyClause",
+      "uri": "http://purl.org/sdt/hasPenaltyClause",
+      "label": "hasPenaltyClause",
+      "description": "Penalty for KPI underperformance.",
+      "kind": "object",
+      "domain": [
+        "sdt:ContractKPI"
+      ],
+      "range": [
+        "sdt:PenaltyClause"
+      ]
+    },
+    {
+      "id": "sdt:hasPostActionObservation",
+      "uri": "http://purl.org/sdt/hasPostActionObservation",
+      "label": "hasPostActionObservation",
+      "description": "Links an executed action to observations collected after completion.",
+      "kind": "object",
+      "domain": [
+        "sdt:ActionExecution"
+      ],
+      "range": [
+        "sdt:PostActionObservation"
+      ]
+    },
+    {
+      "id": "sdt:hasRUL",
+      "uri": "http://purl.org/sdt/hasRUL",
+      "label": "hasRUL",
+      "description": "Latest RUL prediction for a component.",
+      "kind": "object",
+      "domain": [
+        "sdt:Component"
+      ],
+      "range": [
+        "sdt:RULEstimate"
+      ]
+    },
+    {
+      "id": "sdt:hasSubComponent",
+      "uri": "http://purl.org/sdt/hasSubComponent",
+      "label": "hasSubComponent",
+      "description": "Sub-component nesting (recursive) — links a Component to a sub-Component.",
+      "kind": "object",
+      "domain": [
+        "sdt:Component"
+      ],
+      "range": [
+        "sdt:Component"
+      ]
+    },
+    {
+      "id": "sdt:informsNextDecision",
+      "uri": "http://purl.org/sdt/informsNextDecision",
+      "label": "informsNextDecision",
+      "description": "Links an intervention outcome assessment to the next ServiceStateTransition or decision event it informs.",
+      "kind": "object",
+      "domain": [
+        "sdt:InterventionOutcomeAssessment"
+      ],
+      "range": [
+        "sdt:ServiceStateTransition"
+      ]
+    },
+    {
+      "id": "sdt:isSpareFor",
+      "uri": "http://purl.org/sdt/isSpareFor",
+      "label": "isSpareFor",
+      "description": "Which component type this spare part replaces.",
+      "kind": "object",
+      "domain": [
+        "sdt:SparePart"
+      ],
+      "range": [
+        "sdt:Component"
+      ]
+    },
+    {
+      "id": "sdt:kpiAtRiskOf",
+      "uri": "http://purl.org/sdt/kpiAtRiskOf",
+      "label": "kpiAtRiskOf",
+      "description": "Links a ContractKPI to the FailureMode that puts it at risk.",
+      "kind": "object",
+      "domain": [
+        "sdt:ContractKPI"
+      ],
+      "range": [
+        "sdt:FailureMode"
+      ]
+    },
+    {
+      "id": "sdt:monitoredBy",
+      "uri": "http://purl.org/sdt/monitoredBy",
+      "label": "monitoredBy",
+      "description": "Sensor deployment on a component — links a Component to the Sensor(s) monitoring it.",
+      "kind": "object",
+      "domain": [
+        "sdt:Component"
+      ],
+      "range": [
+        "sdt:Sensor"
+      ]
+    },
+    {
+      "id": "sdt:monitors",
+      "uri": "http://purl.org/sdt/monitors",
+      "label": "monitors",
+      "description": "Inverse of monitoredBy — links a Sensor to the Component it monitors.",
+      "kind": "object",
+      "domain": [
+        "sdt:Sensor"
+      ],
+      "range": [
+        "sdt:Component"
+      ]
+    },
+    {
+      "id": "sdt:offersService",
+      "uri": "http://purl.org/sdt/offersService",
+      "label": "offersService",
+      "description": "Service catalogue linkage — links a ServiceOffering to the ServiceProcess it delivers.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceOffering"
+      ],
+      "range": [
+        "sdt:ServiceProcess"
+      ]
+    },
+    {
+      "id": "sdt:operatedAt",
+      "uri": "http://purl.org/sdt/operatedAt",
+      "label": "operatedAt",
+      "description": "Deployment site of the asset — links an Asset to its OperatingSite.",
+      "kind": "object",
+      "domain": [
+        "sdt:Asset"
+      ],
+      "range": [
+        "sdt:OperatingSite"
+      ]
+    },
+    {
+      "id": "sdt:performedAt",
+      "uri": "http://purl.org/sdt/performedAt",
+      "label": "performedAt",
+      "description": "Where maintenance is performed — links a ServiceProcess to a ServiceCenter.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceProcess"
+      ],
+      "range": [
+        "sdt:ServiceCenter"
+      ]
+    },
+    {
+      "id": "sdt:performedBy",
+      "uri": "http://purl.org/sdt/performedBy",
+      "label": "performedBy",
+      "description": "Who performs the service action — links a ServiceProcess to a StakeholderRole.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceProcess"
+      ],
+      "range": [
+        "sdt:StakeholderRole"
+      ]
+    },
+    {
+      "id": "sdt:producesFeedbackUpdate",
+      "uri": "http://purl.org/sdt/producesFeedbackUpdate",
+      "label": "producesFeedbackUpdate",
+      "description": "Links an intervention outcome assessment to its model, threshold or policy feedback record.",
+      "kind": "object",
+      "domain": [
+        "sdt:InterventionOutcomeAssessment"
+      ],
+      "range": [
+        "sdt:FeedbackUpdateRecord"
+      ]
+    },
+    {
+      "id": "sdt:realisesFailureMode",
+      "uri": "http://purl.org/sdt/realisesFailureMode",
+      "label": "realisesFailureMode",
+      "description": "Failure mode manifested by a condition event.",
+      "kind": "object",
+      "domain": [
+        "sdt:ConditionEvent"
+      ],
+      "range": [
+        "sdt:FailureMode"
+      ]
+    },
+    {
+      "id": "sdt:recommendsAction",
+      "uri": "http://purl.org/sdt/recommendsAction",
+      "label": "recommendsAction",
+      "description": "Links an advisory recommendation to the proposed service process or action type.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceActionRecommendation"
+      ],
+      "range": [
+        "sdt:ServiceProcess"
+      ]
+    },
+    {
+      "id": "sdt:requiresConsumable",
+      "uri": "http://purl.org/sdt/requiresConsumable",
+      "label": "requiresConsumable",
+      "description": "Consumable needed for maintenance.",
+      "kind": "object",
+      "domain": [
+        "sdt:MaintenanceProcess"
+      ],
+      "range": [
+        "sdt:Consumable"
+      ]
+    },
+    {
+      "id": "sdt:requiresSparePart",
+      "uri": "http://purl.org/sdt/requiresSparePart",
+      "label": "requiresSparePart",
+      "description": "Spare part needed for maintenance.",
+      "kind": "object",
+      "domain": [
+        "sdt:MaintenanceProcess"
+      ],
+      "range": [
+        "sdt:SparePart"
+      ]
+    },
+    {
+      "id": "sdt:satisfiesKPI",
+      "uri": "http://purl.org/sdt/satisfiesKPI",
+      "label": "satisfiesKPI",
+      "description": "Service contributes to KPI fulfilment.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceProcess"
+      ],
+      "range": [
+        "sdt:ContractKPI"
+      ]
+    },
+    {
+      "id": "sdt:settledBy",
+      "uri": "http://purl.org/sdt/settledBy",
+      "label": "settledBy",
+      "description": "Settlement record for a billing period.",
+      "kind": "object",
+      "domain": [
+        "sdt:ContractKPI"
+      ],
+      "range": [
+        "sdt:SettlementRecord"
+      ]
+    },
+    {
+      "id": "sdt:storedAt",
+      "uri": "http://purl.org/sdt/storedAt",
+      "label": "storedAt",
+      "description": "Inventory location of the spare part.",
+      "kind": "object",
+      "domain": [
+        "sdt:SparePart"
+      ],
+      "range": [
+        "sdt:SparePartDepot"
+      ]
+    },
+    {
+      "id": "sdt:toState",
+      "uri": "http://purl.org/sdt/toState",
+      "label": "toState",
+      "description": "The ServiceState after a transition.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceStateTransition"
+      ],
+      "range": [
+        "sdt:ServiceState"
+      ]
+    },
+    {
+      "id": "sdt:triggeredBy",
+      "uri": "http://purl.org/sdt/triggeredBy",
+      "label": "triggeredBy",
+      "description": "The ConditionEvent that triggered a ServiceStateTransition.",
+      "kind": "object",
+      "domain": [
+        "sdt:ServiceStateTransition"
+      ],
+      "range": [
+        "sdt:ConditionEvent"
+      ]
+    },
+    {
+      "id": "sdt:ambientTempC",
+      "uri": "http://purl.org/sdt/ambientTempC",
+      "label": "ambientTempC",
+      "description": "Ambient temperature in degrees Celsius.",
+      "kind": "data",
+      "domain": [
+        "sdt:OperatingEnvironment"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:assessedAt",
+      "uri": "http://purl.org/sdt/assessedAt",
+      "label": "assessedAt",
+      "description": "Timestamp at which the intervention outcome was assessed.",
+      "kind": "data",
+      "domain": [
+        "sdt:InterventionOutcomeAssessment"
+      ],
+      "range": [
+        "xsd:dateTime"
+      ]
+    },
+    {
+      "id": "sdt:billingPeriod",
+      "uri": "http://purl.org/sdt/billingPeriod",
+      "label": "billingPeriod",
+      "description": "Billing period (e.g., monthly, quarterly).",
+      "kind": "data",
+      "domain": [
+        "sdt:Contract"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:contractEndDate",
+      "uri": "http://purl.org/sdt/contractEndDate",
+      "label": "contractEndDate",
+      "description": "Contract end date.",
+      "kind": "data",
+      "domain": [
+        "sdt:Contract"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "id": "sdt:contractStartDate",
+      "uri": "http://purl.org/sdt/contractStartDate",
+      "label": "contractStartDate",
+      "description": "Contract start date.",
+      "kind": "data",
+      "domain": [
+        "sdt:Contract"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "id": "sdt:crackLength_mm",
+      "uri": "http://purl.org/sdt/crackLength_mm",
+      "label": "crackLength_mm",
+      "description": "Ground-truth or estimated crack length in millimetres.",
+      "kind": "data",
+      "domain": [
+        "sdt:ConditionEvent"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:documentDate",
+      "uri": "http://purl.org/sdt/documentDate",
+      "label": "documentDate",
+      "description": "Date the supporting document was issued or recorded.",
+      "kind": "data",
+      "domain": [
+        "sdt:SupportingDocument"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "id": "sdt:documentType",
+      "uri": "http://purl.org/sdt/documentType",
+      "label": "documentType",
+      "description": "Category label for the document (e.g., 'Inspection Report', 'Work Order', 'Compliance Certificate').",
+      "kind": "data",
+      "domain": [
+        "sdt:SupportingDocument"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:emittedAt",
+      "uri": "http://purl.org/sdt/emittedAt",
+      "label": "emittedAt",
+      "description": "Timestamp of RUL emission.",
+      "kind": "data",
+      "domain": [
+        "sdt:RULEstimate"
+      ],
+      "range": [
+        "xsd:dateTime"
+      ]
+    },
+    {
+      "id": "sdt:executionStatus",
+      "uri": "http://purl.org/sdt/executionStatus",
+      "label": "executionStatus",
+      "description": "Completion status of an ActionExecution, for example completed, partial, deferred or failed.",
+      "kind": "data",
+      "domain": [
+        "sdt:ActionExecution"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:healthScore",
+      "uri": "http://purl.org/sdt/healthScore",
+      "label": "healthScore",
+      "description": "Normalised health score in range [0, 1].",
+      "kind": "data",
+      "domain": [
+        "sdt:ConditionIndicator"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:meanRULhours",
+      "uri": "http://purl.org/sdt/meanRULhours",
+      "label": "meanRULhours",
+      "description": "Mean predicted remaining useful life in hours.",
+      "kind": "data",
+      "domain": [
+        "sdt:RULEstimate"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:outcomeStatus",
+      "uri": "http://purl.org/sdt/outcomeStatus",
+      "label": "outcomeStatus",
+      "description": "Assessment of whether the intervention effect was confirmed, partially confirmed, not confirmed or inconclusive.",
+      "kind": "data",
+      "domain": [
+        "sdt:InterventionOutcomeAssessment"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:p10RULhours",
+      "uri": "http://purl.org/sdt/p10RULhours",
+      "label": "p10RULhours",
+      "description": "10th percentile RUL in hours (risk-averse estimate).",
+      "kind": "data",
+      "domain": [
+        "sdt:RULEstimate"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:p50RULhours",
+      "uri": "http://purl.org/sdt/p50RULhours",
+      "label": "p50RULhours",
+      "description": "Median (50th percentile) RUL estimate in hours.",
+      "kind": "data",
+      "domain": [
+        "sdt:RULEstimate"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:p90RULhours",
+      "uri": "http://purl.org/sdt/p90RULhours",
+      "label": "p90RULhours",
+      "description": "90th percentile RUL in hours (optimistic estimate).",
+      "kind": "data",
+      "domain": [
+        "sdt:RULEstimate"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:penaltyRateUSD",
+      "uri": "http://purl.org/sdt/penaltyRateUSD",
+      "label": "penaltyRateUSD",
+      "description": "Penalty per unit shortfall in USD.",
+      "kind": "data",
+      "domain": [
+        "sdt:PenaltyClause"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:recommendationStatus",
+      "uri": "http://purl.org/sdt/recommendationStatus",
+      "label": "recommendationStatus",
+      "description": "Lifecycle status of a recommendation, for example proposed, accepted, rejected or overridden.",
+      "kind": "data",
+      "domain": [
+        "sdt:ServiceActionRecommendation"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:settlementDate",
+      "uri": "http://purl.org/sdt/settlementDate",
+      "label": "settlementDate",
+      "description": "Date of settlement computation.",
+      "kind": "data",
+      "domain": [
+        "sdt:SettlementRecord"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "id": "sdt:settlementValue",
+      "uri": "http://purl.org/sdt/settlementValue",
+      "label": "settlementValue",
+      "description": "Settlement amount for the billing period.",
+      "kind": "data",
+      "domain": [
+        "sdt:SettlementRecord"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:severityClass",
+      "uri": "http://purl.org/sdt/severityClass",
+      "label": "severityClass",
+      "description": "Severity classification label (e.g., C0-C6).",
+      "kind": "data",
+      "domain": [
+        "sdt:ConditionEvent"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:stateLabel",
+      "uri": "http://purl.org/sdt/stateLabel",
+      "label": "stateLabel",
+      "description": "State name: one of {Nominal, Watch, Degraded, MaintenanceDue, OutOfContract}.",
+      "kind": "data",
+      "domain": [
+        "sdt:ServiceState"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "id": "sdt:targetValue",
+      "uri": "http://purl.org/sdt/targetValue",
+      "label": "targetValue",
+      "description": "Contractual target value for the KPI.",
+      "kind": "data",
+      "domain": [
+        "sdt:ContractKPI"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:threshold",
+      "uri": "http://purl.org/sdt/threshold",
+      "label": "threshold",
+      "description": "Contractual threshold value for the KPI.",
+      "kind": "data",
+      "domain": [
+        "sdt:ContractKPI"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "id": "sdt:transitionTime",
+      "uri": "http://purl.org/sdt/transitionTime",
+      "label": "transitionTime",
+      "description": "Timestamp when the service-state transition occurred.",
+      "kind": "data",
+      "domain": [
+        "sdt:ServiceStateTransition"
+      ],
+      "range": [
+        "xsd:dateTime"
+      ]
+    },
+    {
+      "id": "sdt:windSpeedMS",
+      "uri": "http://purl.org/sdt/windSpeedMS",
+      "label": "windSpeedMS",
+      "description": "Wind speed in metres per second.",
+      "kind": "data",
+      "domain": [
+        "sdt:OperatingEnvironment"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}
