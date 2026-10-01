@@ -35,7 +35,7 @@ The **Ontology & Decision Evidence** section sits below WT operation and TCS/ser
 
 - **Live Graph:** select an entity to inspect readings, class mapping, source and directional relationships; focus its neighborhood, freeze a snapshot, choose a historical service event or download its evidence JSON.
 - **Ontology Schema:** search the 50 native Chapter 4 classes, browse module groups, direct superclass declarations and applicable SDT properties. T-Box and SHACL source files are downloadable.
-- **Decision Trace:** record up to 30 automatic service events per browser session, preserving the original recommendation and pre-service readings, then compare simulated post-service results. Reloading resets session history.
+- **Decision Trace:** preserve the latest 30 service events in this browser, including original proposals, elapsed downtime, simulated results and explicit interruptions. Reload restores saved history.
 
 The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologySchema.json`. The instance graph is a dashboard projection, not SPARQL query or OWL reasoner output. SHACL definitions are available but live SHACL validation is not executed. Human authorisation, measured intervention assessment and model/policy feedback are not supplied by the simulator and remain explicitly unconfirmed. ISO entity labels are dashboard mappings, separate from OWL class inheritance. Cost values come from the existing TCS model, not native SDT cost properties.
 
@@ -54,6 +54,14 @@ Replay uses the same bounded session event store as ontology. Original intervent
 Design and process record: [workspace specification](docs/twin/DESIGN.md), [implementation log](docs/twin/IMPLEMENTATION_LOG.md), [browser verification](screenshots/twin/verification.json), [public verification](screenshots/twin/publication.json).
 
 ![Integrated architecture](screenshots/twin/architecture-desktop.png)
+
+## Audit Repairs and Model Scope
+
+The history toolbar exports/imports validated JSON and clears local history with confirmation. Unfinished work is closed as interrupted on reload or manual replacement; partial downtime is retained, with no fabricated repaired result. Localhost and public Pages have separate browser-origin histories. No personal event/GPS history is automatically sent to GitHub.
+
+Manual, auto and post-service calculations now share `wt-demo-2.0`. Model Heuristic Scores are not accuracy probabilities; P10/P50/P90 are uncalibrated bounds. Enhanced KPI separates current simulation availability from Chapter 5 references; avoided downtime remains unestimated without a counterfactual.
+
+Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval, measured effect and live SHACL remain pending.
 
 ## Local Development
 
@@ -86,6 +94,7 @@ npm run sync:ontology
 npm run check:ontology
 npm run test:ontology
 npm run test:twin
+npm run test:model
 npm run build
 ```
 
@@ -96,11 +105,14 @@ Browser verification requires Playwright and a Chromium browser. With Playwright
 ```bash
 node scripts/verify-ontology-ui.mjs
 node scripts/verify-twin-ui.mjs
+node scripts/verify-fixes-ui.mjs
 ```
 
-Optional environment variables: `PLAYWRIGHT_MODULE` (absolute path to the installed Playwright module), `CHROME_EXECUTABLE` (browser executable) and `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). Screenshots and results are saved under `screenshots/ontology/`. Browser verification accelerates only the simulator interval in a separate test tab; the dashboard's normal simulation rate is unchanged.
+Environment variables: `PLAYWRIGHT_MODULE` (absolute installed Playwright module path), `CHROME_EXECUTABLE` (browser executable), and optional `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). The repair verification script uses the first two variables; other browser scripts can use a normally installed Playwright package. Results are saved under `screenshots/ontology/`, `screenshots/twin/` and `screenshots/fixes/`. Tests accelerate only the simulator in isolated tabs; normal application timing is unchanged.
 
 `node scripts/verify-ontology-publication.mjs` checks the public standard/enhanced routes, ontology browser and source download using the same optional browser environment variables. Its default URL is the GitHub Pages site; results are written to `screenshots/ontology/publication.json`.
+
+`node scripts/verify-fixes-publication.mjs` checks deployed history tools, architecture reachability, deferred charts and enhanced model/KPI scope. Results: `screenshots/fixes/publication.json`.
 
 ## Data
 

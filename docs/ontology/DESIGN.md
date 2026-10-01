@@ -19,7 +19,7 @@ Graph positions remain fixed across telemetry updates. Selected incident relatio
 - T-Box and SHACL snapshot: sibling `servitization-digital-twin-ontology` repository, source commit `6ce0dd5bd6aec9e37f45152a102f2973d8ad3adf` at inspection. License: CC BY 4.0, Jerry Ma. SHA-256 of the actual copied T-Box is embedded in the generated schema and downloads.
 - Schema metrics: 50 native classes, 38 native object properties, 26 native datatype properties. Shape count is parsed from the supplied SHACL document.
 - Runtime readings: existing `src/data/dashboardData.json`, manual scenario model and automatic simulation. `source` is surfaced in the inspector.
-- RUL and service state: existing dashboard model functions, unchanged. No calibrated model-version identifier is provided; the inspector records that gap.
+- RUL and service state: shared `wt-demo-2.0` scenario model and highest-severity policy; version supplied but calibrated uncertainty/accuracy not supplied. See [model basis](../model/MODEL_BASIS.md).
 - Recommendation: existing `serviceDecisionByTcs` output, including residual-risk filtering and the existing minimum-cost fallback if no candidate passes. Inspector and JSON include this selection basis.
 - TCS breakdown: same `tcsCostGroups` as the decision panel, with existing rounding. Cost attributes are display fields, not new OWL predicates.
 - Contract KPI: reference values from the Chapter 5 dataset, explicitly not a fresh calculation from simulated downtime. No identified asset-contract link is manufactured.
@@ -27,7 +27,7 @@ Graph positions remain fixed across telemetry updates. Selected incident relatio
 
 ## Event handling
 
-At simulation service start, capture the pre-downtime reading, candidate estimates, original recommendation, source, GPS context and ISO capture time. Give every browser session a UUID and every event a distinct ID. At completion, attach a post-service snapshot without recalculating or replacing the original recommendation. The UI stores detached copies, deduplicates by event ID/status and retains the latest 30 events. Storage is session-only; JSON download provides a reviewable export.
+At service start, capture pre-downtime readings, candidates, original proposal, source, GPS and ISO capture time. A saved simulation profile has a UUID and distinct event IDs. Completion attaches a post-service snapshot without replacing the original recommendation. Detached records deduplicate by event/status and retain the latest 30 events in browser local storage. Validated history import/export supports review and restoration. Interrupted records preserve partial hours without after evidence. A linked frozen graph pins both event and frame; changing events clears the old frame. Post-service graphs distinguish original proposal inputs from repaired observations.
 
 Projected relationships use native SDT predicates and SOSA/PROV-O terms with explicit directions. The synthetic sensor node represents the existing vibration channel mapping; it is labelled as logical because no per-device identifier is supplied.
 

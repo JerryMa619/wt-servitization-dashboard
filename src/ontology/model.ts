@@ -1,6 +1,9 @@
 export type OntologyReading = {
   t: string;
   source?: string;
+  observedAt?: string;
+  receivedAt?: string;
+  modelVersion?: string;
   windSpeed: number;
   windDirection: number;
   rpm?: number;
@@ -47,7 +50,8 @@ export type OntologyExecution = {
   id: string;
   action: string;
   label: string;
-  status: 'in-progress' | 'completed';
+  status: 'in-progress' | 'completed' | 'interrupted';
+  endReason?: string;
   downtimeH: number;
   before: OntologySnapshot;
   during?: OntologySnapshot[];
@@ -109,8 +113,8 @@ export function buildSemanticGraph(snapshot: OntologySnapshot, execution?: Ontol
   node('environment', 'Wind and site context', 'sdt:OperatingEnvironment', 'OME', 'evidence', 245, 0, evidenceSource(p), [field('Wind speed', `${p.windSpeed.toFixed(1)} m/s`), field('Wind direction', `${p.windDirection} deg`), ...provenance]);
   node('condition', 'Blade condition', 'sdt:ConditionEvent', 'DTE', 'evidence', 245, 175, p.crackState ?? 'Unclassified', [field('Crack length', p.crackMm == null ? 'Unavailable' : `${p.crackMm.toFixed(1)} mm`), field('Severity', p.crackState ?? 'Unavailable'), ...provenance]);
   node('observation', 'Vibration observation', 'sosa:Observation', 'DCDCE', 'evidence', 245, 350, evidenceSource(p), [field('RMS', `${p.vibrationRms.toFixed(3)} g`), field('Kurtosis', p.kurtosis.toFixed(2)), field('Modal f1', `${p.modalF1.toFixed(2)} Hz`), ...provenance]);
-  node('state', snapshot.serviceState, 'sdt:ServiceState', 'DTE', 'decision', 490, 0, 'Dashboard policy result', [field('Policy', 'serviceStateFromCondition / serviceStateFromRul'), ...provenance]);
-  node('rul', 'Blade RUL estimate', 'sdt:RULEstimate', 'DTE', 'prediction', 490, 175, 'Model estimate', [field('P10 / P50 / P90', `${p.rulP10} / ${p.rulP50} / ${p.rulP90} h`), field('Computation', 'Existing Chapter 5 replay or dashboard scenario model'), field('Model provenance', 'Calibrated model version not supplied'), ...provenance]);
+  node('state', snapshot.serviceState, 'sdt:ServiceState', 'DTE', 'decision', 490, 0, 'Dashboard policy result', [field('Policy', 'Highest severity across crack, vibration and RUL'), ...provenance]);
+  node('rul', 'Blade RUL estimate', 'sdt:RULEstimate', 'DTE', 'prediction', 490, 175, 'Model estimate', [field('P10 / P50 / P90', `${p.rulP10} / ${p.rulP50} / ${p.rulP90} h`), field('Computation', 'Chapter 5 replay or dashboard scenario model'), field('Model provenance', p.modelVersion ?? 'Chapter 5 reference; calibrated version not supplied'), field('Uncertainty', 'Dashboard bounds are heuristic, not calibrated quantiles'), ...provenance]);
   node('recommendation', 'Service recommendation', 'sdt:ServiceActionRecommendation', 'UE', 'decision', 735, 175, execution ? 'Captured pre-service proposal' : 'Advisory', [field('Proposed service', rec.label), field('Estimated TCS', gbp(rec.totalCost)), field('Estimated residual risk', rec.residualRiskScore.toFixed(3)), field('Selection basis', proposal.selectionBasis), field('Risk filter', rec.acceptable ? 'Accepted by dashboard policy' : 'No eligible candidate passed; cost fallback'), ...rec.costs.map((cost) => field(cost.label, gbp(cost.value))), ...proposalProvenance]);
   node('service', rec.label, rec.type, 'UE', 'service', 735, 350, 'Proposed service', [field('Service key', rec.action), field('Class mapping', rec.type === 'sdt:MaintenanceProcess' || rec.type === 'sdt:ServiceProcess' ? 'Mapped to an existing generic class; no new OWL subclass asserted' : 'Existing Chapter 4 class'), field('Cost definition', 'Dashboard estimate; cost fields are not native SDT properties')]);
   node('contract', 'Contract KPI context', 'sdt:Contract', 'UE', 'contract', 735, 0, snapshot.contract ? 'Chapter 5 reference' : 'No contract record', [field('Scope', 'Dataset reference; not a live reassessment of simulated downtime')]);
@@ -126,16 +130,25 @@ export function buildSemanticGraph(snapshot: OntologySnapshot, execution?: Ontol
   link('condition', 'blade', 'sdt:affects');
   link('blade', 'rul', 'sdt:hasRUL');
   link('asset', 'state', 'sdt:currentState');
-  link('recommendation', 'rul', 'prov:wasDerivedFrom');
-  link('recommendation', 'condition', 'prov:wasDerivedFrom');
+  if (execution && snapshot.id !== execution.before.id) {
+    const before = execution.before.reading;
+    node('proposal-condition', 'Captured blade condition', 'sdt:ConditionEvent', 'DTE', 'evidence', 980, 175, 'Original proposal input', [field('Crack length', `${before.crackMm ?? 'n/a'} mm`), ...proposalProvenance]);
+    node('proposal-rul', 'Captured RUL estimate', 'sdt:RULEstimate', 'DTE', 'prediction', 980, 350, 'Original proposal input', [field('P10 / P50 / P90', `${before.rulP10} / ${before.rulP50} / ${before.rulP90} h`), ...proposalProvenance]);
+    link('recommendation', 'proposal-rul', 'prov:wasDerivedFrom');
+    link('recommendation', 'proposal-condition', 'prov:wasDerivedFrom');
+  } else {
+    link('recommendation', 'rul', 'prov:wasDerivedFrom');
+    link('recommendation', 'condition', 'prov:wasDerivedFrom');
+  }
   link('recommendation', 'service', 'sdt:recommendsAction');
   // The dataset has a KPI context, but no identified asset-contract assertion.
   if (execution) {
-    node('execution', execution.label, 'sdt:ActionExecution', 'UE', 'service', 735, 525, execution.status === 'completed' ? 'Simulated completion' : 'Simulated downtime', [field('Execution ID', execution.id), field('Planned downtime', `${execution.downtimeH} h`), field('Authorisation', 'Not recorded; automatic demonstration policy'), field('Outcome assessment', 'Pending measured evidence')]);
+    node('execution', execution.label, 'sdt:ActionExecution', 'UE', 'service', 735, 525, execution.status === 'completed' ? 'Simulated completion' : execution.status === 'interrupted' ? 'Interrupted simulation' : 'Simulated downtime', [field('Execution ID', execution.id), field('Planned downtime', `${execution.downtimeH} h`), field('Recorded downtime', `${execution.progress?.elapsedH ?? 0} h`), field('End reason', execution.endReason ?? 'n/a'), field('Authorisation', 'Not recorded; automatic demonstration policy'), field('Outcome assessment', 'Pending measured evidence')]);
     link('execution', 'recommendation', 'sdt:executesRecommendation');
     if (execution.after) {
       const after = execution.after.reading;
-      node('post-observation', 'Post-service readings', 'sdt:PostActionObservation', 'DCDCE', 'evidence', 490, 525, 'Simulated result', [field('Crack before / after', `${p.crackMm ?? 'n/a'} / ${after.crackMm ?? 'n/a'} mm`), field('RUL P10 before / after', `${p.rulP10} / ${after.rulP10} h`), field('Vibration before / after', `${p.vibrationRms.toFixed(3)} / ${after.vibrationRms.toFixed(3)} g`), field('Service state after', execution.after.serviceState), field('Evaluation', 'Measured intervention outcome and policy feedback not recorded')]);
+      const before = execution.before.reading;
+      node('post-observation', 'Post-service readings', 'sdt:PostActionObservation', 'DCDCE', 'evidence', 490, 525, 'Simulated result', [field('Crack before / after', `${before.crackMm ?? 'n/a'} / ${after.crackMm ?? 'n/a'} mm`), field('RUL P10 before / after', `${before.rulP10} / ${after.rulP10} h`), field('Vibration before / after', `${before.vibrationRms.toFixed(3)} / ${after.vibrationRms.toFixed(3)} g`), field('Service state after', execution.after.serviceState), field('Evaluation', 'Measured intervention outcome and policy feedback not recorded')]);
       link('execution', 'post-observation', 'sdt:hasPostActionObservation');
       link('post-observation', 'blade', 'sosa:hasFeatureOfInterest');
     }

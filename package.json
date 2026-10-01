@@ -15,7 +15,8 @@
     "test:twin": "node --experimental-strip-types scripts/test-twin.mjs",
     "test:cmapss:semantic": "node --experimental-strip-types scripts/test-cmapss-semantic.mjs",
     "test:cmapss:contracts": "node --experimental-strip-types scripts/test-cmapss-contracts.mjs",
-    "test:cmapss:datasets": "node --experimental-strip-types scripts/test-cmapss-datasets.mjs"
+    "test:cmapss:datasets": "node --experimental-strip-types scripts/test-cmapss-datasets.mjs",
+    "test:model": "node --experimental-strip-types scripts/test-dashboard-model.mjs"
   },
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^5.4.1",

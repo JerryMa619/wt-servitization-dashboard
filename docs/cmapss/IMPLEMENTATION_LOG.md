@@ -92,3 +92,9 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - New tests cover all added subsets, dataset-aware JSON/RDF/results downloads, policy/evaluation/playback reset, cancellation, HTTP failure/retry and corrupted-artifact rejection/retry. An initial test-handler cleanup race was corrected by allowing the deliberately delayed interception to finish before removing it; no application error was involved.
 - Desktop and 390/320px layouts passed. Visual review prompted wider mobile dataset/engine controls; the affected multi-dataset and original browser suites were rerun successfully after the CSS change.
 - Implementation commit: `7b387e2`. Final documentation and screenshots follow in the handoff commit. Local URL remains http://127.0.0.1:5178/cmapss/ . Draft PR #2 remains unmerged and no public deployment was performed.
+
+### Integration with concurrent main updates
+
+- Final-head push CI passed for `d618653`: https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36939878971 . PR-triggered runs were unavailable because main had advanced with the wind-turbine repair work through `d9d47da`.
+- Merged that main history into the working branch, preserving the wind-turbine repairs and all C-MAPSS work. Resolved only package-script and TypeScript-option ordering conflicts by retaining both sides' settings. Added the incoming 11-test dashboard model suite to C-MAPSS branch/PR CI.
+- After integration, the 11 model tests, ten ontology/twin tests, all 4,835-snapshot dataset tests and production build passed. Multi-dataset and original C-MAPSS production browser suites also passed with zero page errors, including both original route smoke checks. No main merge or deployment was performed by this task.
