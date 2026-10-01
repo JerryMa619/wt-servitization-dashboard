@@ -108,3 +108,14 @@ The Vite production base path is configured for:
 ```text
 /wt-servitization-dashboard/
 ```
+
+## C-MAPSS prototype
+
+The `/cmapss/` route adds an FD001 replay demonstration with synchronized engine telemetry, RUL, ISO 23247-inspired framework mapping, ontology exploration and normalized-cost service advice. Local preview: `npm run dev -- --port 5178`, then <http://127.0.0.1:5178/cmapss/>.
+
+- [Demonstration guide](docs/cmapss/DEMO.md)
+- [Data, model, units and evidence limits](docs/cmapss/DATA.md)
+- [Implementation and verification record](docs/cmapss/IMPLEMENTATION_LOG.md)
+- [Tracking issue #1](https://github.com/JerryMa619/wt-servitization-dashboard/issues/1)
+
+![C-MAPSS replay](screenshots/cmapss/twin-desktop.png)
