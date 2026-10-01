@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "records": [
+    {
+      "dataset": "FD001",
+      "trainEngines": 100,
+      "testEngines": 100,
+      "sourceHashes": "verified",
+      "replayObservations": "exact match"
+    },
+    {
+      "dataset": "FD002",
+      "trainEngines": 260,
+      "testEngines": 259,
+      "sourceHashes": "verified",
+      "replayObservations": "exact match"
+    },
+    {
+      "dataset": "FD003",
+      "trainEngines": 100,
+      "testEngines": 100,
+      "sourceHashes": "verified",
+      "replayObservations": "exact match"
+    },
+    {
+      "dataset": "FD004",
+      "trainEngines": 249,
+      "testEngines": 248,
+      "sourceHashes": "verified",
+      "replayObservations": "exact match"
+    }
+  ]
+}

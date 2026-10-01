@@ -1,0 +1,58 @@
+[
+  {
+    "dataset": "FD001",
+    "conditions": 1,
+    "faultModes": 1,
+    "trainEngines": 100,
+    "testEngines": 100,
+    "trainRows": 20631,
+    "testRows": 13096,
+    "displayEngines": 8,
+    "model": "fd001-window-ridge-v1",
+    "endpointRMSE": 16.68935092418216,
+    "coverage": 0.78,
+    "replaySHA256": "7b295ddba535b75295cd4b00446926926416515d016aa6ad3e57ec00b8630b2e"
+  },
+  {
+    "dataset": "FD002",
+    "conditions": 6,
+    "faultModes": 1,
+    "trainEngines": 260,
+    "testEngines": 259,
+    "trainRows": 53759,
+    "testRows": 33991,
+    "displayEngines": 8,
+    "model": "fd002-window-ridge-v1",
+    "endpointRMSE": 28.94424833552151,
+    "coverage": 0.6718146718146718,
+    "replaySHA256": "5fecc834ce697b3cbfebb3a2630156ab21c2b34937d64097ca7fad43ea4961a2"
+  },
+  {
+    "dataset": "FD003",
+    "conditions": 1,
+    "faultModes": 2,
+    "trainEngines": 100,
+    "testEngines": 100,
+    "trainRows": 24720,
+    "testRows": 16596,
+    "displayEngines": 8,
+    "model": "fd003-window-ridge-v1",
+    "endpointRMSE": 17.861201925382847,
+    "coverage": 0.69,
+    "replaySHA256": "9c18ac0a24dd8270e1fed3d60a8879886c650ed05e694abe81c359c8553e512c"
+  },
+  {
+    "dataset": "FD004",
+    "conditions": 6,
+    "faultModes": 2,
+    "trainEngines": 249,
+    "testEngines": 248,
+    "trainRows": 61249,
+    "testRows": 41214,
+    "displayEngines": 8,
+    "model": "fd004-window-ridge-v1",
+    "endpointRMSE": 30.87238813526148,
+    "coverage": 0.6129032258064516,
+    "replaySHA256": "cc1cae208b1bd842d1e44a9f92af89b17f9655f3f417e57d8c3c9fd38ddec406"
+  }
+]

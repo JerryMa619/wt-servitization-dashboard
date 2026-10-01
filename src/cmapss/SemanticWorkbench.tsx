@@ -9,7 +9,7 @@ const queries = [
   { id: 'observations', label: 'Which observations and source support it?' },
   { id: 'contract', label: 'What contract and KPI budget govern this advice?' }
 ];
-type Result = Awaited<ReturnType<typeof executeSemantic>> & { key: string; engine: number; cycle: number; shapesSHA256: string; datasetSHA256: string };
+type Result = Awaited<ReturnType<typeof executeSemantic>> & { key: string; dataset: string; engine: number; cycle: number; shapesSHA256: string; datasetSHA256: string };
 export default function SemanticWorkbench({ input, onPause }: { input: SemanticInput; onPause: () => void }) {
   const [queryId,setQueryId] = useState('evidence');
   const [defect,setDefect] = useState<Defect>('none');
@@ -32,17 +32,17 @@ export default function SemanticWorkbench({ input, onPause }: { input: SemanticI
       const executed = await executeSemantic(input,shapes,query,defect);
       const sha = async (text:string) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))).map(x=>x.toString(16).padStart(2,'0')).join('');
       const [shapesSHA256,datasetSHA256] = await Promise.all([sha(shapes),sha(executed.datasetTTL)]);
-      if(id===request.current) setResult({...executed,key,engine:input.engine,cycle:input.point.cycle,shapesSHA256,datasetSHA256});
+      if(id===request.current) setResult({...executed,key,dataset:input.dataset??'FD001',engine:input.engine,cycle:input.point.cycle,shapesSHA256,datasetSHA256});
     } catch(e) { if(id===request.current) setError(e instanceof Error ? e.message : String(e)); }
     finally { if(id===request.current) setBusy(false); }
   }
   function download(kind: 'dataset' | 'report' | 'query' | 'results') {
     if(!current) return;
     const values = { dataset:current.datasetTTL, report:current.reportTTL, query:current.query,
-      results:JSON.stringify({engine:current.engine,cycle:current.cycle,conforms:current.conforms,defect:current.defect,scope:current.scope,shapesSHA256:current.shapesSHA256,datasetSHA256:current.datasetSHA256,query:current.query,rows:current.rows,violations:current.violations},null,2) };
+      results:JSON.stringify({dataset:current.dataset,engine:current.engine,cycle:current.cycle,conforms:current.conforms,defect:current.defect,scope:current.scope,shapesSHA256:current.shapesSHA256,datasetSHA256:current.datasetSHA256,query:current.query,rows:current.rows,violations:current.violations},null,2) };
     const extension = kind==='query'?'rq':kind==='results'?'json':'ttl';
     const url=URL.createObjectURL(new Blob([values[kind]],{type:extension==='json'?'application/json':'text/plain'}));
-    const a=document.createElement('a');a.href=url;a.download=`cmapss-${current.engine}-${current.cycle}-${kind}.${extension}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    const a=document.createElement('a');a.href=url;a.download=`cmapss-${current.dataset}-${current.engine}-${current.cycle}-${kind}.${extension}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   const columns = current?.rows.length ? Object.keys(current.rows[0]) : [];
   const display = (v:string) => /^-?\d+\.\d+$/.test(v) ? String(Number(v)) : compact(v);
@@ -59,7 +59,7 @@ export default function SemanticWorkbench({ input, onPause }: { input: SemanticI
       {error&&<p role="alert">Semantic execution failed: {error}</p>}
       {!current&&!error&&<p className="cm-caption">{result?'Snapshot, question or test case changed. Run again; previous results are not valid for this selection.':'No semantic check has run for this selection yet. Playback pauses when you run the workflow.'}</p>}
       {current&&<>
-        <div className={`cm-semantic-status ${current.conforms?'pass':'fail'}`}><ShieldCheck size={22}/><div><strong data-testid="shacl-result">{current.conforms?'CONFORMS · C-MAPSS profile':'NON-CONFORMING · evidence incomplete'}</strong><span>Engine {current.engine} · cycle {current.cycle} · {current.triples} triples · {current.rows.length} query rows · {current.violations.length} validation results</span></div></div>
+        <div className={`cm-semantic-status ${current.conforms?'pass':'fail'}`}><ShieldCheck size={22}/><div><strong data-testid="shacl-result">{current.conforms?'CONFORMS · C-MAPSS profile':'NON-CONFORMING · evidence incomplete'}</strong><span>{current.dataset} / Engine {current.engine} · cycle {current.cycle} · {current.triples} triples · {current.rows.length} query rows · {current.violations.length} validation results</span></div></div>
         {!current.conforms&&<p className="cm-semantic-warning">This RDF snapshot is not ready for evidence use. The query still runs for diagnosis; its rows are not a validation pass.</p>}
         {!!current.violations.length&&<div className="cm-violations">{current.violations.map((v,i)=><div key={i}><strong>{compact(v.path) || compact(v.constraint)}</strong><p>{v.message || compact(v.constraint)}</p><small>{v.focus}</small></div>)}</div>}
         <div className="cm-table-wrap"><table aria-label="SPARQL results"><thead><tr>{columns.map(c=><th key={c}>?{c}</th>)}</tr></thead><tbody>{current.rows.map((row,i)=><tr key={i}>{columns.map(c=><td key={c}>{display(row[c])}</td>)}</tr>)}</tbody></table>{!current.rows.length&&<p className="cm-caption">{queryId==='contract'&&!input.contract?'No named contract is applied. Select one in Service decisions to query its budget.':'No rows: required links or units may be missing for this query.'}</p>}</div>

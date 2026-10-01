@@ -1,3 +1,4 @@
+export type DatasetId = 'FD001' | 'FD002' | 'FD003' | 'FD004';
 export type Point = { cycle: number; low: number; point: number; high: number; settings: number[]; sensors: number[] };
 export type Scenario = { consequence: number; maintenance: number; leadMultiplier: number; gate: number };
 export const defaults: Scenario = { consequence: 10, maintenance: 1, leadMultiplier: 1, gate: 15 };
@@ -27,8 +28,8 @@ export function decide(p: Pick<Point, 'low' | 'point' | 'high'>, s: Scenario) {
   const chosen = candidates.filter(a => a.allowed).reduce((best,a) => a.total < best.total ? a : best);
   return { candidates, chosen, gated: p.low <= s.gate };
 }
-export function evidence(engine: number, p: Point, scenario: Scenario, provenance: object) {
-  return { id: `FD001-${engine}-cycle-${p.cycle}`, dataset: 'FD001', engine, cycle: p.cycle,
+export function evidence(engine: number, p: Point, scenario: Scenario, provenance: object, dataset: DatasetId = 'FD001') {
+  return { id: `${dataset}-${engine}-cycle-${p.cycle}`, dataset, engine, cycle: p.cycle,
     mode: 'dataset replay / advisory only', units: 'cycles', observation: { settings: [...p.settings], sensorValues: [...p.sensors] },
     prediction: { low: p.low, point: p.point, high: p.high }, serviceState: state(p.low),
     scenario: { ...scenario }, decision: decide(p, scenario), provenance,

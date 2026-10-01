@@ -27,7 +27,7 @@ try{
   await page.getByRole('checkbox',{name:'Evaluation truth'}).uncheck();
   await screenshot('twin-desktop');checks.push('play, pause, seek, evaluation isolation');
   await nav('DT framework').click();await page.getByRole('button',{name:/01 \/ OE/}).click();
-  assert.ok((await page.locator('.cm-framework-detail').innerText()).includes('FD001 engine identifier'));
+  assert.ok((await page.locator('.cm-framework-detail').innerText()).includes('Dataset + engine identifier'));
   await page.getByRole('checkbox',{name:'Show servitization extensions'}).uncheck();assert.equal(await page.locator('.cm-framework em').count(),0);
   await page.getByRole('checkbox',{name:'Show servitization extensions'}).check();
   await screenshot('framework-desktop');checks.push('framework module selection and extension toggle');

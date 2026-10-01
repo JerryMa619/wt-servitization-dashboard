@@ -1,6 +1,6 @@
 import { DataFactory, Parser, Store, Writer } from 'n3';
 import type { Quad } from '@rdfjs/types';
-import { decide, state, type Point, type Scenario } from './model.ts';
+import { decide, state, type Point, type Scenario, type DatasetId } from './model.ts';
 import { capacityBudget, matchesPolicy, type ContractTerms } from './contracts.ts';
 
 export const NS = {
@@ -15,15 +15,16 @@ export const iri = (term: string) => {
   return nn(prefix in NS ? NS[prefix as keyof typeof NS] + local : term);
 };
 export type SemanticInput = {
-  engine: number; point: Point; scenario: Scenario; contract?: ContractTerms;
+  dataset?: DatasetId; engine: number; point: Point; scenario: Scenario; contract?: ContractTerms;
   provenance: { model: string; baselineSHA256: string; exporterSHA256: string; files: Record<string, string>; ontologySHA256: string; sensorNumbers: number[] };
 };
 export type Defect = 'none' | 'missing-unit' | 'missing-evidence';
 export function createDataset(input: SemanticInput, defect: Defect = 'none') {
-  const { engine, point: p, scenario, provenance, contract } = input;
+  const { engine, point: p, scenario, provenance, contract, dataset = 'FD001' } = input;
+  if (!['FD001','FD002','FD003','FD004'].includes(dataset) || !provenance.model.startsWith(dataset.toLowerCase()+'-')) throw new Error('Dataset/model identity mismatch');
   if(contract && !matchesPolicy(contract,scenario)) throw new Error('Named contract does not match the current policy');
   const store = new Store();
-  const asset = `urn:cmapss:FD001:engine:${engine}`;
+  const asset = `urn:cmapss:${dataset}:engine:${engine}`;
   const frame = `${asset}:cycle:${p.cycle}`;
   const variant = `${frame}:scenario:${scenario.consequence}_${scenario.maintenance}_${scenario.leadMultiplier}_${scenario.gate}${contract?`:contract:${contract.id}:v${contract.version}:kpi:${contract.target}_${contract.periodSlots}_${contract.plannedLossSlots}_${contract.unplannedLossSlots}`:''}`;
   const estimate = `${frame}:estimate:${provenance.model}`;
@@ -48,12 +49,12 @@ export function createDataset(input: SemanticInput, defect: Defect = 'none') {
   };
   const root = 'urn:cmapss:active-snapshot';
   type(root, 'cm:Snapshot'); link(root, 'cm:asset', asset); link(root, 'cm:estimate', estimate); link(root, 'cm:recommendation', rec);
-  value(root, 'cm:dataset', 'FD001'); value(root, 'cm:sourceOntologySHA256', provenance.ontologySHA256);
+  value(root, 'cm:dataset', dataset); value(root, 'cm:sourceOntologySHA256', provenance.ontologySHA256);
   type(asset, 'sdt:Asset'); value(asset, 'cm:engineId', engine, 'xsd:integer');
   link(asset, 'sdt:currentState', `${frame}:state`); type(`${frame}:state`, 'sdt:ServiceState'); value(`${frame}:state`, 'sdt:stateLabel', state(p.low));
   link(asset, 'sdt:governedBy', `${variant}:contract`); type(`${variant}:contract`, 'sdt:Contract'); value(`${variant}:contract`, 'cm:assumption', true, 'xsd:boolean');
   type(window, 'cm:ObservationWindow'); value(window, 'cm:windowStart', Math.max(1,p.cycle-29), 'xsd:integer'); value(window, 'cm:cycle', p.cycle, 'xsd:integer');
-  link(window, 'prov:wasDerivedFrom', source('test_FD001.txt'));
+  link(window, 'prov:wasDerivedFrom', source(`test_${dataset}.txt`));
   p.settings.forEach((v,i) => value(window, `cm:setting${i+1}`, v, 'xsd:decimal'));
   p.sensors.forEach((v,i) => {
     const channel = provenance.sensorNumbers[i];
@@ -64,7 +65,7 @@ export function createDataset(input: SemanticInput, defect: Defect = 'none') {
     value(obs, 'sosa:hasSimpleResult', v, 'xsd:decimal'); value(obs, 'cm:cycle', p.cycle, 'xsd:integer');
   });
   type(model, 'cm:ModelArtifact'); value(model, 'cm:modelId', provenance.model); value(model, 'cm:sha256', provenance.baselineSHA256); value(model, 'cm:exporterSHA256', provenance.exporterSHA256);
-  link(model, 'prov:wasDerivedFrom', source('train_FD001.txt'));
+  link(model, 'prov:wasDerivedFrom', source(`train_${dataset}.txt`));
   type(estimate, 'cm:CycleRULEstimate'); link(estimate, 'cm:unit', 'cm:Cycle');
   value(estimate, 'cm:lowerBound', p.low, 'xsd:decimal'); value(estimate, 'cm:pointEstimate', p.point, 'xsd:decimal'); value(estimate, 'cm:upperBound', p.high, 'xsd:decimal');
   value(estimate, 'cm:cycle', p.cycle, 'xsd:integer'); link(estimate, 'prov:wasDerivedFrom', window); link(estimate, 'cm:generatedWith', model);

@@ -38,6 +38,7 @@ jobs:
           npm run test:cmapss
           npm run test:cmapss:semantic
           npm run test:cmapss:contracts
+          npm run test:cmapss:datasets
           npm run test:twin
 
       - name: Build dashboard

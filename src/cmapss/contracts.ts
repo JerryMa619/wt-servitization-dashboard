@@ -1,4 +1,4 @@
-import { decide, type Point, type Scenario } from './model.ts';
+import { decide, type Point, type Scenario, type DatasetId } from './model.ts';
 
 export type ContractTerms = {
   id: string; version: string; name: string; responsibility: string;
@@ -35,8 +35,8 @@ export function comparisonExamples(points: Point[]) {
   const margin=points.findIndex(p=>{const [a,b]=compareContracts(p);return !a.decision.gated&&b.decision.gated&&a.decision.chosen.name!==b.decision.chosen.name;});
   return {cost,margin};
 }
-export function comparisonEvidence(engine:number,p:Point,provenance:object) {
-  return JSON.parse(JSON.stringify({version:'0.3.0',engine,cycle:p.cycle,dataset:'FD001',
+export function comparisonEvidence(engine:number,p:Point,provenance:object,dataset:DatasetId='FD001') {
+  return JSON.parse(JSON.stringify({version:'0.4.0',engine,cycle:p.cycle,dataset,
     observation:{settings:p.settings,sensors:p.sensors},prediction:{low:p.low,point:p.point,high:p.high,unit:'cycles'},
     comparisons:compareContracts(p),provenance,
     calculation:'Allowed lost slots = (1 − target) × period slots; margin = allowed − assumed loss. This KPI budget does not enter the cost optimizer.',
