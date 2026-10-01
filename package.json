@@ -11,7 +11,8 @@
     "sync:ontology": "node scripts/export-ontology.mjs",
     "check:ontology": "node scripts/export-ontology.mjs --check",
     "test:ontology": "node --experimental-strip-types scripts/test-ontology.mjs",
-    "test:cmapss": "node --experimental-strip-types scripts/test-cmapss.mjs"
+    "test:cmapss": "node --experimental-strip-types scripts/test-cmapss.mjs",
+    "test:twin": "node --experimental-strip-types scripts/test-twin.mjs"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.21",

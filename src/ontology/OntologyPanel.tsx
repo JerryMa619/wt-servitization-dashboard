@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import ReactFlow, { Background, Controls, Handle, MarkerType, Position, type NodeProps } from 'reactflow';
 import { BookOpen, Download, Focus, GitBranch, History, Network, Pause, Play, Search } from 'lucide-react';
 import schema from '../data/ontologySchema.json';
-import { buildSemanticGraph, evidenceSource, updateExecutionLog, type OntologyExecution, type OntologySnapshot, type SemanticNode } from './model';
+import { buildSemanticGraph, evidenceSource, type OntologyExecution, type OntologySnapshot, type SemanticNode } from './model';
 import './ontology.css';
 
 const colors = { asset: '#7bc8ed', evidence: '#68d5b3', prediction: '#c5aff2', decision: '#f2cf7c', service: '#edacb2', contract: '#a8c9d8' };
@@ -47,20 +47,25 @@ function downloadGraph(snapshot: OntologySnapshot, execution?: OntologyExecution
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export default function OntologyPanel({ snapshot, execution }: { snapshot: OntologySnapshot; execution: OntologyExecution | null }) {
+export type OntologyFocusRequest = { id: number; nodeId: string; eventId: string; snapshot?: OntologySnapshot };
+
+export default function OntologyPanel({ snapshot, executions: log, focusRequest, onReplay }: { snapshot: OntologySnapshot; executions: OntologyExecution[]; focusRequest: OntologyFocusRequest | null; onReplay: (eventId: string) => void }) {
   const [tab, setTab] = useState<OntologyTab>('live');
   const [selected, setSelected] = useState('recommendation');
-  const [log, setLog] = useState<OntologyExecution[]>([]);
   const [eventId, setEventId] = useState('live');
   const [frozen, setFrozen] = useState<OntologySnapshot | null>(null);
   const [query, setQuery] = useState('');
   const [classId, setClassId] = useState('sdt:ServiceActionRecommendation');
   const [focused, setFocused] = useState(() => window.matchMedia('(max-width: 760px)').matches);
   useEffect(() => {
-    if (execution) setLog((current) => updateExecutionLog(current, execution));
-  }, [execution]);
+    if (!focusRequest) return;
+    setTab('live');
+    setSelected(focusRequest.nodeId);
+    setEventId(focusRequest.eventId);
+    setFrozen(focusRequest.snapshot ? structuredClone(focusRequest.snapshot) : null);
+  }, [focusRequest]);
   const event = log.find((entry) => entry.id === eventId);
-  const current = event?.before ?? frozen ?? snapshot;
+  const current = frozen ?? event?.before ?? snapshot;
   const graph = useMemo(() => buildSemanticGraph(current, event), [current, event]);
   const inspected = graph.nodes.find((node) => node.id === selected) ?? graph.nodes[0];
   const neighbors = new Set(graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).flatMap((edge) => [edge.source, edge.target]));
@@ -103,7 +108,7 @@ export default function OntologyPanel({ snapshot, execution }: { snapshot: Ontol
     </div>
 
     {tab === 'live' && <div role="tabpanel" id="ontology-view-live" aria-labelledby="ontology-tab-live">
-      <div className="ontology-context"><span className={`ontology-live-dot ${event || frozen ? 'paused' : ''}`} /><strong>{event ? 'Service event snapshot' : frozen ? 'Frozen snapshot' : 'Live projection'}</strong><span>{evidenceSource(current.reading)}</span><time>{current.reading.t}</time></div>
+      <div className="ontology-context"><span className={`ontology-live-dot ${event || frozen ? 'paused' : ''}`} /><strong>{event ? frozen ? 'Linked replay frame' : 'Service event snapshot' : frozen ? 'Frozen snapshot' : 'Live projection'}</strong><span>{evidenceSource(current.reading)}</span><time>{current.reading.t}</time></div>
       <div className="ontology-content">
         <div className="ontology-canvas" data-testid="ontology-graph"><ReactFlow key={`${event ? 'event' : 'current'}-${focused ? inspected.id : 'all'}`} nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView fitViewOptions={{ padding: 0.12 }} minZoom={0.25} maxZoom={1.8} nodesDraggable={false} nodesConnectable={false} onNodeClick={(_, node) => setSelected(node.id)} attributionPosition="bottom-left"><Background color="#354b46" gap={24} /><Controls showInteractive={false} /></ReactFlow></div>
         <aside className="ontology-inspector" aria-label="Ontology entity details"><div className="ontology-inspector-head"><span style={{ color: colors[inspected.group] }}>{inspected.type}</span><h3>{inspected.title}</h3><span className="ontology-detail-status">{inspected.status}</span></div><dl>{inspected.fields.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl><details><summary>Entity URI & relationships</summary><code>{inspected.uri}</code><ul className="ontology-relationships">{graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).map((edge, index) => {
@@ -121,7 +126,7 @@ export default function OntologyPanel({ snapshot, execution }: { snapshot: Ontol
 
     {tab === 'trace' && <div role="tabpanel" id="ontology-view-trace" aria-labelledby="ontology-tab-trace" className="ontology-trace-layout">
       <div className="ontology-event-list"><div className="ontology-schema-summary"><strong>Session Events</strong><span>{log.length} / 30</span></div>{log.length === 0 ? <p className="ontology-empty">No service execution recorded in this session.</p> : log.map((entry) => <button key={entry.id} className={traceEvent?.id === entry.id ? 'active' : ''} onClick={() => setEventId(entry.id)}><span>{entry.before.reading.t} · {entry.status === 'completed' ? 'Completed' : 'In downtime'}</span><strong>{entry.label}</strong><small>{entry.before.serviceState} · {entry.downtimeH} h planned</small></button>)}</div>
-      <div className="ontology-trace-detail">{traceEvent ? <><div className="ontology-trace-header"><div><span className="ontology-type-label">{traceEvent.id}</span><h3>{traceEvent.label}</h3></div><button onClick={() => { setEventId(traceEvent.id); setTab('live'); setSelected('execution'); }}><Network size={15} />View graph</button></div><ol className="ontology-lifecycle">
+      <div className="ontology-trace-detail">{traceEvent ? <><div className="ontology-trace-header"><div><span className="ontology-type-label">{traceEvent.id}</span><h3>{traceEvent.label}</h3></div><button onClick={() => onReplay(traceEvent.id)}><Play size={15} />Replay on turbine</button><button onClick={() => { setEventId(traceEvent.id); setTab('live'); setSelected('execution'); }}><Network size={15} />View graph</button></div><ol className="ontology-lifecycle">
         <li className="complete"><strong>Evidence</strong><span>{traceEvent.before.reading.crackMm?.toFixed(1) ?? 'n/a'} mm · P10 {traceEvent.before.reading.rulP10} h</span></li>
         <li className="complete"><strong>Recommendation</strong><span>{traceEvent.before.recommendation.label}</span></li>
         <li className="pending"><strong>Authorisation</strong><span>Not recorded · auto demo policy</span></li>
