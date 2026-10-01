@@ -1,0 +1,62 @@
+@prefix cm: <https://w3id.org/sdt-cmapss/demo#> .
+@prefix sdt: <http://purl.org/sdt/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix iof: <https://spec.industrialontologies.org/ontology/core/Core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+cm: a owl:Ontology ; owl:versionInfo "0.2.0" ;
+  rdfs:label "C-MAPSS replay application profile" ;
+  rdfs:comment "Local application namespace; URI registration/resolution is not claimed. Reuses selected SDT terms without modifying its T-Box. The accompanying shapes validate this profile, not the full source ontology. No OWL reasoning is performed." .
+cm:CycleRULEstimate a owl:Class ;
+  rdfs:subClassOf iof:InformationContentEntity, prov:Entity ;
+  rdfs:label "Cycle-valued remaining-life estimate" ;
+  rdfs:seeAlso sdt:RULEstimate ;
+  rdfs:comment "A separate class because sdt:RULEstimate requires hours-valued attributes. No subclass or equivalence link to sdt:RULEstimate, and no cycles-to-hours conversion. Bounds are empirical residual bounds; point is not asserted to be a median." .
+cm:Cycle a owl:NamedIndividual ; rdfs:label "C-MAPSS operating cycle" ;
+  rdfs:comment "Dataset cycle, not hour, flight-hour or SI second; no physical duration is supplied." .
+cm:Snapshot a owl:Class ; rdfs:subClassOf prov:Entity .
+cm:ObservationWindow a owl:Class ; rdfs:subClassOf prov:Entity .
+cm:ModelArtifact a owl:Class ; rdfs:subClassOf prov:Entity .
+cm:Policy a owl:Class ; rdfs:subClassOf prov:Entity .
+cm:ActionCandidate a owl:Class ; rdfs:subClassOf prov:Entity .
+cm:SourceFile a owl:Class ; rdfs:subClassOf prov:Entity .
+cm:unit a owl:ObjectProperty ; rdfs:domain cm:CycleRULEstimate .
+cm:lowerBound a owl:DatatypeProperty ; rdfs:domain cm:CycleRULEstimate ; rdfs:range xsd:decimal .
+cm:pointEstimate a owl:DatatypeProperty ; rdfs:domain cm:CycleRULEstimate ; rdfs:range xsd:decimal .
+cm:upperBound a owl:DatatypeProperty ; rdfs:domain cm:CycleRULEstimate ; rdfs:range xsd:decimal .
+cm:cycle a owl:DatatypeProperty ; rdfs:range xsd:integer .
+cm:windowStart a owl:DatatypeProperty ; rdfs:range xsd:integer .
+cm:engineId a owl:DatatypeProperty ; rdfs:range xsd:integer .
+cm:dataset a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:asset a owl:ObjectProperty ; rdfs:range sdt:Asset .
+cm:estimate a owl:ObjectProperty ; rdfs:range cm:CycleRULEstimate .
+cm:recommendation a owl:ObjectProperty ; rdfs:range sdt:ServiceActionRecommendation .
+cm:observation a owl:ObjectProperty .
+cm:generatedWith a owl:ObjectProperty ; rdfs:range cm:ModelArtifact .
+cm:basedOnEstimate a owl:ObjectProperty ; rdfs:range cm:CycleRULEstimate .
+cm:usesPolicy a owl:ObjectProperty ; rdfs:range cm:Policy .
+cm:forAsset a owl:ObjectProperty ; rdfs:range sdt:Asset .
+cm:hasCandidate a owl:ObjectProperty ; rdfs:range cm:ActionCandidate .
+cm:selectedCandidate a owl:ObjectProperty ; rdfs:range cm:ActionCandidate .
+cm:actionName a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:directCost a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:riskCost a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:totalCost a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:reviewCycles a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:eligible a owl:DatatypeProperty ; rdfs:range xsd:boolean .
+cm:consequenceRatio a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:maintenanceCost a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:leadMultiplier a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:guardrailCycles a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:assumption a owl:DatatypeProperty ; rdfs:range xsd:boolean .
+cm:setting1 a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:setting2 a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:setting3 a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+cm:sha256 a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:fileName a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:modelId a owl:DatatypeProperty ; rdfs:range xsd:string .
+cm:sourceOntologySHA256 a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+cm:exporterSHA256 a owl:DatatypeProperty ; rdfs:range xsd:string .

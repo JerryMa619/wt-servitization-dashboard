@@ -20,4 +20,5 @@ jobs:
       - run: npm run test:ontology
       - run: npm run test:twin
       - run: npm run test:cmapss
+      - run: npm run test:cmapss:semantic
       - run: npm run build

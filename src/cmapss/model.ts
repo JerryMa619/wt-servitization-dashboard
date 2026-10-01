@@ -32,6 +32,6 @@ export function evidence(engine: number, p: Point, scenario: Scenario, provenanc
     mode: 'dataset replay / advisory only', units: 'cycles', observation: { settings: [...p.settings], sensorValues: [...p.sensors] },
     prediction: { low: p.low, point: p.point, high: p.high }, serviceState: state(p.low),
     scenario: { ...scenario }, decision: decide(p, scenario), provenance,
-    semantics: { representation: 'UI projection; no persisted RDF assertions', cycleRUL: 'Not mapped to sdt:*RULhours', reasoning: 'not executed', shacl: 'not executed' },
+    semantics: { representation: 'Application JSON; RDF can be generated in Semantic check', cycleRUL: 'cm:CycleRULEstimate with explicit cm:Cycle; not sdt:*RULhours', reasoning: 'OWL inference not executed', shacl: 'Not recorded by this JSON export; use the separate SHACL report for a validated snapshot' },
     execution: 'not performed', outcome: 'not observed' };
 }

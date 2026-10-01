@@ -1,0 +1,8 @@
+PREFIX cm: <https://w3id.org/sdt-cmapss/demo#>
+SELECT ?action ?eligible ?reviewCycles ?direct ?risk ?total
+WHERE {
+  <urn:cmapss:active-snapshot> cm:recommendation/cm:hasCandidate ?candidate .
+  ?candidate cm:actionName ?action ; cm:eligible ?eligible ; cm:reviewCycles ?reviewCycles ;
+             cm:directCost ?direct ; cm:riskCost ?risk ; cm:totalCost ?total .
+}
+ORDER BY ?total ?action
