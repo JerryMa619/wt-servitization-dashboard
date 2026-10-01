@@ -1,8 +1,12 @@
-# C-MAPSS v1 demonstration guide / 演示指南
+# C-MAPSS demonstration guide / 演示指南
 
 Start: `npm install` then `npm run dev -- --port 5178`; open <http://127.0.0.1:5178/cmapss/>. The route also supports the repository's production base path. Main-branch Pages deployment is not performed by opening the PR.
 
-## Five-minute walkthrough
+## Guided version 0.2
+
+Use the four Engine 034 stage buttons (cycles 30 / 94 / 158 / 181), then **Validate this snapshot** to execute RDF generation, SPARQL and SHACL. See the [guided and semantic workflow](SEMANTIC_WORKFLOW.md) for the full demonstration, negative examples and unit adaptation.
+
+## Free exploration
 
 1. **Twin overview / 运行状态** — Engine 034 starts paused at cycle 80. Play or seek through the actual FD001 observations. RUL and service state update together. The drawing is conceptual geometry. Evaluation truth is optional and is never used in the service advice.
 2. **DT framework / 框架** — Select OE, DCE, DTE, UE or Cross-System. The panel explains the input, output and servitization extension against the same engine/cycle. Toggle extensions to explain the proposed additions separately from the architecture mapping.
@@ -15,7 +19,7 @@ Start: `npm install` then `npm run dev -- --port 5178`; open <http://127.0.0.1:5
 - Eight engines, FD001 only. Four shared-state views. Engine selection resets to the first available model snapshot; end-of-trajectory playback stops automatically.
 - English research-demo interface; this guide is bilingual. Responsive desktop/mobile layouts.
 - Framework selection is an explanatory architectural mapping, not measurement of live service traffic.
-- No component localisation, physical connection, action execution, realized contract KPI or ontology validation is claimed.
+- No component localisation, physical connection, action execution, realized contract KPI or full-source-ontology conformance is claimed. The separate application profile is actually validated in Semantic check.
 - Raw data archives and private thesis documents are not published.
 
 ## Validation
@@ -24,6 +28,7 @@ Start: `npm install` then `npm run dev -- --port 5178`; open <http://127.0.0.1:5
 npm run check:ontology
 npm run test:ontology
 npm run test:cmapss
+npm run test:cmapss:semantic
 npm run build
 PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs CHROME_EXECUTABLE=/path/to/chrome node scripts/verify-cmapss-ui.mjs
 ```

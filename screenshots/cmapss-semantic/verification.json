@@ -1,0 +1,15 @@
+{
+  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
+  "status": "passed",
+  "browserErrors": [],
+  "checks": [
+    "four guide milestones and contextual views",
+    "real browser RDF / SHACL / SPARQL",
+    "four evidence downloads and SHA-256",
+    "missing unit and missing recommendation link fail",
+    "three SPARQL query result sets",
+    "stale cycle/test/query results invalidated",
+    "guide resets scenario",
+    "390/320px pass and violation layouts"
+  ]
+}

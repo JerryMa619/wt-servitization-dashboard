@@ -32,7 +32,7 @@ try{
   await page.getByRole('checkbox',{name:'Show servitization extensions'}).check();
   await screenshot('framework-desktop');checks.push('framework module selection and extension toggle');
   await nav('Ontology explorer').click();assert.equal(await page.locator('.react-flow__node').count(),6);
-  await page.locator('.react-flow__node').filter({hasText:'sdt:RULEstimate'}).click();
+  await page.locator('.react-flow__node').filter({hasText:'cm:CycleRULEstimate'}).click();
   assert.ok((await page.locator('.cm-node-detail').innerText()).includes('not asserted into hours properties'));
   await screenshot('ontology-desktop');
   await page.getByRole('button',{name:'Schema',exact:true}).click();

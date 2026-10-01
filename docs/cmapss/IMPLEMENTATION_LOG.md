@@ -37,3 +37,23 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - GitHub PR-triggered CI passed for implementation/integration commit `c12549c`: https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36933819574
 - Local first-review URL: http://127.0.0.1:5178/cmapss/ . Draft PR: https://github.com/JerryMa619/wt-servitization-dashboard/pull/2 . The user can review locally; no merge or public Pages release is claimed.
 - Final handoff commit changes documentation, the verification URL and dependency-link ignore handling only.
+
+## 2026-10-01 — guided demonstration and executable semantics (v0.2)
+
+- User approved steps 1–2: a complete Engine 034 demonstration and executable ontology processing, with GitHub recording.
+- Added data-derived first-entry milestones: Nominal 30, Watch 94, Alert 158, Hold 181. Each guide selection restores baseline assumptions and opens the relevant view. Text distinguishes a service-state change from a change in advisory action.
+- Added an explicit cycle RUL class/profile rather than subclassing the source hours-constrained RULEstimate. Preserved the original T-Box and shapes. The application profile does not claim full source-ontology conformance.
+- Implemented actual in-browser RDF generation (N3), SPARQL SELECT (Comunica 5.4.1), SHACL Core (rdf-validate-shacl 0.6.5), positive/negative examples, Turtle/query/report/results downloads and dataset/shapes hashes. Library execution is lazy-loaded.
+- Added source-file, baseline/exporter and source-ontology hash provenance. Reference cycle 181 snapshot contains 136 triples. Test truth never enters the RDF. Window provenance references the raw-file range; seven endpoint display observations are materialized.
+- Results become stale immediately when the engine/cycle/scenario/query/test changes. Running pauses replay. Failed test copies are clearly separated from the original observation and advice.
+- Semantic tests passed: four guide stages, all eight endpoint engines, three queries, scenario identity, RDF roundtrip, unchanged source ontology, forbidden hours and truth isolation. Missing unit/evidence/source hash/policy, empty graph, missing observation provenance and inverted bounds fail as expected.
+- Browser checks passed on development preview: guide navigation, actual library execution, four downloads, both negative examples, three query result sets, stale-result invalidation, scenario reset and 390/320px layouts; zero page errors. Initial browser attempt required restarting Vite after replacing the shared dependency link with isolated installed dependencies; the retry passed.
+- Applied compatible npm dependency patches. Existing ECharts 5.x moderate advisory requires a separate major-version upgrade; no semantic-library advisory remains. Build passes with existing large-bundle warnings plus the lazy semantic engine chunk.
+- See SEMANTIC_WORKFLOW.md, semantic-evidence/ and screenshots/cmapss-semantic/ for reproducible details and evidence. Production/regression verification follows below.
+
+### v0.2 final production verification
+
+- Production build and `/wt-servitization-dashboard/cmapss/` verification passed. Both semantic-workflow and original C-MAPSS browser suites passed with zero page errors, including original standard/enhanced wind-turbine route checks.
+- Verified desktop and 390/320px layouts for both conforming and invalid RDF cases; screenshot evidence has been refreshed for v0.2.
+- Source ontology verification, all ten existing ontology/twin tests and all 1,233-record advisory checks passed. The semantic suite is now required in both branch/PR checks and future Pages builds.
+- Implementation commit: `aeeff2b`. Local preview remains http://127.0.0.1:5178/cmapss/ . User review is through draft PR #2; no main merge or Pages publication was performed.

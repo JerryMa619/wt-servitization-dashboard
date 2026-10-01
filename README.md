@@ -134,3 +134,9 @@ The `/cmapss/` route adds an FD001 replay demonstration with synchronized engine
 - [Tracking issue #1](https://github.com/JerryMa619/wt-servitization-dashboard/issues/1)
 
 ![C-MAPSS replay](screenshots/cmapss/twin-desktop.png)
+
+### Guided and semantic workflow (v0.2)
+
+Four Engine 034 milestone buttons connect the replay to framework, ontology and service decisions. **Ontology → Semantic check** now generates RDF and executes SPARQL / SHACL Core locally, including missing-unit and missing-evidence counterexamples. The explicit cycle extension avoids hours-valued assertions. [Walkthrough, scope and reproducibility](docs/cmapss/SEMANTIC_WORKFLOW.md).
+
+![Executable semantic evidence](screenshots/cmapss-semantic/semantic-pass-desktop.png)
