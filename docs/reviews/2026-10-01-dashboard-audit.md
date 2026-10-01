@@ -2,6 +2,8 @@
 
 ## Scope
 
+Follow-up: the owner authorized implementing these findings. Current repair status and validation: [repair log](../fixes/IMPLEMENTATION_LOG.md), [model basis](../model/MODEL_BASIS.md). The findings below preserve the original baseline review, not the current implementation.
+
 Reviewed implementation at commit `2eada16` on both local dashboard routes, with particular attention to state classification, service interruption, ontology / replay evidence integrity, model boundaries, quality claims, cumulative KPI and responsive architecture. No production code or model parameters changed during this review.
 
 Assessment: useful as a simulation demonstration, but **needs revision** before treating service state, accumulated KPI or quality indicators as dependable decision evidence. Model probabilities and real-world maintenance efficacy were not independently validated. This review does not establish ISO conformity.

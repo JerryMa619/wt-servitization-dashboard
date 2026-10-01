@@ -40,7 +40,7 @@ Highlighting is a workflow visualization, not instrumentation proving that a mod
 
 ## Shared event model and replay
 
-`App` owns the latest 30 session events. Each event contains the original pre-service snapshot and proposal, actual simulator downtime snapshots with elapsed modeled hours, and an optional post-service snapshot. Entries are cloned; subsequent progress does not overwrite original evidence. Ontology and the integrated workspace use this same store.
+`App` owns the latest 30 locally saved events. Each event contains the original pre-service snapshot and proposal, actual simulator downtime snapshots with elapsed modeled hours, and an optional post-service snapshot. Entries are cloned; subsequent progress does not overwrite original evidence. Ontology and the integrated workspace use this same store. Linked frozen views pin the record and frame so pruning does not remove their provenance.
 
 Starting replay deep-clones the selected record. New live simulator ticks or event-log updates cannot change its timeline. The first two frames show evidence and the captured proposal using the same pre-service observation; they are logical presentation stages, not independently measured timestamps. Subsequent frames use recorded downtime readings, never fabricated interpolation. In-progress events replay only the frames captured when selected; reselect the event to include later progress.
 
@@ -58,7 +58,7 @@ The turbine reuses the existing smooth requestAnimationFrame rotor and crack rep
 
 ## Evidence boundaries
 
-No calibrated crack / RUL model version, live sensor identity, human authorisation, physical command transport, measured maintenance outcome, feedback update or live SHACL / OWL reasoning is newly provided. Modeled downtime is compressed; contract KPI is a dataset reference, not recalculated from intervention history. Session history resets on reload; JSON export is available through ontology. Partial service records can remain incomplete if a manual scenario interrupts an automatic intervention.
+The dashboard model is versioned `wt-demo-2.0` but remains uncalibrated. Live sensor identity, human authorisation, physical command transport, measured maintenance outcome, feedback and live SHACL / OWL reasoning are not supplied. Modeled downtime is compressed; contract KPI is a dataset reference. Enhanced session availability separately uses its saved observation horizon and partial downtime ledger. History survives reload in browser storage and supports validated import/export; unfinished maintenance closes as interrupted on manual replacement or reload, with incurred hours retained and no fabricated repair.
 
 ## Verification
 

@@ -4,6 +4,7 @@ import { BookOpen, Download, Focus, GitBranch, History, Network, Pause, Play, Se
 import schema from '../data/ontologySchema.json';
 import { buildSemanticGraph, evidenceSource, type OntologyExecution, type OntologySnapshot, type SemanticNode } from './model';
 import './ontology.css';
+import { snapshotBelongsToEvent } from '../model/session';
 
 const colors = { asset: '#7bc8ed', evidence: '#68d5b3', prediction: '#c5aff2', decision: '#f2cf7c', service: '#edacb2', contract: '#a8c9d8' };
 type OntologyTab = 'live' | 'schema' | 'trace';
@@ -47,27 +48,30 @@ function downloadGraph(snapshot: OntologySnapshot, execution?: OntologyExecution
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export type OntologyFocusRequest = { id: number; nodeId: string; eventId: string; snapshot?: OntologySnapshot };
+export type OntologyFocusRequest = { id: number; nodeId: string; eventId: string; snapshot?: OntologySnapshot; execution?: OntologyExecution };
 
 export default function OntologyPanel({ snapshot, executions: log, focusRequest, onReplay }: { snapshot: OntologySnapshot; executions: OntologyExecution[]; focusRequest: OntologyFocusRequest | null; onReplay: (eventId: string) => void }) {
   const [tab, setTab] = useState<OntologyTab>('live');
   const [selected, setSelected] = useState('recommendation');
   const [eventId, setEventId] = useState('live');
   const [frozen, setFrozen] = useState<OntologySnapshot | null>(null);
+  const [pinned, setPinned] = useState<OntologyExecution | null>(null);
   const [query, setQuery] = useState('');
   const [classId, setClassId] = useState('sdt:ServiceActionRecommendation');
   const [focused, setFocused] = useState(() => window.matchMedia('(max-width: 760px)').matches);
   useEffect(() => {
-    if (!focusRequest) return;
+    if (!focusRequest) { setEventId('live'); setFrozen(null); setPinned(null); return; }
     setTab('live');
     setSelected(focusRequest.nodeId);
     setEventId(focusRequest.eventId);
-    setFrozen(focusRequest.snapshot ? structuredClone(focusRequest.snapshot) : null);
+    const execution = focusRequest.execution ?? log.find((entry) => entry.id === focusRequest.eventId);
+    setPinned(execution && focusRequest.snapshot ? structuredClone(execution) : null);
+    setFrozen(focusRequest.snapshot && (!execution || snapshotBelongsToEvent(focusRequest.snapshot, execution)) ? structuredClone(focusRequest.snapshot) : null);
   }, [focusRequest]);
-  const event = log.find((entry) => entry.id === eventId);
+  const event = frozen && pinned?.id === eventId ? pinned : log.find((entry) => entry.id === eventId) ?? (pinned?.id === eventId ? pinned : undefined);
   const current = frozen ?? event?.before ?? snapshot;
   const graph = useMemo(() => buildSemanticGraph(current, event), [current, event]);
-  const inspected = graph.nodes.find((node) => node.id === selected) ?? graph.nodes[0];
+  const inspected = graph.nodes.find((node) => node.id === selected) ?? { id: selected, uri: '', title: 'No matching evidence', type: 'Unavailable', layer: 'UE', group: 'service' as const, status: 'Not recorded', x: 0, y: 0, fields: [{ label: 'Selected module', value: selected }, { label: 'Evidence', value: 'No execution or entity record exists in this snapshot' }] };
   const neighbors = new Set(graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).flatMap((edge) => [edge.source, edge.target]));
   const visibleNodes = graph.nodes.filter((entity) => !focused || neighbors.has(entity.id) || entity.id === inspected.id);
   const nodes = visibleNodes.map((entity, index) => ({ id: entity.id, type: 'entity', position: focused ? { x: (index % 2) * 245, y: Math.floor(index / 2) * 175 } : { x: entity.x, y: entity.y }, data: { entity }, selected: entity.id === inspected.id, style: { opacity: focused || neighbors.has(entity.id) || entity.id === inspected.id ? 1 : 0.72 }, ariaLabel: `${entity.title}, ${entity.type}` }));
@@ -96,13 +100,17 @@ export default function OntologyPanel({ snapshot, executions: log, focusRequest,
     })
   }));
   const traceEvent = event ?? log[0];
+  function selectEvent(id: string) {
+    const record = log.find((entry) => entry.id === id) ?? (pinned?.id === id ? pinned : null);
+    setEventId(id); setFrozen(null); setPinned(record ? structuredClone(record) : null);
+  }
   return <section className="ontology-workspace" aria-label="Ontology and decision evidence">
     <div className="ontology-heading"><div><div className="section-title"><Network size={18} /><h2>Ontology & Decision Evidence</h2></div><span className="ontology-subtitle">{schema.counts.classes} classes · {schema.counts.objectProperties} relationships · {schema.counts.dataProperties} data properties</span></div><div className="ontology-source-tag">SDT v{schema.version}<span>Chapter 4</span></div></div>
     <div className="ontology-toolbar">
       <div className="ontology-tabs" role="tablist" aria-label="Ontology views">{tabs.map(({ id, label, icon: Icon }) => <button key={id} id={`ontology-tab-${id}`} role="tab" type="button" aria-selected={tab === id} aria-controls={`ontology-view-${id}`} onClick={() => setTab(id)}><Icon size={15} /><span>{label}</span></button>)}</div>
       <div className="ontology-tools">
         {tab === 'live' && <button className="ontology-icon" title="Focus selected entity and neighbors" aria-label="Focus selected entity and neighbors" aria-pressed={focused} onClick={() => setFocused(!focused)}><Focus size={16} /></button>}
-        {tab === 'live' && <><label className="ontology-event-select"><span>Evidence</span><select aria-label="Graph evidence snapshot" value={eventId} onChange={(e) => { setEventId(e.target.value); setFrozen(null); }}><option value="live">Current readings</option>{log.map((entry) => <option key={entry.id} value={entry.id}>{entry.before.reading.t} · {entry.label}</option>)}</select></label><button className="ontology-icon" title={frozen ? 'Resume live graph' : 'Freeze graph snapshot'} aria-label={frozen ? 'Resume live graph' : 'Freeze graph snapshot'} disabled={!!event} onClick={() => setFrozen(frozen ? null : structuredClone(snapshot))}>{frozen ? <Play size={16} /> : <Pause size={16} />}</button><button className="ontology-icon" title="Download evidence JSON" aria-label="Download evidence JSON" onClick={() => downloadGraph(current, event)}><Download size={16} /></button></>}
+        {tab === 'live' && <><label className="ontology-event-select"><span>Evidence</span><select aria-label="Graph evidence snapshot" value={eventId} onChange={(e) => selectEvent(e.target.value)}><option value="live">Current readings</option>{pinned && !log.some((entry) => entry.id === pinned.id) && <option value={pinned.id}>Pinned / {pinned.label}</option>}{log.map((entry) => <option key={entry.id} value={entry.id}>{entry.before.reading.t} · {entry.label}</option>)}</select></label><button className="ontology-icon" title={frozen || event ? 'Resume live graph' : 'Freeze graph snapshot'} aria-label={frozen || event ? 'Resume live graph' : 'Freeze graph snapshot'} onClick={() => { if (frozen || event) selectEvent('live'); else setFrozen(structuredClone(snapshot)); }}>{frozen || event ? <Play size={16} /> : <Pause size={16} />}</button><button className="ontology-icon" title="Download evidence JSON" aria-label="Download evidence JSON" onClick={() => downloadGraph(current, event)}><Download size={16} /></button></>}
         {tab === 'schema' && <label className="ontology-search"><Search size={15} /><input aria-label="Search ontology classes" placeholder="Search classes" value={query} onChange={(e) => setQuery(e.target.value)} /></label>}
       </div>
     </div>
@@ -125,15 +133,15 @@ export default function OntologyPanel({ snapshot, executions: log, focusRequest,
     </div>}
 
     {tab === 'trace' && <div role="tabpanel" id="ontology-view-trace" aria-labelledby="ontology-tab-trace" className="ontology-trace-layout">
-      <div className="ontology-event-list"><div className="ontology-schema-summary"><strong>Session Events</strong><span>{log.length} / 30</span></div>{log.length === 0 ? <p className="ontology-empty">No service execution recorded in this session.</p> : log.map((entry) => <button key={entry.id} className={traceEvent?.id === entry.id ? 'active' : ''} onClick={() => setEventId(entry.id)}><span>{entry.before.reading.t} · {entry.status === 'completed' ? 'Completed' : 'In downtime'}</span><strong>{entry.label}</strong><small>{entry.before.serviceState} · {entry.downtimeH} h planned</small></button>)}</div>
-      <div className="ontology-trace-detail">{traceEvent ? <><div className="ontology-trace-header"><div><span className="ontology-type-label">{traceEvent.id}</span><h3>{traceEvent.label}</h3></div><button onClick={() => onReplay(traceEvent.id)}><Play size={15} />Replay on turbine</button><button onClick={() => { setEventId(traceEvent.id); setTab('live'); setSelected('execution'); }}><Network size={15} />View graph</button></div><ol className="ontology-lifecycle">
+      <div className="ontology-event-list"><div className="ontology-schema-summary"><strong>Saved Events</strong><span>{log.length} / 30</span></div>{log.length === 0 ? <p className="ontology-empty">No service execution recorded.</p> : log.map((entry) => <button key={entry.id} className={traceEvent?.id === entry.id ? 'active' : ''} onClick={() => selectEvent(entry.id)}><span>{entry.before.reading.t} · {entry.status === 'completed' ? 'Completed' : entry.status === 'interrupted' ? 'Interrupted' : 'In downtime'}</span><strong>{entry.label}</strong><small>{entry.before.serviceState} · {entry.progress?.elapsedH.toFixed(1) ?? '0.0'} / {entry.downtimeH} h</small></button>)}</div>
+      <div className="ontology-trace-detail">{traceEvent ? <><div className="ontology-trace-header"><div><span className="ontology-type-label">{traceEvent.id}</span><h3>{traceEvent.label}</h3></div><button onClick={() => onReplay(traceEvent.id)}><Play size={15} />Replay on turbine</button><button onClick={() => { selectEvent(traceEvent.id); setTab('live'); setSelected('execution'); }}><Network size={15} />View graph</button></div><ol className="ontology-lifecycle">
         <li className="complete"><strong>Evidence</strong><span>{traceEvent.before.reading.crackMm?.toFixed(1) ?? 'n/a'} mm · P10 {traceEvent.before.reading.rulP10} h</span></li>
         <li className="complete"><strong>Recommendation</strong><span>{traceEvent.before.recommendation.label}</span></li>
         <li className="pending"><strong>Authorisation</strong><span>Not recorded · auto demo policy</span></li>
-        <li className={traceEvent.status === 'completed' ? 'complete' : 'active'}><strong>Execution</strong><span>{traceEvent.status} · {traceEvent.downtimeH} h planned</span></li>
+        <li className={traceEvent.status === 'completed' ? 'complete' : traceEvent.status === 'interrupted' ? 'pending' : 'active'}><strong>Execution</strong><span>{traceEvent.status} · {traceEvent.progress?.elapsedH.toFixed(1) ?? '0.0'} / {traceEvent.downtimeH} h</span>{traceEvent.endReason && <span>{traceEvent.endReason}</span>}</li>
         <li className={traceEvent.after ? 'complete' : 'pending'}><strong>Post-service observation</strong><span>{traceEvent.after ? 'Simulated result captured' : 'Pending completion'}</span></li>
         <li className="pending"><strong>Assessment & feedback</strong><span>Pending measured evidence</span></li>
-      </ol><div className="ontology-before-after"><h4>Intervention Evidence</h4><table><thead><tr><th>Metric</th><th>Before</th><th>After</th></tr></thead><tbody><tr><th>Crack (mm)</th><td>{traceEvent.before.reading.crackMm?.toFixed(1) ?? 'n/a'}</td><td>{traceEvent.after?.reading.crackMm?.toFixed(1) ?? 'Pending'}</td></tr><tr><th>RUL P10 (h)</th><td>{traceEvent.before.reading.rulP10}</td><td>{traceEvent.after?.reading.rulP10 ?? 'Pending'}</td></tr><tr><th>Vibration RMS (g)</th><td>{traceEvent.before.reading.vibrationRms.toFixed(3)}</td><td>{traceEvent.after?.reading.vibrationRms.toFixed(3) ?? 'Pending'}</td></tr><tr><th>Service state</th><td>{traceEvent.before.serviceState}</td><td>{traceEvent.after?.serviceState ?? 'Pending'}</td></tr></tbody></table></div><p className="ontology-trace-boundary">Simulation event · outcome not confirmed by measured maintenance data · session history resets on reload</p></> : <div className="ontology-empty"><History size={28} /><p>Waiting for an automatic service event.</p></div>}</div>
+      </ol><div className="ontology-before-after"><h4>Intervention Evidence</h4><table><thead><tr><th>Metric</th><th>Before</th><th>After</th></tr></thead><tbody><tr><th>Crack (mm)</th><td>{traceEvent.before.reading.crackMm?.toFixed(1) ?? 'n/a'}</td><td>{traceEvent.after?.reading.crackMm?.toFixed(1) ?? (traceEvent.status === 'interrupted' ? 'Not completed' : 'Pending')}</td></tr><tr><th>RUL P10 (h)</th><td>{traceEvent.before.reading.rulP10}</td><td>{traceEvent.after?.reading.rulP10 ?? 'Pending'}</td></tr><tr><th>Vibration RMS (g)</th><td>{traceEvent.before.reading.vibrationRms.toFixed(3)}</td><td>{traceEvent.after?.reading.vibrationRms.toFixed(3) ?? 'Pending'}</td></tr><tr><th>Service state</th><td>{traceEvent.before.serviceState}</td><td>{traceEvent.after?.serviceState ?? 'Pending'}</td></tr></tbody></table></div><p className="ontology-trace-boundary">Simulation event · measured assessment pending · history saved locally; latest 30 events</p></> : <div className="ontology-empty"><History size={28} /><p>Waiting for an automatic service event.</p></div>}</div>
     </div>}
   </section>;
 }

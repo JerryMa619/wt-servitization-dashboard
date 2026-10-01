@@ -36,6 +36,7 @@ jobs:
           npm run check:ontology
           npm run test:ontology
           npm run test:twin
+          npm run test:model
 
       - name: Build dashboard
         run: npm run build

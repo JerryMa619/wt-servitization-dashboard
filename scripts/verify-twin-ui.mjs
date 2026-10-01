@@ -32,6 +32,7 @@ try {
   assert.deepEqual(textOverflow, [], 'Architecture node text must fit');
   await twin.getByRole('button', { name: 'Ontology', exact: true }).click();
   const ontology = page.getByRole('region', { name: 'Ontology and decision evidence' });
+  await page.waitForFunction(() => document.querySelector('.ontology-inspector h3')?.textContent === 'Blade RUL estimate');
   assert.equal(await ontology.locator('.ontology-inspector h3').innerText(), 'Blade RUL estimate');
   results.push('Standard route: rotor motion, crack / RUL selection, 12 architecture modules and ontology navigation passed.');
 
