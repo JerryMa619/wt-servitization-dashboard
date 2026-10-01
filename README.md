@@ -65,6 +65,12 @@ Manual, auto and post-service calculations now share `wt-demo-2.0`. Model Heuris
 
 Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval, measured effect and live SHACL remain pending.
 
+## Sensor References
+
+WT Operation, Data Collection and the ontology Sensor node show the rig's **Accel 18 Click (MC3419)** reference, including 80% blade-span / suction-side placement. Auxiliary wind instruments and electrical/tachometer channels are identified by type only; unconfirmed models are not guessed. All hardware remains labelled not connected. Crack and RUL are model/replay outputs, not direct sensor readings.
+
+Source review, implementation decisions and limitations: [instrumentation record](docs/model/INSTRUMENTATION_REFERENCE.md). Layout and interaction evidence: [browser verification](screenshots/instrumentation/verification.json).
+
 ## Local Development
 
 ```bash

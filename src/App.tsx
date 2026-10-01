@@ -13,6 +13,7 @@ import {
   Gauge,
   MapPin,
   Network,
+  Radio,
   RotateCcw,
   ShieldCheck,
   SlidersHorizontal,
@@ -30,6 +31,7 @@ import { actionTypes, updateExecutionLog, type OntologyExecution, type OntologyS
 import TwinWorkspace, { type ReplayRequest } from "./twin/TwinWorkspace";
 import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBounds, inputRangeErrors, modelMetadata, operatingOutput, readingFreshness, simulationAvailability, type SimulationStats } from "./model/operating";
 import { closeRestoredSession, interruptExecution, parseSession, sessionKey, type SavedSession } from "./model/session";
+import { bladeSensorFields, bladeSensorReference, derivedConditionNote } from "./model/instrumentation";
 
 const LazyTelemetryChart = lazy(() => import("./TelemetryChart"));
 
@@ -967,6 +969,10 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
         <span>Regime <strong>{regime}</strong></span>
         {onRulSelect && <button onClick={onRulSelect}><Waves size={14} />RUL evidence</button>}
       </div>
+      <details className="instrumentation-reference" aria-label="Blade sensor reference">
+        <summary><Radio size={14} aria-hidden="true" /><strong>{bladeSensorReference.name}</strong><span>Rig reference / not connected</span></summary>
+        <dl>{bladeSensorFields.filter((row) => row.label !== 'Reference sensor').map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}<div><dt>Evidence boundary</dt><dd>{derivedConditionNote}</dd></div></dl>
+      </details>
     </section>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import ReactFlow, { Background, Handle, MarkerType, Position, useNodesState, type NodeProps, type Edge, type Node } from 'reactflow';
 import { ArrowUpRight, ChevronLeft, ChevronRight, Database, History, Layers, Network, Pause, Play, Radio, RotateCcw, ShieldCheck, Wind } from 'lucide-react';
 import { evidenceSource, type OntologyExecution, type OntologySnapshot } from '../ontology/model';
+import { auxiliaryChannelReferences, bladeSensorFields, derivedConditionNote } from '../model/instrumentation';
 import { activeConnections, activeModules, architectureModules, moduleValue, replayFrames, stageLabel, workflowStage, type ArchitectureModule, type ModuleId, type ReplayFrame } from './model';
 import './twin.css';
 
@@ -47,7 +48,7 @@ function detailRows(id: ModuleId, snapshot: OntologySnapshot, event: OntologyExe
     case 'kpi': return [{ label: 'Contract target', value: snapshot.contract ? `${(snapshot.contract.target * 100).toFixed(1)}%` : 'Unavailable' }, { label: 'Reference availability', value: snapshot.contract ? `${(snapshot.contract.actual * 100).toFixed(1)}%` : 'Unavailable' }, { label: 'Scope', value: 'Chapter 5 reference; not recalculated from this simulated intervention' }];
     case 'registry': return [{ label: 'Asset / component', value: `${snapshot.asset} / ${snapshot.component}` }, { label: 'State', value: snapshot.serviceState }, { label: 'Coordinates', value: `${snapshot.position.lat.toFixed(5)}, ${snapshot.position.lon.toFixed(5)} / ${snapshot.position.source}` }];
     case 'access': return [{ label: 'Representation', value: 'Chapter 4 SDT schema / shared event records' }, { label: 'Validation', value: 'Live OWL / SHACL not run' }, { label: 'Persistence', value: 'Latest 30 events saved in this browser; history JSON import / export' }];
-    default: return [{ label: 'Observation', value: `${p.vibrationRms.toFixed(3)} g / wind ${p.windSpeed.toFixed(1)} m/s / ${p.windDirection} deg` }, { label: 'Device', value: 'Logical vibration channel; device ID not supplied' }, ...common];
+    default: return [{ label: 'Observation', value: `${p.vibrationRms.toFixed(3)} g / wind ${p.windSpeed.toFixed(1)} m/s / ${p.windDirection} deg` }, ...bladeSensorFields, ...auxiliaryChannelReferences, { label: 'Auxiliary source', value: 'Chapter 5 commissioning plan / not live hardware' }, { label: 'Derived outputs', value: derivedConditionNote }, ...common];
   }
 }
 

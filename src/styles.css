@@ -558,6 +558,17 @@ h2 {
   box-shadow: 0 0 16px currentColor;
 }
 
+.instrumentation-reference { margin-top: 12px; border-top: 1px solid #365442; padding-top: 10px; font-size: 11px; }
+.instrumentation-reference summary { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; cursor: pointer; color: #bad9cc; }
+.instrumentation-reference summary strong { font-size: 11px; font-weight: 600; }
+.instrumentation-reference summary > span { margin-left: auto; font-size: 10px; color: #aab8b0; }
+.instrumentation-reference summary::before { content: '+'; color: #b4d4c2; }
+.instrumentation-reference[open] summary::before { content: '-'; }
+.instrumentation-reference summary:focus-visible { outline: 2px solid #b7e6c7; outline-offset: 3px; }
+.instrumentation-reference dl { display: grid; gap: 9px; margin: 12px 0 0; }
+.instrumentation-reference dt { color: #92ae9b; font-size: 10px; }
+.instrumentation-reference dd, .twin-workspace .instrumentation-reference dd { margin: 3px 0 0; color: #dce8de; font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
+
 .sensor-dot {
   position: absolute;
   left: calc(50% + 54px);

@@ -1,3 +1,5 @@
+import { auxiliaryChannelReferences, bladeSensorFields, bladeSensorReference } from '../model/instrumentation.ts';
+
 export type OntologyReading = {
   t: string;
   source?: string;
@@ -109,8 +111,8 @@ export function buildSemanticGraph(snapshot: OntologySnapshot, execution?: Ontol
   const proposalProvenance = [field('Evidence source', evidenceSource(proposal.reading)), field('Captured at', proposal.capturedAt), field('Reading time', proposal.reading.t)];
   node('asset', snapshot.asset, 'sdt:Asset', 'OME', 'asset', 0, 0, 'Asset context', [field('GPS', `${snapshot.position.lat.toFixed(5)}, ${snapshot.position.lon.toFixed(5)}`), field('GPS source', snapshot.position.source)]);
   node('blade', snapshot.component, 'sdt:Component', 'OME', 'asset', 0, 175, 'Monitored component', [field('Crack length', p.crackMm == null ? 'Unavailable' : `${p.crackMm.toFixed(1)} mm`)]);
-  node('sensor', 'Blade vibration sensor', 'sdt:Sensor', 'DCDCE', 'asset', 0, 350, 'Logical sensor mapping', [field('Sensor identity', 'Channel mapping only; device ID not supplied'), field('Observable property', 'Blade acceleration')]);
-  node('environment', 'Wind and site context', 'sdt:OperatingEnvironment', 'OME', 'evidence', 245, 0, evidenceSource(p), [field('Wind speed', `${p.windSpeed.toFixed(1)} m/s`), field('Wind direction', `${p.windDirection} deg`), ...provenance]);
+  node('sensor', bladeSensorReference.name, 'sdt:Sensor', 'DCDCE', 'asset', 0, 350, 'Rig reference / not connected', [...bladeSensorFields, field('Configuration source', bladeSensorReference.source), field('Reference individual', bladeSensorReference.uri), field('Mapping scope', 'Logical dashboard channel; no live device identity or owl:sameAs assertion')]);
+  node('environment', 'Wind and site context', 'sdt:OperatingEnvironment', 'OME', 'evidence', 245, 0, evidenceSource(p), [field('Wind speed', `${p.windSpeed.toFixed(1)} m/s`), field('Wind direction', `${p.windDirection} deg`), ...auxiliaryChannelReferences.slice(0, 2), field('Instrument source', 'Chapter 5 commissioning plan / not live hardware'), ...provenance]);
   node('condition', 'Blade condition', 'sdt:ConditionEvent', 'DTE', 'evidence', 245, 175, p.crackState ?? 'Unclassified', [field('Crack length', p.crackMm == null ? 'Unavailable' : `${p.crackMm.toFixed(1)} mm`), field('Severity', p.crackState ?? 'Unavailable'), ...provenance]);
   node('observation', 'Vibration observation', 'sosa:Observation', 'DCDCE', 'evidence', 245, 350, evidenceSource(p), [field('RMS', `${p.vibrationRms.toFixed(3)} g`), field('Kurtosis', p.kurtosis.toFixed(2)), field('Modal f1', `${p.modalF1.toFixed(2)} Hz`), ...provenance]);
   node('state', snapshot.serviceState, 'sdt:ServiceState', 'DTE', 'decision', 490, 0, 'Dashboard policy result', [field('Policy', 'Highest severity across crack, vibration and RUL'), ...provenance]);
