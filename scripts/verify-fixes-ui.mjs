@@ -89,9 +89,9 @@ try {
   assert.match(await page.locator('.model-basis').innerText(), /wt-demo-2.0/);
   assert.match(await page.locator('.model-basis').innerText(), /not calibrated quantiles/);
   await page.locator('.model-basis').scrollIntoViewIfNeeded();
-  await page.screenshot({ path: fileURLToPath(new URL('model-quality.png', output)) });
+  await page.locator('.enhanced-grid').first().screenshot({ path: fileURLToPath(new URL('model-quality.png', output)) });
   await page.getByText('Session KPI & Chapter 5 References', { exact: true }).scrollIntoViewIfNeeded();
-  await page.screenshot({ path: fileURLToPath(new URL('kpi-reference.png', output)) });
+  await page.locator('.enhanced-grid.wide').screenshot({ path: fileURLToPath(new URL('kpi-reference.png', output)) });
   assert.match(await page.locator('.dashboard').innerText(), /Not estimated/);
   results.push('Heuristic model basis and separate session/reference KPI scope are visible.');
 

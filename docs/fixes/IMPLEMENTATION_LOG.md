@@ -23,7 +23,13 @@ Date: 2026-10-01/02. Baseline: `2babd4f`. Requested by the project owner after t
 - `verify-twin-ui.mjs`: animation, architecture/ontology navigation, automatic completion, replay, reduced motion and screenshot pixels.
 - `verify-fixes-ui.mjs`: bounds, zero wind, interruption/held clock, export/reload/import rejection, missing evidence, resizing to mobile, model/KPI scope, cross-event frames, pinned/pruned evidence, stale observations and lazy chart canvas pixels.
 - Isolated browser tabs accelerate only simulation ticks; normal application timing is unchanged. Evidence: `screenshots/fixes/`, `screenshots/twin/`.
-- Public verification is recorded after Actions deployment in `screenshots/fixes/publication.json`.
+- Public standard and enhanced routes returned HTTP 200; history toolbar, all 12 architecture modules, resized UE access, deferred charts and enhanced model/KPI scope passed. Evidence: `screenshots/fixes/publication.json`.
+
+## Publication Record
+
+Implementation commit: [`1bbfafe`](https://github.com/JerryMa619/wt-servitization-dashboard/commit/1bbfafe). [GitHub Actions run 36939030628](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36939030628) passed build/tests and Pages deployment. Browser verification on 2026-10-02 confirmed both public routes. Follow-up evidence commit corrects screenshot capture to target each complete panel and records public checks; it does not change runtime behavior.
+
+Residual build/tooling notices: Vite still reports >500 KB chunks. GitHub Actions reports older action-runtime deprecation notices and a forthcoming runner image migration; this deployment succeeded. Those notices are not evidence of a dashboard runtime failure.
 
 ## Remaining Boundaries
 

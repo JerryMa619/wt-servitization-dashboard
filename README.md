@@ -112,6 +112,8 @@ Environment variables: `PLAYWRIGHT_MODULE` (absolute installed Playwright module
 
 `node scripts/verify-ontology-publication.mjs` checks the public standard/enhanced routes, ontology browser and source download using the same optional browser environment variables. Its default URL is the GitHub Pages site; results are written to `screenshots/ontology/publication.json`.
 
+`node scripts/verify-fixes-publication.mjs` checks deployed history tools, architecture reachability, deferred charts and enhanced model/KPI scope. Results: `screenshots/fixes/publication.json`.
+
 ## Data
 
 Dashboard data is stored in `src/data/dashboardData.json`. The Chapter 5 data sync script is:

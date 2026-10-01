@@ -1,0 +1,29 @@
+{
+  "verifiedAt": "2026-10-01T23:08:37.988Z",
+  "routes": [
+    {
+      "url": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "status": 200,
+      "architectureNodes": 12,
+      "checks": [
+        "Saved history toolbar",
+        "Responsive UE reachability",
+        "Lazy chart rendered"
+      ]
+    },
+    {
+      "url": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "status": 200,
+      "architectureNodes": 12,
+      "checks": [
+        "Saved history toolbar",
+        "Responsive UE reachability",
+        "Lazy chart rendered",
+        "Model version / heuristic scope",
+        "Separate session/reference KPI",
+        "Reference latency scope"
+      ]
+    }
+  ],
+  "errors": []
+}
