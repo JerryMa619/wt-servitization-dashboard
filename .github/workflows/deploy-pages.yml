@@ -35,14 +35,16 @@ jobs:
         run: |
           npm run check:ontology
           npm run test:ontology
+          npm run test:cmapss
 
       - name: Build dashboard
         run: npm run build
 
       - name: Prepare GitHub Pages routes
         run: |
-          mkdir -p dist/enhanced
+          mkdir -p dist/enhanced dist/cmapss
           cp dist/index.html dist/enhanced/index.html
+          cp dist/index.html dist/cmapss/index.html
           cp dist/index.html dist/404.html
 
       - name: Configure Pages
