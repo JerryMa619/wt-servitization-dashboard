@@ -1,0 +1,42 @@
+{
+  "verifiedAt": "2026-10-01T23:22:04.035Z",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "completedCycles": 2,
+      "samples": 359,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Framework remains mounted",
+        "Animated data flow through two completed services",
+        "Rotor resumes",
+        "Desktop/mobile UE reachable",
+        "Only user can hide framework"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "completedCycles": 2,
+      "samples": 360,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Framework remains mounted",
+        "Animated data flow through two completed services",
+        "Rotor resumes",
+        "Desktop/mobile UE reachable",
+        "Only user can hide framework"
+      ]
+    }
+  ],
+  "errors": []
+}

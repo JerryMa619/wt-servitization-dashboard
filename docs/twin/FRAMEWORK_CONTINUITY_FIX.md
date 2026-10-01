@@ -20,3 +20,7 @@ There was also a presentation gap: decision highlighting replaced monitoring, an
 `test:twin` adds a repeated-cycle connection regression. Existing model, ontology and replay tests remain applicable. The production bundle warning is unchanged. Publication uses the existing GitHub Pages workflow.
 
 Local verification passed: 6 twin tests, 11 model tests and 5 ontology tests; production build; existing twin/replay browser regression and the new continuity test. The final continuity run sampled 402 standard and 404 enhanced observations spanning monitor, decision, downtime and result, including operation after two completions, without hidden modules or lost active edges. The new test also checks actual inherited CSS visibility, not just mounted node counts.
+
+## Publication
+
+Implementation commit [`38ba930`](https://github.com/JerryMa619/wt-servitization-dashboard/commit/38ba930) deployed successfully via [Actions run 36940292491](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36940292491). Both public routes passed the same two-cycle visibility/animated-flow regression, sampling 359 standard and 360 enhanced observations. Public results and screenshots: `screenshots/framework/public/`. A follow-up documentation/evidence commit records this verification without changing runtime behavior.
