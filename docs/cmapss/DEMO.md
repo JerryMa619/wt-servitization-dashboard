@@ -2,6 +2,10 @@
 
 Start: `npm install` then `npm run dev -- --port 5178`; open <http://127.0.0.1:5178/cmapss/>. The route also supports the repository's production base path. Main-branch Pages deployment is not performed by opening the PR.
 
+## Contract comparison (v0.3)
+
+In **Service decisions**, compare the two declared contract presets, use the cost-driven / earlier-intervention example buttons, then apply one and query its RDF/KPI evidence. [Comparison assumptions and calculations](CONTRACT_SCENARIOS.md).
+
 ## Guided version 0.2
 
 Use the four Engine 034 stage buttons (cycles 30 / 94 / 158 / 181), then **Validate this snapshot** to execute RDF generation, SPARQL and SHACL. See the [guided and semantic workflow](SEMANTIC_WORKFLOW.md) for the full demonstration, negative examples and unit adaptation.

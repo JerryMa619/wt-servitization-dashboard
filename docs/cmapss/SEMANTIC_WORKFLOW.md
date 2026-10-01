@@ -1,4 +1,6 @@
-# Guided demonstration and executable semantics (v0.2)
+# Guided demonstration and executable semantics
+
+Current application profile: **0.3.0**. The original v0.2 flow below remains available. Version 0.3 adds optional named-contract/KPI evidence and a fourth SPARQL question; see [contract scenarios](CONTRACT_SCENARIOS.md).
 
 Tracking: [Issue #1](https://github.com/JerryMa619/wt-servitization-dashboard/issues/1), [PR #2](https://github.com/JerryMa619/wt-servitization-dashboard/pull/2).
 
@@ -38,7 +40,7 @@ References: [Comunica RDF/JS sources](https://comunica.dev/docs/query/advanced/r
 
 ## Unit-aware ontology adaptation
 
-`public/cmapss/cmapss-profile.ttl` defines an explicit application extension, version 0.2.0. Its namespace is a local vocabulary identifier; external registration or dereferenceability is not claimed.
+`public/cmapss/cmapss-profile.ttl` defines an explicit application extension, currently version 0.3.0. Its namespace is a local vocabulary identifier; external registration or dereferenceability is not claimed.
 
 `cm:CycleRULEstimate` is an information entity with `cm:lowerBound`, `cm:pointEstimate`, `cm:upperBound`, `cm:cycle`, and `cm:unit cm:Cycle`. The point is not labelled a calibrated median, and the interval remains an empirical residual interval. Decimal RDF literals avoid exponent notation.
 

@@ -57,3 +57,21 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Verified desktop and 390/320px layouts for both conforming and invalid RDF cases; screenshot evidence has been refreshed for v0.2.
 - Source ontology verification, all ten existing ontology/twin tests and all 1,233-record advisory checks passed. The semantic suite is now required in both branch/PR checks and future Pages builds.
 - Implementation commit: `aeeff2b`. Local preview remains http://127.0.0.1:5178/cmapss/ . User review is through draft PR #2; no main merge or Pages publication was performed.
+
+## 2026-10-01 — contract scenario comparison (v0.3)
+
+- Continued the agreed next step: two named, explicitly assumed service contracts compared at fixed engine/cycle/RUL evidence.
+- Added Maintenance support (consequence 5, margin 15) and Availability assurance (consequence 20, margin 25); all other model inputs remain shared. Example buttons derive the first cost-driven difference at cycle 158 and intervention-margin difference at cycle 171 from Engine 034's actual snapshots.
+- Added an explicit cycle-opportunity KPI budget: 200 scheduled slots, 95%/99% targets, 5/20 planned/unplanned assumed losses. The planned loss fits the first budget but exceeds the second by 3 slots. This is not measured time availability; the KPI budget does not feed the optimizer or claim compliance.
+- Applying a named contract updates the current policy, summary, ontology details, RDF and JSON exports. Manual policy changes/reset/guide selection detach it. Fixed comparison cards always use their declared presets.
+- Profile 0.3.0 adds optional configured-contract and budget instances, a fourth SPARQL query, SHACL fields and cross-node contract/policy equality constraints. The generator rejects named-policy mismatch; recommendation identity includes contract/KPI assumptions, while estimate identity stays unchanged.
+- Model/semantic tests passed for all 1,233 fixed-evidence comparisons, known example choices, KPI arithmetic/bounds, snapshot export detachment, real query values and SHACL rejection of mutated policy/missing target. Original model/semantic suites, source ontology check and ten ontology/twin tests also passed.
+- Browser verification covers applying contracts without changing RUL, both exports, actual query/validation, policy detachment, and desktop/mobile layouts. An initial test locator was corrected to recognize the already-applied button state on a second mobile iteration.
+- Design and reproduction are in CONTRACT_SCENARIOS.md. Contract RDF and reports are under contract-evidence/. Final production verification and screenshots follow.
+
+### v0.3 final production verification
+
+- Production build passed. All three browser suites passed against `/wt-servitization-dashboard/`, with zero browser errors: contract comparison, executable semantics and original C-MAPSS regressions including standard/enhanced wind-turbine routes.
+- Verified desktop and 390/320px contract comparison and semantic result layouts. Refreshed screenshots and machine-readable verification records are committed with this handoff.
+- Implementation commit: `b2b1717`. Contract comparison remains an explicit research scenario; capacity budgets are hypothetical and do not establish measured availability or contractual compliance.
+- Local review: http://127.0.0.1:5178/cmapss/ . GitHub review remains draft PR #2; no merge or public deployment was performed.

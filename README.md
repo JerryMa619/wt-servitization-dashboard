@@ -140,3 +140,7 @@ The `/cmapss/` route adds an FD001 replay demonstration with synchronized engine
 Four Engine 034 milestone buttons connect the replay to framework, ontology and service decisions. **Ontology → Semantic check** now generates RDF and executes SPARQL / SHACL Core locally, including missing-unit and missing-evidence counterexamples. The explicit cycle extension avoids hours-valued assertions. [Walkthrough, scope and reproducibility](docs/cmapss/SEMANTIC_WORKFLOW.md).
 
 ![Executable semantic evidence](screenshots/cmapss-semantic/semantic-pass-desktop.png)
+
+### Contract comparison (v0.3)
+
+**Service decisions** compares two explicit contract assumptions against identical engine evidence. Engine 034 cycles 158 and 171 demonstrate cost-driven and intervention-margin-driven differences. Applying a contract links it to the existing policy, RDF/SPARQL/SHACL workflow and exports; manual changes detach that named policy. KPI budgets are hypothetical cycle-opportunity calculations, not measured time availability. [Assumptions, walkthrough and verification](docs/cmapss/CONTRACT_SCENARIOS.md).

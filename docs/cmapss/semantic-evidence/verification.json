@@ -1,7 +1,7 @@
 {
-  "scope": "C-MAPSS application profile 0.2.0; SHACL Core only; no OWL inference or full SDT conformance claim",
-  "shapesSHA256": "406960e4cb2ad78d811ca58970de879c5e59f7659170cfbe175749623814c6d4",
-  "profileSHA256": "971bee1d7cd659d181882e1025daabd4c2dff2c8c3494c557e832dce9a2dbf8d",
+  "scope": "C-MAPSS application profile 0.3.0; SHACL Core only; no OWL inference or full SDT conformance claim",
+  "shapesSHA256": "f704722d96d9a83bb68bf56fb259f02030fcc8759bea9a2b8955cccf5bf5a7c1",
+  "profileSHA256": "3cadf0952202954b5111c9239f03b62ed3d667c261e0ea5672fa0436f85e6818",
   "cases": [
     {
       "case": "Nominal",
