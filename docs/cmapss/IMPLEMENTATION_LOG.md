@@ -28,3 +28,12 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Visual QA fixed inherited wind-turbine heading colours and moved relationship labels into the selected-node inspector to avoid overlaps.
 - Created draft PR #2; retained Issue #1 as the request/design record. Added a PR/branch verification workflow and the C-MAPSS path to future Pages builds. No main-branch deployment performed.
 - Concurrent wind-turbine work reached main during implementation (`2eada16`); integrate it before final verification so the PR preserves that work.
+
+## 2026-10-01 — final integration and handoff
+
+- Integrated `origin/main` at `2eada16`. Resolved only the concurrent script/workflow additions by preserving both `test:twin` and `test:cmapss`; no existing twin feature was removed.
+- Re-ran both ontology and twin suites (10 tests), C-MAPSS model checks and production build after integration: passed.
+- Re-ran the complete browser verification against the production preview at `/wt-servitization-dashboard/cmapss/`: passed, including original routes and zero browser errors. `screenshots/cmapss/verification.json` records the production test base.
+- GitHub PR-triggered CI passed for implementation/integration commit `c12549c`: https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36933819574
+- Local first-review URL: http://127.0.0.1:5178/cmapss/ . Draft PR: https://github.com/JerryMa619/wt-servitization-dashboard/pull/2 . The user can review locally; no merge or public Pages release is claimed.
+- Final handoff commit changes documentation, the verification URL and dependency-link ignore handling only.

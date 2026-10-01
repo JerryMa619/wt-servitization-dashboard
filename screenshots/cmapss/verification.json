@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:5178/",
+  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
   "checks": [
     "play, pause, seek, evaluation isolation",
     "framework module selection and extension toggle",
