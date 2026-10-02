@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-02T06:17:48.803Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "checks": [
+        "Separated exact X/Y/Z RMS and kurtosis charts",
+        "Deferred archive fetch / nonblank colored-series canvas pixels",
+        "Reference waveform selection / actual moving waveform / pause / axis controls",
+        "Downloadable excerpt / explicit simulated unsynchronised provenance",
+        "Reference playback does not change held WT statistics",
+        "Zero-RPM hold / mobile layout"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "checks": [
+        "Separated exact X/Y/Z RMS and kurtosis charts",
+        "Deferred archive fetch / nonblank colored-series canvas pixels",
+        "Reference waveform selection / actual moving waveform / pause / axis controls",
+        "Downloadable excerpt / explicit simulated unsynchronised provenance",
+        "Reference playback does not change held WT statistics",
+        "Zero-RPM hold / mobile layout"
+      ]
+    }
+  ],
+  "extraChecks": [
+    "Reduced-motion playback paused by default",
+    "Unavailable archive fails closed / retry recovers"
+  ],
+  "errors": []
+}

@@ -1625,9 +1625,36 @@ h2 {
 
 .chart-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
+
+.vibration-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  grid-column: 1 / -1;
+}
+
+.waveform-panel { grid-column: 1 / -1; }
+.telemetry-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 38px; }
+.telemetry-heading > div:first-child { min-width: 0; }
+.telemetry-subtitle { padding: 0 6px; margin: 4px 0 10px; color: #a6bbb3; font-size: 0.74rem; line-height: 1.5; overflow-wrap: anywhere; }
+.waveform-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.waveform-tools button, .waveform-caption button { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #3c6559; border-radius: 4px; background: #12241f; color: #cfe5db; cursor: pointer; }
+.waveform-tools button:disabled { opacity: .45; cursor: default; }
+.waveform-axis { display: flex; margin: 0 4px 0 0; padding: 0; border: 1px solid #3c6559; border-radius: 4px; overflow: hidden; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.waveform-axis label { position: relative; cursor: pointer; }
+.waveform-axis input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.waveform-axis span { display: grid; place-items: center; width: 32px; height: 30px; color: #acbfb7; font-size: .76rem; }
+.waveform-axis input:checked + span { background: #315c4d; color: #fff; }
+.waveform-axis input:focus-visible + span { outline: 2px solid #e7b557; outline-offset: -2px; }
+.waveform-caption { min-height: 62px; display: flex; flex-wrap: wrap; align-content: flex-start; column-gap: 20px; row-gap: 4px; padding: 0 6px 8px; color: #a6bbb3; font-size: .75rem; line-height: 1.5; }
+.waveform-caption > span { overflow-wrap: anywhere; }
+.waveform-caption strong { font-weight: 600; color: #dcebe7; }
+.waveform-time { flex-basis: 100%; font-variant-numeric: tabular-nums; }
+.waveform-caption > div { display: flex; align-items: center; gap: 8px; }
 
 .evidence-note {
   display: flex;
@@ -1863,6 +1890,8 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .chart-grid > .chart-panel:nth-child(3) { grid-column: 1 / -1; }
+
   .enhanced-grid,
   .enhanced-grid.wide,
   .ontology-trace {
@@ -1906,6 +1935,10 @@ h2 {
   .chart-grid {
     grid-template-columns: 1fr;
   }
+
+  .vibration-grid { grid-template-columns: 1fr; }
+  .waveform-panel .telemetry-heading { flex-wrap: wrap; }
+  .waveform-tools { padding: 0 6px 8px; }
 
   .decision-command-card,
   .decision-metric-grid,

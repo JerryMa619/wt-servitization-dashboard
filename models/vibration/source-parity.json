@@ -1,0 +1,9 @@
+{
+  "references": 21,
+  "comparedAxisSamples": 252000,
+  "maxQuantizationErrorG": 4.999988941073452e-07,
+  "toleranceG": 5.00001e-07,
+  "fullAcquisitionStatisticsVerified": true,
+  "noScalingOrAddedNoise": true,
+  "sourceScope": "Archived simulated reference, not live telemetry or model-synchronised waveform"
+}

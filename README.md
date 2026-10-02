@@ -67,6 +67,16 @@ Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model ba
 
 XGBoost sources, fitted models and validation: [current calibration record](docs/model/CALIBRATED_XGBOOST.md), [current manifest](models/chapter5-calibrated/manifest.json), [current Python/browser parity](models/chapter5-calibrated/browser-parity.json), [public browser verification](screenshots/xgboost/public/verification.json), [historical integration record](docs/model/XGBOOST_IMPLEMENTATION.md), [preserved original manifest](models/chapter5/manifest.json). Full named feature JSON windows can be imported in Input Scenario. Automatic/basic manual scenarios explicitly use reference-assisted features with no validated coverage; manual RUL overrides retain their own provenance. Existing immutable service events retain historical model versions.
 
+## Vibration Monitoring
+
+Blade vibration now has separate **X/Y/Z RMS (g)** and **Pearson kurtosis (unitless)** charts, with distinct colors/line styles and no invented noise or curve smoothing. The primary vibration metric shows X/flapwise RMS when available. Existing signal-policy inputs remain Z RMS/kurtosis and are explicitly labelled; unknown historical axes are gaps, not zeros.
+
+The **Blade Acceleration Waveform** player shows unscaled excerpts from 21 Chapter 5 archived **simulated** CSVs. It offers X/Y/Z selection, play/pause and JSON download, defaults to pause for reduced motion and pauses during simulated WT hold. Reference playback does not advance WT simulation or downtime statistics. These references are not live sensors and are not synchronised with the RUL feature snapshot. The archive loads only near the waveform panel.
+
+Source review, missing acquisitions, model-snapshot mismatch, chart definitions and verification: [vibration display record](docs/model/VIBRATION_DISPLAY.md), [waveform manifest](models/vibration/waveform-manifest.json), [CSV/export parity](models/vibration/source-parity.json), [local browser verification](screenshots/vibration/verification.json).
+
+![Three-axis vibration monitoring](screenshots/vibration/enhanced-desktop.png)
+
 ## Sensor References
 
 WT Operation, Data Collection and the ontology Sensor node show the rig's **Accel 18 Click (MC3419)** reference, including 80% blade-span / suction-side placement. Auxiliary wind instruments and electrical/tachometer channels are identified by type only; unconfirmed models are not guessed. All hardware remains labelled not connected. Crack and RUL are model/replay outputs, not direct sensor readings.

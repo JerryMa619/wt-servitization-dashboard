@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import L from "leaflet";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
@@ -33,8 +33,9 @@ import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBou
 import { closeRestoredSession, interruptExecution, parseSession, sessionKey, type SavedSession } from "./model/session";
 import { bladeSensorFields, bladeSensorReference, derivedConditionNote } from "./model/instrumentation";
 import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulDescription, rulUncertaintyDescription, rulModel, type RulEvidence } from "./model/xgboost";
-
-const LazyTelemetryChart = lazy(() => import("./TelemetryChart"));
+import Chart from "./components/TelemetryPanel";
+import VibrationCharts from "./vibration/VibrationCharts";
+import { vibrationFeatures } from "./vibration/model";
 
 type ServiceState = "Nominal" | "Watch" | "Degraded" | "MaintenanceDue" | "Critical" | "OutOfContract";
 type MaintenanceActionKey =
@@ -549,6 +550,7 @@ function App() {
   const serviceState = latest.serviceState ?? serviceStateFromCondition(latest);
   const meta = stateMeta[serviceState];
   const chartHistory = manualPoint ? [...history.slice(1), manualPoint] : history;
+  const bladeFeatures = vibrationFeatures(latest);
   const timeLabels = chartHistory.map((point) => point.t);
   const replayPosition = replayGpsPosition(latest);
   const manualPosition: LivePosition | null =
@@ -699,7 +701,7 @@ function App() {
         <Metric icon={<MapPin />} label="GPS" value={`${currentPosition.lat.toFixed(4)}, ${currentPosition.lon.toFixed(4)}`} sub={currentPosition.source} />
         <Metric icon={<Wind />} label="Wind speed" value={`${latest.windSpeed.toFixed(1)} m/s`} sub={`${cardinal(latest.windDirection)} ${latest.windDirection} deg`} />
         <Metric icon={<Gauge />} label="Rotor RPM" value={`${latest.rpm}`} sub={`${latest.power} W output`} />
-        <Metric icon={<Activity />} label="Blade vibration" value={`${latest.vibrationRms.toFixed(3)} g`} sub={`${latest.crackState ?? "C?"} | kurtosis ${latest.kurtosis.toFixed(2)}`} />
+        <Metric icon={<Activity />} label="Blade vibration" value={`${(bladeFeatures.rms[0] ?? latest.vibrationRms).toFixed(3)} g`} sub={`${bladeFeatures.rms[0] == null ? 'Z' : 'X / flapwise'} | ${latest.crackState ?? "C?"} | k ${(bladeFeatures.kurtosis[0] ?? latest.kurtosis).toFixed(2)}`} />
         <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} h`} sub={rulDescription(latest)} />
       </section>
 
@@ -753,11 +755,8 @@ function App() {
       <section className="chart-grid" aria-label="Dynamic telemetry charts">
         <Chart title="Wind Speed" option={lineOption(timeLabels, [{ name: "m/s", data: chartHistory.map((p) => p.windSpeed), color: "#26876d" }], "m/s")} />
         <Chart title="Wind Direction" option={directionOption(latest.windDirection)} />
-        <Chart title="Blade Vibration" option={lineOption(timeLabels, [
-          { name: "RMS g", data: chartHistory.map((p) => p.vibrationRms), color: "#c25f2d" },
-          { name: "Kurtosis", data: chartHistory.map((p) => p.kurtosis), color: "#7057c8" }
-        ])} />
         <Chart title="Blade RUL Uncertainty" option={rulOption(timeLabels, chartHistory)} />
+        <VibrationCharts history={chartHistory} latest={latest} />
       </section>
 
       <section className="evidence-note">
@@ -1238,6 +1237,7 @@ function EnhancedDashboardModules({
             <div><dt>Validation</dt><dd>{modelMetadata.scope}; {rulModel.evaluationScope}</dd></div>
             <div><dt>Source</dt><dd>{modelMetadata.basis}</dd></div>
             <div><dt>RUL model</dt><dd>31 features / reg:quantileerror / 300 trees per quantile / depth 6 / learning rate 0.05 / seed 42 / initial prediction 500</dd></div>
+            <div><dt>Vibration basis</dt><dd>Charts show X/Y/Z separately. Existing signal thresholds, growth and TCS inputs retain Z RMS/kurtosis; waveform references are not inference inputs.</dd></div>
             <div><dt>Training target</dt><dd>{rulModel.target}; crack length is excluded from the model inputs</dd></div>
             <div><dt>Data split</dt><dd>189 training / 63 calibration / 63 test windows; no final refit on calibration or test rows</dd></div>
             <div><dt>Held-out result</dt><dd>RMSE {rulModel.evaluation.rmse.toFixed(2)} pseudo-h / MAE {rulModel.evaluation.mae.toFixed(2)} pseudo-h / PICP {(rulModel.evaluation.picp * 100).toFixed(1)}% / MPIW {rulModel.evaluation.mpiw.toFixed(2)} pseudo-h</dd></div>
@@ -1326,23 +1326,6 @@ function ConfidenceBar({ label, value, note }: { label: string; value: number; n
   );
 }
 
-function Chart({ title, option }: { title: string; option: object }) {
-  const ref = useRef<HTMLElement | null>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!('IntersectionObserver' in window)) { setVisible(true); return; }
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } }, { rootMargin: '300px' });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <section className="panel chart-panel" ref={ref}>
-      <h2>{title}</h2>
-      <Suspense fallback={<div className="chart-placeholder" aria-busy="true" />}>{visible ? <LazyTelemetryChart option={option} /> : <div className="chart-placeholder" />}</Suspense>
-    </section>
-  );
-}
-
 function EvidenceModal({
   latest,
   serviceState,
@@ -1369,7 +1352,7 @@ function EvidenceModal({
         </div>
         <div className="evidence-chain">
           <EvidenceItem label={`ObservationWindow-${String(latest.acquisitionIndex ?? 421).padStart(4, "0")}`} value={`GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)} | wind ${latest.windSpeed.toFixed(1)} m/s | bin ${latest.windBin ?? "n/a"}`} />
-          <EvidenceItem label="FeatureVector" value={`RMS ${latest.vibrationRms.toFixed(3)} g | kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
+          <EvidenceItem label="FeatureVector" value={`Z RMS ${latest.vibrationRms.toFixed(3)} g | Z kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
           <EvidenceItem label="RULEstimate" value={`p10 ${latest.rulP10} h | p50 ${latest.rulP50} h | p90 ${latest.rulP90} h`} />
           <EvidenceItem label="ServiceState" value={serviceState} accent={meta.color} />
           <EvidenceItem label="ServiceActionRecommendation" value={`${maintenanceActions[tcsDecision.action].label} | TCS ${formatGbp(tcsDecision.totalCost)} | residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`} />
@@ -1484,8 +1467,8 @@ function ScenarioInputModal({
           <NumberField label="Wind direction deg" value={form.windDirection} step="1" onChange={(value) => updateNumber("windDirection", value)} />
           <NumberField label="Rotor RPM" value={form.rpm} step="1" onChange={(value) => updateNumber("rpm", value)} />
           <NumberField label="Power W" value={form.power} step="1" onChange={(value) => updateNumber("power", value)} />
-          <NumberField label="Blade vibration RMS g" value={form.vibrationRms} step="0.001" onChange={(value) => updateNumber("vibrationRms", value)} />
-          <NumberField label="Kurtosis" value={form.kurtosis} step="0.01" onChange={(value) => updateNumber("kurtosis", value)} />
+          <NumberField label="Blade vibration Z RMS g" value={form.vibrationRms} step="0.001" onChange={(value) => updateNumber("vibrationRms", value)} />
+          <NumberField label="Z kurtosis" value={form.kurtosis} step="0.01" onChange={(value) => updateNumber("kurtosis", value)} />
           <NumberField label="Modal f1 Hz" value={form.modalF1} step="0.01" onChange={(value) => updateNumber("modalF1", value)} />
           <NumberField label="Crack length mm" value={form.crackMm} step="1" onChange={(value) => updateNumber("crackMm", value)} />
           <NumberField label="RUL p10 h" value={form.rulP10} step="1" onChange={(value) => updateNumber("rulP10", value)} />
@@ -1883,7 +1866,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
       ...readingFreshness(latest, now)
     },
     {
-      label: "Vibration feature quality",
+      label: "Z vibration feature quality",
       value: `${latest.vibrationRms.toFixed(3)} g / k ${latest.kurtosis.toFixed(2)}`,
       note: confidence.anomalyScore > 65 ? "High anomaly content; service layer should preserve raw evidence." : "Signal within expected model range.",
       status: latest.vibrationRms > 0.26 || latest.kurtosis > 10 ? "warn" : "pass"

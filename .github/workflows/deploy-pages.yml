@@ -38,6 +38,7 @@ jobs:
           npm run test:twin
           npm run test:model
           npm run test:xgboost
+          npm run test:vibration
 
       - name: Build dashboard
         run: npm run build
