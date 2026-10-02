@@ -1,8 +1,10 @@
+import { featureMeasurements, predictRul, rulModel, scenarioFeatures, type FeatureOverrides } from './xgboost.ts';
+
 export type ServiceState = 'Nominal' | 'Watch' | 'Degraded' | 'MaintenanceDue' | 'Critical' | 'OutOfContract';
 export const modelMetadata = {
-  version: 'wt-demo-2.0',
-  scope: 'Uncalibrated scenario model; not a measured failure probability',
-  basis: 'Chapter 5 replay context + dashboard engineering assumptions',
+  version: rulModel.version,
+  scope: 'XGBoost trained on controlled synthetic labels; not validated field hours-to-failure',
+  basis: 'Chapter 5 original 31-feature quantile configuration; no hyperparameter/initialisation adjustment',
   cutInMs: 3,
   maxRpm: 1200,
   maxPowerW: 800,
@@ -29,18 +31,16 @@ export function operatingOutput(windSpeed: number, hold = false) {
   return { rpm: Math.round(clamp(speed * 78, 0, modelMetadata.maxRpm)), power: Math.round(clamp(Math.pow(speed, 2.12) * 8.9, 0, modelMetadata.maxPowerW)) };
 }
 
-export function conditionPrediction(windSpeed: number, crackMm: number) {
+export function conditionPrediction(windSpeed: number, crackMm: number, overrides: FeatureOverrides = {}) {
   const speed = clamp(windSpeed, 0, 40);
-  const damage = clamp(crackMm / 80, 0, 1);
-  const loadPenalty = Math.round(Math.max(0, speed - 7) * 18 + Math.max(0, speed - 11) * 42);
-  const rulP50 = Math.round(clamp(1000 * (1 - Math.pow(damage, 1.16)) - loadPenalty * 0.7, 0, 1000));
-  const rulSpread = Math.max(50, Math.round(128 - damage * 58));
+  const values = scenarioFeatures(speed, clamp(crackMm, 0, 80), overrides);
+  const measurements = featureMeasurements(values);
   return {
-    vibrationRms: Number(clamp(0.038 + speed * 0.004 + damage * 0.112 + Math.max(0, speed - 9) * 0.006, 0.028, 0.32).toFixed(4)),
-    kurtosis: Number(clamp(2.65 + damage * 4.2 + Math.max(0, speed - 8) * 0.18, 2.5, 12).toFixed(2)),
-    modalF1: Number(clamp(27.55 - damage * 3.8 - Math.max(0, speed - 10) * 0.07, 18, 32).toFixed(2)),
-    rulP10: Math.max(0, Math.round(rulP50 - rulSpread - loadPenalty * 0.3)), rulP50,
-    rulP90: Math.round(rulP50 + rulSpread * 0.82), rulSpread
+    vibrationRms: Number(measurements.vibrationRms.toFixed(4)),
+    kurtosis: Number(measurements.kurtosis.toFixed(2)),
+    modalF1: Number(measurements.modalF1.toFixed(2)),
+    ...predictRul(values, 'reference-assisted'),
+    rulFeatureVector: values
   };
 }
 

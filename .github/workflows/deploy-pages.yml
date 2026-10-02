@@ -37,6 +37,7 @@ jobs:
           npm run test:ontology
           npm run test:twin
           npm run test:model
+          npm run test:xgboost
 
       - name: Build dashboard
         run: npm run build

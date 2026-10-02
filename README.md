@@ -61,9 +61,11 @@ Continuous Framework fix: [root cause and repair](docs/twin/FRAMEWORK_CONTINUITY
 
 The history toolbar exports/imports validated JSON and clears local history with confirmation. Unfinished work is closed as interrupted on reload or manual replacement; partial downtime is retained, with no fabricated repaired result. Localhost and public Pages have separate browser-origin histories. No personal event/GPS history is automatically sent to GitHub.
 
-Manual, auto and post-service calculations now share `wt-demo-2.0`. Model Heuristic Scores are not accuracy probabilities; P10/P50/P90 are uncalibrated bounds. Enhanced KPI separates current simulation availability from Chapter 5 references; avoided downtime remains unestimated without a counterfactual.
+Current RUL calculations use **Chapter 5 XGBoost quantile regression** (`ch5-xgb-quantile-1.0`) with the original configuration: 31 features, three quantiles, 300 trees each, depth 6, rate 0.05 and seed 42. No initialisation/hyperparameter repair was made, following the owner's explicit choice. The original model's wide nominal intervals and possible early service triggers are disclosed. Synthetic pseudo-hours are not validated physical lifetime. Model Heuristic Scores remain non-probabilistic; enhanced KPI separates session availability from fixed Chapter 5 references.
 
 Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval, measured effect and live SHACL remain pending.
+
+XGBoost sources, fitted models, reproduced validation, dependency setup and changes: [integration record](docs/model/XGBOOST_IMPLEMENTATION.md), [training manifest](models/chapter5/manifest.json), [Python/browser parity](models/chapter5/browser-parity.json). Full named feature JSON windows can be imported in Input Scenario. Automatic/basic manual scenarios explicitly use reference-assisted features; manual RUL overrides retain their own provenance.
 
 ## Sensor References
 

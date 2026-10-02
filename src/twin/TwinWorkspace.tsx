@@ -3,6 +3,7 @@ import ReactFlow, { Background, Handle, MarkerType, Position, useNodesState, typ
 import { ArrowUpRight, ChevronLeft, ChevronRight, Database, History, Layers, Network, Pause, Play, Radio, RotateCcw, ShieldCheck, Wind } from 'lucide-react';
 import { evidenceSource, type OntologyExecution, type OntologySnapshot } from '../ontology/model';
 import { auxiliaryChannelReferences, bladeSensorFields, derivedConditionNote } from '../model/instrumentation';
+import { rulDescription, rulModel } from '../model/xgboost';
 import { activeConnections, activeModules, architectureModules, moduleValue, replayFrames, stageLabel, workflowStage, type ArchitectureModule, type ModuleId, type ReplayFrame } from './model';
 import './twin.css';
 
@@ -39,7 +40,7 @@ function detailRows(id: ModuleId, snapshot: OntologySnapshot, event: OntologyExe
   const common = [{ label: 'Input source', value: evidenceSource(p) }, { label: 'Evidence time', value: p.t }];
   switch (id) {
     case 'condition': return [{ label: 'Inputs', value: `RMS ${p.vibrationRms.toFixed(3)} g / kurtosis ${p.kurtosis.toFixed(2)} / f1 ${p.modalF1.toFixed(2)} Hz` }, { label: 'Condition', value: `${p.crackState ?? 'C?'} / ${p.crackMm?.toFixed(1) ?? 'n/a'} mm` }, ...common];
-    case 'rul': return [{ label: 'Estimate P10 / P50 / P90', value: `${p.rulP10} / ${p.rulP50} / ${p.rulP90} h` }, { label: 'Model', value: `${p.modelVersion ?? 'Chapter 5 reference'} / uncalibrated dashboard bounds` }, ...common];
+    case 'rul': return [{ label: 'Estimate P10 / P50 / P90', value: `${p.rulP10} / ${p.rulP50} / ${p.rulP90} pseudo-h` }, { label: 'Model / feature source', value: rulDescription(p) }, { label: 'Model version', value: p.modelVersion ?? 'Legacy replay' }, { label: 'Original configuration', value: p.modelVersion === rulModel.version ? '31 features / 300 trees per quantile / depth 6 / rate 0.05 / seed 42' : 'Historical record retained / not recalculated by active XGBoost' }, { label: 'Validation scope', value: 'Controlled synthetic context; not measured hours-to-failure' }, { label: 'Uncertainty', value: p.rulEvidence?.featureSource === 'manual-override' ? 'Manual RUL assumption / not model uncertainty' : p.modelVersion === rulModel.version ? 'Wide nominal quantiles / no conformal or field calibration; low P10 can trigger early service' : 'Legacy heuristic bounds / not calibrated quantiles' }, { label: 'Outside training range', value: p.rulEvidence?.outsideTraining.join(', ') || 'None recorded' }, ...common];
     case 'tcs':
     case 'recommendation': return [{ label: 'Recommendation', value: snapshot.recommendation.label }, { label: 'Selection', value: snapshot.recommendation.acceptable ? 'Lowest TCS passing the residual-risk policy' : 'No candidate passed; minimum-cost fallback' }, ...snapshot.recommendation.costs.map((cost) => ({ label: cost.label, value: `GBP ${cost.value.toLocaleString('en-GB')}` }))];
     case 'execution': return [{ label: 'Event', value: event?.id ?? 'No current execution' }, { label: 'Planned downtime', value: event ? `${event.downtimeH} h / compressed simulation time` : 'Not started' }, { label: 'Outcome', value: 'Simulated readings; measured assessment pending' }];

@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
 import * as model from '../src/model/operating.ts';
+import * as xgboost from '../src/model/xgboost.ts';
 import { parseSession, closeRestoredSession, interruptExecution, snapshotBelongsToEvent } from '../src/model/session.ts';
 import { actionTypes, buildSemanticGraph } from '../src/ontology/model.ts';
 
@@ -14,7 +15,7 @@ const names = ['clamp', 'serviceStateFromCondition', 'crackStateFromMm', 'windBi
 const parts = ast.statements.filter((node) => ts.isFunctionDeclaration(node) && names.includes(node.name?.text) || ts.isVariableStatement(node) && node.declarationList.declarations.some((decl) => ['maintenanceActions', 'serviceEconomics', 'tcsParameters'].includes(decl.name.getText(ast))));
 const js = ts.transpileModule(parts.map((node) => node.getText(ast)).join('\n'), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 const dataset = JSON.parse(readFileSync(new URL('../src/data/dashboardData.json', import.meta.url), 'utf8'));
-const context = vm.createContext({ ...model, dataset, Date, Math, Number });
+const context = vm.createContext({ ...model, ...xgboost, dataset, Date, Math, Number });
 vm.runInContext(js, context);
 const base = { t: '20:00', source: 'auto-simulation', modelVersion: model.modelMetadata.version, windSpeed: 8, windDirection: 220, crackMm: 45, crackState: 'C4', ...model.operatingOutput(8), ...model.conditionPrediction(8, 45) };
 const form = { lat: 52, lon: -1, ...base };
@@ -61,6 +62,23 @@ test('TCS residual crack and RUL use the actual repair prediction', () => {
     assert.equal(estimate.residualCrackMm, repaired.crackMm);
     assert.equal(estimate.residualRulP10, repaired.rulP10);
   }
+});
+test('full imported feature windows drive RUL and inspection does not fabricate a new observation', () => {
+  const vector = xgboost.chapter5ReplayVectors[150];
+  const prediction = xgboost.predictRul(vector, 'imported-window');
+  const point = context.pointFromScenarioForm({ ...form, ...xgboost.featureMeasurements(vector), ...prediction }, vector);
+  assert.equal(point.rulP50, prediction.rulP50);
+  assert.equal(point.rulEvidence.featureSource, 'imported-window');
+  const inspected = context.applyMaintenanceResult(point, 'condition-inspection', 2);
+  assert.equal(inspected.rulP10, point.rulP10);
+  assert.equal(inspected.rulP50, point.rulP50);
+  assert.equal(inspected.rulEvidence.featureSource, 'imported-window');
+  assert.equal(context.estimateTcs(point, 'condition-inspection').residualRulP10, point.rulP10);
+});
+test('manual RUL overrides are not labelled as XGBoost predictions', () => {
+  const changed = context.applyScenarioModel({ ...form, rulP50: 700 }, { rulP50: true });
+  const point = context.pointFromScenarioForm(changed, null, { rulP50: true });
+  assert.equal(point.rulEvidence.featureSource, 'manual-override');
 });
 test('KPI ignores legacy point availability and keeps reference delta in its own window', () => {
   const rows = context.cumulativeKpis({ ...base, availabilityPct: 95 }, { totalDowntimeH: 48, observationHours: 1000, completedServices: 6 });
@@ -119,7 +137,9 @@ test('invalid or cross-asset imports and unsupported evidence are rejected', () 
     { ...session, stats: { ...session.stats, totalDowntimeH: 11 } },
     { ...session, events: [{ ...event, status: 'completed' }] },
     { ...session, events: [{ ...event, before: { ...before, recommendation: { ...candidate, action: 'unknown' } } }] },
-    { ...session, events: [event, event] }
+    { ...session, events: [event, event] },
+    { ...session, latest: { ...base, rulFeatureVector: [1] } },
+    { ...session, latest: { ...base, rulEvidence: { ...base.rulEvidence, rawQuantiles: ['bad', 2, 3] } } }
   ]) assert.throws(() => parseSession(JSON.stringify(invalid), session.asset));
   assert.throws(() => parseSession('broken JSON', session.asset));
 });

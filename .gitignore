@@ -5,3 +5,5 @@ dist/
 .env
 .env.*
 !.env.example
+.venv-xgboost/
+__pycache__/

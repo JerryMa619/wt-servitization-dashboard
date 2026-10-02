@@ -1,0 +1,206 @@
+{
+  "version": "ch5-xgb-quantile-1.0",
+  "name": "Chapter 5 XGBoost quantile regression",
+  "objective": "reg:quantileerror",
+  "parameters": {
+    "n_estimators": 300,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "objective": "reg:quantileerror",
+    "random_state": 42,
+    "verbosity": 0
+  },
+  "quantiles": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "featureNames": [
+    "ax_rms",
+    "ax_peak",
+    "ax_kurtosis",
+    "ax_skewness",
+    "ax_crest",
+    "ay_rms",
+    "ay_peak",
+    "ay_kurtosis",
+    "ay_skewness",
+    "ay_crest",
+    "az_rms",
+    "az_peak",
+    "az_kurtosis",
+    "az_skewness",
+    "az_crest",
+    "band_0_50",
+    "band_50_100",
+    "band_100_200",
+    "band_200_500",
+    "band_500_1000",
+    "modal_f1",
+    "modal_f2",
+    "modal_f3",
+    "wind_mean",
+    "rpm",
+    "temp_c",
+    "ti_proxy",
+    "rms_ratio_ax_ay",
+    "ax_pk2rms",
+    "ax_kurt_rms",
+    "spectral_ratio_lh"
+  ],
+  "rows": 315,
+  "evaluation": {
+    "model": "XGBoost",
+    "rmse": 76.66,
+    "mae": 49.65,
+    "phm_score": 443.71,
+    "alpha_lambda_20": 0.8571,
+    "picp": 0.9905,
+    "mpiw": 785.71
+  },
+  "evaluationScope": "Original stratified 5-fold CV on controlled synthetic C0-C6 labels; not field lifetime validation",
+  "target": "1000 * (1 - crack_mm / 80) synthetic pseudo-hours",
+  "sourceHashes": {
+    "run_pipeline.py": "875f3871778fee8ebeeb119ae1097ff4a938972a4eefe5239110a142404612ea",
+    "features.csv": "26082a04cd11cc3fed7c7d4d158c25efd027096f269cd1e7714fbc3fcea9b161"
+  },
+  "modelHashes": {
+    "p10": "e6f0237da14517251fa67598f418bec2b8df8ef6e1136d9b5d2f0ddc09077561",
+    "p50": "c08846beac5c6ada8e824a38048f4e2cbf98ed33e1f4a0b87f9d2c0838a32e4e",
+    "p90": "400c7d873309a6591568ae3dd821826f897d2b3385c92272ade644cc19864f7f"
+  },
+  "runtime": {
+    "xgboost": "3.0.2",
+    "scikit-learn": "1.7.2",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3"
+  },
+  "featureRanges": [
+    {
+      "min": 0.1247805924334213,
+      "max": 0.3170685349017488
+    },
+    {
+      "min": 0.4603165611277677,
+      "max": 1.8176334983620173
+    },
+    {
+      "min": 2.5352765246465885,
+      "max": 2.951856094336151
+    },
+    {
+      "min": -0.3790769499476201,
+      "max": 0.3710605253800467
+    },
+    {
+      "min": 3.315364374433504,
+      "max": 5.8717599314058875
+    },
+    {
+      "min": 0.074550824141111,
+      "max": 0.1362387905480507
+    },
+    {
+      "min": 0.266663101097725,
+      "max": 0.5734488153371403
+    },
+    {
+      "min": 2.5311042287299843,
+      "max": 2.8593765772325774
+    },
+    {
+      "min": -0.4069227546009444,
+      "max": 0.3767316923835365
+    },
+    {
+      "min": 3.3410256929959794,
+      "max": 4.500582513278069
+    },
+    {
+      "min": 0.0369100231783064,
+      "max": 0.056877499886705
+    },
+    {
+      "min": 0.1316203193838017,
+      "max": 0.2328185640861943
+    },
+    {
+      "min": 2.5211279989715702,
+      "max": 2.859658950415352
+    },
+    {
+      "min": -0.3638605273435439,
+      "max": 0.3905043773338412
+    },
+    {
+      "min": 3.2221270064832037,
+      "max": 4.390456318918018
+    },
+    {
+      "min": 0.2117807230230954,
+      "max": 0.7348096775409804
+    },
+    {
+      "min": 0.0629817613412835,
+      "max": 0.4669606901855517
+    },
+    {
+      "min": 0.0314946893859716,
+      "max": 0.1588615572313676
+    },
+    {
+      "min": 0.0531173370046814,
+      "max": 0.1056290580705106
+    },
+    {
+      "min": 0.0887552081588093,
+      "max": 0.141093895207916
+    },
+    {
+      "min": 21.97265625,
+      "max": 32.71484375
+    },
+    {
+      "min": 26.85546875,
+      "max": 73.2421875
+    },
+    {
+      "min": 44.43359375,
+      "max": 146.484375
+    },
+    {
+      "min": 3.02,
+      "max": 9.96
+    },
+    {
+      "min": 265.8,
+      "max": 877.9
+    },
+    {
+      "min": -0.0,
+      "max": 27.5
+    },
+    {
+      "min": 0.156343466215274,
+      "max": 0.3583061334565025
+    },
+    {
+      "min": 1.4017892073914011,
+      "max": 2.7310298184659443
+    },
+    {
+      "min": 3.315364374433504,
+      "max": 5.8717599314058875
+    },
+    {
+      "min": 0.3373553521604592,
+      "max": 0.911789599685091
+    },
+    {
+      "min": 2.5390005087117897,
+      "max": 5.797986326099503
+    }
+  ],
+  "referenceScope": "State/wind-bin mean feature interpolation for scenarios; not measured observations",
+  "calibration": "No conformal calibration; nominal quantiles can cross or under-cover"
+}

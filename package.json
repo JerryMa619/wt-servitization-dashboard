@@ -12,7 +12,8 @@
     "check:ontology": "node scripts/export-ontology.mjs --check",
     "test:ontology": "node --experimental-strip-types scripts/test-ontology.mjs",
     "test:twin": "node --experimental-strip-types scripts/test-twin.mjs",
-    "test:model": "node --experimental-strip-types scripts/test-dashboard-model.mjs"
+    "test:model": "node --experimental-strip-types scripts/test-dashboard-model.mjs",
+    "test:xgboost": "node --experimental-strip-types scripts/test-xgboost.mjs"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.21",
