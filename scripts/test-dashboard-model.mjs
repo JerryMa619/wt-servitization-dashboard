@@ -11,7 +11,7 @@ import { actionTypes, buildSemanticGraph } from '../src/ontology/model.ts';
 // Exercise the actual App functions without mounting its UI or importing browser assets.
 const source = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const ast = ts.createSourceFile('App.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-const names = ['clamp', 'makePoint', 'serviceStateFromCondition', 'crackStateFromMm', 'windBinFromSpeed', 'crackGrowthRate', 'inferCrackFromRul', 'simulateAutoTwinPoint', 'pointFromScenarioForm', 'applyScenarioModel', 'expectedScenarioValues', 'scenarioConflicts', 'outsideRelativeTolerance', 'applyMaintenanceResult', 'serviceDecisionByTcs', 'serviceCandidatesForState', 'isRiskAcceptableAfterAction', 'estimateTcs', 'residualRiskAfterAction', 'cumulativeKpis', 'formatPct', 'formatGbp'];
+const names = ['clamp', 'makePoint', 'refreshActivePrediction', 'restoredPoint', 'restoredManual', 'serviceStateFromCondition', 'crackStateFromMm', 'windBinFromSpeed', 'crackGrowthRate', 'inferCrackFromRul', 'simulateAutoTwinPoint', 'pointFromScenarioForm', 'applyScenarioModel', 'expectedScenarioValues', 'scenarioConflicts', 'outsideRelativeTolerance', 'applyMaintenanceResult', 'serviceDecisionByTcs', 'serviceCandidatesForState', 'isRiskAcceptableAfterAction', 'estimateTcs', 'residualRiskAfterAction', 'cumulativeKpis', 'formatPct', 'formatGbp'];
 const parts = ast.statements.filter((node) => ts.isFunctionDeclaration(node) && names.includes(node.name?.text) || ts.isVariableStatement(node) && node.declarationList.declarations.some((decl) => ['maintenanceActions', 'serviceEconomics', 'tcsParameters'].includes(decl.name.getText(ast))));
 const js = ts.transpileModule(parts.map((node) => node.getText(ast)).join('\n'), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 const dataset = JSON.parse(readFileSync(new URL('../src/data/dashboardData.json', import.meta.url), 'utf8'));
@@ -86,6 +86,23 @@ test('manual RUL overrides are not labelled as XGBoost predictions', () => {
   const changed = context.applyScenarioModel({ ...form, rulP50: 700 }, { rulP50: true });
   const point = context.pointFromScenarioForm(changed, null, { rulP50: true });
   assert.equal(point.rulEvidence.featureSource, 'manual-override');
+  assert.equal(point.rulEvidence.intervalCalibration, undefined);
+});
+test('new inference refreshes only active old model snapshots, never manual assumptions or event evidence', () => {
+  const old = { ...structuredClone(base), modelVersion: 'ch5-xgb-quantile-1.0', rulP10: 250, rulP50: 500, rulP90: 1000 };
+  old.rulEvidence.modelVersion = old.modelVersion;
+  delete old.rulEvidence.intervalCalibration;
+  const legacy = { ...structuredClone(session), latest: old, manual: old };
+  assert.doesNotThrow(() => parseSession(JSON.stringify(legacy), session.asset));
+  const refreshed = context.restoredManual(old);
+  assert.equal(refreshed.modelVersion, xgboost.rulModel.version);
+  assert.equal(refreshed.rulP10, xgboost.predictRul(old.rulFeatureVector, old.rulEvidence.featureSource).rulP10);
+  assert.equal(old.modelVersion, 'ch5-xgb-quantile-1.0');
+  assert.equal(old.rulP10, 250);
+  const manual = { ...old, rulEvidence: { ...old.rulEvidence, featureSource: 'manual-override' } };
+  assert.equal(context.restoredManual(manual).rulP50, 500);
+  assert.equal(context.restoredManual(manual).modelVersion, old.modelVersion);
+  assert.deepEqual(session.events, legacy.events);
 });
 test('KPI ignores legacy point availability and keeps reference delta in its own window', () => {
   const rows = context.cumulativeKpis({ ...base, availabilityPct: 95 }, { totalDowntimeH: 48, observationHours: 1000, completedServices: 6 });
@@ -146,7 +163,10 @@ test('invalid or cross-asset imports and unsupported evidence are rejected', () 
     { ...session, events: [{ ...event, before: { ...before, recommendation: { ...candidate, action: 'unknown' } } }] },
     { ...session, events: [event, event] },
     { ...session, latest: { ...base, rulFeatureVector: [1] } },
-    { ...session, latest: { ...base, rulEvidence: { ...base.rulEvidence, rawQuantiles: ['bad', 2, 3] } } }
+    { ...session, latest: { ...base, rulEvidence: { ...base.rulEvidence, rawQuantiles: ['bad', 2, 3] } } },
+    { ...session, latest: { ...base, rulEvidence: { ...base.rulEvidence, intervalCalibration: { radius: -1, nominalCoverage: .8, scope: 'source-window' } } } },
+    { ...session, latest: { ...base, rulEvidence: { ...base.rulEvidence, intervalCalibration: { radius: 1, nominalCoverage: 1.2, scope: 'source-window' } } } },
+    { ...session, latest: { ...base, rulEvidence: { ...base.rulEvidence, intervalCalibration: { radius: 1, nominalCoverage: .8, scope: 'field-validated' } } } }
   ]) assert.throws(() => parseSession(JSON.stringify(invalid), session.asset));
   assert.throws(() => parseSession('broken JSON', session.asset));
 });

@@ -22,8 +22,8 @@ try {
     assert.equal(await twin.locator('.twin-module-detail h3').innerText(), 'Contract KPI');
     if (route) {
       await page.locator('.model-basis summary').click();
-      assert.match(await page.locator('.model-basis').innerText(), /ch5-xgb-quantile-1.0/);
-      assert.match(await page.locator('.model-basis').innerText(), /not calibrated quantiles/);
+      assert.match(await page.locator('.model-basis').innerText(), /ch5-xgb-cqr-2.0/);
+      assert.match(await page.locator('.model-basis').innerText(), /no field validation/);
       await page.getByText('Session KPI & Chapter 5 References', { exact: true }).waitFor();
       assert.match(await page.locator('.dashboard').innerText(), /Not estimated/);
       assert.match(await page.locator('.dashboard').innerText(), /not a current latency measurement/);

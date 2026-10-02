@@ -1,0 +1,6 @@
+{
+  "vectors": 316,
+  "quantiles": 3,
+  "maxAbsoluteError": 0,
+  "tolerance": 0.001
+}

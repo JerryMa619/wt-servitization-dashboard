@@ -1,13 +1,14 @@
 {
-  "verifiedAt": "2026-10-02T03:21:20.202Z",
+  "verifiedAt": "2026-10-02T05:22:54.903Z",
   "results": [
     {
       "route": "http://127.0.0.1:5173/",
+      "modelVersion": "ch5-xgb-cqr-2.0",
       "checks": [
-        "XGBoost model and wide-interval limitation visible",
+        "Responsive XGBoost and calibrated-envelope scope visible",
         "Invalid 31-feature input rejected",
         "Complete JSON feature window matches Python-backed inference",
-        "Raw quantiles and full vector persisted",
+        "Raw quantiles / calibration evidence / full vector persisted",
         "Import holds clock / ontology scope / reload preserved",
         "Desktop / mobile layout",
         "Scenario edits explicitly reference-assisted"
@@ -15,11 +16,12 @@
     },
     {
       "route": "http://127.0.0.1:5173/enhanced/",
+      "modelVersion": "ch5-xgb-cqr-2.0",
       "checks": [
-        "XGBoost model and wide-interval limitation visible",
+        "Responsive XGBoost and calibrated-envelope scope visible",
         "Invalid 31-feature input rejected",
         "Complete JSON feature window matches Python-backed inference",
-        "Raw quantiles and full vector persisted",
+        "Raw quantiles / calibration evidence / full vector persisted",
         "Import holds clock / ontology scope / reload preserved",
         "Desktop / mobile layout",
         "Scenario edits explicitly reference-assisted"

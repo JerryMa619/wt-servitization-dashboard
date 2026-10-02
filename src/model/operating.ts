@@ -4,7 +4,7 @@ export type ServiceState = 'Nominal' | 'Watch' | 'Degraded' | 'MaintenanceDue' |
 export const modelMetadata = {
   version: rulModel.version,
   scope: 'XGBoost trained on controlled synthetic labels; not validated field hours-to-failure',
-  basis: 'Chapter 5 original 31-feature quantile configuration; no hyperparameter/initialisation adjustment',
+  basis: 'Chapter 5 31-feature XGBoost; initial prediction 500; disjoint training/calibration/test windows; original baseline retained',
   cutInMs: 3,
   maxRpm: 1200,
   maxPowerW: 800,

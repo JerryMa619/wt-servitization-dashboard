@@ -1,12 +1,12 @@
 {
-  "verifiedAt": "2026-10-02T03:12:12.934Z",
+  "verifiedAt": "2026-10-02T05:27:20.195Z",
   "base": "http://127.0.0.1:5173/",
   "results": [
     "Single input bounds, zero-wind output, manual interruption and held simulation clock passed.",
     "History export, reload, validated import and rejection without evidence loss passed.",
     "Missing execution entity is explicitly unavailable, not replaced by unrelated asset evidence.",
     "Resizing 1920 -> 390 px preserves all architecture modules and reachable UE controls.",
-    "Original Chapter 5 XGBoost model basis, limitations and separate session/reference KPI scope are visible.",
+    "Responsive XGBoost model basis, window-calibration limitations and separate session/reference KPI scope are visible.",
     "Switching from event A repaired frame to event B clears old frozen evidence; exported graph matches B.",
     "Frozen ontology and turbine replay retain pinned execution/frame evidence after the 30-event log prunes it.",
     "Freshness becomes a warning when simulated observations stop arriving.",

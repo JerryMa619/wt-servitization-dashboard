@@ -9,6 +9,7 @@ export type RulEvidence = {
   rawQuantiles: number[];
   quantileAdjusted: boolean;
   outsideTraining: string[];
+  intervalCalibration?: { radius: number; nominalCoverage: number; scope: 'source-window' | 'reference-only' | 'out-of-domain' };
 };
 type Tree = { left_children: number[]; right_children: number[]; split_indices: number[]; split_conditions: number[]; default_left: number[] };
 type Ensemble = { baseScore: number; trees: Tree[] };
@@ -36,11 +37,15 @@ export function predictRawQuantiles(values: number[]) {
 export function predictRul(values: number[], featureSource: RulFeatureSource) {
   if (values.length !== rulModel.featureNames.length || !values.every(Number.isFinite)) throw new Error('A complete, finite Chapter 5 feature window is required.');
   const raw = predictRawQuantiles(values);
-  // Retain raw outputs in provenance; only the displayed nonnegative envelope is ordered.
-  const clipped = raw.map((v) => Math.round(clamp(v, 0, 1000)));
-  const rulP50 = clipped[1], rulP10 = Math.min(...clipped), rulP90 = Math.max(...clipped);
+  // Keep raw percentiles separate from the calibrated envelope; round tails outward.
+  const clipped = raw.map((v) => clamp(v, 0, 1000));
+  const radius = rulModel.calibration.radius;
+  const rulP50 = Math.round(clipped[1]);
+  const rulP10 = Math.floor(Math.max(0, Math.min(...clipped) - radius));
+  const rulP90 = Math.ceil(Math.min(1000, Math.max(...clipped) + radius));
   const outsideTraining = rulModel.featureNames.filter((_, i) => Math.fround(values[i]) < Math.fround(rulModel.featureRanges[i].min) || Math.fround(values[i]) > Math.fround(rulModel.featureRanges[i].max));
-  const rulEvidence: RulEvidence = { modelVersion: rulModel.version, featureSource, rawQuantiles: raw, quantileAdjusted: raw[0] > raw[1] || raw[1] > raw[2] || raw.some((v) => v < 0 || v > 1000), outsideTraining };
+  const rulEvidence: RulEvidence = { modelVersion: rulModel.version, featureSource, rawQuantiles: raw, quantileAdjusted: raw[0] > raw[1] || raw[1] > raw[2] || raw.some((v) => v < 0 || v > 1000), outsideTraining,
+    intervalCalibration: { radius, nominalCoverage: rulModel.calibration.nominalCoverage, scope: outsideTraining.length ? 'out-of-domain' : featureSource === 'reference-assisted' ? 'reference-only' : 'source-window' } };
   return { rulP10, rulP50, rulP90, rulSpread: rulP50 - rulP10, rulUpperSpread: rulP90 - rulP50, rulEvidence };
 }
 
@@ -100,4 +105,11 @@ export function rulDescription(reading: { modelVersion?: string; rulEvidence?: R
   if (reading.rulEvidence?.featureSource === 'manual-override') return 'Manual RUL assumption / not XGBoost output';
   if (reading.modelVersion === rulModel.version) return reading.rulEvidence?.featureSource === 'reference-assisted' ? 'XGBoost / reference-assisted scenario' : 'XGBoost / full feature window';
   return reading.modelVersion ? `${reading.modelVersion} / legacy bounds` : 'Chapter 5 legacy replay bounds';
+}
+
+export function rulUncertaintyDescription(reading: { modelVersion?: string; rulEvidence?: RulEvidence }) {
+  if (reading.rulEvidence?.featureSource === 'manual-override') return 'Manual RUL assumption / not model uncertainty';
+  if (reading.modelVersion !== rulModel.version) return 'Historical bounds retained / not calibrated by the active model';
+  const scope = reading.rulEvidence?.intervalCalibration?.scope;
+  return `P10/P90-based window-calibrated envelope / nominal 80%; no field validation${scope === 'reference-only' ? '; reference scenario, coverage not validated' : scope === 'out-of-domain' ? '; outside training range, coverage not validated' : ''}`;
 }

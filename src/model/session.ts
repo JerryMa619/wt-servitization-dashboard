@@ -20,6 +20,10 @@ function validReading(value: unknown): value is OntologyReading {
   if (value.rulEvidence != null) {
     const evidence = value.rulEvidence;
     if (!object(evidence) || !text(evidence.modelVersion) || evidence.modelVersion !== value.modelVersion || !['chapter5-window', 'reference-assisted', 'imported-window', 'manual-override'].includes(String(evidence.featureSource)) || !Array.isArray(evidence.rawQuantiles) || evidence.rawQuantiles.length !== 3 || !evidence.rawQuantiles.every(finite) || typeof evidence.quantileAdjusted !== 'boolean' || !Array.isArray(evidence.outsideTraining) || evidence.outsideTraining.length > 31 || !evidence.outsideTraining.every((name) => typeof name === 'string' && rulModel.featureNames.includes(name))) return false;
+    if (evidence.intervalCalibration != null) {
+      const calibration = evidence.intervalCalibration;
+      if (!object(calibration) || !finite(calibration.radius) || calibration.radius < 0 || !finite(calibration.nominalCoverage) || calibration.nominalCoverage <= 0 || calibration.nominalCoverage >= 1 || !['source-window', 'reference-only', 'out-of-domain'].includes(String(calibration.scope))) return false;
+    }
   }
   if (Object.entries(inputBounds).some(([key, bounds]) => value[key] != null && (!finite(value[key]) || (value[key] as number) < bounds.min || (value[key] as number) > bounds.max))) return false;
   return ['windSpeed', 'windDirection', 'rpm', 'power', 'vibrationRms', 'kurtosis', 'modalF1', 'rulP10', 'rulP50', 'rulP90'].every((key) => finite(value[key]) && (value[key] as number) >= 0) && (value.rulP10 as number) <= (value.rulP50 as number) && (value.rulP50 as number) <= (value.rulP90 as number);

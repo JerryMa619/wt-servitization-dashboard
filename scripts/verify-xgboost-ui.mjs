@@ -18,7 +18,7 @@ try {
     const twin = page.getByRole('region', { name: 'Integrated wind turbine digital twin' });
     await twin.getByRole('button', { name: 'RUL evidence', exact: true }).click();
     assert.match(await twin.locator('.twin-module-detail').innerText(), /31 features \/ 300 trees/);
-    assert.match(await twin.locator('.twin-module-detail').innerText(), /low P10 can trigger early service/);
+    assert.match(await twin.locator('.twin-module-detail').innerText(), /window-calibrated envelope/);
     assert.match(await page.locator('.metric').filter({ hasText: 'Blade RUL' }).innerText(), /XGBoost/);
     await page.getByRole('button', { name: 'Input scenario', exact: true }).click();
     const dialog = page.getByRole('dialog');
@@ -43,6 +43,7 @@ try {
     assert.equal(state.manual.modelVersion, rulModel.version);
     assert.equal(state.manual.rulEvidence.featureSource, 'imported-window');
     assert.deepEqual(state.manual.rulEvidence.rawQuantiles, prediction.rulEvidence.rawQuantiles);
+    assert.deepEqual(state.manual.rulEvidence.intervalCalibration, prediction.rulEvidence.intervalCalibration);
     assert.deepEqual(state.manual.rulFeatureVector, vector);
     const stats = state.stats;
     await page.waitForTimeout(1500);
@@ -51,12 +52,14 @@ try {
     const inspector = page.locator('.ontology-inspector');
     await page.waitForFunction(() => document.querySelector('.ontology-inspector h3')?.textContent === 'Blade RUL estimate');
     assert.match(await inspector.innerText(), /XGBoost \/ full feature window/);
-    assert.match(await inspector.innerText(), /no conformal or field calibration/);
+    assert.match(await inspector.innerText(), /no field validation/);
+    assert.match(await inspector.innerText(), /Interval correction/);
     assert.match(await inspector.innerText(), /Raw model quantiles/);
     await twin.screenshot({ path: fileURLToPath(new URL(`${name}-rul-desktop.png`, output)) });
     if (route) {
       await page.locator('.model-basis summary').click();
-      assert.match(await page.locator('.model-basis').innerText(), /MPIW 785.71/);
+      assert.match(await page.locator('.model-basis').innerText(), new RegExp(`MPIW ${rulModel.evaluation.mpiw.toFixed(2)}`));
+      assert.match(await page.locator('.model-basis').innerText(), /189 training \/ 63 calibration \/ 63 test/);
       await page.locator('.enhanced-grid').first().screenshot({ path: fileURLToPath(new URL(`${name}-model-basis.png`, output)) });
     }
     await page.setViewportSize({ width: 390, height: 900 });
@@ -76,7 +79,7 @@ try {
     await page.reload();
     await twin.waitFor();
     assert.equal((await saved(page)).manual.rulEvidence.featureSource, 'imported-window');
-    results.push({ route: page.url(), checks: ['XGBoost model and wide-interval limitation visible', 'Invalid 31-feature input rejected', 'Complete JSON feature window matches Python-backed inference', 'Raw quantiles and full vector persisted', 'Import holds clock / ontology scope / reload preserved', 'Desktop / mobile layout', 'Scenario edits explicitly reference-assisted'] });
+    results.push({ route: page.url(), modelVersion: rulModel.version, checks: ['Responsive XGBoost and calibrated-envelope scope visible', 'Invalid 31-feature input rejected', 'Complete JSON feature window matches Python-backed inference', 'Raw quantiles / calibration evidence / full vector persisted', 'Import holds clock / ontology scope / reload preserved', 'Desktop / mobile layout', 'Scenario edits explicitly reference-assisted'] });
     await page.close();
   }
   assert.deepEqual(errors, []);

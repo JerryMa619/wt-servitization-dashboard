@@ -1,5 +1,7 @@
 # Chapter 5 XGBoost Integration
 
+Historical baseline record. The subsequent owner request to improve P10/P50/P90 is implemented as `ch5-xgb-cqr-2.0`; see [responsive calibration record](CALIBRATED_XGBOOST.md). The original artifacts and results below are preserved, not relabelled as the new model. The baseline training script now writes its browser representation under `models/chapter5/browser-artifact.json` rather than overwriting the active calibrated browser engine.
+
 ## Owner Decision
 
 On 2026-10-02 the owner requested replacement of the dashboard's heuristic RUL calculation with Chapter 5 XGBoost. After inspecting reproduced wide quantiles, the owner selected **strictly preserve the original configuration and show its limitations**, not an initialisation repair. The default intercept, objectives and hyperparameters are preserved. The exploratory alternative was not deployed and did not modify Chapter 5 sources.

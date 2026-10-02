@@ -32,7 +32,7 @@ import TwinWorkspace, { type ReplayRequest } from "./twin/TwinWorkspace";
 import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBounds, inputRangeErrors, modelMetadata, operatingOutput, readingFreshness, simulationAvailability, type SimulationStats } from "./model/operating";
 import { closeRestoredSession, interruptExecution, parseSession, sessionKey, type SavedSession } from "./model/session";
 import { bladeSensorFields, bladeSensorReference, derivedConditionNote } from "./model/instrumentation";
-import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulDescription, rulModel, type RulEvidence } from "./model/xgboost";
+import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulDescription, rulUncertaintyDescription, rulModel, type RulEvidence } from "./model/xgboost";
 
 const LazyTelemetryChart = lazy(() => import("./TelemetryChart"));
 
@@ -362,13 +362,21 @@ function readDashboardSession(): { data: SavedSession | null; error: string | nu
   }
 }
 
+function refreshActivePrediction(reading: SavedSession['latest']): SavedSession['latest'] {
+  if (!reading.modelVersion?.startsWith('ch5-xgb-') || reading.modelVersion === rulModel.version || reading.rulEvidence?.featureSource === 'manual-override') return reading;
+  if (reading.rulFeatureVector && reading.rulEvidence) return { ...reading, ...predictRul(reading.rulFeatureVector, reading.rulEvidence.featureSource), modelVersion: rulModel.version };
+  return reading;
+}
+
 function restoredPoint(reading: SavedSession['latest']): HistoryPoint {
-  const point = { ...reading, ...operatingOutput(reading.windSpeed), serviceMode: undefined, serviceAction: undefined, downtimeH: undefined } as HistoryPoint;
+  const point = { ...refreshActivePrediction(reading), ...operatingOutput(reading.windSpeed), serviceMode: undefined, serviceAction: undefined, downtimeH: undefined } as HistoryPoint;
   return { ...point, serviceState: serviceStateFromCondition(point) };
 }
 
 function restoredManual(reading: SavedSession['manual']): HistoryPoint | null {
-  return reading ? { ...reading, source: "manual-input", serviceState: serviceStateFromCondition(reading) } as HistoryPoint : null;
+  if (!reading) return null;
+  const point = refreshActivePrediction(reading);
+  return { ...point, source: "manual-input", serviceState: serviceStateFromCondition(point) } as HistoryPoint;
 }
 
 function App() {
@@ -1226,7 +1234,20 @@ function EnhancedDashboardModules({
             <ConfidenceBar label="RUL stability score" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} h`} />
             <ConfidenceBar label="Decision support score" value={confidence.decisionConfidence} note={maintenanceActions[serviceDecisionByTcs(latest, serviceState).action].label} />
           </div>
-          <details className="model-basis"><summary>Model basis / {modelMetadata.version}</summary><dl><div><dt>Validation</dt><dd>{modelMetadata.scope}</dd></div><div><dt>Source</dt><dd>{modelMetadata.basis}</dd></div><div><dt>RUL model</dt><dd>31 features / reg:quantileerror / 300 trees per quantile / depth 6 / learning rate 0.05 / seed 42</dd></div><div><dt>Training target</dt><dd>{rulModel.target}; crack length is excluded from the model inputs</dd></div><div><dt>Reproduced CV</dt><dd>RMSE {rulModel.evaluation.rmse} pseudo-h / MAE {rulModel.evaluation.mae} pseudo-h / PICP {(rulModel.evaluation.picp * 100).toFixed(1)}% / MPIW {rulModel.evaluation.mpiw} pseudo-h</dd></div><div><dt>Original-model limitation</dt><dd>Wide nominal quantiles; no conformal calibration or field validation. Low P10 can trigger early service under the unchanged policy.</dd></div><div><dt>Current input</dt><dd>{rulDescription(latest)}; {latest.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Operating envelope</dt><dd>Cut-in {modelMetadata.cutInMs} m/s / {modelMetadata.maxRpm} RPM / {modelMetadata.maxPowerW} W; operating/growth/repair models remain scenario assumptions. Wind direction is context only.</dd></div><div><dt>Scores / policy</dt><dd>Heuristic scores are not accuracy or failure probabilities. Minimum TCS passing the heuristic risk filter; costs and repair effects are assumptions.</dd></div></dl></details>
+          <details className="model-basis"><summary>Model basis / {modelMetadata.version}</summary><dl>
+            <div><dt>Validation</dt><dd>{modelMetadata.scope}; {rulModel.evaluationScope}</dd></div>
+            <div><dt>Source</dt><dd>{modelMetadata.basis}</dd></div>
+            <div><dt>RUL model</dt><dd>31 features / reg:quantileerror / 300 trees per quantile / depth 6 / learning rate 0.05 / seed 42 / initial prediction 500</dd></div>
+            <div><dt>Training target</dt><dd>{rulModel.target}; crack length is excluded from the model inputs</dd></div>
+            <div><dt>Data split</dt><dd>189 training / 63 calibration / 63 test windows; no final refit on calibration or test rows</dd></div>
+            <div><dt>Held-out result</dt><dd>RMSE {rulModel.evaluation.rmse.toFixed(2)} pseudo-h / MAE {rulModel.evaluation.mae.toFixed(2)} pseudo-h / PICP {(rulModel.evaluation.picp * 100).toFixed(1)}% / MPIW {rulModel.evaluation.mpiw.toFixed(2)} pseudo-h</dd></div>
+            <div><dt>Same-split baseline</dt><dd>Original RMSE {rulModel.comparison.originalSameSplit.rmse.toFixed(2)} / PICP {(rulModel.comparison.originalSameSplit.picp * 100).toFixed(1)}% / MPIW {rulModel.comparison.originalSameSplit.mpiw.toFixed(2)} pseudo-h; original model files retained</dd></div>
+            <div><dt>Interval calibration</dt><dd>Nominal 80% P10/P90-based envelope; outward correction {rulModel.calibration.radius.toFixed(2)} pseudo-h / raw percentiles retained. Adjusted bounds are not exact percentiles.</dd></div>
+            <div><dt>Current uncertainty</dt><dd>{rulUncertaintyDescription(latest)}. Repeated source windows do not establish independent-blade validation.</dd></div>
+            <div><dt>Current input</dt><dd>{rulDescription(latest)}; {latest.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div>
+            <div><dt>Operating envelope</dt><dd>Cut-in {modelMetadata.cutInMs} m/s / {modelMetadata.maxRpm} RPM / {modelMetadata.maxPowerW} W; operating/growth/repair models remain scenario assumptions. Wind direction is context only.</dd></div>
+            <div><dt>Scores / policy</dt><dd>Heuristic scores are not accuracy or failure probabilities. Minimum TCS passing the heuristic risk filter; costs and repair effects are assumptions.</dd></div>
+          </dl></details>
         </section>
 
         <section className="panel enhanced-panel">
@@ -1472,7 +1493,7 @@ function ScenarioInputModal({
           <NumberField label="RUL p90 h" value={form.rulP90} step="1" onChange={(value) => updateNumber("rulP90", value)} />
         </div>
 
-        <details className="feature-window-input"><summary>Chapter 5 XGBoost feature window</summary><div className="feature-window-tools"><label><Upload size={14} />Feature JSON<input type="file" accept=".json,application/json" aria-label="Import Chapter 5 feature window" onChange={(event) => { void importFeatureWindow(event.target.files?.[0]); event.target.value = ''; }} /></label><button type="button" title="Download current named feature window" onClick={downloadFeatureWindow}><Download size={14} />Feature window</button></div><dl><div><dt>Input source</dt><dd>{rulDescription(previewPoint)}</dd></div><div><dt>Feature coverage</dt><dd>{featureWindow ? '31 / 31 provided' : '31 / 31 reference-assisted; not measured'}</dd></div><div><dt>Training domain</dt><dd>{previewPoint.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Prediction scope</dt><dd>Synthetic pseudo-hours / nominal, uncalibrated quantiles</dd></div></dl></details>
+        <details className="feature-window-input"><summary>Chapter 5 XGBoost feature window</summary><div className="feature-window-tools"><label><Upload size={14} />Feature JSON<input type="file" accept=".json,application/json" aria-label="Import Chapter 5 feature window" onChange={(event) => { void importFeatureWindow(event.target.files?.[0]); event.target.value = ''; }} /></label><button type="button" title="Download current named feature window" onClick={downloadFeatureWindow}><Download size={14} />Feature window</button></div><dl><div><dt>Input source</dt><dd>{rulDescription(previewPoint)}</dd></div><div><dt>Feature coverage</dt><dd>{featureWindow ? '31 / 31 provided' : '31 / 31 reference-assisted; not measured'}</dd></div><div><dt>Training domain</dt><dd>{previewPoint.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Prediction scope</dt><dd>Synthetic pseudo-hours / {rulUncertaintyDescription(previewPoint)}</dd></div></dl></details>
 
         <div className="scenario-result" style={{ borderColor: previewMeta.color, background: previewMeta.bg }}>
           <span>Servitization output preview</span>
@@ -1528,7 +1549,7 @@ function pointFromScenarioForm(form: ScenarioForm, featureWindow: number[] | nul
     acquisitionIndex: 9999,
     source: "manual-input",
     modelVersion: modelMetadata.version,
-    rulEvidence: { ...prediction.rulEvidence, featureSource: manualRul ? 'manual-override' as const : prediction.rulEvidence.featureSource },
+    rulEvidence: { ...prediction.rulEvidence, featureSource: manualRul ? 'manual-override' as const : prediction.rulEvidence.featureSource, intervalCalibration: manualRul ? undefined : prediction.rulEvidence.intervalCalibration },
     rulFeatureVector: prediction.rulFeatureVector,
     observedAt: new Date().toISOString(),
     receivedAt: new Date().toISOString(),
@@ -1880,9 +1901,9 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
       status: latest.rulEvidence?.outsideTraining.length ? "warn" : "context"
     },
     {
-      label: "Nominal RUL uncertainty",
+      label: "RUL interval scope",
       value: `${latest.rulP90 - latest.rulP10} pseudo-h width`,
-      note: 'Original quantile configuration; wide intervals can trigger early service. No field calibration.',
+      note: rulUncertaintyDescription(latest),
       status: latest.rulP90 - latest.rulP10 > 600 ? "warn" : "context"
     },
     {
@@ -2246,7 +2267,7 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
     },
     yAxis: {
       type: "value",
-      name: "hours",
+      name: "pseudo-h",
       nameTextStyle: { color: "#8fa7a0" },
       axisLine: { lineStyle: { color: "rgba(128, 169, 158, 0.34)" } },
       axisTick: { lineStyle: { color: "rgba(128, 169, 158, 0.28)" } },
@@ -2254,9 +2275,9 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
       splitLine: { lineStyle: { color: "rgba(128, 169, 158, 0.14)" } }
     },
     series: [
-      { name: "p10", type: "line", smooth: true, showSymbol: false, data: history.map((p) => p.rulP10) },
-      { name: "p50", type: "line", smooth: true, showSymbol: false, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
-      { name: "p90", type: "line", smooth: true, showSymbol: false, data: history.map((p) => p.rulP90) }
+      { name: "p10 bound", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP10) },
+      { name: "p50", type: "line", smooth: false, showSymbol: false, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
+      { name: "p90 bound", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP90) }
     ]
   };
 }
