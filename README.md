@@ -75,6 +75,8 @@ The **Blade Acceleration Waveform** player shows unscaled excerpts from 21 Chapt
 
 Source review, missing acquisitions, model-snapshot mismatch, chart definitions and verification: [vibration display record](docs/model/VIBRATION_DISPLAY.md), [waveform manifest](models/vibration/waveform-manifest.json), [CSV/export parity](models/vibration/source-parity.json), [local browser verification](screenshots/vibration/verification.json).
 
+Published standard/enhanced routes also pass the same browser checks: [public verification](screenshots/vibration/public/verification.json), [public desktop screenshot](screenshots/vibration/public/enhanced-desktop.png), [public mobile screenshot](screenshots/vibration/public/enhanced-mobile.png).
+
 ![Three-axis vibration monitoring](screenshots/vibration/enhanced-desktop.png)
 
 ## Sensor References

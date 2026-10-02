@@ -62,4 +62,6 @@ Local browser checks cover both standard/enhanced routes, exact unit/axis labels
 
 Existing browser regressions also pass for full-feature XGBoost import and evidence scope, service-history export/reload/import, manual interruption and held simulation time, pinned repair/ontology evidence, observation freshness, and responsive Framework controls. Evidence: [model checks](../../screenshots/xgboost/verification.json), [workflow checks](../../screenshots/fixes/verification.json).
 
+Implementation commit `26987b6` was published successfully by [GitHub Pages run 36973756452](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36973756452). The same waveform browser checks passed against both public routes, including mobile canvas redraw, reduced motion and unavailable-archive retry. Public evidence: [verification](../../screenshots/vibration/public/verification.json), [desktop](../../screenshots/vibration/public/enhanced-desktop.png), [mobile](../../screenshots/vibration/public/enhanced-mobile.png).
+
 The player is an inspection aid for existing simulated references. Real waveform-driven crack detection/RUL requires synchronised sensor samples, matched feature extraction and independently reviewed real failure/maintenance outcomes. No physical validation is implied by animated pixels.
