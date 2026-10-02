@@ -1,0 +1,15 @@
+{
+  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
+  "status": "passed",
+  "browserErrors": [],
+  "checks": [
+    "four dataset identities; same-number engines distinct",
+    "switch resets replay, evaluation and contract",
+    "in-flight cancellation, HTTP failure/retry, integrity failure/retry",
+    "same-subset click remains usable",
+    "dataset-specific JSON and RDF/result downloads",
+    "real SHACL/SPARQL for every new subset",
+    "FD001 guided contract example preserved",
+    "390/320px four-view layouts"
+  ]
+}

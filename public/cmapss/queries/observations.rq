@@ -1,0 +1,11 @@
+PREFIX cm: <https://w3id.org/sdt-cmapss/demo#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+SELECT ?cycle ?channel ?value ?source ?hash
+WHERE {
+  <urn:cmapss:active-snapshot> cm:estimate/prov:wasDerivedFrom ?window .
+  ?window cm:observation ?observation ; prov:wasDerivedFrom ?file .
+  ?file cm:fileName ?source ; cm:sha256 ?hash .
+  ?observation cm:cycle ?cycle ; sosa:observedProperty ?channel ; sosa:hasSimpleResult ?value .
+}
+ORDER BY ?channel

@@ -1,0 +1,98 @@
+@prefix cm: <https://w3id.org/sdt-cmapss/demo#> .
+@prefix sdt: <http://purl.org/sdt/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# SHACL Core application constraints. NOT the full Chapter 4 shapes.
+cm:SnapshotShape a sh:NodeShape ; sh:targetNode <urn:cmapss:active-snapshot> ;
+  sh:class cm:Snapshot ;
+  sh:property [ sh:path cm:sourceOntologySHA256 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] ;
+  sh:property [ sh:path cm:asset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:Asset ] ;
+  sh:property [ sh:path cm:estimate ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:CycleRULEstimate ] ;
+  sh:property [ sh:path cm:recommendation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:ServiceActionRecommendation ] .
+cm:EstimateShape a sh:NodeShape ; sh:targetClass cm:CycleRULEstimate ;
+  sh:property [ sh:path cm:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue cm:Cycle ; sh:message "RUL must explicitly use cm:Cycle; hours are not interchangeable." ] ;
+  sh:property [ sh:path cm:lowerBound ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 125 ; sh:lessThanOrEquals cm:pointEstimate ] ;
+  sh:property [ sh:path cm:pointEstimate ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 125 ; sh:lessThanOrEquals cm:upperBound ] ;
+  sh:property [ sh:path cm:upperBound ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 125 ] ;
+  sh:property [ sh:path cm:cycle ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:class cm:ObservationWindow ; sh:message "Estimate must link to its observation window." ] ;
+  sh:property [ sh:path cm:generatedWith ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:ModelArtifact ] ;
+  sh:property [ sh:path sdt:meanRULhours ; sh:maxCount 0 ] ;
+  sh:property [ sh:path sdt:p10RULhours ; sh:maxCount 0 ] ;
+  sh:property [ sh:path sdt:p50RULhours ; sh:maxCount 0 ] ;
+  sh:property [ sh:path sdt:p90RULhours ; sh:maxCount 0 ] .
+cm:AssetShape a sh:NodeShape ; sh:targetClass sdt:Asset ;
+  sh:property [ sh:path cm:engineId ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ] ;
+  sh:property [ sh:path sdt:currentState ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:ServiceState ] ;
+  sh:property [ sh:path sdt:governedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:Contract ] .
+cm:StateShape a sh:NodeShape ; sh:targetClass sdt:ServiceState ;
+  sh:property [ sh:path sdt:stateLabel ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ("Nominal" "Watch" "Alert" "Hold") ] .
+cm:WindowShape a sh:NodeShape ; sh:targetClass cm:ObservationWindow ;
+  sh:property [ sh:path cm:windowStart ; sh:minCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:lessThanOrEquals cm:cycle ] ;
+  sh:property [ sh:path cm:cycle ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] ;
+  sh:property [ sh:path cm:observation ; sh:minCount 7 ; sh:maxCount 7 ; sh:class sosa:Observation ] ;
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:class cm:SourceFile ] .
+cm:ObservationShape a sh:NodeShape ; sh:targetClass sosa:Observation ;
+  sh:property [ sh:path sosa:hasFeatureOfInterest ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:Asset ] ;
+  sh:property [ sh:path sosa:observedProperty ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path sosa:hasSimpleResult ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+  sh:property [ sh:path cm:cycle ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ] .
+cm:ModelShape a sh:NodeShape ; sh:targetClass cm:ModelArtifact ;
+  sh:property [ sh:path cm:exporterSHA256 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] ;
+  sh:property [ sh:path cm:modelId ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path cm:sha256 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] ;
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:class cm:SourceFile ] .
+cm:SourceShape a sh:NodeShape ; sh:targetClass cm:SourceFile ;
+  sh:property [ sh:path cm:sha256 ; sh:minCount 1 ; sh:maxCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] ;
+  sh:property [ sh:path cm:fileName ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+cm:ContractShape a sh:NodeShape ; sh:targetClass sdt:Contract ;
+  sh:property [ sh:path cm:assumption ; sh:hasValue true ; sh:minCount 1 ; sh:maxCount 1 ] .
+cm:PolicyShape a sh:NodeShape ; sh:targetClass cm:Policy ;
+  sh:property [ sh:path cm:consequenceRatio ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+  sh:property [ sh:path cm:maintenanceCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path cm:leadMultiplier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+  sh:property [ sh:path cm:guardrailCycles ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] .
+cm:RecommendationShape a sh:NodeShape ; sh:targetClass sdt:ServiceActionRecommendation ;
+  sh:property [ sh:path cm:forAsset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:Asset ] ;
+  sh:property [ sh:path cm:basedOnEstimate ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:CycleRULEstimate ; sh:message "Recommendation must identify the RUL evidence supporting it." ] ;
+  sh:property [ sh:path cm:usesPolicy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:Policy ] ;
+  sh:property [ sh:path cm:hasCandidate ; sh:minCount 5 ; sh:maxCount 5 ; sh:class cm:ActionCandidate ] ;
+  sh:property [ sh:path cm:selectedCandidate ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:ActionCandidate ; sh:node [ sh:property [ sh:path cm:eligible ; sh:hasValue true ] ] ] ;
+  sh:property [ sh:path sdt:recommendationStatus ; sh:hasValue "proposed" ; sh:minCount 1 ; sh:maxCount 1 ] .
+cm:CandidateShape a sh:NodeShape ; sh:targetClass cm:ActionCandidate ;
+  sh:property [ sh:path cm:actionName ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path cm:eligible ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+  sh:property [ sh:path cm:totalCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path cm:directCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path cm:riskCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path cm:reviewCycles ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] .
+
+cm:ConfiguredContractShape a sh:NodeShape ; sh:targetClass cm:ConfiguredContract ;
+ sh:property [ sh:path cm:contractName ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+ sh:property [ sh:path cm:responsibility ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+ sh:property [ sh:path cm:contractVersion ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+ sh:property [ sh:path cm:appliedPolicy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:Policy ] ;
+ sh:property [ sh:path sdt:hasKPI ; sh:minCount 1 ; sh:maxCount 1 ; sh:class cm:CapacityBudget ] ;
+ sh:property [ sh:path cm:consequenceRatio ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+ sh:property [ sh:path cm:maintenanceCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+ sh:property [ sh:path cm:leadMultiplier ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+ sh:property [ sh:path cm:guardrailCycles ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:consequenceRatio) ; sh:equals cm:consequenceRatio ; sh:message "Applied consequence ratio must equal the named contract assumption." ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:maintenanceCost) ; sh:equals cm:maintenanceCost ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:leadMultiplier) ; sh:equals cm:leadMultiplier ] ;
+ sh:property [ sh:path (cm:appliedPolicy cm:guardrailCycles) ; sh:equals cm:guardrailCycles ; sh:message "Applied intervention margin must equal the named contract assumption." ] .
+cm:CapacityBudgetShape a sh:NodeShape ; sh:targetClass cm:CapacityBudget ;
+ sh:property [ sh:path cm:assumption ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue true ] ;
+ sh:property [ sh:path cm:periodUnit ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue cm:ScheduledCycleOpportunity ] ;
+ sh:property [ sh:path sdt:targetValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+ sh:property [ sh:path cm:periodSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+ sh:property [ sh:path cm:plannedLossSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals cm:periodSlots ] ;
+ sh:property [ sh:path cm:unplannedLossSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals cm:periodSlots ] ;
+ sh:property [ sh:path cm:allowedLossSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals cm:periodSlots ] ;
+ sh:property [ sh:path cm:plannedMarginSlots ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] ;
+ sh:property [ sh:path cm:plannedCapacityProxy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+ sh:property [ sh:path cm:unplannedCapacityProxy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
+ sh:property [ sh:path cm:plannedFits ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .

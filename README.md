@@ -158,3 +158,28 @@ The Vite production base path is configured for:
 ```text
 /wt-servitization-dashboard/
 ```
+
+## C-MAPSS prototype
+
+The `/cmapss/` route adds an FD001 replay demonstration with synchronized engine telemetry, RUL, ISO 23247-inspired framework mapping, ontology exploration and normalized-cost service advice. Local preview: `npm run dev -- --port 5178`, then <http://127.0.0.1:5178/cmapss/>.
+
+- [Demonstration guide](docs/cmapss/DEMO.md)
+- [Data, model, units and evidence limits](docs/cmapss/DATA.md)
+- [Implementation and verification record](docs/cmapss/IMPLEMENTATION_LOG.md)
+- [Tracking issue #1](https://github.com/JerryMa619/wt-servitization-dashboard/issues/1)
+
+![C-MAPSS replay](screenshots/cmapss/twin-desktop.png)
+
+### Guided and semantic workflow (v0.2)
+
+Four Engine 034 milestone buttons connect the replay to framework, ontology and service decisions. **Ontology → Semantic check** now generates RDF and executes SPARQL / SHACL Core locally, including missing-unit and missing-evidence counterexamples. The explicit cycle extension avoids hours-valued assertions. [Walkthrough, scope and reproducibility](docs/cmapss/SEMANTIC_WORKFLOW.md).
+
+![Executable semantic evidence](screenshots/cmapss-semantic/semantic-pass-desktop.png)
+
+### Contract comparison (v0.3)
+
+**Service decisions** compares two explicit contract assumptions against identical engine evidence. Engine 034 cycles 158 and 171 demonstrate cost-driven and intervention-margin-driven differences. Applying a contract links it to the existing policy, RDF/SPARQL/SHACL workflow and exports; manual changes detach that named policy. KPI budgets are hypothetical cycle-opportunity calculations, not measured time availability. [Assumptions, walkthrough and verification](docs/cmapss/CONTRACT_SCENARIOS.md).
+
+### C-MAPSS v0.4: FD001–FD004
+
+The `/cmapss/` demonstration now offers four separately fitted subset models, on-demand replay, full-test endpoint metrics and dataset-aware ontology/contract evidence. The existing FD001 guide is preserved. See [four-subset methodology and audit](docs/cmapss/MULTI_DATASET.md); original file counts, source hashes and all endpoint evaluation records are included. Run `npm run test:cmapss:datasets` for the new regression suite.

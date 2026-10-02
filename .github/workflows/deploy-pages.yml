@@ -35,6 +35,10 @@ jobs:
         run: |
           npm run check:ontology
           npm run test:ontology
+          npm run test:cmapss
+          npm run test:cmapss:semantic
+          npm run test:cmapss:contracts
+          npm run test:cmapss:datasets
           npm run test:twin
           npm run test:model
           npm run test:xgboost
@@ -45,8 +49,9 @@ jobs:
 
       - name: Prepare GitHub Pages routes
         run: |
-          mkdir -p dist/enhanced
+          mkdir -p dist/enhanced dist/cmapss
           cp dist/index.html dist/enhanced/index.html
+          cp dist/index.html dist/cmapss/index.html
           cp dist/index.html dist/404.html
 
       - name: Configure Pages

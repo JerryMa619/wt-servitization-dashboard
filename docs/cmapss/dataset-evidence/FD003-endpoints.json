@@ -1,0 +1,713 @@
+{
+  "dataset": "FD003",
+  "sourceFiles": {
+    "train_FD003.txt": "2abbe9968cc5e8eb091980f51b20f62bb4127336d3482cb52071d53bf23329e2",
+    "test_FD003.txt": "299babd63c8d987cef079c4a425429f33b3a34797d803bbe2ad48c29dbd0d790",
+    "RUL_FD003.txt": "df1e0566306b174a2de41c67a3e7a51877889598b78643fc3e5685259091b7cb"
+  },
+  "exporterSHA256": "7e68c7871371fba3886b9048d1eb7b17667b4ec1b6a450a0b7e02b9cd3a123c6",
+  "baselineSHA256": "ae084d7b0fc7e472764cb3b8015fb277fcefa19fc2f9bbce7ba746a46f9e043e",
+  "prefixMutationChecks": 8,
+  "endpoints": [
+    {
+      "engine": 1,
+      "low": 27.8106,
+      "point": 51.2103,
+      "high": 67.6918,
+      "truth": 44.0
+    },
+    {
+      "engine": 2,
+      "low": 44.6096,
+      "point": 68.0093,
+      "high": 84.4909,
+      "truth": 51.0
+    },
+    {
+      "engine": 3,
+      "low": 32.8754,
+      "point": 56.2751,
+      "high": 72.7567,
+      "truth": 27.0
+    },
+    {
+      "engine": 4,
+      "low": 93.2267,
+      "point": 116.6264,
+      "high": 125.0,
+      "truth": 120.0
+    },
+    {
+      "engine": 5,
+      "low": 88.2868,
+      "point": 111.6865,
+      "high": 125.0,
+      "truth": 101.0
+    },
+    {
+      "engine": 6,
+      "low": 68.5844,
+      "point": 91.9841,
+      "high": 108.4656,
+      "truth": 99.0
+    },
+    {
+      "engine": 7,
+      "low": 42.7576,
+      "point": 66.1573,
+      "high": 82.6389,
+      "truth": 71.0
+    },
+    {
+      "engine": 8,
+      "low": 41.6116,
+      "point": 65.0113,
+      "high": 81.4928,
+      "truth": 55.0
+    },
+    {
+      "engine": 9,
+      "low": 55.4048,
+      "point": 78.8045,
+      "high": 95.2861,
+      "truth": 55.0
+    },
+    {
+      "engine": 10,
+      "low": 53.1783,
+      "point": 76.578,
+      "high": 93.0596,
+      "truth": 66.0
+    },
+    {
+      "engine": 11,
+      "low": 56.8497,
+      "point": 80.2494,
+      "high": 96.731,
+      "truth": 77.0
+    },
+    {
+      "engine": 12,
+      "low": 62.7109,
+      "point": 86.1106,
+      "high": 102.5921,
+      "truth": 115.0
+    },
+    {
+      "engine": 13,
+      "low": 76.7138,
+      "point": 100.1135,
+      "high": 116.5951,
+      "truth": 115.0
+    },
+    {
+      "engine": 14,
+      "low": 14.8222,
+      "point": 38.2219,
+      "high": 54.7034,
+      "truth": 31.0
+    },
+    {
+      "engine": 15,
+      "low": 83.339,
+      "point": 106.7386,
+      "high": 123.2202,
+      "truth": 108.0
+    },
+    {
+      "engine": 16,
+      "low": 67.94,
+      "point": 91.3397,
+      "high": 107.8212,
+      "truth": 56.0
+    },
+    {
+      "engine": 17,
+      "low": 81.5069,
+      "point": 104.9066,
+      "high": 121.3881,
+      "truth": 136.0
+    },
+    {
+      "engine": 18,
+      "low": 78.8838,
+      "point": 102.2835,
+      "high": 118.7651,
+      "truth": 132.0
+    },
+    {
+      "engine": 19,
+      "low": 95.809,
+      "point": 119.2087,
+      "high": 125.0,
+      "truth": 85.0
+    },
+    {
+      "engine": 20,
+      "low": 57.0162,
+      "point": 80.4158,
+      "high": 96.8974,
+      "truth": 56.0
+    },
+    {
+      "engine": 21,
+      "low": 0.0,
+      "point": 0.0,
+      "high": 16.4816,
+      "truth": 18.0
+    },
+    {
+      "engine": 22,
+      "low": 95.6561,
+      "point": 119.0558,
+      "high": 125.0,
+      "truth": 119.0
+    },
+    {
+      "engine": 23,
+      "low": 46.7938,
+      "point": 70.1935,
+      "high": 86.6751,
+      "truth": 78.0
+    },
+    {
+      "engine": 24,
+      "low": 2.7988,
+      "point": 26.1985,
+      "high": 42.6801,
+      "truth": 9.0
+    },
+    {
+      "engine": 25,
+      "low": 47.3308,
+      "point": 70.7304,
+      "high": 87.212,
+      "truth": 58.0
+    },
+    {
+      "engine": 26,
+      "low": 1.7324,
+      "point": 25.1321,
+      "high": 41.6136,
+      "truth": 11.0
+    },
+    {
+      "engine": 27,
+      "low": 83.5362,
+      "point": 106.9359,
+      "high": 123.4175,
+      "truth": 88.0
+    },
+    {
+      "engine": 28,
+      "low": 93.0172,
+      "point": 116.4169,
+      "high": 125.0,
+      "truth": 144.0
+    },
+    {
+      "engine": 29,
+      "low": 82.912,
+      "point": 106.3117,
+      "high": 122.7932,
+      "truth": 124.0
+    },
+    {
+      "engine": 30,
+      "low": 53.3057,
+      "point": 76.7054,
+      "high": 93.1869,
+      "truth": 89.0
+    },
+    {
+      "engine": 31,
+      "low": 63.3279,
+      "point": 86.7276,
+      "high": 103.2091,
+      "truth": 79.0
+    },
+    {
+      "engine": 32,
+      "low": 43.9521,
+      "point": 67.3518,
+      "high": 83.8334,
+      "truth": 55.0
+    },
+    {
+      "engine": 33,
+      "low": 59.2332,
+      "point": 82.6329,
+      "high": 99.1145,
+      "truth": 71.0
+    },
+    {
+      "engine": 34,
+      "low": 62.7283,
+      "point": 86.128,
+      "high": 102.6096,
+      "truth": 65.0
+    },
+    {
+      "engine": 35,
+      "low": 94.234,
+      "point": 117.6337,
+      "high": 125.0,
+      "truth": 87.0
+    },
+    {
+      "engine": 36,
+      "low": 101.6003,
+      "point": 125.0,
+      "high": 125.0,
+      "truth": 137.0
+    },
+    {
+      "engine": 37,
+      "low": 89.6899,
+      "point": 113.0895,
+      "high": 125.0,
+      "truth": 145.0
+    },
+    {
+      "engine": 38,
+      "low": 15.293,
+      "point": 38.6927,
+      "high": 55.1742,
+      "truth": 22.0
+    },
+    {
+      "engine": 39,
+      "low": 0.0,
+      "point": 5.8936,
+      "high": 22.3752,
+      "truth": 8.0
+    },
+    {
+      "engine": 40,
+      "low": 9.5108,
+      "point": 32.9105,
+      "high": 49.392,
+      "truth": 41.0
+    },
+    {
+      "engine": 41,
+      "low": 95.4528,
+      "point": 118.8525,
+      "high": 125.0,
+      "truth": 131.0
+    },
+    {
+      "engine": 42,
+      "low": 71.2347,
+      "point": 94.6344,
+      "high": 111.1159,
+      "truth": 115.0
+    },
+    {
+      "engine": 43,
+      "low": 97.6532,
+      "point": 121.0528,
+      "high": 125.0,
+      "truth": 128.0
+    },
+    {
+      "engine": 44,
+      "low": 49.1675,
+      "point": 72.5672,
+      "high": 89.0487,
+      "truth": 69.0
+    },
+    {
+      "engine": 45,
+      "low": 100.9818,
+      "point": 124.3815,
+      "high": 125.0,
+      "truth": 111.0
+    },
+    {
+      "engine": 46,
+      "low": 0.0,
+      "point": 0.0,
+      "high": 16.4816,
+      "truth": 7.0
+    },
+    {
+      "engine": 47,
+      "low": 86.7413,
+      "point": 110.141,
+      "high": 125.0,
+      "truth": 137.0
+    },
+    {
+      "engine": 48,
+      "low": 31.6836,
+      "point": 55.0833,
+      "high": 71.5648,
+      "truth": 55.0
+    },
+    {
+      "engine": 49,
+      "low": 91.3538,
+      "point": 114.7534,
+      "high": 125.0,
+      "truth": 135.0
+    },
+    {
+      "engine": 50,
+      "low": 0.0,
+      "point": 22.5946,
+      "high": 39.0762,
+      "truth": 11.0
+    },
+    {
+      "engine": 51,
+      "low": 70.5999,
+      "point": 93.9996,
+      "high": 110.4812,
+      "truth": 78.0
+    },
+    {
+      "engine": 52,
+      "low": 86.8502,
+      "point": 110.2499,
+      "high": 125.0,
+      "truth": 120.0
+    },
+    {
+      "engine": 53,
+      "low": 73.8986,
+      "point": 97.2982,
+      "high": 113.7798,
+      "truth": 87.0
+    },
+    {
+      "engine": 54,
+      "low": 93.2795,
+      "point": 116.6792,
+      "high": 125.0,
+      "truth": 87.0
+    },
+    {
+      "engine": 55,
+      "low": 34.3794,
+      "point": 57.779,
+      "high": 74.2606,
+      "truth": 55.0
+    },
+    {
+      "engine": 56,
+      "low": 63.264,
+      "point": 86.6637,
+      "high": 103.1453,
+      "truth": 93.0
+    },
+    {
+      "engine": 57,
+      "low": 56.2223,
+      "point": 79.622,
+      "high": 96.1036,
+      "truth": 88.0
+    },
+    {
+      "engine": 58,
+      "low": 31.2408,
+      "point": 54.6405,
+      "high": 71.1221,
+      "truth": 40.0
+    },
+    {
+      "engine": 59,
+      "low": 24.8873,
+      "point": 48.2869,
+      "high": 64.7685,
+      "truth": 49.0
+    },
+    {
+      "engine": 60,
+      "low": 72.7748,
+      "point": 96.1744,
+      "high": 112.656,
+      "truth": 128.0
+    },
+    {
+      "engine": 61,
+      "low": 101.6003,
+      "point": 125.0,
+      "high": 125.0,
+      "truth": 129.0
+    },
+    {
+      "engine": 62,
+      "low": 53.8226,
+      "point": 77.2223,
+      "high": 93.7039,
+      "truth": 58.0
+    },
+    {
+      "engine": 63,
+      "low": 101.6003,
+      "point": 125.0,
+      "high": 125.0,
+      "truth": 117.0
+    },
+    {
+      "engine": 64,
+      "low": 12.4977,
+      "point": 35.8974,
+      "high": 52.379,
+      "truth": 28.0
+    },
+    {
+      "engine": 65,
+      "low": 100.0357,
+      "point": 123.4353,
+      "high": 125.0,
+      "truth": 115.0
+    },
+    {
+      "engine": 66,
+      "low": 64.2193,
+      "point": 87.619,
+      "high": 104.1005,
+      "truth": 87.0
+    },
+    {
+      "engine": 67,
+      "low": 78.9566,
+      "point": 102.3563,
+      "high": 118.8379,
+      "truth": 92.0
+    },
+    {
+      "engine": 68,
+      "low": 88.9793,
+      "point": 112.379,
+      "high": 125.0,
+      "truth": 103.0
+    },
+    {
+      "engine": 69,
+      "low": 91.7749,
+      "point": 115.1745,
+      "high": 125.0,
+      "truth": 100.0
+    },
+    {
+      "engine": 70,
+      "low": 52.0309,
+      "point": 75.4306,
+      "high": 91.9122,
+      "truth": 63.0
+    },
+    {
+      "engine": 71,
+      "low": 18.5566,
+      "point": 41.9563,
+      "high": 58.4379,
+      "truth": 35.0
+    },
+    {
+      "engine": 72,
+      "low": 35.5346,
+      "point": 58.9343,
+      "high": 75.4159,
+      "truth": 45.0
+    },
+    {
+      "engine": 73,
+      "low": 90.0635,
+      "point": 113.4631,
+      "high": 125.0,
+      "truth": 99.0
+    },
+    {
+      "engine": 74,
+      "low": 101.6003,
+      "point": 125.0,
+      "high": 125.0,
+      "truth": 117.0
+    },
+    {
+      "engine": 75,
+      "low": 33.7546,
+      "point": 57.1543,
+      "high": 73.6359,
+      "truth": 45.0
+    },
+    {
+      "engine": 76,
+      "low": 22.7959,
+      "point": 46.1956,
+      "high": 62.6772,
+      "truth": 27.0
+    },
+    {
+      "engine": 77,
+      "low": 53.2983,
+      "point": 76.698,
+      "high": 93.1795,
+      "truth": 86.0
+    },
+    {
+      "engine": 78,
+      "low": 0.0,
+      "point": 21.9996,
+      "high": 38.4812,
+      "truth": 20.0
+    },
+    {
+      "engine": 79,
+      "low": 11.1784,
+      "point": 34.5781,
+      "high": 51.0597,
+      "truth": 18.0
+    },
+    {
+      "engine": 80,
+      "low": 80.6683,
+      "point": 104.068,
+      "high": 120.5495,
+      "truth": 133.0
+    },
+    {
+      "engine": 81,
+      "low": 0.0,
+      "point": 4.407,
+      "high": 20.8885,
+      "truth": 15.0
+    },
+    {
+      "engine": 82,
+      "low": 0.0,
+      "point": 0.0,
+      "high": 16.4816,
+      "truth": 6.0
+    },
+    {
+      "engine": 83,
+      "low": 69.0289,
+      "point": 92.4285,
+      "high": 108.9101,
+      "truth": 145.0
+    },
+    {
+      "engine": 84,
+      "low": 62.3723,
+      "point": 85.7719,
+      "high": 102.2535,
+      "truth": 104.0
+    },
+    {
+      "engine": 85,
+      "low": 73.1023,
+      "point": 96.502,
+      "high": 112.9836,
+      "truth": 56.0
+    },
+    {
+      "engine": 86,
+      "low": 5.3341,
+      "point": 28.7338,
+      "high": 45.2154,
+      "truth": 25.0
+    },
+    {
+      "engine": 87,
+      "low": 52.646,
+      "point": 76.0456,
+      "high": 92.5272,
+      "truth": 68.0
+    },
+    {
+      "engine": 88,
+      "low": 101.6003,
+      "point": 125.0,
+      "high": 125.0,
+      "truth": 144.0
+    },
+    {
+      "engine": 89,
+      "low": 47.8875,
+      "point": 71.2871,
+      "high": 87.7687,
+      "truth": 41.0
+    },
+    {
+      "engine": 90,
+      "low": 44.5584,
+      "point": 67.9581,
+      "high": 84.4397,
+      "truth": 51.0
+    },
+    {
+      "engine": 91,
+      "low": 72.9387,
+      "point": 96.3384,
+      "high": 112.82,
+      "truth": 81.0
+    },
+    {
+      "engine": 92,
+      "low": 0.0,
+      "point": 10.7421,
+      "high": 27.2236,
+      "truth": 14.0
+    },
+    {
+      "engine": 93,
+      "low": 73.0057,
+      "point": 96.4054,
+      "high": 112.8869,
+      "truth": 67.0
+    },
+    {
+      "engine": 94,
+      "low": 0.0,
+      "point": 13.7081,
+      "high": 30.1896,
+      "truth": 10.0
+    },
+    {
+      "engine": 95,
+      "low": 69.7676,
+      "point": 93.1672,
+      "high": 109.6488,
+      "truth": 127.0
+    },
+    {
+      "engine": 96,
+      "low": 63.3983,
+      "point": 86.798,
+      "high": 103.2795,
+      "truth": 113.0
+    },
+    {
+      "engine": 97,
+      "low": 99.2259,
+      "point": 122.6256,
+      "high": 125.0,
+      "truth": 123.0
+    },
+    {
+      "engine": 98,
+      "low": 2.2945,
+      "point": 25.6941,
+      "high": 42.1757,
+      "truth": 17.0
+    },
+    {
+      "engine": 99,
+      "low": 0.0,
+      "point": 12.5581,
+      "high": 29.0397,
+      "truth": 8.0
+    },
+    {
+      "engine": 100,
+      "low": 0.0,
+      "point": 18.3977,
+      "high": 34.8793,
+      "truth": 28.0
+    }
+  ]
+}

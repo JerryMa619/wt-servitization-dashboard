@@ -1,0 +1,104 @@
+{
+  "scope": "C-MAPSS application profile 0.3.0; SHACL Core only; no OWL inference or full SDT conformance claim",
+  "shapesSHA256": "f704722d96d9a83bb68bf56fb259f02030fcc8759bea9a2b8955cccf5bf5a7c1",
+  "profileSHA256": "3cadf0952202954b5111c9239f03b62ed3d667c261e0ea5672fa0436f85e6818",
+  "cases": [
+    {
+      "case": "Nominal",
+      "cycle": 30,
+      "conforms": true,
+      "triples": 136,
+      "rows": 1
+    },
+    {
+      "case": "Watch",
+      "cycle": 94,
+      "conforms": true,
+      "triples": 136,
+      "rows": 1
+    },
+    {
+      "case": "Alert",
+      "cycle": 158,
+      "conforms": true,
+      "triples": 136,
+      "rows": 1
+    },
+    {
+      "case": "Hold",
+      "cycle": 181,
+      "conforms": true,
+      "triples": 136,
+      "rows": 1
+    },
+    {
+      "case": "missing-unit",
+      "conforms": false,
+      "violations": [
+        {
+          "focus": "urn:cmapss:FD001:engine:34:cycle:181:estimate:fd001-window-ridge-v1",
+          "path": "https://w3id.org/sdt-cmapss/demo#unit",
+          "message": "RUL must explicitly use cm:Cycle; hours are not interchangeable.",
+          "constraint": "http://www.w3.org/ns/shacl#MinCountConstraintComponent"
+        },
+        {
+          "focus": "urn:cmapss:FD001:engine:34:cycle:181:estimate:fd001-window-ridge-v1",
+          "path": "https://w3id.org/sdt-cmapss/demo#unit",
+          "message": "RUL must explicitly use cm:Cycle; hours are not interchangeable.",
+          "constraint": "http://www.w3.org/ns/shacl#HasValueConstraintComponent"
+        }
+      ],
+      "rows": 0
+    },
+    {
+      "case": "missing-evidence",
+      "conforms": false,
+      "violations": [
+        {
+          "focus": "urn:cmapss:FD001:engine:34:cycle:181:scenario:10_1_1_15:recommendation",
+          "path": "https://w3id.org/sdt-cmapss/demo#basedOnEstimate",
+          "message": "Recommendation must identify the RUL evidence supporting it.",
+          "constraint": "http://www.w3.org/ns/shacl#MinCountConstraintComponent"
+        }
+      ],
+      "rows": 0
+    },
+    {
+      "case": "missing source hash",
+      "conforms": false,
+      "violations": 3
+    },
+    {
+      "case": "empty graph must not vacuously pass",
+      "conforms": false,
+      "violations": 5
+    },
+    {
+      "case": "missing observation evidence",
+      "conforms": false,
+      "violations": 1
+    },
+    {
+      "case": "missing policy",
+      "conforms": false,
+      "violations": 1
+    },
+    {
+      "case": "inverted RUL bounds",
+      "conforms": false,
+      "violations": 1
+    },
+    {
+      "case": "hours assertion prohibited",
+      "conforms": false,
+      "violations": 1
+    }
+  ],
+  "otherChecks": [
+    "5 action rows / 3 excluded",
+    "7 observations with exact source hashes",
+    "changed scenario changes advice and recommendation IRI",
+    "eight engine endpoints conform",
+    "RDF roundtrip and no hours / truth assertions"
+  ]
+}

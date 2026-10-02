@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "snapshots": 4835,
+  "records": [
+    {
+      "dataset": "FD001",
+      "engines": 8,
+      "points": 1233,
+      "testEndpoints": 100,
+      "endpointRMSE": 16.68935092418216,
+      "coverage": 0.78,
+      "semanticEndpoints": "8 conforming; exact dataset/source identity",
+      "configuredContract": "conforming"
+    },
+    {
+      "dataset": "FD002",
+      "engines": 8,
+      "points": 1023,
+      "testEndpoints": 259,
+      "endpointRMSE": 28.94424833552151,
+      "coverage": 0.6718146718146718,
+      "semanticEndpoints": "8 conforming; exact dataset/source identity",
+      "configuredContract": "conforming"
+    },
+    {
+      "dataset": "FD003",
+      "engines": 8,
+      "points": 1225,
+      "testEndpoints": 100,
+      "endpointRMSE": 17.861201925382847,
+      "coverage": 0.69,
+      "semanticEndpoints": "8 conforming; exact dataset/source identity",
+      "configuredContract": "conforming"
+    },
+    {
+      "dataset": "FD004",
+      "engines": 8,
+      "points": 1354,
+      "testEndpoints": 248,
+      "endpointRMSE": 30.87238813526148,
+      "coverage": 0.6129032258064516,
+      "semanticEndpoints": "8 conforming; exact dataset/source identity",
+      "configuredContract": "conforming"
+    }
+  ]
+}

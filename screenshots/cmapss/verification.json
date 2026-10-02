@@ -1,0 +1,14 @@
+{
+  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
+  "checks": [
+    "play, pause, seek, evaluation isolation",
+    "framework module selection and extension toggle",
+    "instance selection, schema search/properties, TTL and evidence download",
+    "guardrail exclusions and cost-driven recommendation change",
+    "engine reset, short trajectory and automatic end stop",
+    "390px and 320px: all four views without document overflow",
+    "original standard and enhanced route smoke checks"
+  ],
+  "browserErrors": [],
+  "status": "passed"
+}

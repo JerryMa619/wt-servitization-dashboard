@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 dist/
 .DS_Store
 *.log
@@ -7,3 +7,4 @@ dist/
 !.env.example
 .venv-xgboost/
 __pycache__/
+*.pyc

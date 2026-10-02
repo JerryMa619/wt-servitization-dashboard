@@ -1,0 +1,11 @@
+PREFIX cm: <https://w3id.org/sdt-cmapss/demo#>
+PREFIX sdt: <http://purl.org/sdt/>
+SELECT ?contract ?consequence ?margin ?target ?period ?allowedLoss ?plannedLoss ?capacityProxy ?budgetMargin ?fits
+WHERE {
+ <urn:cmapss:active-snapshot> cm:asset/sdt:governedBy ?terms .
+ ?terms a cm:ConfiguredContract ; cm:contractName ?contract ;
+        cm:consequenceRatio ?consequence ; cm:guardrailCycles ?margin ; sdt:hasKPI ?kpi .
+ ?kpi sdt:targetValue ?target ; cm:periodSlots ?period ; cm:allowedLossSlots ?allowedLoss ;
+      cm:plannedLossSlots ?plannedLoss ; cm:plannedCapacityProxy ?capacityProxy ;
+      cm:plannedMarginSlots ?budgetMargin ; cm:plannedFits ?fits .
+}

@@ -1,0 +1,69 @@
+{
+  "records": [
+    {
+      "contract": "Maintenance support",
+      "conforms": true,
+      "rows": [
+        {
+          "period": "200.000000000000",
+          "fits": "true",
+          "consequence": "5.000000000000",
+          "plannedLoss": "5.000000000000",
+          "allowedLoss": "10.000000000000",
+          "margin": "15.000000000000",
+          "target": "0.950000000000",
+          "contract": "Maintenance support",
+          "budgetMargin": "5.000000000000",
+          "capacityProxy": "0.975000000000"
+        }
+      ],
+      "policyMismatchRejected": true,
+      "missingTargetRejected": true
+    },
+    {
+      "contract": "Availability assurance",
+      "conforms": true,
+      "rows": [
+        {
+          "period": "200.000000000000",
+          "fits": "false",
+          "consequence": "20.000000000000",
+          "plannedLoss": "5.000000000000",
+          "allowedLoss": "2.000000000000",
+          "margin": "25.000000000000",
+          "target": "0.990000000000",
+          "contract": "Availability assurance",
+          "budgetMargin": "-3.000000000000",
+          "capacityProxy": "0.975000000000"
+        }
+      ],
+      "policyMismatchRejected": true,
+      "missingTargetRejected": true
+    }
+  ],
+  "checkedSnapshots": 1233,
+  "exampleCycles": [
+    158,
+    171
+  ],
+  "kpiBudgets": {
+    "maintenanceSupport": {
+      "allowedLossSlots": 10.000000000000009,
+      "plannedMarginSlots": 5.000000000000009,
+      "ifOnePlannedLoss": 0.975,
+      "ifOneUnplannedLoss": 0.9,
+      "plannedFits": true,
+      "unit": "scheduled cycle opportunities",
+      "status": "hypothetical single-loss budget; not measured time availability"
+    },
+    "availabilityAssurance": {
+      "allowedLossSlots": 2.0000000000000018,
+      "plannedMarginSlots": -2.9999999999999982,
+      "ifOnePlannedLoss": 0.975,
+      "ifOneUnplannedLoss": 0.9,
+      "plannedFits": false,
+      "unit": "scheduled cycle opportunities",
+      "status": "hypothetical single-loss budget; not measured time availability"
+    }
+  }
+}

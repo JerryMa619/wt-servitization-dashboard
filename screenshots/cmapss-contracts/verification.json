@@ -1,0 +1,14 @@
+{
+  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
+  "status": "passed",
+  "browserErrors": [],
+  "checks": [
+    "cost and intervention examples use cycles 158 / 171",
+    "applying either policy leaves RUL unchanged",
+    "KPI budget shortfall visible",
+    "comparison and active-contract JSON exports",
+    "actual contract SPARQL with SHACL pass",
+    "manual edits/reset detach named contract",
+    "390/320px comparator and semantic layouts"
+  ]
+}

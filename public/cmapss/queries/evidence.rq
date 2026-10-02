@@ -1,0 +1,12 @@
+PREFIX cm: <https://w3id.org/sdt-cmapss/demo#>
+PREFIX sdt: <http://purl.org/sdt/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?engine ?cycle ?state ?lower ?point ?upper ?unit ?action ?total
+WHERE {
+  <urn:cmapss:active-snapshot> cm:asset ?asset ; cm:recommendation ?rec .
+  ?asset cm:engineId ?engine ; sdt:currentState/sdt:stateLabel ?state .
+  ?rec cm:basedOnEstimate ?estimate ; cm:selectedCandidate ?candidate .
+  ?estimate cm:cycle ?cycle ; cm:lowerBound ?lower ; cm:pointEstimate ?point ;
+            cm:upperBound ?upper ; cm:unit ?unit ; prov:wasDerivedFrom ?window .
+  ?candidate cm:actionName ?action ; cm:totalCost ?total .
+}
