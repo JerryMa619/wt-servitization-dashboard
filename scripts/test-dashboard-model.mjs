@@ -11,7 +11,7 @@ import { actionTypes, buildSemanticGraph } from '../src/ontology/model.ts';
 // Exercise the actual App functions without mounting its UI or importing browser assets.
 const source = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const ast = ts.createSourceFile('App.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-const names = ['clamp', 'serviceStateFromCondition', 'crackStateFromMm', 'windBinFromSpeed', 'crackGrowthRate', 'inferCrackFromRul', 'simulateAutoTwinPoint', 'pointFromScenarioForm', 'applyScenarioModel', 'expectedScenarioValues', 'scenarioConflicts', 'outsideRelativeTolerance', 'applyMaintenanceResult', 'serviceDecisionByTcs', 'serviceCandidatesForState', 'isRiskAcceptableAfterAction', 'estimateTcs', 'residualRiskAfterAction', 'cumulativeKpis', 'formatPct', 'formatGbp'];
+const names = ['clamp', 'makePoint', 'serviceStateFromCondition', 'crackStateFromMm', 'windBinFromSpeed', 'crackGrowthRate', 'inferCrackFromRul', 'simulateAutoTwinPoint', 'pointFromScenarioForm', 'applyScenarioModel', 'expectedScenarioValues', 'scenarioConflicts', 'outsideRelativeTolerance', 'applyMaintenanceResult', 'serviceDecisionByTcs', 'serviceCandidatesForState', 'isRiskAcceptableAfterAction', 'estimateTcs', 'residualRiskAfterAction', 'cumulativeKpis', 'formatPct', 'formatGbp'];
 const parts = ast.statements.filter((node) => ts.isFunctionDeclaration(node) && names.includes(node.name?.text) || ts.isVariableStatement(node) && node.declarationList.declarations.some((decl) => ['maintenanceActions', 'serviceEconomics', 'tcsParameters'].includes(decl.name.getText(ast))));
 const js = ts.transpileModule(parts.map((node) => node.getText(ast)).join('\n'), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 const dataset = JSON.parse(readFileSync(new URL('../src/data/dashboardData.json', import.meta.url), 'utf8'));
@@ -35,6 +35,13 @@ test('risk takes the highest severity and never drops as crack increases', () =>
     }
   }
   assert.equal(model.conditionState({ rulP10: 10, crackMm: 20, vibrationRms: 0.05, kurtosis: 3 }), 'Critical');
+});
+test('the empty-replay fallback also uses XGBoost rather than legacy RUL formulas', () => {
+  const fallback = context.makePoint(47);
+  assert.equal(fallback.modelVersion, xgboost.rulModel.version);
+  assert.equal(fallback.rulEvidence.featureSource, 'reference-assisted');
+  assert.equal(fallback.crackMm, 0);
+  assert.equal(fallback.rulP50, model.conditionPrediction(fallback.windSpeed, 0).rulP50);
 });
 test('operating bounds and cut-in apply identically in auto, manual and repair paths', () => {
   for (const windSpeed of [0, 1, 2.9, 3, 8, 15, 40]) {

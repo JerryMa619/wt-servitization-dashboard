@@ -1,8 +1,8 @@
 {
-  "verifiedAt": "2026-10-02T03:21:20.202Z",
+  "verifiedAt": "2026-10-02T03:18:55.519Z",
   "results": [
     {
-      "route": "http://127.0.0.1:5173/",
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
       "checks": [
         "XGBoost model and wide-interval limitation visible",
         "Invalid 31-feature input rejected",
@@ -14,7 +14,7 @@
       ]
     },
     {
-      "route": "http://127.0.0.1:5173/enhanced/",
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
       "checks": [
         "XGBoost model and wide-interval limitation visible",
         "Invalid 31-feature input rejected",

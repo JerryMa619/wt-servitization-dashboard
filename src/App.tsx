@@ -209,32 +209,24 @@ function clamp(value: number, min: number, max: number) {
 
 function makePoint(index: number, prior?: HistoryPoint): HistoryPoint {
   const now = new Date(Date.now() - (47 - index) * 90_000);
-  const wave = Math.sin(index / 5);
   const gust = Math.sin(index / 2.8) * 0.45 + Math.random() * 0.35;
   const windSpeed = clamp((prior?.windSpeed ?? 5.8) + gust * 0.22, 3.2, 9.8);
   const windDirection = Math.round(((prior?.windDirection ?? 226) + 8 + Math.random() * 18) % 360);
-  const rpm = Math.round(clamp(windSpeed * 68 + wave * 18 + Math.random() * 18, 190, 690));
-  const power = Math.round(clamp(Math.pow(windSpeed, 2.15) * 9 + Math.random() * 32, 80, 430));
-  const rulP50 = clamp((prior?.rulP50 ?? 760) - 4.2 + Math.sin(index / 6) * 8, 145, 850);
-  const spread = clamp(130 + Math.cos(index / 4) * 28 + Math.random() * 24, 92, 190);
-  const rulP10 = clamp(rulP50 - spread, 45, 760);
-  const rulP90 = clamp(rulP50 + spread * 0.88, 180, 980);
-  const vibrationRms = clamp(0.078 + (780 - rulP10) / 8000 + Math.random() * 0.012, 0.07, 0.185);
-  const kurtosis = clamp(3.1 + (760 - rulP10) / 220 + Math.random() * 0.35, 3, 6.6);
-  const modalF1 = clamp(27.6 - (760 - rulP10) / 220, 24.5, 27.8);
+  const crackMm = prior?.crackMm ?? 0;
+  const speed = Number(windSpeed.toFixed(2));
 
   return {
     t: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    windSpeed: Number(windSpeed.toFixed(2)),
+    source: 'auto-simulation',
+    modelVersion: modelMetadata.version,
+    observedAt: now.toISOString(),
+    receivedAt: new Date().toISOString(),
+    windSpeed: speed,
     windDirection,
-    rpm,
-    power,
-    vibrationRms: Number(vibrationRms.toFixed(3)),
-    kurtosis: Number(kurtosis.toFixed(2)),
-    modalF1: Number(modalF1.toFixed(2)),
-    rulP10: Math.round(rulP10),
-    rulP50: Math.round(rulP50),
-    rulP90: Math.round(rulP90)
+    crackMm,
+    crackState: crackStateFromMm(crackMm),
+    ...operatingOutput(speed),
+    ...conditionPrediction(speed, crackMm)
   };
 }
 
@@ -1403,7 +1395,7 @@ function ScenarioInputModal({
     rulP90: latest.rulP90
   });
   const [touched, setTouched] = useState<Partial<Record<keyof ScenarioForm, true>>>({});
-  const [featureWindow, setFeatureWindow] = useState<number[] | null>(null);
+  const [featureWindow, setFeatureWindow] = useState<number[] | null>(latest.rulEvidence?.featureSource === 'imported-window' && latest.rulFeatureVector ? [...latest.rulFeatureVector] : null);
   const [featureError, setFeatureError] = useState<string | null>(null);
 
   const previewPoint = pointFromScenarioForm(form, featureWindow, touched);
@@ -1416,13 +1408,14 @@ function ScenarioInputModal({
   function updateNumber(key: keyof ScenarioForm, value: string) {
     const parsed = Number(value);
     const nextValue = Number.isFinite(parsed) ? parsed : 0;
-    if (!['lat', 'lon', 'windDirection'].includes(key)) setFeatureWindow(null);
+    const retainWindow = !!featureWindow && ['lat', 'lon', 'windDirection'].includes(key);
+    if (!retainWindow) setFeatureWindow(null);
     setFeatureError(null);
     const nextTouched = { ...touched, [key]: true };
     setTouched(nextTouched);
     setForm((current) => {
       const rawNext = { ...current, [key]: nextValue };
-      return applyScenarioModel(rawNext, nextTouched);
+      return retainWindow ? rawNext : applyScenarioModel(rawNext, nextTouched);
     });
   }
 

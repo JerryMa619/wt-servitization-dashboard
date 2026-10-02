@@ -65,7 +65,7 @@ Current RUL calculations use **Chapter 5 XGBoost quantile regression** (`ch5-xgb
 
 Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval, measured effect and live SHACL remain pending.
 
-XGBoost sources, fitted models, reproduced validation, dependency setup and changes: [integration record](docs/model/XGBOOST_IMPLEMENTATION.md), [training manifest](models/chapter5/manifest.json), [Python/browser parity](models/chapter5/browser-parity.json). Full named feature JSON windows can be imported in Input Scenario. Automatic/basic manual scenarios explicitly use reference-assisted features; manual RUL overrides retain their own provenance.
+XGBoost sources, fitted models, reproduced validation, dependency setup and changes: [integration record](docs/model/XGBOOST_IMPLEMENTATION.md), [training manifest](models/chapter5/manifest.json), [Python/browser parity](models/chapter5/browser-parity.json), [public browser verification](screenshots/xgboost/public/verification.json). Full named feature JSON windows can be imported in Input Scenario. Automatic/basic manual scenarios explicitly use reference-assisted features; manual RUL overrides retain their own provenance.
 
 ## Sensor References
 

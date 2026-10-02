@@ -65,6 +65,9 @@ try {
     await twin.screenshot({ path: fileURLToPath(new URL(`${name}-mobile.png`, output)) });
     await page.getByRole('button', { name: 'Input scenario', exact: true }).click();
     await dialog.locator('.feature-window-input summary').click();
+    await dialog.getByRole('spinbutton', { name: 'GPS latitude', exact: true }).fill('52.1');
+    assert.equal(Number(await dialog.getByRole('spinbutton', { name: 'RUL p50 h', exact: true }).inputValue()), prediction.rulP50);
+    assert.equal(await dialog.getByText('31 / 31 provided', { exact: true }).count(), 1);
     await dialog.getByRole('spinbutton', { name: 'Wind speed m/s', exact: true }).fill('40');
     assert.match(await dialog.locator('.feature-window-input').innerText(), /reference-assisted/);
     assert.equal(await dialog.getByText('31 / 31 provided', { exact: true }).count(), 0);
