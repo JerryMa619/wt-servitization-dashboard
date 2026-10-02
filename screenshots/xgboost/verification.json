@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-02T06:21:55.724Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "modelVersion": "ch5-xgb-cqr-2.0",
+      "checks": [
+        "Responsive XGBoost and calibrated-envelope scope visible",
+        "Invalid 31-feature input rejected",
+        "Complete JSON feature window matches Python-backed inference",
+        "Raw quantiles / calibration evidence / full vector persisted",
+        "Import holds clock / ontology scope / reload preserved",
+        "Desktop / mobile layout",
+        "Scenario edits explicitly reference-assisted"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "modelVersion": "ch5-xgb-cqr-2.0",
+      "checks": [
+        "Responsive XGBoost and calibrated-envelope scope visible",
+        "Invalid 31-feature input rejected",
+        "Complete JSON feature window matches Python-backed inference",
+        "Raw quantiles / calibration evidence / full vector persisted",
+        "Import holds clock / ontology scope / reload preserved",
+        "Desktop / mobile layout",
+        "Scenario edits explicitly reference-assisted"
+      ]
+    }
+  ],
+  "errors": []
+}

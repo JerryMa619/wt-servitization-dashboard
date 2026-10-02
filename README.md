@@ -45,7 +45,7 @@ Design, implementation, changes and validation evidence: [implementation log](do
 
 ## Integrated Digital Twin Workspace
 
-Both routes now start with **WT Operation & Digital Twin**. The default view keeps the existing animated turbine alongside live operating evidence and the current service proposal. Turn on **Architecture overlay** to inspect OME, DCDCE, DTE, UE and the cross-system CSE band. DTE separates Operation & Management, Application & Service, and Resource Access & Interchange. Service-state, TCS, authorisation and contract modules are marked as research extensions, not additional ISO-mandated entities.
+Both routes start with **WT Operation & Digital Twin**, with the animated turbine and **Architecture overlay** visible by default. The framework stays visible across monitoring, decisions, maintenance, post-service updates and subsequent cycles; only the user can hide it. Inspect OME, DCDCE, DTE, UE and the cross-system CSE band. DTE separates Operation & Management, Application & Service, and Resource Access & Interchange. Service-state, TCS, authorisation and contract modules are research extensions, not additional ISO-mandated entities.
 
 Select the blade or **RUL evidence** to highlight the matching architecture module. Node details link to the ontology evidence, and the live TCS link opens the comparison section. Once an automatic intervention is recorded, choose it from the event selector or use **Replay on turbine** in Decision Trace. Step, play or pause the recorded pre-service, downtime and post-service snapshots; **Return to live operation** restores current readings. The rest of the dashboard remains live during replay, clearly separated from the historical workspace.
 
@@ -53,15 +53,37 @@ Replay uses the same bounded session event store as ontology. Original intervent
 
 Design and process record: [workspace specification](docs/twin/DESIGN.md), [implementation log](docs/twin/IMPLEMENTATION_LOG.md), [browser verification](screenshots/twin/verification.json), [public verification](screenshots/twin/publication.json).
 
+Continuous Framework fix: [root cause and repair](docs/twin/FRAMEWORK_CONTINUITY_FIX.md), [two-cycle visibility/flow regression](screenshots/framework/verification.json). New telemetry preserves measured graph dimensions; completion does not hide the framework or stop live monitoring flow.
+
 ![Integrated architecture](screenshots/twin/architecture-desktop.png)
 
 ## Audit Repairs and Model Scope
 
 The history toolbar exports/imports validated JSON and clears local history with confirmation. Unfinished work is closed as interrupted on reload or manual replacement; partial downtime is retained, with no fabricated repaired result. Localhost and public Pages have separate browser-origin histories. No personal event/GPS history is automatically sent to GitHub.
 
-Manual, auto and post-service calculations now share `wt-demo-2.0`. Model Heuristic Scores are not accuracy probabilities; P10/P50/P90 are uncalibrated bounds. Enhanced KPI separates current simulation availability from Chapter 5 references; avoided downtime remains unestimated without a counterfactual.
+Current RUL calculations use **responsive XGBoost with a window-calibrated envelope** (`ch5-xgb-cqr-2.0`): 31 Chapter 5 features, 300 trees per quantile, depth 6, rate 0.05, seed 42 and fixed initial prediction 500. Disjoint sets contain 189 training / 63 calibration / 63 test windows; no final refit uses held-out rows. All three quantiles respond to source features. On the same test windows, mean interval width changes from 787.55 to 303.85 pseudo-h, with 90.48% coverage for a nominal 80% envelope. P10/P90 displayed values are calibrated percentile-based bounds, not exact percentiles. Original model artifacts remain unchanged for comparison. Synthetic hours and source-window calibration are **not validated physical lifetime or field coverage**. Model Heuristic Scores remain non-probabilistic; enhanced KPI separates session availability from fixed Chapter 5 references.
 
 Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval, measured effect and live SHACL remain pending.
+
+XGBoost sources, fitted models and validation: [current calibration record](docs/model/CALIBRATED_XGBOOST.md), [current manifest](models/chapter5-calibrated/manifest.json), [current Python/browser parity](models/chapter5-calibrated/browser-parity.json), [public browser verification](screenshots/xgboost/public/verification.json), [historical integration record](docs/model/XGBOOST_IMPLEMENTATION.md), [preserved original manifest](models/chapter5/manifest.json). Full named feature JSON windows can be imported in Input Scenario. Automatic/basic manual scenarios explicitly use reference-assisted features with no validated coverage; manual RUL overrides retain their own provenance. Existing immutable service events retain historical model versions.
+
+## Vibration Monitoring
+
+Blade vibration now has separate **X/Y/Z RMS (g)** and **Pearson kurtosis (unitless)** charts, with distinct colors/line styles and no invented noise or curve smoothing. The primary vibration metric shows X/flapwise RMS when available. Existing signal-policy inputs remain Z RMS/kurtosis and are explicitly labelled; unknown historical axes are gaps, not zeros.
+
+The **Blade Acceleration Waveform** player shows unscaled excerpts from 21 Chapter 5 archived **simulated** CSVs. It offers X/Y/Z selection, play/pause and JSON download, defaults to pause for reduced motion and pauses during simulated WT hold. Reference playback does not advance WT simulation or downtime statistics. These references are not live sensors and are not synchronised with the RUL feature snapshot. The archive loads only near the waveform panel.
+
+Source review, missing acquisitions, model-snapshot mismatch, chart definitions and verification: [vibration display record](docs/model/VIBRATION_DISPLAY.md), [waveform manifest](models/vibration/waveform-manifest.json), [CSV/export parity](models/vibration/source-parity.json), [local browser verification](screenshots/vibration/verification.json).
+
+Published standard/enhanced routes also pass the same browser checks: [public verification](screenshots/vibration/public/verification.json), [public desktop screenshot](screenshots/vibration/public/enhanced-desktop.png), [public mobile screenshot](screenshots/vibration/public/enhanced-mobile.png).
+
+![Three-axis vibration monitoring](screenshots/vibration/enhanced-desktop.png)
+
+## Sensor References
+
+WT Operation, Data Collection and the ontology Sensor node show the rig's **Accel 18 Click (MC3419)** reference, including 80% blade-span / suction-side placement. Auxiliary wind instruments and electrical/tachometer channels are identified by type only; unconfirmed models are not guessed. All hardware remains labelled not connected. Crack and RUL are model/replay outputs, not direct sensor readings.
+
+Source review, implementation decisions and limitations: [instrumentation record](docs/model/INSTRUMENTATION_REFERENCE.md). Layout and interaction evidence: [local browser verification](screenshots/instrumentation/verification.json), [public browser verification](screenshots/instrumentation/public/verification.json).
 
 ## Local Development
 
@@ -106,6 +128,7 @@ Browser verification requires Playwright and a Chromium browser. With Playwright
 node scripts/verify-ontology-ui.mjs
 node scripts/verify-twin-ui.mjs
 node scripts/verify-fixes-ui.mjs
+node scripts/verify-framework-cycle.mjs
 ```
 
 Environment variables: `PLAYWRIGHT_MODULE` (absolute installed Playwright module path), `CHROME_EXECUTABLE` (browser executable), and optional `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). The repair verification script uses the first two variables; other browser scripts can use a normally installed Playwright package. Results are saved under `screenshots/ontology/`, `screenshots/twin/` and `screenshots/fixes/`. Tests accelerate only the simulator in isolated tabs; normal application timing is unchanged.

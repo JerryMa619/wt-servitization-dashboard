@@ -1,0 +1,88 @@
+import assert from 'node:assert/strict';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { chapter5ReplayVectors, predictRul, rulModel } from '../src/model/xgboost.ts';
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright');
+const base = process.env.DASHBOARD_URL ?? 'http://127.0.0.1:5173/';
+const published = !['127.0.0.1', 'localhost', '[::1]'].includes(new URL(base).hostname);
+const output = new URL(published ? '../screenshots/xgboost/public/' : '../screenshots/xgboost/', import.meta.url);
+mkdirSync(output, { recursive: true });
+const browser = await chromium.launch({ headless: true, ...(process.env.CHROME_EXECUTABLE ? { executablePath: process.env.CHROME_EXECUTABLE } : {}) });
+const results = [], errors = [];
+async function saved(page) { return page.evaluate(() => JSON.parse(localStorage.getItem(Object.keys(localStorage).find((key) => key.startsWith('wt-servitization-session-v1:'))))); }
+try {
+  for (const route of ['', 'enhanced/']) {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto(new URL(route, base).href);
+    const twin = page.getByRole('region', { name: 'Integrated wind turbine digital twin' });
+    await twin.getByRole('button', { name: 'RUL evidence', exact: true }).click();
+    assert.match(await twin.locator('.twin-module-detail').innerText(), /31 features \/ 300 trees/);
+    assert.match(await twin.locator('.twin-module-detail').innerText(), /window-calibrated envelope/);
+    assert.match(await page.locator('.metric').filter({ hasText: 'Blade RUL' }).innerText(), /XGBoost/);
+    await page.getByRole('button', { name: 'Input scenario', exact: true }).click();
+    const dialog = page.getByRole('dialog');
+    await dialog.locator('.feature-window-input summary').click();
+    const input = dialog.getByLabel('Import Chapter 5 feature window');
+    const apply = dialog.getByRole('button', { name: 'Apply to dashboard', exact: true });
+    await input.setInputFiles({ name: 'invalid.json', mimeType: 'application/json', buffer: Buffer.from('{}') });
+    await dialog.getByText(/Missing or nonnumeric features:/).waitFor();
+    assert.equal(await apply.isDisabled(), true);
+    const vector = chapter5ReplayVectors[150];
+    const named = Object.fromEntries(rulModel.featureNames.map((name, i) => [name, vector[i]]));
+    await input.setInputFiles({ name: 'chapter5.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ features: named })) });
+    await dialog.getByText('31 / 31 provided', { exact: true }).waitFor();
+    assert.equal(await apply.isDisabled(), false);
+    const prediction = predictRul(vector, 'imported-window');
+    for (const [label, key] of [['RUL p10 h', 'rulP10'], ['RUL p50 h', 'rulP50'], ['RUL p90 h', 'rulP90']]) assert.equal(Number(await dialog.getByRole('spinbutton', { name: label, exact: true }).inputValue()), prediction[key]);
+    const name = route ? 'enhanced' : 'standard';
+    await dialog.screenshot({ path: fileURLToPath(new URL(`${name}-feature-input.png`, output)) });
+    await apply.click();
+    await page.waitForFunction(() => document.querySelector('.data-source')?.textContent.includes('Manual scenario mode'));
+    const state = await saved(page);
+    assert.equal(state.manual.modelVersion, rulModel.version);
+    assert.equal(state.manual.rulEvidence.featureSource, 'imported-window');
+    assert.deepEqual(state.manual.rulEvidence.rawQuantiles, prediction.rulEvidence.rawQuantiles);
+    assert.deepEqual(state.manual.rulEvidence.intervalCalibration, prediction.rulEvidence.intervalCalibration);
+    assert.deepEqual(state.manual.rulFeatureVector, vector);
+    const stats = state.stats;
+    await page.waitForTimeout(1500);
+    assert.deepEqual((await saved(page)).stats, stats, 'Imported snapshot must hold the simulation clock');
+    await twin.getByRole('button', { name: 'Ontology', exact: true }).click();
+    const inspector = page.locator('.ontology-inspector');
+    await page.waitForFunction(() => document.querySelector('.ontology-inspector h3')?.textContent === 'Blade RUL estimate');
+    assert.match(await inspector.innerText(), /XGBoost \/ full feature window/);
+    assert.match(await inspector.innerText(), /no field validation/);
+    assert.match(await inspector.innerText(), /Interval correction/);
+    assert.match(await inspector.innerText(), /Raw model quantiles/);
+    await twin.screenshot({ path: fileURLToPath(new URL(`${name}-rul-desktop.png`, output)) });
+    if (route) {
+      await page.locator('.model-basis summary').click();
+      assert.match(await page.locator('.model-basis').innerText(), new RegExp(`MPIW ${rulModel.evaluation.mpiw.toFixed(2)}`));
+      assert.match(await page.locator('.model-basis').innerText(), /189 training \/ 63 calibration \/ 63 test/);
+      await page.locator('.enhanced-grid').first().screenshot({ path: fileURLToPath(new URL(`${name}-model-basis.png`, output)) });
+    }
+    await page.setViewportSize({ width: 390, height: 900 });
+    await twin.scrollIntoViewIfNeeded();
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    await twin.screenshot({ path: fileURLToPath(new URL(`${name}-mobile.png`, output)) });
+    await page.getByRole('button', { name: 'Input scenario', exact: true }).click();
+    await dialog.locator('.feature-window-input summary').click();
+    await dialog.getByRole('spinbutton', { name: 'GPS latitude', exact: true }).fill('52.1');
+    assert.equal(Number(await dialog.getByRole('spinbutton', { name: 'RUL p50 h', exact: true }).inputValue()), prediction.rulP50);
+    assert.equal(await dialog.getByText('31 / 31 provided', { exact: true }).count(), 1);
+    await dialog.getByRole('spinbutton', { name: 'Wind speed m/s', exact: true }).fill('40');
+    assert.match(await dialog.locator('.feature-window-input').innerText(), /reference-assisted/);
+    assert.equal(await dialog.getByText('31 / 31 provided', { exact: true }).count(), 0);
+    await dialog.screenshot({ path: fileURLToPath(new URL(`${name}-input-mobile.png`, output)) });
+    await dialog.getByRole('button', { name: 'Close input window' }).click();
+    await page.reload();
+    await twin.waitFor();
+    assert.equal((await saved(page)).manual.rulEvidence.featureSource, 'imported-window');
+    results.push({ route: page.url(), modelVersion: rulModel.version, checks: ['Responsive XGBoost and calibrated-envelope scope visible', 'Invalid 31-feature input rejected', 'Complete JSON feature window matches Python-backed inference', 'Raw quantiles / calibration evidence / full vector persisted', 'Import holds clock / ontology scope / reload preserved', 'Desktop / mobile layout', 'Scenario edits explicitly reference-assisted'] });
+    await page.close();
+  }
+  assert.deepEqual(errors, []);
+  writeFileSync(new URL('verification.json', output), JSON.stringify({ verifiedAt: new Date().toISOString(), results, errors }, null, 2) + '\n');
+  console.log(JSON.stringify(results, null, 2));
+} finally { await browser.close(); }

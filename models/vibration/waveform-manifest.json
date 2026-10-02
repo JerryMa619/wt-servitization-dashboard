@@ -1,0 +1,563 @@
+{
+  "version": "ch5-vibration-reference-1.0",
+  "scope": "Archived simulated reference, not live telemetry or model-synchronised waveform",
+  "units": "g",
+  "excerptSeconds": 2,
+  "quantizationG": 1e-06,
+  "metadataSha256": "06005ec79558dded1d082b925c48021c2b7343ed450d11053b0f835a098e18d2",
+  "metadataAcquisitions": 315,
+  "availableAcquisitions": 210,
+  "missingAcquisitions": 105,
+  "referenceAcquisitions": 21,
+  "selection": "First available filename per state/wind-bin cell; no scaling, noise or resampling",
+  "modelSnapshotRelation": "Archived CSV statistics differ from the bundled 315-row feature snapshot; references are not asserted as inference evidence",
+  "artifactSha256": "82e706058f2cb1a57831fe3b793c4ab6e59ceb48e2566d61f2350fc844937920",
+  "records": [
+    {
+      "id": "vib_C0_high_00.csv",
+      "state": "C0",
+      "crackMm": 0.0,
+      "windBin": "high",
+      "windSpeed": 7.64,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "df6a357adec33fbfe583fd305a090ff4282859e1977fbd4d45f21b465d5cb3a4",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.15010062476277053,
+          "kurtosis": 2.7957470622350717
+        },
+        "ay": {
+          "rms": 0.09006274173358411,
+          "kurtosis": 2.6848026325891334
+        },
+        "az": {
+          "rms": 0.04502410344562565,
+          "kurtosis": 2.8008697664064583
+        }
+      }
+    },
+    {
+      "id": "vib_C0_low_00.csv",
+      "state": "C0",
+      "crackMm": 0.0,
+      "windBin": "low",
+      "windSpeed": 3.44,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "6e6ba81b175755b2301bb6aa8d31155bc4f265c0419508c1be5152ad8c3ec404",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.15009143801725847,
+          "kurtosis": 2.681796438656787
+        },
+        "ay": {
+          "rms": 0.09005118351263262,
+          "kurtosis": 2.7149359272546527
+        },
+        "az": {
+          "rms": 0.04503386584939009,
+          "kurtosis": 2.7560202163550898
+        }
+      }
+    },
+    {
+      "id": "vib_C0_mid_00.csv",
+      "state": "C0",
+      "crackMm": 0.0,
+      "windBin": "mid",
+      "windSpeed": 6.58,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "1d009d4e302707d2243648cbfa8b00a3fe64351ee4ae1a438c878ac0c26b1b62",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.15005574830954754,
+          "kurtosis": 2.656314223849469
+        },
+        "ay": {
+          "rms": 0.09005996598549133,
+          "kurtosis": 2.7093795936992335
+        },
+        "az": {
+          "rms": 0.045024146532568816,
+          "kurtosis": 2.7081000155563575
+        }
+      }
+    },
+    {
+      "id": "vib_C1_high_00.csv",
+      "state": "C1",
+      "crackMm": 10.0,
+      "windBin": "high",
+      "windSpeed": 9.09,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "83c7de3f2c829b43a544558a5f0844ee9703a99ba3a2d4dd77e51c5019edc696",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.16879095828020843,
+          "kurtosis": 2.7179182113537963
+        },
+        "ay": {
+          "rms": 0.09566049940508194,
+          "kurtosis": 2.6631460556388067
+        },
+        "az": {
+          "rms": 0.046150684465651876,
+          "kurtosis": 2.718079706078047
+        }
+      }
+    },
+    {
+      "id": "vib_C1_low_00.csv",
+      "state": "C1",
+      "crackMm": 10.0,
+      "windBin": "low",
+      "windSpeed": 4.25,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "978df0fd6444071fbe57a4daeea9f0ba4515e8a72ff6c268be967e12ccf9a917",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.16880691299883982,
+          "kurtosis": 2.6650069672460917
+        },
+        "ay": {
+          "rms": 0.0956748139799021,
+          "kurtosis": 2.633095802481963
+        },
+        "az": {
+          "rms": 0.04613874077655104,
+          "kurtosis": 2.7701772281744974
+        }
+      }
+    },
+    {
+      "id": "vib_C1_mid_00.csv",
+      "state": "C1",
+      "crackMm": 10.0,
+      "windBin": "mid",
+      "windSpeed": 6.72,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "a2b6ff30a715f9a7931c2d6792b4e8880d9e26e6adb3d633a19015be4ddf7ae2",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.16882333961403143,
+          "kurtosis": 2.647829765815423
+        },
+        "ay": {
+          "rms": 0.09564699406749445,
+          "kurtosis": 2.6691947909629192
+        },
+        "az": {
+          "rms": 0.04615115943916337,
+          "kurtosis": 2.796023865484214
+        }
+      }
+    },
+    {
+      "id": "vib_C2_high_00.csv",
+      "state": "C2",
+      "crackMm": 20.0,
+      "windBin": "high",
+      "windSpeed": 8.11,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "a6b899770ed1715b8eecc2f9d58795620f18d46f302a21ff3d30f51a58a79781",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.1875371135376442,
+          "kurtosis": 2.716324277172998
+        },
+        "ay": {
+          "rms": 0.10131254311634245,
+          "kurtosis": 2.647022669938877
+        },
+        "az": {
+          "rms": 0.04728794937515761,
+          "kurtosis": 2.6547069605203153
+        }
+      }
+    },
+    {
+      "id": "vib_C2_low_00.csv",
+      "state": "C2",
+      "crackMm": 20.0,
+      "windBin": "low",
+      "windSpeed": 4.38,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "f89810278913324a4438cbf722e8a2ebf4dbf8393ea8266f0f3ca0eaa5d3e568",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.1875599615282303,
+          "kurtosis": 2.6430217464685515
+        },
+        "ay": {
+          "rms": 0.10127779594143828,
+          "kurtosis": 2.674486288150022
+        },
+        "az": {
+          "rms": 0.047268907346496226,
+          "kurtosis": 2.683260618706645
+        }
+      }
+    },
+    {
+      "id": "vib_C2_mid_00.csv",
+      "state": "C2",
+      "crackMm": 20.0,
+      "windBin": "mid",
+      "windSpeed": 6.68,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "67de63bd94205cd5e916c1746a2637d7b6642df31ff3fd84ace95a4aaddfd856",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.18759898211325204,
+          "kurtosis": 2.6902088368592842
+        },
+        "ay": {
+          "rms": 0.10129403937301197,
+          "kurtosis": 2.676984124454782
+        },
+        "az": {
+          "rms": 0.04726979919235683,
+          "kurtosis": 2.610739147819173
+        }
+      }
+    },
+    {
+      "id": "vib_C3_high_00.csv",
+      "state": "C3",
+      "crackMm": 30.0,
+      "windBin": "high",
+      "windSpeed": 9.12,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "e02a1943522335841cd0eefb26a7099834d60b96a66107ecedc20fb8c22af4bd",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.20635228851548773,
+          "kurtosis": 2.7519945787324183
+        },
+        "ay": {
+          "rms": 0.10692028218321149,
+          "kurtosis": 2.624931480415735
+        },
+        "az": {
+          "rms": 0.0484051108564759,
+          "kurtosis": 2.6124574862897676
+        }
+      }
+    },
+    {
+      "id": "vib_C3_low_00.csv",
+      "state": "C3",
+      "crackMm": 30.0,
+      "windBin": "low",
+      "windSpeed": 4.69,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "272365a3ec382ea818a91b0528980794f1101218590debb4cb5689c8bd9c74a6",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.20631705703375428,
+          "kurtosis": 2.7037736117118385
+        },
+        "ay": {
+          "rms": 0.10695172914503645,
+          "kurtosis": 2.7025735005633864
+        },
+        "az": {
+          "rms": 0.048392102891503586,
+          "kurtosis": 2.7093908907316977
+        }
+      }
+    },
+    {
+      "id": "vib_C3_mid_00.csv",
+      "state": "C3",
+      "crackMm": 30.0,
+      "windBin": "mid",
+      "windSpeed": 5.95,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "c4b6d8dc320c6776b47976ec15484a08cd0c9320cd3b79a3beb208bc4fa585ab",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.20629488346138314,
+          "kurtosis": 2.693598966641622
+        },
+        "ay": {
+          "rms": 0.10691299678024911,
+          "kurtosis": 2.63810595316212
+        },
+        "az": {
+          "rms": 0.0484051328836747,
+          "kurtosis": 2.5882126583118104
+        }
+      }
+    },
+    {
+      "id": "vib_C4_high_00.csv",
+      "state": "C4",
+      "crackMm": 45.0,
+      "windBin": "high",
+      "windSpeed": 8.32,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "c347b6b782e7327bab85299593c5d1b292a3187f185b191ff02e83debb9e1f98",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.23445110108716288,
+          "kurtosis": 2.681223929760983
+        },
+        "ay": {
+          "rms": 0.11534970469407904,
+          "kurtosis": 2.672628729335336
+        },
+        "az": {
+          "rms": 0.05008842123008132,
+          "kurtosis": 2.656366983131164
+        }
+      }
+    },
+    {
+      "id": "vib_C4_low_00.csv",
+      "state": "C4",
+      "crackMm": 45.0,
+      "windBin": "low",
+      "windSpeed": 4.8,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "644153937f2a74188d029f98efb0b9585975e99aa5eff4301b9c828a46f909e9",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.23443906131874848,
+          "kurtosis": 2.7281467868963
+        },
+        "ay": {
+          "rms": 0.11535811045512755,
+          "kurtosis": 2.737335260192245
+        },
+        "az": {
+          "rms": 0.05008626149716681,
+          "kurtosis": 2.5972642395183283
+        }
+      }
+    },
+    {
+      "id": "vib_C4_mid_00.csv",
+      "state": "C4",
+      "crackMm": 45.0,
+      "windBin": "mid",
+      "windSpeed": 5.03,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "c50eca20fc66a8f36cbbff11b4c15704529745f86c41892145b2098ddbac3031",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.2344224608005349,
+          "kurtosis": 2.7049041608383413
+        },
+        "ay": {
+          "rms": 0.11534573191447015,
+          "kurtosis": 2.6955708559579485
+        },
+        "az": {
+          "rms": 0.05007773826293927,
+          "kurtosis": 2.8044424836948254
+        }
+      }
+    },
+    {
+      "id": "vib_C5_high_00.csv",
+      "state": "C5",
+      "crackMm": 60.0,
+      "windBin": "high",
+      "windSpeed": 7.78,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "7c83c678695eef4d212c888f39ad26925f38f0515e546b9dd3cb149b33b4e984",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.2624955204187634,
+          "kurtosis": 2.7748121695078347
+        },
+        "ay": {
+          "rms": 0.12379778994266731,
+          "kurtosis": 2.6920494398209143
+        },
+        "az": {
+          "rms": 0.051772432439979595,
+          "kurtosis": 2.718068795096183
+        }
+      }
+    },
+    {
+      "id": "vib_C5_low_00.csv",
+      "state": "C5",
+      "crackMm": 60.0,
+      "windBin": "low",
+      "windSpeed": 4.15,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "65ec986d5deda00abeef4525f8a6ad2f80e23e908151d647b51cf7b41c9cf7f2",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.26254457813318377,
+          "kurtosis": 2.7203947249177696
+        },
+        "ay": {
+          "rms": 0.12378412745831907,
+          "kurtosis": 2.802347839256927
+        },
+        "az": {
+          "rms": 0.05177635826021247,
+          "kurtosis": 2.604680741361602
+        }
+      }
+    },
+    {
+      "id": "vib_C5_mid_00.csv",
+      "state": "C5",
+      "crackMm": 60.0,
+      "windBin": "mid",
+      "windSpeed": 5.13,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "820059cb267e79ec40bf7bec11c9e49fb1ef15a5e73bc3383087efcdbde3253c",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.26253285488779193,
+          "kurtosis": 2.6722989748668025
+        },
+        "ay": {
+          "rms": 0.12380107996376274,
+          "kurtosis": 2.677169487724549
+        },
+        "az": {
+          "rms": 0.05176897340709988,
+          "kurtosis": 2.7772412216745925
+        }
+      }
+    },
+    {
+      "id": "vib_C6_high_00.csv",
+      "state": "C6",
+      "crackMm": 80.0,
+      "windBin": "high",
+      "windSpeed": 8.81,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "3289f1867517bcbbcb046359fa0ef850f24e6a1b51176d19d1ddbcd2365c935b",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.3000134413729991,
+          "kurtosis": 2.7334174875431256
+        },
+        "ay": {
+          "rms": 0.13502178275483964,
+          "kurtosis": 2.621500763221536
+        },
+        "az": {
+          "rms": 0.05401493115105745,
+          "kurtosis": 2.759993759654416
+        }
+      }
+    },
+    {
+      "id": "vib_C6_low_00.csv",
+      "state": "C6",
+      "crackMm": 80.0,
+      "windBin": "low",
+      "windSpeed": 4.21,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "5e45438478dd69ea7b197dd90ac4db52b55bb5c549cd45d81939bfdab255cde2",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.3000501954530465,
+          "kurtosis": 2.757460253101455
+        },
+        "ay": {
+          "rms": 0.1350521244410868,
+          "kurtosis": 2.7659753167721823
+        },
+        "az": {
+          "rms": 0.054033317682488924,
+          "kurtosis": 2.7383872070324426
+        }
+      }
+    },
+    {
+      "id": "vib_C6_mid_00.csv",
+      "state": "C6",
+      "crackMm": 80.0,
+      "windBin": "mid",
+      "windSpeed": 5.38,
+      "sampleRateHz": 2000,
+      "fullSampleCount": 60000,
+      "excerptSampleCount": 4000,
+      "sourceSha256": "8d4c141d2e768bbbb509f2051aa7bae5cc10d9e5a8070550dc79f58f808f3f0e",
+      "statsScope": "Full archived acquisition, not current model features",
+      "stats": {
+        "ax": {
+          "rms": 0.3000397417270578,
+          "kurtosis": 2.840418297448573
+        },
+        "ay": {
+          "rms": 0.1350361502202518,
+          "kurtosis": 2.6775643833461094
+        },
+        "az": {
+          "rms": 0.05401830528502952,
+          "kurtosis": 2.627436804913122
+        }
+      }
+    }
+  ]
+}

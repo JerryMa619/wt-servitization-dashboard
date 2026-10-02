@@ -1,0 +1,42 @@
+{
+  "verifiedAt": "2026-10-02T05:23:55.520Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "completedCycles": 2,
+      "samples": 394,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Framework remains mounted",
+        "Animated data flow through two completed services",
+        "Rotor resumes",
+        "Desktop/mobile UE reachable",
+        "Only user can hide framework"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "completedCycles": 2,
+      "samples": 399,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Framework remains mounted",
+        "Animated data flow through two completed services",
+        "Rotor resumes",
+        "Desktop/mobile UE reachable",
+        "Only user can hide framework"
+      ]
+    }
+  ],
+  "errors": []
+}

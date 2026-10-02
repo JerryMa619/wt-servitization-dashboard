@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildSemanticGraph, updateExecutionLog, actionTypes, evidenceSource } from '../src/ontology/model.ts';
+import { bladeSensorReference, auxiliaryChannelReferences } from '../src/model/instrumentation.ts';
 
 const schema = JSON.parse(readFileSync(new URL('../src/data/ontologySchema.json', import.meta.url), 'utf8'));
 const candidate = { action: 'predictive-maintenance', label: 'Predictive maintenance', type: actionTypes['predictive-maintenance'], totalCost: 3200, residualRiskScore: 0.3, acceptable: true, costs: [{ label: 'Service', value: 2300 }] };
@@ -33,6 +34,23 @@ test('live graph does not assert authorisation, execution or measured outcome', 
   assert.ok(!graph.nodes.some((node) => ['sdt:ActionExecution', 'sdt:ActionAuthorisation', 'sdt:InterventionOutcomeAssessment'].includes(node.type)));
   assert.ok(!graph.relations.some((relation) => relation.predicate === 'sdt:governedBy'));
   assert.equal(graph.nodes.find((node) => node.id === 'recommendation').status, 'Advisory');
+});
+
+test('sensor names are configuration references, not live device or measured-output claims', () => {
+  const graph = buildSemanticGraph(snapshot);
+  const sensor = graph.nodes.find((node) => node.id === 'sensor');
+  assert.equal(sensor.title, 'Accel 18 Click (MC3419)');
+  assert.match(sensor.status, /not connected/);
+  assert.ok(sensor.uri.startsWith('urn:wt-dashboard:'));
+  assert.notEqual(sensor.uri, bladeSensorReference.uri);
+  assert.equal(sensor.fields.find((row) => row.label === 'Reference individual').value, bladeSensorReference.uri);
+  assert.match(sensor.fields.find((row) => row.label === 'Reference placement').value, /80% span \/ suction side/);
+  assert.match(sensor.fields.find((row) => row.label === 'Device identity').value, /not supplied/);
+  for (const row of auxiliaryChannelReferences.slice(0, 2)) {
+    assert.ok(graph.nodes.find((node) => node.id === 'environment').fields.some((field) => field.label === row.label && field.value === row.value));
+    assert.match(row.value, /model not recorded/);
+  }
+  assert.ok(!graph.relations.some((relation) => relation.predicate === 'owl:sameAs'));
 });
 
 test('completion preserves the original recommendation and before readings', () => {

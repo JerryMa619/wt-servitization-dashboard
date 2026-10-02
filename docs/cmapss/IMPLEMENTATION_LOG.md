@@ -98,3 +98,10 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Final-head push CI passed for `d618653`: https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/36939878971 . PR-triggered runs were unavailable because main had advanced with the wind-turbine repair work through `d9d47da`.
 - Merged that main history into the working branch, preserving the wind-turbine repairs and all C-MAPSS work. Resolved only package-script and TypeScript-option ordering conflicts by retaining both sides' settings. Added the incoming 11-test dashboard model suite to C-MAPSS branch/PR CI.
 - After integration, the 11 model tests, ten ontology/twin tests, all 4,835-snapshot dataset tests and production build passed. Multi-dataset and original C-MAPSS production browser suites also passed with zero page errors, including both original route smoke checks. No main merge or deployment was performed by this task.
+
+## 2026-10-02 — requested public web release
+
+- User requested an online webpage, authorizing publication through the existing GitHub Pages site.
+- Integrated main through e3c6e98, retaining the latest turbine instrumentation, XGBoost and vibration work. Resolved package-script and ignore-list conflicts by preserving both sets of entries.
+- All source-ontology, turbine, model, XGBoost, vibration and C-MAPSS model/semantic/contract/dataset checks passed before release. Branch CI now also includes XGBoost and vibration checks.
+- Intended public entry: https://jerryma619.github.io/wt-servitization-dashboard/cmapss/ . Deployment and online verification will be recorded in the GitHub issue/PR after completion.

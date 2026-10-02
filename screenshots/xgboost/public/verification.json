@@ -1,0 +1,32 @@
+{
+  "verifiedAt": "2026-10-02T05:32:42.514Z",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "modelVersion": "ch5-xgb-cqr-2.0",
+      "checks": [
+        "Responsive XGBoost and calibrated-envelope scope visible",
+        "Invalid 31-feature input rejected",
+        "Complete JSON feature window matches Python-backed inference",
+        "Raw quantiles / calibration evidence / full vector persisted",
+        "Import holds clock / ontology scope / reload preserved",
+        "Desktop / mobile layout",
+        "Scenario edits explicitly reference-assisted"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "modelVersion": "ch5-xgb-cqr-2.0",
+      "checks": [
+        "Responsive XGBoost and calibrated-envelope scope visible",
+        "Invalid 31-feature input rejected",
+        "Complete JSON feature window matches Python-backed inference",
+        "Raw quantiles / calibration evidence / full vector persisted",
+        "Import holds clock / ontology scope / reload preserved",
+        "Desktop / mobile layout",
+        "Scenario edits explicitly reference-assisted"
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { conditionPrediction } from '../src/model/operating.ts';
 
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright');
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROME_EXECUTABLE ? { executablePath: process.env.CHROME_EXECUTABLE } : {}) });
@@ -16,7 +17,8 @@ try {
   const twin = page.getByRole('region', { name: 'Integrated wind turbine digital twin' });
   await twin.waitFor();
   await twin.scrollIntoViewIfNeeded();
-  assert.equal(await twin.getByRole('switch', { name: 'Architecture overlay' }).isChecked(), false);
+  assert.equal(await twin.getByRole('switch', { name: 'Architecture overlay' }).isChecked(), true);
+  await twin.getByRole('switch', { name: 'Architecture overlay' }).uncheck();
   const blades = twin.locator('.blades');
   const angle = await blades.getAttribute('style');
   await page.waitForTimeout(250);
@@ -72,12 +74,14 @@ try {
   assert.equal(await physical.getAttribute('data-rpm'), '0');
   assert.equal(await physical.getAttribute('data-service-mode'), 'in-downtime');
   const beforeCrack = Number(await physical.getAttribute('data-crack-mm'));
-  const beforeRul = Number(await physical.getAttribute('data-rul-p10'));
   await replay.screenshot({ path: fileURLToPath(new URL('downtime-replay.png', output)) });
   const max = await slider.getAttribute('max');
   await slider.fill(max);
   assert.ok(Number(await physical.getAttribute('data-crack-mm')) < beforeCrack);
-  assert.ok(Number(await physical.getAttribute('data-rul-p10')) > beforeRul);
+  const repairedCrack = Number(await physical.getAttribute('data-crack-mm'));
+  const selectedEventId = await replay.getByRole('combobox', { name: 'Wind turbine event replay' }).inputValue();
+  const selectedEvent = JSON.parse(await fast.evaluate(() => localStorage.getItem(Object.keys(localStorage).find((key) => key.startsWith('wt-servitization-session-v1:'))))).events.find((entry) => entry.id === selectedEventId);
+  assert.equal(Number(await physical.getAttribute('data-rul-p10')), conditionPrediction(selectedEvent.after.reading.windSpeed, repairedCrack).rulP10);
   await replay.getByRole('button', { name: 'Blade evidence', exact: true }).click();
   assert.ok((await trace.locator('.ontology-inspector').innerText()).includes(`${Number(await physical.getAttribute('data-crack-mm')).toFixed(1)} mm`), 'Ontology uses selected replay frame');
   await replay.scrollIntoViewIfNeeded();

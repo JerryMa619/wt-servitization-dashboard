@@ -1,0 +1,28 @@
+{
+  "verifiedAt": "2026-10-02T03:15:25.433Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "checks": [
+        "Named sensor reference and keyboard disclosure",
+        "Placement, connection and derived-output boundaries",
+        "Auxiliary instrument types without guessed models",
+        "Ontology source individual distinct from live identity",
+        "Rotor motion / 12 modules intact",
+        "1440 / 1024 / 390 px layout"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "checks": [
+        "Named sensor reference and keyboard disclosure",
+        "Placement, connection and derived-output boundaries",
+        "Auxiliary instrument types without guessed models",
+        "Ontology source individual distinct from live identity",
+        "Rotor motion / 12 modules intact",
+        "1440 / 1024 / 390 px layout"
+      ]
+    }
+  ],
+  "errors": []
+}

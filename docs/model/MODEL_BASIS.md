@@ -1,23 +1,31 @@
-# Dashboard Model Basis - wt-demo-2.0
+# Dashboard Model Basis - Chapter 5 XGBoost
 
 ## Evidence Status
 
-Uncalibrated scenario model for the PhD servitization demonstration. Chapter 5 supplies replay context and fixed validation/contract results, not physical validation of the dashboard equations. `src/model/operating.ts` is the shared operating/condition entry point; `src/App.tsx` retains growth, policy, economics and scoring. Architecture mapping does not establish ISO conformity.
+The current RUL engine is `ch5-xgb-cqr-2.0`, using Chapter 5's 31 features with a fixed initial prediction of 500 and a window-level calibrated interval. The owner's later request to improve P10/P50/P90 supersedes the initial strict-preservation choice. Original `ch5-xgb-quantile-1.0` sources, fitted models, metrics and parity evidence remain unchanged in `models/chapter5/`. See the [current calibration record](CALIBRATED_XGBOOST.md) and [historical integration record](XGBOOST_IMPLEMENTATION.md).
+
+The target remains synthetic pseudo-hours, `1000 * (1 - crack_mm/80)`, not measured hours-to-failure. Labels (`state`, `crack_mm`, `wind_bin`, `rul_h`) are excluded from inputs. The 315 source windows are partitioned into 189 training, 63 calibration and 63 test rows, stratified by state/wind bin. Deployment uses the training-only trees without a final all-data refit. Metrics are evaluated only on test rows. Repeated windows lack independent blade/session IDs; these internal results do not establish trajectory or field generalisation.
+
+`src/model/operating.ts` is the common scenario entry point; `src/model/xgboost.ts` evaluates the exported trees. Growth, operating response, maintenance effects, policy, economics and heuristic confidence scores remain demonstrations. Architecture mapping does not establish ISO conformity.
 
 GPS and wind direction are site context. No nacelle heading/yaw error, structural geometry, material properties, measured stress cycles, fitted fracture coefficients or fleet failure labels are available. Direction therefore does not currently change modeled vibration/RUL. Power is W (800 W prototype), not utility-scale MW.
 
-## Common Equations
+## Prediction and Scenario Inputs
 
-Let `v` be wind m/s, `a` crack mm, `d=clamp(a/80,0,1)`, `L=round(18 max(v-7,0)+42 max(v-11,0))`.
+Three separate `XGBRegressor` models use `reg:quantileerror`, alpha 0.1/0.5/0.9, 300 estimators, maximum depth 6, learning rate 0.05, seed 42 and `base_score=500` (the midpoint of the defined target domain, not a test-tuned value). Browser raw outputs are verified against native Python predictions, including float32 equality at split thresholds and missing-value branches. No new noise or lifespan labels are invented to make curves move.
+
+Chapter 5 replay and imported JSON windows use the complete ordered 31-feature vector. Automatic growth, repairs and basic manual inputs use training-only state/wind-bin reference mean vectors, interpolated first in wind speed and then crack length. RMS overrides scale the axis RMS/peaks; kurtosis overrides update the three axis kurtoses; modal f1 and RPM override their named features. Derived ratios are recomputed. This is reference-assisted feature construction, not measured signals or a crack estimator. Crack length is used only by this scenario adapter, not passed directly to XGBoost. Spectral and unavailable-axis features are reference context. Wind direction is not an input.
+
+The vibration display now reads named X/Y/Z RMS and kurtosis directly from each full vector, on separate unit-consistent charts. X follows Chapter 5's flapwise convention; Y follows edgewise. The primary metric uses X when available. The compatibility fields `vibrationRms` / `kurtosis` remain Z-based, so existing growth, risk and service thresholds are not silently recalibrated by this display change. Old records omit unavailable axes. The waveform player is a separately labelled archived simulated reference, not a measured or model-synchronised signal. See [vibration source/display record](VIBRATION_DISPLAY.md).
+
+For display/service policy, raw outputs are clipped to the known synthetic 0..1000 target domain and enclosed by their minimum/maximum around P50. A nonnegative CQR-style correction (76.311157 pseudo-h) widens the envelope, then the tails round outward and P50 rounds to the nearest integer. P10/P90 labels denote percentile-based adjusted bounds, not exact calibrated percentiles. Raw outputs, crossing/clipping flag, full vector, calibration radius/scope and out-of-training feature names are retained in history. Reference-assisted or out-of-domain inputs carry no coverage claim. Manual RUL edits remove calibration evidence and remain assumptions. Historical event records are never recalculated; only active, non-manual old-model snapshots with a complete vector are refreshed on reload/import.
+
+Let `v` be wind m/s, `a` crack mm and `d=clamp(a/80,0,1)`. Remaining simulation equations:
 
 - Below 3 m/s or simulated hold: RPM/power zero. Otherwise RPM=round(min(78v,1200)); power=round(min(8.9 v^2.12,800)). Wind domain 0..40; these are demo limits, no OEM cut-out is invented.
-- RMS(g)=clamp(0.038+0.004v+0.112d+0.006 max(v-9,0),0.028,0.32), 4 decimals.
-- Kurtosis=clamp(2.65+4.2d+0.18 max(v-8,0),2.5,12), 2 decimals.
-- Modal f1(Hz)=clamp(27.55-3.8d-0.07 max(v-10,0),18,32), 2 decimals.
-- P50=round(clamp(1000(1-d^1.16)-0.7L,0,1000)) h.
-- S=max(50,round(128-58d)); P10=max(0,round(P50-S-0.3L)); P90=round(P50+0.82S).
+Repairs reduce crack, construct a new reference-assisted feature vector and rerun the same XGBoost model. Inspection/prepositioning with zero crack reduction preserve the existing readings and RUL, including imported feature-window outputs. There is no independent lifetime bonus or guaranteed rise in P10 after repair.
 
-P10/P50/P90 retain existing field names but are **heuristic bounds**, not calibrated quantiles. Untouched manual fields use these equations; explicitly overridden values within input tolerances are scenario assumptions. Repairs reduce crack and recompute condition/RUL without an independent lifetime bonus.
+On the same 63 held-out windows, the original configuration yields RMSE 76.80 / PICP 100% / MPIW 787.55 pseudo-h. The responsive calibrated engine yields RMSE 72.12 / PICP 90.48% / MPIW 303.85 pseudo-h for a nominal 80% envelope. Raw responsive bounds cover only 60.32%, so narrowing alone would be misleading. Raw crossings remain possible (130/315 supplied vectors), are exposed, and do not become hidden accuracy claims. Service thresholds are unchanged; changed decisions arise from the new predictions, not relaxed policy.
 
 Growth per monitoring tick: clamp(0.16+0.11 max(v-4.5,0)+2.4 max(RMS-0.04,0)+0.34d+0.08(sin(index/8)+1),0.08,1.65) mm. One tick represents 1 modeled monitoring hour. Replay may establish a larger observed crack before repair; repaired/restored state then drives growth. This is not a real detector or physical damage law.
 
@@ -56,7 +64,7 @@ Use normalized 0..1 features `c=clamp(a/80)`, `r=clamp((RMS-0.035)/0.16)`, `k=cl
 - RUL stability=100 clamp(1-(P90-P10)/940-recentP50Range/1200,0.42,0.94), using up to 8 chart readings.
 - Decision support=100 clamp(0.42 crackEvidence/100+0.34 stability/100+0.24(1-riskIndex),0.50,0.98).
 
-These are construction-based scores, not accuracy or failure probabilities. Higher severity can raise evidence score. Reload/import starts a short chart window, so stability can change while immutable event evidence stays unchanged. No held-out accuracy or calibration evidence is claimed.
+These are construction-based scores, not accuracy or failure probabilities. Higher severity can raise evidence score. Reload/import starts a short chart window, so stability can change while immutable event evidence stays unchanged. No held-out validation is claimed for these scores; the separate XGBoost window-level validation must not be attributed to them.
 
 ## Time, KPI and History
 

@@ -5,7 +5,6 @@ dist/
 .env
 .env.*
 !.env.example
-
-# Python data preparation
+.venv-xgboost/
 __pycache__/
 *.pyc

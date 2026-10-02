@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import L from "leaflet";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
@@ -13,6 +13,7 @@ import {
   Gauge,
   MapPin,
   Network,
+  Radio,
   RotateCcw,
   ShieldCheck,
   SlidersHorizontal,
@@ -30,8 +31,11 @@ import { actionTypes, updateExecutionLog, type OntologyExecution, type OntologyS
 import TwinWorkspace, { type ReplayRequest } from "./twin/TwinWorkspace";
 import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBounds, inputRangeErrors, modelMetadata, operatingOutput, readingFreshness, simulationAvailability, type SimulationStats } from "./model/operating";
 import { closeRestoredSession, interruptExecution, parseSession, sessionKey, type SavedSession } from "./model/session";
-
-const LazyTelemetryChart = lazy(() => import("./TelemetryChart"));
+import { bladeSensorFields, bladeSensorReference, derivedConditionNote } from "./model/instrumentation";
+import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulDescription, rulUncertaintyDescription, rulModel, type RulEvidence } from "./model/xgboost";
+import Chart from "./components/TelemetryPanel";
+import VibrationCharts from "./vibration/VibrationCharts";
+import { vibrationFeatures } from "./vibration/model";
 
 type ServiceState = "Nominal" | "Watch" | "Degraded" | "MaintenanceDue" | "Critical" | "OutOfContract";
 type MaintenanceActionKey =
@@ -48,6 +52,8 @@ type HistoryPoint = {
   acquisitionIndex?: number;
   source?: string;
   modelVersion?: string;
+  rulEvidence?: RulEvidence;
+  rulFeatureVector?: number[];
   observedAt?: string;
   receivedAt?: string;
   windSpeed: number;
@@ -176,7 +182,10 @@ type DashboardDataset = {
 };
 
 const dataset = dashboardData as DashboardDataset;
-const replayHistory = dataset.history ?? [];
+const replayHistory = (dataset.history ?? []).map((point, index) => {
+  const values = chapter5ReplayVectors[index];
+  return values ? { ...point, ...predictRul(values, 'chapter5-window'), modelVersion: rulModel.version, rulFeatureVector: values } : point;
+});
 
 const fallbackSite = {
   name: "Cranfield outdoor WT test site",
@@ -201,32 +210,24 @@ function clamp(value: number, min: number, max: number) {
 
 function makePoint(index: number, prior?: HistoryPoint): HistoryPoint {
   const now = new Date(Date.now() - (47 - index) * 90_000);
-  const wave = Math.sin(index / 5);
   const gust = Math.sin(index / 2.8) * 0.45 + Math.random() * 0.35;
   const windSpeed = clamp((prior?.windSpeed ?? 5.8) + gust * 0.22, 3.2, 9.8);
   const windDirection = Math.round(((prior?.windDirection ?? 226) + 8 + Math.random() * 18) % 360);
-  const rpm = Math.round(clamp(windSpeed * 68 + wave * 18 + Math.random() * 18, 190, 690));
-  const power = Math.round(clamp(Math.pow(windSpeed, 2.15) * 9 + Math.random() * 32, 80, 430));
-  const rulP50 = clamp((prior?.rulP50 ?? 760) - 4.2 + Math.sin(index / 6) * 8, 145, 850);
-  const spread = clamp(130 + Math.cos(index / 4) * 28 + Math.random() * 24, 92, 190);
-  const rulP10 = clamp(rulP50 - spread, 45, 760);
-  const rulP90 = clamp(rulP50 + spread * 0.88, 180, 980);
-  const vibrationRms = clamp(0.078 + (780 - rulP10) / 8000 + Math.random() * 0.012, 0.07, 0.185);
-  const kurtosis = clamp(3.1 + (760 - rulP10) / 220 + Math.random() * 0.35, 3, 6.6);
-  const modalF1 = clamp(27.6 - (760 - rulP10) / 220, 24.5, 27.8);
+  const crackMm = prior?.crackMm ?? 0;
+  const speed = Number(windSpeed.toFixed(2));
 
   return {
     t: now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    windSpeed: Number(windSpeed.toFixed(2)),
+    source: 'auto-simulation',
+    modelVersion: modelMetadata.version,
+    observedAt: now.toISOString(),
+    receivedAt: new Date().toISOString(),
+    windSpeed: speed,
     windDirection,
-    rpm,
-    power,
-    vibrationRms: Number(vibrationRms.toFixed(3)),
-    kurtosis: Number(kurtosis.toFixed(2)),
-    modalF1: Number(modalF1.toFixed(2)),
-    rulP10: Math.round(rulP10),
-    rulP50: Math.round(rulP50),
-    rulP90: Math.round(rulP90)
+    crackMm,
+    crackState: crackStateFromMm(crackMm),
+    ...operatingOutput(speed),
+    ...conditionPrediction(speed, crackMm)
   };
 }
 
@@ -362,13 +363,21 @@ function readDashboardSession(): { data: SavedSession | null; error: string | nu
   }
 }
 
+function refreshActivePrediction(reading: SavedSession['latest']): SavedSession['latest'] {
+  if (!reading.modelVersion?.startsWith('ch5-xgb-') || reading.modelVersion === rulModel.version || reading.rulEvidence?.featureSource === 'manual-override') return reading;
+  if (reading.rulFeatureVector && reading.rulEvidence) return { ...reading, ...predictRul(reading.rulFeatureVector, reading.rulEvidence.featureSource), modelVersion: rulModel.version };
+  return reading;
+}
+
 function restoredPoint(reading: SavedSession['latest']): HistoryPoint {
-  const point = { ...reading, ...operatingOutput(reading.windSpeed), serviceMode: undefined, serviceAction: undefined, downtimeH: undefined } as HistoryPoint;
+  const point = { ...refreshActivePrediction(reading), ...operatingOutput(reading.windSpeed), serviceMode: undefined, serviceAction: undefined, downtimeH: undefined } as HistoryPoint;
   return { ...point, serviceState: serviceStateFromCondition(point) };
 }
 
 function restoredManual(reading: SavedSession['manual']): HistoryPoint | null {
-  return reading ? { ...reading, source: "manual-input", serviceState: serviceStateFromCondition(reading) } as HistoryPoint : null;
+  if (!reading) return null;
+  const point = refreshActivePrediction(reading);
+  return { ...point, source: "manual-input", serviceState: serviceStateFromCondition(point) } as HistoryPoint;
 }
 
 function App() {
@@ -541,6 +550,7 @@ function App() {
   const serviceState = latest.serviceState ?? serviceStateFromCondition(latest);
   const meta = stateMeta[serviceState];
   const chartHistory = manualPoint ? [...history.slice(1), manualPoint] : history;
+  const bladeFeatures = vibrationFeatures(latest);
   const timeLabels = chartHistory.map((point) => point.t);
   const replayPosition = replayGpsPosition(latest);
   const manualPosition: LivePosition | null =
@@ -691,8 +701,8 @@ function App() {
         <Metric icon={<MapPin />} label="GPS" value={`${currentPosition.lat.toFixed(4)}, ${currentPosition.lon.toFixed(4)}`} sub={currentPosition.source} />
         <Metric icon={<Wind />} label="Wind speed" value={`${latest.windSpeed.toFixed(1)} m/s`} sub={`${cardinal(latest.windDirection)} ${latest.windDirection} deg`} />
         <Metric icon={<Gauge />} label="Rotor RPM" value={`${latest.rpm}`} sub={`${latest.power} W output`} />
-        <Metric icon={<Activity />} label="Blade vibration" value={`${latest.vibrationRms.toFixed(3)} g`} sub={`${latest.crackState ?? "C?"} | kurtosis ${latest.kurtosis.toFixed(2)}`} />
-        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} h`} sub={latest.modelVersion ? `Heuristic bounds / ${latest.modelVersion}` : "Chapter 5 replay bounds"} />
+        <Metric icon={<Activity />} label="Blade vibration" value={`${(bladeFeatures.rms[0] ?? latest.vibrationRms).toFixed(3)} g`} sub={`${bladeFeatures.rms[0] == null ? 'Z' : 'X / flapwise'} | ${latest.crackState ?? "C?"} | k ${(bladeFeatures.kurtosis[0] ?? latest.kurtosis).toFixed(2)}`} />
+        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} h`} sub={rulDescription(latest)} />
       </section>
 
       <div className="history-toolbar" aria-label="Saved service history"><span role={historyError || storageWarning ? "alert" : "status"} className={historyError || storageWarning ? "history-warning" : ""}>{historyError ?? storageMessage}</span><span>{ontologyEvents.length} events / {autoStats.observationHours.toFixed(1)} modeled h</span><button title="Export service history" aria-label="Export service history" onClick={exportHistory}><Download size={16} /></button><button title="Import service history" aria-label="Import service history" disabled={serviceExecution?.status === "in-progress"} onClick={() => importRef.current?.click()}><Upload size={16} /></button><input ref={importRef} type="file" accept="application/json,.json" aria-label="History JSON file" hidden onChange={(e) => { const file = e.target.files?.[0]; if (file) void importHistory(file); e.target.value = ""; }} /><button title="Clear service history" aria-label="Clear service history" disabled={serviceExecution?.status === "in-progress"} onClick={clearHistory}><Trash2 size={16} /></button></div>
@@ -745,11 +755,8 @@ function App() {
       <section className="chart-grid" aria-label="Dynamic telemetry charts">
         <Chart title="Wind Speed" option={lineOption(timeLabels, [{ name: "m/s", data: chartHistory.map((p) => p.windSpeed), color: "#26876d" }], "m/s")} />
         <Chart title="Wind Direction" option={directionOption(latest.windDirection)} />
-        <Chart title="Blade Vibration" option={lineOption(timeLabels, [
-          { name: "RMS g", data: chartHistory.map((p) => p.vibrationRms), color: "#c25f2d" },
-          { name: "Kurtosis", data: chartHistory.map((p) => p.kurtosis), color: "#7057c8" }
-        ])} />
         <Chart title="Blade RUL Uncertainty" option={rulOption(timeLabels, chartHistory)} />
+        <VibrationCharts history={chartHistory} latest={latest} />
       </section>
 
       <section className="evidence-note">
@@ -967,6 +974,10 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
         <span>Regime <strong>{regime}</strong></span>
         {onRulSelect && <button onClick={onRulSelect}><Waves size={14} />RUL evidence</button>}
       </div>
+      <details className="instrumentation-reference" aria-label="Blade sensor reference">
+        <summary><Radio size={14} aria-hidden="true" /><strong>{bladeSensorReference.name}</strong><span>Rig reference / not connected</span></summary>
+        <dl>{bladeSensorFields.filter((row) => row.label !== 'Reference sensor').map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}<div><dt>Evidence boundary</dt><dd>{derivedConditionNote}</dd></div></dl>
+      </details>
     </section>
   );
 }
@@ -1222,7 +1233,21 @@ function EnhancedDashboardModules({
             <ConfidenceBar label="RUL stability score" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} h`} />
             <ConfidenceBar label="Decision support score" value={confidence.decisionConfidence} note={maintenanceActions[serviceDecisionByTcs(latest, serviceState).action].label} />
           </div>
-          <details className="model-basis"><summary>Model basis / {modelMetadata.version}</summary><dl><div><dt>Validation</dt><dd>{modelMetadata.scope}</dd></div><div><dt>Source</dt><dd>{modelMetadata.basis}</dd></div><div><dt>Operating envelope</dt><dd>Cut-in {modelMetadata.cutInMs} m/s / {modelMetadata.maxRpm} RPM / {modelMetadata.maxPowerW} W; OEM cut-out not supplied</dd></div><div><dt>RUL estimate</dt><dd>P50 = clamp(1000(1 - (a/80)^1.16) - 0.7 load, 0, 1000) h; P10 / P90 are heuristic bounds, not calibrated quantiles</dd></div><div><dt>Load term</dt><dd>18 max(v - 7, 0) + 42 max(v - 11, 0); wind direction is site context, yaw error not supplied</dd></div><div><dt>Scores</dt><dd>Signal severity, RUL interval / recent movement and residual-risk weights; not accuracy or failure probability</dd></div><div><dt>Policy / costs</dt><dd>Highest condition severity; minimum TCS passing the heuristic risk filter. Repair effects and GBP cost coefficients are scenario assumptions.</dd></div></dl></details>
+          <details className="model-basis"><summary>Model basis / {modelMetadata.version}</summary><dl>
+            <div><dt>Validation</dt><dd>{modelMetadata.scope}; {rulModel.evaluationScope}</dd></div>
+            <div><dt>Source</dt><dd>{modelMetadata.basis}</dd></div>
+            <div><dt>RUL model</dt><dd>31 features / reg:quantileerror / 300 trees per quantile / depth 6 / learning rate 0.05 / seed 42 / initial prediction 500</dd></div>
+            <div><dt>Vibration basis</dt><dd>Charts show X/Y/Z separately. Existing signal thresholds, growth and TCS inputs retain Z RMS/kurtosis; waveform references are not inference inputs.</dd></div>
+            <div><dt>Training target</dt><dd>{rulModel.target}; crack length is excluded from the model inputs</dd></div>
+            <div><dt>Data split</dt><dd>189 training / 63 calibration / 63 test windows; no final refit on calibration or test rows</dd></div>
+            <div><dt>Held-out result</dt><dd>RMSE {rulModel.evaluation.rmse.toFixed(2)} pseudo-h / MAE {rulModel.evaluation.mae.toFixed(2)} pseudo-h / PICP {(rulModel.evaluation.picp * 100).toFixed(1)}% / MPIW {rulModel.evaluation.mpiw.toFixed(2)} pseudo-h</dd></div>
+            <div><dt>Same-split baseline</dt><dd>Original RMSE {rulModel.comparison.originalSameSplit.rmse.toFixed(2)} / PICP {(rulModel.comparison.originalSameSplit.picp * 100).toFixed(1)}% / MPIW {rulModel.comparison.originalSameSplit.mpiw.toFixed(2)} pseudo-h; original model files retained</dd></div>
+            <div><dt>Interval calibration</dt><dd>Nominal 80% P10/P90-based envelope; outward correction {rulModel.calibration.radius.toFixed(2)} pseudo-h / raw percentiles retained. Adjusted bounds are not exact percentiles.</dd></div>
+            <div><dt>Current uncertainty</dt><dd>{rulUncertaintyDescription(latest)}. Repeated source windows do not establish independent-blade validation.</dd></div>
+            <div><dt>Current input</dt><dd>{rulDescription(latest)}; {latest.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div>
+            <div><dt>Operating envelope</dt><dd>Cut-in {modelMetadata.cutInMs} m/s / {modelMetadata.maxRpm} RPM / {modelMetadata.maxPowerW} W; operating/growth/repair models remain scenario assumptions. Wind direction is context only.</dd></div>
+            <div><dt>Scores / policy</dt><dd>Heuristic scores are not accuracy or failure probabilities. Minimum TCS passing the heuristic risk filter; costs and repair effects are assumptions.</dd></div>
+          </dl></details>
         </section>
 
         <section className="panel enhanced-panel">
@@ -1301,23 +1326,6 @@ function ConfidenceBar({ label, value, note }: { label: string; value: number; n
   );
 }
 
-function Chart({ title, option }: { title: string; option: object }) {
-  const ref = useRef<HTMLElement | null>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!('IntersectionObserver' in window)) { setVisible(true); return; }
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } }, { rootMargin: '300px' });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <section className="panel chart-panel" ref={ref}>
-      <h2>{title}</h2>
-      <Suspense fallback={<div className="chart-placeholder" aria-busy="true" />}>{visible ? <LazyTelemetryChart option={option} /> : <div className="chart-placeholder" />}</Suspense>
-    </section>
-  );
-}
-
 function EvidenceModal({
   latest,
   serviceState,
@@ -1344,7 +1352,7 @@ function EvidenceModal({
         </div>
         <div className="evidence-chain">
           <EvidenceItem label={`ObservationWindow-${String(latest.acquisitionIndex ?? 421).padStart(4, "0")}`} value={`GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)} | wind ${latest.windSpeed.toFixed(1)} m/s | bin ${latest.windBin ?? "n/a"}`} />
-          <EvidenceItem label="FeatureVector" value={`RMS ${latest.vibrationRms.toFixed(3)} g | kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
+          <EvidenceItem label="FeatureVector" value={`Z RMS ${latest.vibrationRms.toFixed(3)} g | Z kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
           <EvidenceItem label="RULEstimate" value={`p10 ${latest.rulP10} h | p50 ${latest.rulP50} h | p90 ${latest.rulP90} h`} />
           <EvidenceItem label="ServiceState" value={serviceState} accent={meta.color} />
           <EvidenceItem label="ServiceActionRecommendation" value={`${maintenanceActions[tcsDecision.action].label} | TCS ${formatGbp(tcsDecision.totalCost)} | residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`} />
@@ -1391,23 +1399,46 @@ function ScenarioInputModal({
     rulP90: latest.rulP90
   });
   const [touched, setTouched] = useState<Partial<Record<keyof ScenarioForm, true>>>({});
+  const [featureWindow, setFeatureWindow] = useState<number[] | null>(latest.rulEvidence?.featureSource === 'imported-window' && latest.rulFeatureVector ? [...latest.rulFeatureVector] : null);
+  const [featureError, setFeatureError] = useState<string | null>(null);
 
-  const previewPoint = pointFromScenarioForm(form);
+  const previewPoint = pointFromScenarioForm(form, featureWindow, touched);
   const previewState = serviceStateFromCondition(previewPoint);
   const previewMeta = stateMeta[previewState];
   const previewActivity = servitizationActivity(previewPoint, previewState);
   const touchedCount = Object.keys(touched).length;
-  const conflicts = [...inputRangeErrors(form), ...scenarioConflicts(form, touched)];
+  const conflicts = [...inputRangeErrors(form), ...(featureWindow ? [] : scenarioConflicts(form, touched)), ...(featureError ? [featureError] : [])];
 
   function updateNumber(key: keyof ScenarioForm, value: string) {
     const parsed = Number(value);
     const nextValue = Number.isFinite(parsed) ? parsed : 0;
+    const retainWindow = !!featureWindow && ['lat', 'lon', 'windDirection'].includes(key);
+    if (!retainWindow) setFeatureWindow(null);
+    setFeatureError(null);
     const nextTouched = { ...touched, [key]: true };
     setTouched(nextTouched);
     setForm((current) => {
       const rawNext = { ...current, [key]: nextValue };
-      return applyScenarioModel(rawNext, nextTouched);
+      return retainWindow ? rawNext : applyScenarioModel(rawNext, nextTouched);
     });
+  }
+
+  async function importFeatureWindow(file?: File) {
+    if (!file) return;
+    try {
+      if (file.size > 100_000) throw new Error('Feature window exceeds 100 KB.');
+      const values = readFeatureWindow(await file.text());
+      const measurements = featureMeasurements(values);
+      const prediction = predictRul(values, 'imported-window');
+      setForm((current) => ({ ...current, ...measurements, ...operatingOutput(measurements.windSpeed), rpm: measurements.rpm, rulP10: prediction.rulP10, rulP50: prediction.rulP50, rulP90: prediction.rulP90 }));
+      setFeatureWindow(values); setTouched({}); setFeatureError(null);
+    } catch (error) { setFeatureError(error instanceof Error ? error.message : 'Invalid feature window'); }
+  }
+
+  function downloadFeatureWindow() {
+    const values = featureWindow ?? expectedScenarioValues(form, touched).rulFeatureVector;
+    const blob = new Blob([JSON.stringify({ features: Object.fromEntries(rulModel.featureNames.map((name, i) => [name, values[i]])) }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = 'chapter5-feature-window.json'; link.click(); URL.revokeObjectURL(url);
   }
 
   function submit() {
@@ -1436,14 +1467,16 @@ function ScenarioInputModal({
           <NumberField label="Wind direction deg" value={form.windDirection} step="1" onChange={(value) => updateNumber("windDirection", value)} />
           <NumberField label="Rotor RPM" value={form.rpm} step="1" onChange={(value) => updateNumber("rpm", value)} />
           <NumberField label="Power W" value={form.power} step="1" onChange={(value) => updateNumber("power", value)} />
-          <NumberField label="Blade vibration RMS g" value={form.vibrationRms} step="0.001" onChange={(value) => updateNumber("vibrationRms", value)} />
-          <NumberField label="Kurtosis" value={form.kurtosis} step="0.01" onChange={(value) => updateNumber("kurtosis", value)} />
+          <NumberField label="Blade vibration Z RMS g" value={form.vibrationRms} step="0.001" onChange={(value) => updateNumber("vibrationRms", value)} />
+          <NumberField label="Z kurtosis" value={form.kurtosis} step="0.01" onChange={(value) => updateNumber("kurtosis", value)} />
           <NumberField label="Modal f1 Hz" value={form.modalF1} step="0.01" onChange={(value) => updateNumber("modalF1", value)} />
           <NumberField label="Crack length mm" value={form.crackMm} step="1" onChange={(value) => updateNumber("crackMm", value)} />
           <NumberField label="RUL p10 h" value={form.rulP10} step="1" onChange={(value) => updateNumber("rulP10", value)} />
           <NumberField label="RUL p50 h" value={form.rulP50} step="1" onChange={(value) => updateNumber("rulP50", value)} />
           <NumberField label="RUL p90 h" value={form.rulP90} step="1" onChange={(value) => updateNumber("rulP90", value)} />
         </div>
+
+        <details className="feature-window-input"><summary>Chapter 5 XGBoost feature window</summary><div className="feature-window-tools"><label><Upload size={14} />Feature JSON<input type="file" accept=".json,application/json" aria-label="Import Chapter 5 feature window" onChange={(event) => { void importFeatureWindow(event.target.files?.[0]); event.target.value = ''; }} /></label><button type="button" title="Download current named feature window" onClick={downloadFeatureWindow}><Download size={14} />Feature window</button></div><dl><div><dt>Input source</dt><dd>{rulDescription(previewPoint)}</dd></div><div><dt>Feature coverage</dt><dd>{featureWindow ? '31 / 31 provided' : '31 / 31 reference-assisted; not measured'}</dd></div><div><dt>Training domain</dt><dd>{previewPoint.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Prediction scope</dt><dd>Synthetic pseudo-hours / {rulUncertaintyDescription(previewPoint)}</dd></div></dl></details>
 
         <div className="scenario-result" style={{ borderColor: previewMeta.color, background: previewMeta.bg }}>
           <span>Servitization output preview</span>
@@ -1489,14 +1522,18 @@ function NumberField({ label, value, step, onChange }: { label: string; value: n
   );
 }
 
-function pointFromScenarioForm(form: ScenarioForm): HistoryPoint {
+function pointFromScenarioForm(form: ScenarioForm, featureWindow: number[] | null = null, touched: Partial<Record<keyof ScenarioForm, true>> = {}): HistoryPoint {
   const crackMm = clamp(form.crackMm, 0, 80);
   const crackState = crackStateFromMm(crackMm);
+  const prediction = featureWindow ? { ...predictRul(featureWindow, 'imported-window'), rulFeatureVector: featureWindow } : expectedScenarioValues(form, touched);
+  const manualRul = !featureWindow && (['rulP10', 'rulP50', 'rulP90'] as const).some((key) => touched[key] || Math.round(form[key]) !== prediction[key]);
   const point = {
     t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
     acquisitionIndex: 9999,
     source: "manual-input",
     modelVersion: modelMetadata.version,
+    rulEvidence: { ...prediction.rulEvidence, featureSource: manualRul ? 'manual-override' as const : prediction.rulEvidence.featureSource, intervalCalibration: manualRul ? undefined : prediction.rulEvidence.intervalCalibration },
+    rulFeatureVector: prediction.rulFeatureVector,
     observedAt: new Date().toISOString(),
     receivedAt: new Date().toISOString(),
     lat: form.lat,
@@ -1639,7 +1676,7 @@ function estimateTcs(point: HistoryPoint, action: MaintenanceActionKey, downtime
   const downtimeH = downtimeOverride ?? actionConfig.defaultDowntimeH;
   const crackBefore = point.crackMm ?? 0;
   const residualCrackMm = Number(clamp(crackBefore * (1 - actionConfig.crackReduction), 0, 80).toFixed(1));
-  const residualRulP10 = conditionPrediction(point.windSpeed, residualCrackMm).rulP10;
+  const residualRulP10 = residualCrackMm === crackBefore ? point.rulP10 : conditionPrediction(point.windSpeed, residualCrackMm).rulP10;
   const residualRiskScore =
     residualRiskAfterAction(point, residualCrackMm, residualRulP10) * economics.riskMultiplier;
   const downtimeCost = downtimeH * tcsParameters.downtimeCostPerHour + (point.power / 1000) * downtimeH * tcsParameters.energyValuePerKwh;
@@ -1829,7 +1866,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
       ...readingFreshness(latest, now)
     },
     {
-      label: "Vibration feature quality",
+      label: "Z vibration feature quality",
       value: `${latest.vibrationRms.toFixed(3)} g / k ${latest.kurtosis.toFixed(2)}`,
       note: confidence.anomalyScore > 65 ? "High anomaly content; service layer should preserve raw evidence." : "Signal within expected model range.",
       status: latest.vibrationRms > 0.26 || latest.kurtosis > 10 ? "warn" : "pass"
@@ -1839,6 +1876,18 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
       value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
       note: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "p10 <= p50 <= p90" : "RUL bounds conflict.",
       status: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "pass" : "warn"
+    },
+    {
+      label: "XGBoost input domain",
+      value: rulDescription(latest),
+      note: latest.rulEvidence?.outsideTraining.length ? `${latest.rulEvidence.outsideTraining.length} features outside training range; field generalisation not validated` : 'Controlled synthetic training domain; reference-assisted values are not measurements',
+      status: latest.rulEvidence?.outsideTraining.length ? "warn" : "context"
+    },
+    {
+      label: "RUL interval scope",
+      value: `${latest.rulP90 - latest.rulP10} pseudo-h width`,
+      note: rulUncertaintyDescription(latest),
+      status: latest.rulP90 - latest.rulP10 > 600 ? "warn" : "context"
     },
     {
       label: "Chapter 5 latency reference",
@@ -1969,13 +2018,13 @@ function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceAction
   const actionConfig = maintenanceActions[action];
   const crackBefore = current.crackMm ?? 0;
   const crackAfter = Number(clamp(crackBefore * (1 - actionConfig.crackReduction), 0, 80).toFixed(1));
-  const prediction = conditionPrediction(current.windSpeed, crackAfter);
+  const prediction = crackAfter === crackBefore ? { vibrationRms: current.vibrationRms, kurtosis: current.kurtosis, modalF1: current.modalF1, rulP10: current.rulP10, rulP50: current.rulP50, rulP90: current.rulP90, rulEvidence: current.rulEvidence, rulFeatureVector: current.rulFeatureVector } : conditionPrediction(current.windSpeed, crackAfter);
 
   const point: HistoryPoint = {
     ...current,
     t: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
     source: "service-action",
-    modelVersion: modelMetadata.version,
+    modelVersion: crackAfter === crackBefore ? current.modelVersion : modelMetadata.version,
     observedAt: new Date().toISOString(),
     receivedAt: new Date().toISOString(),
     ...operatingOutput(current.windSpeed),
@@ -1993,7 +2042,7 @@ function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceAction
 }
 
 function applyScenarioModel(form: ScenarioForm, touched: Partial<Record<keyof ScenarioForm, true>>): ScenarioForm {
-  const expected = expectedScenarioValues(form);
+  const expected = expectedScenarioValues(form, touched);
   const next = { ...form };
   const autoFields: Array<keyof Pick<ScenarioForm, "rpm" | "power" | "vibrationRms" | "kurtosis" | "modalF1" | "rulP10" | "rulP50" | "rulP90">> = [
     "rpm",
@@ -2013,13 +2062,14 @@ function applyScenarioModel(form: ScenarioForm, touched: Partial<Record<keyof Sc
   }
 
   if (!touched.rulP10 && touched.rulP50) next.rulP10 = Math.max(0, Math.round(next.rulP50 - expected.rulSpread));
-  if (!touched.rulP90 && touched.rulP50) next.rulP90 = Math.min(1200, Math.max(0, Math.round(next.rulP50 + expected.rulSpread * 0.82)));
+  if (!touched.rulP90 && touched.rulP50) next.rulP90 = Math.min(1200, Math.max(0, Math.round(next.rulP50 + expected.rulUpperSpread)));
 
   return next;
 }
 
-function expectedScenarioValues(form: ScenarioForm) {
-  return { ...operatingOutput(form.windSpeed), ...conditionPrediction(form.windSpeed, form.crackMm) };
+function expectedScenarioValues(form: ScenarioForm, touched: Partial<Record<keyof ScenarioForm, true>> = {}) {
+  const overrides = { vibrationRms: touched.vibrationRms ? form.vibrationRms : undefined, kurtosis: touched.kurtosis ? form.kurtosis : undefined, modalF1: touched.modalF1 ? form.modalF1 : undefined, rpm: touched.rpm ? form.rpm : undefined };
+  return { ...operatingOutput(form.windSpeed), ...conditionPrediction(form.windSpeed, form.crackMm, overrides) };
 }
 
 function scenarioConflicts(form: ScenarioForm, touched: Partial<Record<keyof ScenarioForm, true>>) {
@@ -2200,7 +2250,7 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
     },
     yAxis: {
       type: "value",
-      name: "hours",
+      name: "pseudo-h",
       nameTextStyle: { color: "#8fa7a0" },
       axisLine: { lineStyle: { color: "rgba(128, 169, 158, 0.34)" } },
       axisTick: { lineStyle: { color: "rgba(128, 169, 158, 0.28)" } },
@@ -2208,9 +2258,9 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
       splitLine: { lineStyle: { color: "rgba(128, 169, 158, 0.14)" } }
     },
     series: [
-      { name: "p10", type: "line", smooth: true, showSymbol: false, data: history.map((p) => p.rulP10) },
-      { name: "p50", type: "line", smooth: true, showSymbol: false, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
-      { name: "p90", type: "line", smooth: true, showSymbol: false, data: history.map((p) => p.rulP90) }
+      { name: "p10 bound", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP10) },
+      { name: "p50", type: "line", smooth: false, showSymbol: false, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
+      { name: "p90 bound", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP90) }
     ]
   };
 }

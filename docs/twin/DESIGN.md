@@ -31,12 +31,12 @@ CSE is not a final serial processing step. Security Support and real Device Cont
 
 Flow highlights derive from actual recorded mode / policy state, replacing the former six-node clock-cycling highlight:
 
-- Monitoring: acquisition, registration, condition and RUL.
-- Decision available: Service State, TCS and recommendation.
-- Downtime: execution and simulated device hold (RPM / power target zero).
-- Result: post-service collection, synchronisation and condition refresh.
+- Monitoring: acquisition, registration, evidence access, condition and RUL.
+- Decision available: monitoring continues, with Service State, TCS and recommendation added.
+- Downtime: acquisition/registration/access continue alongside recorded recommendation, execution and simulated hold (RPM / power target zero); no new RUL computation is implied for held pre-service readings.
+- Result: execution -> post-service collection, synchronisation, condition, RUL and state refresh; subsequent readings continue monitoring/decision flow.
 
-Highlighting is a workflow visualization, not instrumentation proving that a model ran at that instant. Recommendation does not itself prove execution. Dashed authorisation / contract paths remain pending / reference-only. The existing TCS policy, crack thresholds and repair model are unchanged.
+Highlighting is workflow visualization, not instrumentation proving a model ran at that instant. Recommendation does not prove execution. Dashed authorisation / contract paths remain pending / reference-only. This display fix does not alter `wt-demo-2.0` policy, thresholds or repair effects. Controlled ReactFlow nodes retain measured dimensions through `useNodesState` / `onNodesChange`; new telemetry updates data without resetting node initialization.
 
 ## Shared event model and replay
 
@@ -48,8 +48,8 @@ The turbine reuses the existing smooth requestAnimationFrame rotor and crack rep
 
 ## Layout and interaction
 
-- Default: unframed physical view and operating / proposal summary.
-- Overlay: physical view and fixed-coordinate architecture with a detail inspector below the graph.
+- Default: physical view and continuously visible fixed-coordinate architecture with a detail inspector.
+- Explicitly hide overlay: physical view and operating / proposal summary; simulation ticks never toggle the user's display choice.
 - Lower band: service, authorisation, execution, modeled downtime and assessment status.
 - CSE is a cross-system band below the loop, not an entity in the serial flow.
 - Supporting map and service decision share a row; TCS spans the full width; duplicate static architecture and old animated chain removed.

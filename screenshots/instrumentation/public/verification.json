@@ -1,0 +1,28 @@
+{
+  "verifiedAt": "2026-10-01T23:33:17.972Z",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "checks": [
+        "Named sensor reference and keyboard disclosure",
+        "Placement, connection and derived-output boundaries",
+        "Auxiliary instrument types without guessed models",
+        "Ontology source individual distinct from live identity",
+        "Rotor motion / 12 modules intact",
+        "1440 / 1024 / 390 px layout"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "checks": [
+        "Named sensor reference and keyboard disclosure",
+        "Placement, connection and derived-output boundaries",
+        "Auxiliary instrument types without guessed models",
+        "Ontology source individual distinct from live identity",
+        "Rotor motion / 12 modules intact",
+        "1440 / 1024 / 390 px layout"
+      ]
+    }
+  ],
+  "errors": []
+}

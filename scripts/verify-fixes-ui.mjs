@@ -86,14 +86,14 @@ try {
   results.push('Resizing 1920 -> 390 px preserves all architecture modules and reachable UE controls.');
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.locator('.model-basis summary').click();
-  assert.match(await page.locator('.model-basis').innerText(), /wt-demo-2.0/);
-  assert.match(await page.locator('.model-basis').innerText(), /not calibrated quantiles/);
+  assert.match(await page.locator('.model-basis').innerText(), /ch5-xgb-cqr-2.0/);
+  assert.match(await page.locator('.model-basis').innerText(), /no field validation/);
   await page.locator('.model-basis').scrollIntoViewIfNeeded();
   await page.locator('.enhanced-grid').first().screenshot({ path: fileURLToPath(new URL('model-quality.png', output)) });
   await page.getByText('Session KPI & Chapter 5 References', { exact: true }).scrollIntoViewIfNeeded();
   await page.locator('.enhanced-grid.wide').screenshot({ path: fileURLToPath(new URL('kpi-reference.png', output)) });
   assert.match(await page.locator('.dashboard').innerText(), /Not estimated/);
-  results.push('Heuristic model basis and separate session/reference KPI scope are visible.');
+  results.push('Responsive XGBoost model basis, window-calibration limitations and separate session/reference KPI scope are visible.');
 
   await page.getByRole('button', { name: 'Resume simulation' }).click();
   await page.evaluate(() => { window.__simulationPaused = false; });

@@ -16,7 +16,9 @@
     "test:cmapss:semantic": "node --experimental-strip-types scripts/test-cmapss-semantic.mjs",
     "test:cmapss:contracts": "node --experimental-strip-types scripts/test-cmapss-contracts.mjs",
     "test:cmapss:datasets": "node --experimental-strip-types scripts/test-cmapss-datasets.mjs",
-    "test:model": "node --experimental-strip-types scripts/test-dashboard-model.mjs"
+    "test:model": "node --experimental-strip-types scripts/test-dashboard-model.mjs",
+    "test:xgboost": "node --experimental-strip-types scripts/test-xgboost.mjs",
+    "test:vibration": "node --experimental-strip-types scripts/test-vibration.mjs"
   },
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^5.4.1",
