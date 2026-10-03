@@ -183,3 +183,7 @@ Four Engine 034 milestone buttons connect the replay to framework, ontology and 
 ### C-MAPSS v0.4: FD001–FD004
 
 The `/cmapss/` demonstration now offers four separately fitted subset models, on-demand replay, full-test endpoint metrics and dataset-aware ontology/contract evidence. The existing FD001 guide is preserved. See [four-subset methodology and audit](docs/cmapss/MULTI_DATASET.md); original file counts, source hashes and all endpoint evaluation records are included. Run `npm run test:cmapss:datasets` for the new regression suite.
+
+### Automatic C-MAPSS case-study story
+
+Open `/cmapss/?story=1` or select **自动演示 / Play case study** for a roughly three-minute walkthrough of observed degradation, DT framework responsibilities, executable ontology evidence, contract decisions and scoped research contributions. It supports pause, chapters, speed, a transcript and real semantic-check exports. See [animated story design](docs/cmapss/ANIMATED_STORY.md).
