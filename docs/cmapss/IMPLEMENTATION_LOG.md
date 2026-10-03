@@ -105,3 +105,19 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Integrated main through e3c6e98, retaining the latest turbine instrumentation, XGBoost and vibration work. Resolved package-script and ignore-list conflicts by preserving both sets of entries.
 - All source-ontology, turbine, model, XGBoost, vibration and C-MAPSS model/semantic/contract/dataset checks passed before release. Branch CI now also includes XGBoost and vibration checks.
 - Intended public entry: https://jerryma619.github.io/wt-servitization-dashboard/cmapss/ . Deployment and online verification will be recorded in the GitHub issue/PR after completion.
+
+## 2026-10-03 — automatic case-study story (v0.5)
+
+- User requested a full automatic animated explanation of the case, practical meaning, contributions and framework/ontology collaboration.
+- Added a nine-scene, approximately three-minute Chinese walkthrough with real FD001 Engine 034 records, causal prediction frames, two controlled contract examples, framework/ontology mapping and a contribution/limitation conclusion.
+- Semantic scenes execute actual RDF/SHACL/SPARQL. The broken-copy scene removes the cycle unit and expects a genuine violation. Automatic progress waits for execution; errors pause and permit retry.
+- Added playback speed, pause/resume/restart, manual chapters, background pause, reduced-motion support, readable transcript, direct `?story=1` entry and export of actual session checks with hashes. Exiting restores the explorer; physical actions and benefits remain unasserted.
+- Methodology, narrative and precise contribution scope: ANIMATED_STORY.md. Validation results follow below.
+
+### v0.5 final local verification
+
+- The complete nine-scene automatic sequence passed against the production preview, including all four executed semantic checks, known contract decisions, completion, pause/resume/restart, chapter selection and evidence export with hashes.
+- Browser checks passed for direct `?story=1` entry, Escape exit, preserved explorer snapshot, failed shape-file fetch/retry, reduced motion and 390/320px layouts; zero page errors.
+- Visual QA corrected the play-button contrast and placed narration, evidence and collaboration alongside one another on wide screens. Final screenshots disable CSS transitions during capture; the full automatic sequence was rerun successfully after the changes.
+- Existing original and four-subset explorer browser suites were rerun successfully, including standard/enhanced wind-turbine route smoke checks. Dataset/semantic/contract suites and the new player tests passed. Build passed with existing bundle-size warnings.
+- Implementation commit: `184d45a`. PR #3 records this update; publication verification will be recorded there after deployment.
