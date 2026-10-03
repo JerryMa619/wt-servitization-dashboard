@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [codex/cmapss-v1]
+    branches: ['codex/cmapss-*']
 permissions:
   contents: read
 jobs:
@@ -26,4 +26,5 @@ jobs:
       - run: npm run test:cmapss:semantic
       - run: npm run test:cmapss:contracts
       - run: npm run test:cmapss:datasets
+      - run: npm run test:cmapss:story
       - run: npm run build
