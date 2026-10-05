@@ -1,0 +1,14 @@
+{
+  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
+  "status": "passed",
+  "checks": [
+    "complete nine-scene autoplay, pause/resume/restart and chapter selection",
+    "observed cycles 158/171 and actual contract decisions",
+    "four actual semantic checks including invalid-unit rejection",
+    "downloaded run evidence with hashes and actual completed checks",
+    "deep-link entry and Escape exit preserves explorer snapshot",
+    "HTTP failure pauses, retry executes successfully",
+    "reduced motion and 390/320px layouts"
+  ],
+  "browserErrors": []
+}
