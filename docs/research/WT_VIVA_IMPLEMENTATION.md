@@ -206,3 +206,20 @@ Generated research records contain only isolated simulated demo data, not the
 user's saved browser session. Completed demo, executed semantic evidence and
 full policy comparison JSON accompany the screenshots. Public deployment
 verification is recorded separately after publication.
+
+### Publication Verification
+
+Implementation commit `0a56b12` passed [Pages CI/deployment](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/37359390355).
+Both public WT routes then passed the complete research browser suite, including
+all four presets, completed automatic repair, real positive/negative semantic
+checks, HTTP 503 failure/retry, 31-feature query, evidence export/hashes,
+production comparison worker, seven sensitivities, original-session restoration
+and reload, colored cost curves and 390/320 px layouts. No browser exceptions
+were recorded. Public semantic desktop and cost-comparison mobile screenshots
+were visually inspected. [Results](../../screenshots/wt-research/public/verification.json).
+
+Public test exports use isolated simulated data only, not a user's real browser
+history. The final evidence-record commit does not change application code.
+The CI runner emitted upstream action-runtime/runner migration warnings, but
+all jobs completed successfully. These warnings and existing large bundles are
+maintenance items, not claims of a failed deployment or field validation.

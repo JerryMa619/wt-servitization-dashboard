@@ -1,0 +1,3496 @@
+{
+  "version": "wt-policy-comparison-1.0",
+  "modelVersion": "ch5-xgb-cqr-2.0",
+  "modelHashes": {
+    "p10": "65db49b01d3f91b738eca4acdf01d82107e5ce05361025ae93c3257e2344455b",
+    "p50": "a73bac9fae9811b8f7cd0758409528d476fe2e396f040554a59071d306e6f867",
+    "p90": "118762fd6b27347791ea3b9958f904a781473ac2d078cbd755674f00ac33ae65"
+  },
+  "sourceHashes": {
+    "run_pipeline.py": "875f3871778fee8ebeeb119ae1097ff4a938972a4eefe5239110a142404612ea",
+    "features.csv": "26082a04cd11cc3fed7c7d4d158c25efd027096f269cd1e7714fbc3fcea9b161"
+  },
+  "config": {
+    "horizon": 120,
+    "initialCrack": 0,
+    "windSpeed": 8,
+    "fixedInterval": 40,
+    "downtimeScale": 1,
+    "consequenceScale": 1,
+    "repairScale": 1
+  },
+  "wind": [
+    8,
+    8.2,
+    8.4,
+    8.6,
+    8.8,
+    8.9,
+    8.9,
+    9,
+    8.9,
+    8.9,
+    8.8,
+    8.8,
+    8.7,
+    8.7,
+    8.7,
+    8.8,
+    8.8,
+    9,
+    9.1,
+    9.2,
+    9.3,
+    9.4,
+    9.5,
+    9.5,
+    9.5,
+    9.4,
+    9.3,
+    9.1,
+    8.9,
+    8.7,
+    8.5,
+    8.3,
+    8.2,
+    8.1,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    7.9,
+    7.7,
+    7.6,
+    7.4,
+    7.2,
+    7,
+    6.8,
+    6.6,
+    6.5,
+    6.5,
+    6.5,
+    6.5,
+    6.6,
+    6.7,
+    6.9,
+    7,
+    7.1,
+    7.2,
+    7.3,
+    7.3,
+    7.3,
+    7.3,
+    7.2,
+    7.1,
+    7.1,
+    7.1,
+    7.1,
+    7.1,
+    7.2,
+    7.3,
+    7.5,
+    7.7,
+    7.9,
+    8.1,
+    8.4,
+    8.6,
+    8.7,
+    8.8,
+    8.9,
+    9,
+    8.9,
+    8.9,
+    8.8,
+    8.8,
+    8.7,
+    8.7,
+    8.7,
+    8.7,
+    8.8,
+    8.9,
+    9,
+    9.2,
+    9.3,
+    9.4,
+    9.5,
+    9.5,
+    9.5,
+    9.4,
+    9.3,
+    9.2,
+    9,
+    8.8,
+    8.6,
+    8.4,
+    8.2,
+    8.1,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    7.9,
+    7.8,
+    7.6
+  ],
+  "results": [
+    {
+      "policy": "fixed",
+      "cost": 9186.001850098766,
+      "incurredCost": 7076,
+      "terminalRiskAllowance": 2110.0018500987658,
+      "downtimeH": 16,
+      "servicesStarted": 2,
+      "servicesCompleted": 2,
+      "unsafeOperatingH": 0,
+      "rejectedRepairCount": 0,
+      "finalCrack": 43.6,
+      "events": [
+        {
+          "startH": 40,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 31.6,
+          "projectedCrackAfter": 14.2,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 762,
+          "incurredContract": 336
+        },
+        {
+          "startH": 80,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 36.1,
+          "projectedCrackAfter": 16.2,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 762,
+          "incurredContract": 336
+        }
+      ],
+      "series": [
+        {
+          "hour": 0,
+          "crack": 0,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 1,
+          "crack": 0.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 2,
+          "crack": 1.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 3,
+          "crack": 2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 4,
+          "crack": 2.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 5,
+          "crack": 3.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 6,
+          "crack": 4.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 7,
+          "crack": 5.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 8,
+          "crack": 5.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 9,
+          "crack": 6.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 10,
+          "crack": 7.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 11,
+          "crack": 8.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 12,
+          "crack": 9.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 13,
+          "crack": 9.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 14,
+          "crack": 10.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 15,
+          "crack": 11.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 16,
+          "crack": 12.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 17,
+          "crack": 13.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 18,
+          "crack": 14,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 19,
+          "crack": 14.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 20,
+          "crack": 15.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 21,
+          "crack": 16.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 22,
+          "crack": 17.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 23,
+          "crack": 18.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 24,
+          "crack": 19.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 25,
+          "crack": 20.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 26,
+          "crack": 21.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 27,
+          "crack": 22.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 28,
+          "crack": 22.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 29,
+          "crack": 23.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 30,
+          "crack": 24.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 31,
+          "crack": 25.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 32,
+          "crack": 26,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 33,
+          "crack": 26.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 34,
+          "crack": 27.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 35,
+          "crack": 28.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 36,
+          "crack": 28.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 37,
+          "crack": 29.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 38,
+          "crack": 30.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 39,
+          "crack": 30.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 40,
+          "crack": 31.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 41,
+          "crack": 31.6,
+          "incurredCost": 2577.25,
+          "downtimeH": 1
+        },
+        {
+          "hour": 42,
+          "crack": 31.6,
+          "incurredCost": 2714.5,
+          "downtimeH": 2
+        },
+        {
+          "hour": 43,
+          "crack": 31.6,
+          "incurredCost": 2851.75,
+          "downtimeH": 3
+        },
+        {
+          "hour": 44,
+          "crack": 31.6,
+          "incurredCost": 2989,
+          "downtimeH": 4
+        },
+        {
+          "hour": 45,
+          "crack": 31.6,
+          "incurredCost": 3126.25,
+          "downtimeH": 5
+        },
+        {
+          "hour": 46,
+          "crack": 31.6,
+          "incurredCost": 3263.5,
+          "downtimeH": 6
+        },
+        {
+          "hour": 47,
+          "crack": 31.6,
+          "incurredCost": 3400.75,
+          "downtimeH": 7
+        },
+        {
+          "hour": 48,
+          "crack": 14.2,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 49,
+          "crack": 14.8,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 50,
+          "crack": 15.4,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 51,
+          "crack": 15.9,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 52,
+          "crack": 16.4,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 53,
+          "crack": 17,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 54,
+          "crack": 17.6,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 55,
+          "crack": 18.2,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 56,
+          "crack": 18.8,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 57,
+          "crack": 19.4,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 58,
+          "crack": 20.1,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 59,
+          "crack": 20.8,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 60,
+          "crack": 21.5,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 61,
+          "crack": 22.2,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 62,
+          "crack": 22.9,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 63,
+          "crack": 23.6,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 64,
+          "crack": 24.3,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 65,
+          "crack": 25,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 66,
+          "crack": 25.7,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 67,
+          "crack": 26.4,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 68,
+          "crack": 27.1,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 69,
+          "crack": 27.8,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 70,
+          "crack": 28.5,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 71,
+          "crack": 29.2,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 72,
+          "crack": 29.9,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 73,
+          "crack": 30.6,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 74,
+          "crack": 31.3,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 75,
+          "crack": 32.1,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 76,
+          "crack": 32.9,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 77,
+          "crack": 33.7,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 78,
+          "crack": 34.5,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 79,
+          "crack": 35.3,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 80,
+          "crack": 36.1,
+          "incurredCost": 3538,
+          "downtimeH": 8
+        },
+        {
+          "hour": 81,
+          "crack": 36.1,
+          "incurredCost": 6115.25,
+          "downtimeH": 9
+        },
+        {
+          "hour": 82,
+          "crack": 36.1,
+          "incurredCost": 6252.5,
+          "downtimeH": 10
+        },
+        {
+          "hour": 83,
+          "crack": 36.1,
+          "incurredCost": 6389.75,
+          "downtimeH": 11
+        },
+        {
+          "hour": 84,
+          "crack": 36.1,
+          "incurredCost": 6527,
+          "downtimeH": 12
+        },
+        {
+          "hour": 85,
+          "crack": 36.1,
+          "incurredCost": 6664.25,
+          "downtimeH": 13
+        },
+        {
+          "hour": 86,
+          "crack": 36.1,
+          "incurredCost": 6801.5,
+          "downtimeH": 14
+        },
+        {
+          "hour": 87,
+          "crack": 36.1,
+          "incurredCost": 6938.75,
+          "downtimeH": 15
+        },
+        {
+          "hour": 88,
+          "crack": 16.2,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 89,
+          "crack": 16.9,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 90,
+          "crack": 17.6,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 91,
+          "crack": 18.3,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 92,
+          "crack": 19,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 93,
+          "crack": 19.7,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 94,
+          "crack": 20.5,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 95,
+          "crack": 21.3,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 96,
+          "crack": 22.1,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 97,
+          "crack": 22.9,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 98,
+          "crack": 23.8,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 99,
+          "crack": 24.7,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 100,
+          "crack": 25.6,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 101,
+          "crack": 26.5,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 102,
+          "crack": 27.4,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 103,
+          "crack": 28.3,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 104,
+          "crack": 29.2,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 105,
+          "crack": 30.1,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 106,
+          "crack": 31,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 107,
+          "crack": 31.9,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 108,
+          "crack": 32.8,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 109,
+          "crack": 33.7,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 110,
+          "crack": 34.6,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 111,
+          "crack": 35.5,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 112,
+          "crack": 36.4,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 113,
+          "crack": 37.3,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 114,
+          "crack": 38.2,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 115,
+          "crack": 39.1,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 116,
+          "crack": 40,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 117,
+          "crack": 40.9,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 118,
+          "crack": 41.8,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 119,
+          "crack": 42.7,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        },
+        {
+          "hour": 120,
+          "crack": 43.6,
+          "incurredCost": 7076,
+          "downtimeH": 16
+        }
+      ]
+    },
+    {
+      "policy": "threshold",
+      "cost": 8174.1216949135805,
+      "incurredCost": 7159,
+      "terminalRiskAllowance": 1015.1216949135805,
+      "downtimeH": 16,
+      "servicesStarted": 2,
+      "servicesCompleted": 2,
+      "unsafeOperatingH": 0,
+      "rejectedRepairCount": 0,
+      "finalCrack": 31,
+      "events": [
+        {
+          "startH": 59,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 45,
+          "projectedCrackAfter": 20.2,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 761,
+          "incurredContract": 420
+        },
+        {
+          "startH": 99,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 45.7,
+          "projectedCrackAfter": 20.6,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 762,
+          "incurredContract": 336
+        }
+      ],
+      "series": [
+        {
+          "hour": 0,
+          "crack": 0,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 1,
+          "crack": 0.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 2,
+          "crack": 1.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 3,
+          "crack": 2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 4,
+          "crack": 2.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 5,
+          "crack": 3.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 6,
+          "crack": 4.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 7,
+          "crack": 5.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 8,
+          "crack": 5.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 9,
+          "crack": 6.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 10,
+          "crack": 7.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 11,
+          "crack": 8.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 12,
+          "crack": 9.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 13,
+          "crack": 9.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 14,
+          "crack": 10.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 15,
+          "crack": 11.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 16,
+          "crack": 12.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 17,
+          "crack": 13.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 18,
+          "crack": 14,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 19,
+          "crack": 14.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 20,
+          "crack": 15.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 21,
+          "crack": 16.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 22,
+          "crack": 17.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 23,
+          "crack": 18.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 24,
+          "crack": 19.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 25,
+          "crack": 20.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 26,
+          "crack": 21.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 27,
+          "crack": 22.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 28,
+          "crack": 22.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 29,
+          "crack": 23.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 30,
+          "crack": 24.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 31,
+          "crack": 25.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 32,
+          "crack": 26,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 33,
+          "crack": 26.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 34,
+          "crack": 27.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 35,
+          "crack": 28.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 36,
+          "crack": 28.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 37,
+          "crack": 29.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 38,
+          "crack": 30.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 39,
+          "crack": 30.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 40,
+          "crack": 31.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 41,
+          "crack": 32.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 42,
+          "crack": 33,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 43,
+          "crack": 33.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 44,
+          "crack": 34.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 45,
+          "crack": 35.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 46,
+          "crack": 35.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 47,
+          "crack": 36.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 48,
+          "crack": 37.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 49,
+          "crack": 37.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 50,
+          "crack": 38.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 51,
+          "crack": 39.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 52,
+          "crack": 39.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 53,
+          "crack": 40.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 54,
+          "crack": 41.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 55,
+          "crack": 42,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 56,
+          "crack": 42.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 57,
+          "crack": 43.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 58,
+          "crack": 44.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 59,
+          "crack": 45,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 60,
+          "crack": 45,
+          "incurredCost": 2587.625,
+          "downtimeH": 1
+        },
+        {
+          "hour": 61,
+          "crack": 45,
+          "incurredCost": 2735.25,
+          "downtimeH": 2
+        },
+        {
+          "hour": 62,
+          "crack": 45,
+          "incurredCost": 2882.875,
+          "downtimeH": 3
+        },
+        {
+          "hour": 63,
+          "crack": 45,
+          "incurredCost": 3030.5,
+          "downtimeH": 4
+        },
+        {
+          "hour": 64,
+          "crack": 45,
+          "incurredCost": 3178.125,
+          "downtimeH": 5
+        },
+        {
+          "hour": 65,
+          "crack": 45,
+          "incurredCost": 3325.75,
+          "downtimeH": 6
+        },
+        {
+          "hour": 66,
+          "crack": 45,
+          "incurredCost": 3473.375,
+          "downtimeH": 7
+        },
+        {
+          "hour": 67,
+          "crack": 20.2,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 68,
+          "crack": 20.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 69,
+          "crack": 21.6,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 70,
+          "crack": 22.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 71,
+          "crack": 23,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 72,
+          "crack": 23.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 73,
+          "crack": 24.4,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 74,
+          "crack": 25.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 75,
+          "crack": 25.8,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 76,
+          "crack": 26.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 77,
+          "crack": 27.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 78,
+          "crack": 28.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 79,
+          "crack": 28.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 80,
+          "crack": 29.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 81,
+          "crack": 30.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 82,
+          "crack": 31.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 83,
+          "crack": 32.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 84,
+          "crack": 32.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 85,
+          "crack": 33.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 86,
+          "crack": 34.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 87,
+          "crack": 35.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 88,
+          "crack": 36.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 89,
+          "crack": 36.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 90,
+          "crack": 37.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 91,
+          "crack": 38.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 92,
+          "crack": 39.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 93,
+          "crack": 40.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 94,
+          "crack": 41,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 95,
+          "crack": 41.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 96,
+          "crack": 42.8,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 97,
+          "crack": 43.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 98,
+          "crack": 44.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 99,
+          "crack": 45.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 100,
+          "crack": 45.7,
+          "incurredCost": 6198.25,
+          "downtimeH": 9
+        },
+        {
+          "hour": 101,
+          "crack": 45.7,
+          "incurredCost": 6335.5,
+          "downtimeH": 10
+        },
+        {
+          "hour": 102,
+          "crack": 45.7,
+          "incurredCost": 6472.75,
+          "downtimeH": 11
+        },
+        {
+          "hour": 103,
+          "crack": 45.7,
+          "incurredCost": 6610,
+          "downtimeH": 12
+        },
+        {
+          "hour": 104,
+          "crack": 45.7,
+          "incurredCost": 6747.25,
+          "downtimeH": 13
+        },
+        {
+          "hour": 105,
+          "crack": 45.7,
+          "incurredCost": 6884.5,
+          "downtimeH": 14
+        },
+        {
+          "hour": 106,
+          "crack": 45.7,
+          "incurredCost": 7021.75,
+          "downtimeH": 15
+        },
+        {
+          "hour": 107,
+          "crack": 20.6,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 108,
+          "crack": 21.4,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 109,
+          "crack": 22.2,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 110,
+          "crack": 23,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 111,
+          "crack": 23.8,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 112,
+          "crack": 24.6,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 113,
+          "crack": 25.4,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 114,
+          "crack": 26.2,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 115,
+          "crack": 27,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 116,
+          "crack": 27.8,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 117,
+          "crack": 28.6,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 118,
+          "crack": 29.4,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 119,
+          "crack": 30.2,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        },
+        {
+          "hour": 120,
+          "crack": 31,
+          "incurredCost": 7159,
+          "downtimeH": 16
+        }
+      ]
+    },
+    {
+      "policy": "rul",
+      "cost": 9059.33020454321,
+      "incurredCost": 7243,
+      "terminalRiskAllowance": 1816.3302045432097,
+      "downtimeH": 16,
+      "servicesStarted": 2,
+      "servicesCompleted": 2,
+      "unsafeOperatingH": 0,
+      "rejectedRepairCount": 0,
+      "finalCrack": 38.1,
+      "events": [
+        {
+          "startH": 52,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 39.9,
+          "projectedCrackAfter": 18,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 761,
+          "incurredContract": 420
+        },
+        {
+          "startH": 88,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 38.9,
+          "projectedCrackAfter": 17.5,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 762,
+          "incurredContract": 420
+        }
+      ],
+      "series": [
+        {
+          "hour": 0,
+          "crack": 0,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 1,
+          "crack": 0.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 2,
+          "crack": 1.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 3,
+          "crack": 2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 4,
+          "crack": 2.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 5,
+          "crack": 3.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 6,
+          "crack": 4.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 7,
+          "crack": 5.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 8,
+          "crack": 5.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 9,
+          "crack": 6.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 10,
+          "crack": 7.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 11,
+          "crack": 8.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 12,
+          "crack": 9.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 13,
+          "crack": 9.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 14,
+          "crack": 10.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 15,
+          "crack": 11.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 16,
+          "crack": 12.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 17,
+          "crack": 13.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 18,
+          "crack": 14,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 19,
+          "crack": 14.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 20,
+          "crack": 15.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 21,
+          "crack": 16.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 22,
+          "crack": 17.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 23,
+          "crack": 18.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 24,
+          "crack": 19.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 25,
+          "crack": 20.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 26,
+          "crack": 21.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 27,
+          "crack": 22.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 28,
+          "crack": 22.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 29,
+          "crack": 23.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 30,
+          "crack": 24.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 31,
+          "crack": 25.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 32,
+          "crack": 26,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 33,
+          "crack": 26.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 34,
+          "crack": 27.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 35,
+          "crack": 28.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 36,
+          "crack": 28.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 37,
+          "crack": 29.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 38,
+          "crack": 30.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 39,
+          "crack": 30.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 40,
+          "crack": 31.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 41,
+          "crack": 32.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 42,
+          "crack": 33,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 43,
+          "crack": 33.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 44,
+          "crack": 34.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 45,
+          "crack": 35.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 46,
+          "crack": 35.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 47,
+          "crack": 36.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 48,
+          "crack": 37.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 49,
+          "crack": 37.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 50,
+          "crack": 38.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 51,
+          "crack": 39.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 52,
+          "crack": 39.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 53,
+          "crack": 39.9,
+          "incurredCost": 2587.625,
+          "downtimeH": 1
+        },
+        {
+          "hour": 54,
+          "crack": 39.9,
+          "incurredCost": 2735.25,
+          "downtimeH": 2
+        },
+        {
+          "hour": 55,
+          "crack": 39.9,
+          "incurredCost": 2882.875,
+          "downtimeH": 3
+        },
+        {
+          "hour": 56,
+          "crack": 39.9,
+          "incurredCost": 3030.5,
+          "downtimeH": 4
+        },
+        {
+          "hour": 57,
+          "crack": 39.9,
+          "incurredCost": 3178.125,
+          "downtimeH": 5
+        },
+        {
+          "hour": 58,
+          "crack": 39.9,
+          "incurredCost": 3325.75,
+          "downtimeH": 6
+        },
+        {
+          "hour": 59,
+          "crack": 39.9,
+          "incurredCost": 3473.375,
+          "downtimeH": 7
+        },
+        {
+          "hour": 60,
+          "crack": 18,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 61,
+          "crack": 18.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 62,
+          "crack": 19.4,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 63,
+          "crack": 20.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 64,
+          "crack": 20.8,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 65,
+          "crack": 21.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 66,
+          "crack": 22.2,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 67,
+          "crack": 22.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 68,
+          "crack": 23.6,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 69,
+          "crack": 24.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 70,
+          "crack": 25,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 71,
+          "crack": 25.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 72,
+          "crack": 26.4,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 73,
+          "crack": 27.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 74,
+          "crack": 27.8,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 75,
+          "crack": 28.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 76,
+          "crack": 29.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 77,
+          "crack": 30.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 78,
+          "crack": 30.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 79,
+          "crack": 31.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 80,
+          "crack": 32.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 81,
+          "crack": 33.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 82,
+          "crack": 34.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 83,
+          "crack": 34.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 84,
+          "crack": 35.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 85,
+          "crack": 36.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 86,
+          "crack": 37.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 87,
+          "crack": 38.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 88,
+          "crack": 38.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 89,
+          "crack": 38.9,
+          "incurredCost": 6208.75,
+          "downtimeH": 9
+        },
+        {
+          "hour": 90,
+          "crack": 38.9,
+          "incurredCost": 6356.5,
+          "downtimeH": 10
+        },
+        {
+          "hour": 91,
+          "crack": 38.9,
+          "incurredCost": 6504.25,
+          "downtimeH": 11
+        },
+        {
+          "hour": 92,
+          "crack": 38.9,
+          "incurredCost": 6652,
+          "downtimeH": 12
+        },
+        {
+          "hour": 93,
+          "crack": 38.9,
+          "incurredCost": 6799.75,
+          "downtimeH": 13
+        },
+        {
+          "hour": 94,
+          "crack": 38.9,
+          "incurredCost": 6947.5,
+          "downtimeH": 14
+        },
+        {
+          "hour": 95,
+          "crack": 38.9,
+          "incurredCost": 7095.25,
+          "downtimeH": 15
+        },
+        {
+          "hour": 96,
+          "crack": 17.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 97,
+          "crack": 18.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 98,
+          "crack": 19.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 99,
+          "crack": 20,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 100,
+          "crack": 20.9,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 101,
+          "crack": 21.8,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 102,
+          "crack": 22.7,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 103,
+          "crack": 23.6,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 104,
+          "crack": 24.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 105,
+          "crack": 25.4,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 106,
+          "crack": 26.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 107,
+          "crack": 27.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 108,
+          "crack": 27.9,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 109,
+          "crack": 28.7,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 110,
+          "crack": 29.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 111,
+          "crack": 30.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 112,
+          "crack": 31.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 113,
+          "crack": 32,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 114,
+          "crack": 32.9,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 115,
+          "crack": 33.8,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 116,
+          "crack": 34.7,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 117,
+          "crack": 35.6,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 118,
+          "crack": 36.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 119,
+          "crack": 37.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 120,
+          "crack": 38.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        }
+      ]
+    },
+    {
+      "policy": "tcs",
+      "cost": 9059.33020454321,
+      "incurredCost": 7243,
+      "terminalRiskAllowance": 1816.3302045432097,
+      "downtimeH": 16,
+      "servicesStarted": 2,
+      "servicesCompleted": 2,
+      "unsafeOperatingH": 0,
+      "rejectedRepairCount": 0,
+      "finalCrack": 38.1,
+      "events": [
+        {
+          "startH": 52,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 39.9,
+          "projectedCrackAfter": 18,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 761,
+          "incurredContract": 420
+        },
+        {
+          "startH": 88,
+          "action": "predictive-maintenance",
+          "plannedH": 8,
+          "elapsedH": 8,
+          "completed": true,
+          "crackBefore": 38.9,
+          "projectedCrackAfter": 17.5,
+          "riskAccepted": true,
+          "directAndLogistics": 2440,
+          "incurredDowntime": 762,
+          "incurredContract": 420
+        }
+      ],
+      "series": [
+        {
+          "hour": 0,
+          "crack": 0,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 1,
+          "crack": 0.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 2,
+          "crack": 1.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 3,
+          "crack": 2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 4,
+          "crack": 2.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 5,
+          "crack": 3.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 6,
+          "crack": 4.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 7,
+          "crack": 5.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 8,
+          "crack": 5.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 9,
+          "crack": 6.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 10,
+          "crack": 7.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 11,
+          "crack": 8.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 12,
+          "crack": 9.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 13,
+          "crack": 9.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 14,
+          "crack": 10.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 15,
+          "crack": 11.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 16,
+          "crack": 12.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 17,
+          "crack": 13.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 18,
+          "crack": 14,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 19,
+          "crack": 14.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 20,
+          "crack": 15.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 21,
+          "crack": 16.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 22,
+          "crack": 17.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 23,
+          "crack": 18.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 24,
+          "crack": 19.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 25,
+          "crack": 20.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 26,
+          "crack": 21.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 27,
+          "crack": 22.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 28,
+          "crack": 22.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 29,
+          "crack": 23.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 30,
+          "crack": 24.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 31,
+          "crack": 25.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 32,
+          "crack": 26,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 33,
+          "crack": 26.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 34,
+          "crack": 27.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 35,
+          "crack": 28.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 36,
+          "crack": 28.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 37,
+          "crack": 29.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 38,
+          "crack": 30.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 39,
+          "crack": 30.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 40,
+          "crack": 31.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 41,
+          "crack": 32.3,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 42,
+          "crack": 33,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 43,
+          "crack": 33.7,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 44,
+          "crack": 34.4,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 45,
+          "crack": 35.1,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 46,
+          "crack": 35.8,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 47,
+          "crack": 36.5,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 48,
+          "crack": 37.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 49,
+          "crack": 37.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 50,
+          "crack": 38.6,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 51,
+          "crack": 39.2,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 52,
+          "crack": 39.9,
+          "incurredCost": 0,
+          "downtimeH": 0
+        },
+        {
+          "hour": 53,
+          "crack": 39.9,
+          "incurredCost": 2587.625,
+          "downtimeH": 1
+        },
+        {
+          "hour": 54,
+          "crack": 39.9,
+          "incurredCost": 2735.25,
+          "downtimeH": 2
+        },
+        {
+          "hour": 55,
+          "crack": 39.9,
+          "incurredCost": 2882.875,
+          "downtimeH": 3
+        },
+        {
+          "hour": 56,
+          "crack": 39.9,
+          "incurredCost": 3030.5,
+          "downtimeH": 4
+        },
+        {
+          "hour": 57,
+          "crack": 39.9,
+          "incurredCost": 3178.125,
+          "downtimeH": 5
+        },
+        {
+          "hour": 58,
+          "crack": 39.9,
+          "incurredCost": 3325.75,
+          "downtimeH": 6
+        },
+        {
+          "hour": 59,
+          "crack": 39.9,
+          "incurredCost": 3473.375,
+          "downtimeH": 7
+        },
+        {
+          "hour": 60,
+          "crack": 18,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 61,
+          "crack": 18.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 62,
+          "crack": 19.4,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 63,
+          "crack": 20.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 64,
+          "crack": 20.8,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 65,
+          "crack": 21.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 66,
+          "crack": 22.2,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 67,
+          "crack": 22.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 68,
+          "crack": 23.6,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 69,
+          "crack": 24.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 70,
+          "crack": 25,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 71,
+          "crack": 25.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 72,
+          "crack": 26.4,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 73,
+          "crack": 27.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 74,
+          "crack": 27.8,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 75,
+          "crack": 28.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 76,
+          "crack": 29.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 77,
+          "crack": 30.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 78,
+          "crack": 30.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 79,
+          "crack": 31.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 80,
+          "crack": 32.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 81,
+          "crack": 33.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 82,
+          "crack": 34.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 83,
+          "crack": 34.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 84,
+          "crack": 35.7,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 85,
+          "crack": 36.5,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 86,
+          "crack": 37.3,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 87,
+          "crack": 38.1,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 88,
+          "crack": 38.9,
+          "incurredCost": 3621,
+          "downtimeH": 8
+        },
+        {
+          "hour": 89,
+          "crack": 38.9,
+          "incurredCost": 6208.75,
+          "downtimeH": 9
+        },
+        {
+          "hour": 90,
+          "crack": 38.9,
+          "incurredCost": 6356.5,
+          "downtimeH": 10
+        },
+        {
+          "hour": 91,
+          "crack": 38.9,
+          "incurredCost": 6504.25,
+          "downtimeH": 11
+        },
+        {
+          "hour": 92,
+          "crack": 38.9,
+          "incurredCost": 6652,
+          "downtimeH": 12
+        },
+        {
+          "hour": 93,
+          "crack": 38.9,
+          "incurredCost": 6799.75,
+          "downtimeH": 13
+        },
+        {
+          "hour": 94,
+          "crack": 38.9,
+          "incurredCost": 6947.5,
+          "downtimeH": 14
+        },
+        {
+          "hour": 95,
+          "crack": 38.9,
+          "incurredCost": 7095.25,
+          "downtimeH": 15
+        },
+        {
+          "hour": 96,
+          "crack": 17.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 97,
+          "crack": 18.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 98,
+          "crack": 19.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 99,
+          "crack": 20,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 100,
+          "crack": 20.9,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 101,
+          "crack": 21.8,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 102,
+          "crack": 22.7,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 103,
+          "crack": 23.6,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 104,
+          "crack": 24.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 105,
+          "crack": 25.4,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 106,
+          "crack": 26.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 107,
+          "crack": 27.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 108,
+          "crack": 27.9,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 109,
+          "crack": 28.7,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 110,
+          "crack": 29.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 111,
+          "crack": 30.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 112,
+          "crack": 31.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 113,
+          "crack": 32,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 114,
+          "crack": 32.9,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 115,
+          "crack": 33.8,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 116,
+          "crack": 34.7,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 117,
+          "crack": 35.6,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 118,
+          "crack": 36.5,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 119,
+          "crack": 37.3,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        },
+        {
+          "hour": 120,
+          "crack": 38.1,
+          "incurredCost": 7243,
+          "downtimeH": 16
+        }
+      ]
+    }
+  ],
+  "sensitivity": [
+    {
+      "label": "Current assumptions",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 1,
+        "consequenceScale": 1,
+        "repairScale": 1
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 9186.001850098766,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 8174.1216949135805,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 9059.33020454321,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 9059.33020454321,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    },
+    {
+      "label": "Consequence -25%",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 1,
+        "consequenceScale": 0.75,
+        "repairScale": 1
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 8658.501387574073,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 7920.341271185185,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 8605.247653407407,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 8605.247653407407,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    },
+    {
+      "label": "Consequence +25%",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 1,
+        "consequenceScale": 1.25,
+        "repairScale": 1
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 9713.502312623457,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 8427.902118641976,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 9513.412755679012,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 9513.412755679012,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    },
+    {
+      "label": "Downtime price -25%",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 0.75,
+        "consequenceScale": 1,
+        "repairScale": 1
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 8806.001850098766,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 7794.1216949135805,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 8679.33020454321,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 8679.33020454321,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    },
+    {
+      "label": "Downtime price +25%",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 1.25,
+        "consequenceScale": 1,
+        "repairScale": 1
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 9566.001850098766,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 8554.121694913581,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 9439.33020454321,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 9439.33020454321,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    },
+    {
+      "label": "Repair efficacy -25%",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 1,
+        "consequenceScale": 1,
+        "repairScale": 0.75
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 10114.68157215432,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 9058.196928395062,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 11717.106348895062,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 11717.106348895062,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    },
+    {
+      "label": "Repair efficacy +25%",
+      "config": {
+        "horizon": 120,
+        "initialCrack": 0,
+        "windSpeed": 8,
+        "fixedInterval": 40,
+        "downtimeScale": 1,
+        "consequenceScale": 1,
+        "repairScale": 1.25
+      },
+      "outcomes": [
+        {
+          "policy": "fixed",
+          "cost": 8653.859004469135,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "threshold",
+          "cost": 7740.117080098766,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "rul",
+          "cost": 8067.590562228394,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        },
+        {
+          "policy": "tcs",
+          "cost": 8067.590562228394,
+          "unsafeOperatingH": 0,
+          "rejectedRepairCount": 0
+        }
+      ],
+      "minimumCostPolicy": "threshold"
+    }
+  ],
+  "scope": "Deterministic simulation; not measured savings. Same calendar horizon/wind/initial crack, action-dependent damage. Advisory inspection/prepositioning not executed. No discounting or failure probability model.",
+  "accounting": "Direct/logistics charged once at start; downtime/contract pro rata only as incurred; repair at completion only. One terminal heuristic risk allowance, not repeated per service. All policies force corrective at 80 mm. Unsafe operating h: crack >=60 mm or lower RUL <240 pseudo-h. Baseline monitoring costs omitted equally."
+}

@@ -1,0 +1,28 @@
+{
+  "base": "https://jerryma619.github.io/wt-servitization-dashboard/",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "checks": [
+        "Isolated preset and reset / original session restored / reload preservation",
+        "Whole-simulation pause and completed service",
+        "Actual WT RDF/SPARQL/SHACL positive and negative cases / resource failure and retry / evidence export",
+        "31-feature query and stale result removal",
+        "Worker comparison / four policies / seven sensitivities / export / invalid-input rejection",
+        "Cost-series canvas pixels / offline coordinate view / 390 and 320px layout"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "checks": [
+        "Isolated preset and reset / original session restored / reload preservation",
+        "Whole-simulation pause and completed service",
+        "Actual WT RDF/SPARQL/SHACL positive and negative cases / resource failure and retry / evidence export",
+        "31-feature query and stale result removal",
+        "Worker comparison / four policies / seven sensitivities / export / invalid-input rejection",
+        "Cost-series canvas pixels / offline coordinate view / 390 and 320px layout"
+      ]
+    }
+  ],
+  "errors": []
+}

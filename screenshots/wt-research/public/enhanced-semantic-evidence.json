@@ -1,0 +1,244 @@
+{
+  "conforms": true,
+  "triples": 182,
+  "rows": [
+    {
+      "lower": "564.000000000000",
+      "upper": "828.000000000000",
+      "model": "ch5-xgb-cqr-2.0",
+      "cost": "1011.000000000000",
+      "risk": "0.200000000000",
+      "point": "640.000000000000",
+      "asset": "Turbine-01",
+      "featureSource": "reference-assisted",
+      "service": "Spare-part pre-positioning"
+    }
+  ],
+  "datasetTTL": "@prefix wt: <https://w3id.org/sdt-wt/demo#>.\n@prefix sdt: <http://purl.org/sdt/>.\n@prefix prov: <http://www.w3.org/ns/prov#>.\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n\n<urn:wt:active-snapshot> a wt:Snapshot;\n    wt:asset <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:asset>;\n    wt:estimate <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:estimate>;\n    wt:recommendation <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation>;\n    wt:capturedAt \"2026-10-05T18:55:45.253Z\"^^xsd:dateTime;\n    wt:sourceOntologySHA256 \"925a2b4cdb97a5dc5c2dfda7408202921865bc847d9607cdfbaee808ef5bb6ce\";\n    wt:scope \"Simulation/reference evidence; no hardware, physical lifetime, full SDT validation or OWL reasoning\".\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:asset> a sdt:Asset;\n    wt:assetName \"Turbine-01\";\n    wt:componentName \"Blade-A\";\n    wt:serviceState \"Watch\";\n    wt:crackMm 20.600000000000.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:estimate> a wt:PseudoRULEstimate;\n    wt:unit wt:PseudoHour;\n    prov:wasDerivedFrom <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features>;\n    wt:lowerBound 564.000000000000;\n    wt:pointEstimate 640.000000000000;\n    wt:upperBound 828.000000000000;\n    wt:modelVersion \"ch5-xgb-cqr-2.0\";\n    wt:boundMeaning \"Adjusted percentile-based envelope; not exact conditional P10/P90\";\n    wt:generatedWith <urn:sha256:a73bac9fae9811b8f7cd0758409528d476fe2e396f040554a59071d306e6f867>.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation> a sdt:ServiceActionRecommendation;\n    wt:forAsset <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:asset>;\n    sdt:recommendationStatus \"proposed\";\n    wt:basedOnEstimate <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:estimate>;\n    wt:selectionBasis \"Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.\";\n    wt:candidate <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:0>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:1>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:2>;\n    wt:selectedCandidate <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:1>.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features> a wt:FeatureWindow;\n    wt:source \"service-action\";\n    wt:featureSource \"reference-assisted\";\n    wt:forAsset <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:asset>;\n    wt:feature <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:0>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:1>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:2>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:3>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:4>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:5>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:6>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:7>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:8>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:9>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:10>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:11>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:12>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:13>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:14>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:15>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:16>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:17>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:18>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:19>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:20>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:21>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:22>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:23>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:24>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:25>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:26>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:27>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:28>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:29>, <urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:30>.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:0> a wt:Feature;\n    wt:featureName \"ax_rms\";\n    wt:featureValue 0.180722156987.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:1> a wt:Feature;\n    wt:featureName \"ax_peak\";\n    wt:featureValue 0.677393594992.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:2> a wt:Feature;\n    wt:featureName \"ax_kurtosis\";\n    wt:featureValue 2.742268235253.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:3> a wt:Feature;\n    wt:featureName \"ax_skewness\";\n    wt:featureValue 0.048645107689.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:4> a wt:Feature;\n    wt:featureName \"ax_crest\";\n    wt:featureValue 3.744812047131.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:5> a wt:Feature;\n    wt:featureName \"ay_rms\";\n    wt:featureValue 0.096242817989.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:6> a wt:Feature;\n    wt:featureName \"ay_peak\";\n    wt:featureValue 0.353689644543.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:7> a wt:Feature;\n    wt:featureName \"ay_kurtosis\";\n    wt:featureValue 2.719281673932.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:8> a wt:Feature;\n    wt:featureName \"ay_skewness\";\n    wt:featureValue 0.079891632931.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:9> a wt:Feature;\n    wt:featureName \"ay_crest\";\n    wt:featureValue 3.673060524531.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:10> a wt:Feature;\n    wt:featureName \"az_rms\";\n    wt:featureValue 0.045299073938.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:11> a wt:Feature;\n    wt:featureName \"az_peak\";\n    wt:featureValue 0.169563690072.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:12> a wt:Feature;\n    wt:featureName \"az_kurtosis\";\n    wt:featureValue 2.684604657735.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:13> a wt:Feature;\n    wt:featureName \"az_skewness\";\n    wt:featureValue -0.020807243533.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:14> a wt:Feature;\n    wt:featureName \"az_crest\";\n    wt:featureValue 3.745576254780.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:15> a wt:Feature;\n    wt:featureName \"band_0_50\";\n    wt:featureValue 0.239401736383.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:16> a wt:Feature;\n    wt:featureName \"band_50_100\";\n    wt:featureValue 0.420492773012.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:17> a wt:Feature;\n    wt:featureName \"band_100_200\";\n    wt:featureValue 0.145791153477.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:18> a wt:Feature;\n    wt:featureName \"band_200_500\";\n    wt:featureValue 0.074401685918.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:19> a wt:Feature;\n    wt:featureName \"band_500_1000\";\n    wt:featureValue 0.119906673207.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:20> a wt:Feature;\n    wt:featureName \"modal_f1\";\n    wt:featureValue 27.758478868606.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:21> a wt:Feature;\n    wt:featureName \"modal_f2\";\n    wt:featureValue 58.723374545624.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:22> a wt:Feature;\n    wt:featureName \"modal_f3\";\n    wt:featureValue 117.598154783403.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:23> a wt:Feature;\n    wt:featureName \"wind_mean\";\n    wt:featureValue 8.000000000000.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:24> a wt:Feature;\n    wt:featureName \"rpm\";\n    wt:featureValue 705.303068298741.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:25> a wt:Feature;\n    wt:featureName \"temp_c\";\n    wt:featureValue 13.565545153789.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:26> a wt:Feature;\n    wt:featureName \"ti_proxy\";\n    wt:featureValue 0.250655894625.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:27> a wt:Feature;\n    wt:featureName \"rms_ratio_ax_ay\";\n    wt:featureValue 1.877772916085.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:28> a wt:Feature;\n    wt:featureName \"ax_pk2rms\";\n    wt:featureValue 3.748259794405.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:29> a wt:Feature;\n    wt:featureName \"ax_kurt_rms\";\n    wt:featureValue 0.495588630511.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:features:30> a wt:Feature;\n    wt:featureName \"spectral_ratio_lh\";\n    wt:featureValue 3.466671189604.\n<urn:sha256:a73bac9fae9811b8f7cd0758409528d476fe2e396f040554a59071d306e6f867> a wt:ModelArtifact;\n    wt:p50SHA256 \"a73bac9fae9811b8f7cd0758409528d476fe2e396f040554a59071d306e6f867\";\n    wt:trainingFeaturesSHA256 \"26082a04cd11cc3fed7c7d4d158c25efd027096f269cd1e7714fbc3fcea9b161\".\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:0> a wt:Candidate;\n    wt:action \"Condition-based inspection\";\n    wt:actionKey \"condition-inspection\";\n    wt:eligible true;\n    wt:totalCost 1042.000000000000;\n    wt:riskIndex 0.236000000000;\n    wt:costUnit wt:GBP.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:1> a wt:Candidate;\n    wt:action \"Spare-part pre-positioning\";\n    wt:actionKey \"spare-prepositioning\";\n    wt:eligible true;\n    wt:totalCost 1011.000000000000;\n    wt:riskIndex 0.200000000000;\n    wt:costUnit wt:GBP.\n<urn:wt:Turbine-01:demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action:recommendation:candidate:2> a wt:Candidate;\n    wt:action \"Preactive maintenance\";\n    wt:actionKey \"preactive-maintenance\";\n    wt:eligible true;\n    wt:totalCost 2133.000000000000;\n    wt:riskIndex 0.121000000000;\n    wt:costUnit wt:GBP.\n",
+  "reportTTL": "@prefix wt: <https://w3id.org/sdt-wt/demo#>.\n@prefix sdt: <http://purl.org/sdt/>.\n@prefix prov: <http://www.w3.org/ns/prov#>.\n@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.\n\n_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#conforms> true.\n",
+  "query": "PREFIX wt: <https://w3id.org/sdt-wt/demo#>\nPREFIX prov: <http://www.w3.org/ns/prov#>\nSELECT ?asset ?lower ?point ?upper ?model ?featureSource ?service ?cost ?risk WHERE {\n  <urn:wt:active-snapshot> wt:asset ?a ; wt:estimate ?e ; wt:recommendation ?r .\n  ?a wt:assetName ?asset .\n  ?e wt:unit wt:PseudoHour ; wt:lowerBound ?lower ; wt:pointEstimate ?point ; wt:upperBound ?upper ; wt:modelVersion ?model ; prov:wasDerivedFrom ?window .\n  ?window wt:featureSource ?featureSource .\n  ?r wt:basedOnEstimate ?e ; wt:selectedCandidate ?candidate .\n  ?candidate wt:action ?service ; wt:totalCost ?cost ; wt:riskIndex ?risk .\n}\n",
+  "defect": "none",
+  "violations": [],
+  "shapesSHA256": "77b726ac3cc5485bbc34085017ef0d8a55e238bef9fafcf4c0cd19caceed5eea",
+  "datasetSHA256": "c9522ca609f3c760d10495226db2a95c12e8b8109b25fd76d5ee30f204f6f12f",
+  "snapshotSHA256": "5015cab30e6a3d6dcdc8bc6206a4cc9c96e9e44261771cbd2f00676b8d850b27",
+  "scope": "WT application profile 1.0 / SHACL Core; structural checks, not field accuracy, cost optimality, original SDT conformance or OWL inference",
+  "key": "[{\"id\":\"demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action\",\"capturedAt\":\"2026-10-05T18:55:45.253Z\",\"reading\":{\"t\":\"Demo tick 004\",\"source\":\"service-action\",\"modelVersion\":\"ch5-xgb-cqr-2.0\",\"windSpeed\":8,\"windDirection\":226,\"crackMm\":20.6,\"crackState\":\"C2\",\"rpm\":624,\"power\":731,\"vibrationRms\":0.0453,\"kurtosis\":2.68,\"modalF1\":27.76,\"rulP10\":564,\"rulP50\":640,\"rulP90\":828,\"rulSpread\":76,\"rulUpperSpread\":188,\"rulEvidence\":{\"modelVersion\":\"ch5-xgb-cqr-2.0\",\"featureSource\":\"reference-assisted\",\"rawQuantiles\":[644.0945434570312,640.3276977539062,750.8111572265625],\"quantileAdjusted\":true,\"outsideTraining\":[],\"intervalCalibration\":{\"radius\":76.3111572265625,\"nominalCoverage\":0.8,\"scope\":\"reference-only\"}},\"rulFeatureVector\":[0.18072215698674957,0.6773935949915996,2.7422682352529653,0.048645107688586486,3.744812047131177,0.09624281798861857,0.35368964454309865,2.71928167393219,0.0798916329308745,3.6730605245305052,0.04529907393802169,0.16956369007179004,2.6846046577345737,-0.020807243532904633,3.7455762547803215,0.2394017363829211,0.42049277301170507,0.14579115347719251,0.07440168591793736,0.11990667320715805,27.758478868606048,58.72337454562406,117.59815478340326,8,705.3030682987409,13.5655451537894,0.2506558946247138,1.877772916085243,3.748259794405097,0.4955886305111631,3.466671189604321],\"observedAt\":\"2026-10-05T18:55:45.253Z\",\"receivedAt\":\"2026-10-05T18:55:45.253Z\",\"serviceState\":\"Watch\",\"crackGrowthRateMmH\":0.83,\"windBin\":\"high\",\"serviceMode\":\"post-service\",\"serviceAction\":\"predictive-maintenance\",\"downtimeH\":8,\"serviceNote\":\"Auto closed-loop Predictive maintenance completed; WT state refreshed after downtime.\"},\"asset\":\"Turbine-01\",\"component\":\"Blade-A\",\"serviceState\":\"Watch\",\"position\":{\"lat\":52.0734,\"lon\":-0.62806,\"source\":\"Chapter 5 replay GPS\"},\"candidates\":[{\"action\":\"condition-inspection\",\"label\":\"Condition-based inspection\",\"type\":\"sdt:InspectionProcess\",\"totalCost\":1042,\"residualRiskScore\":0.236,\"acceptable\":true,\"costs\":[{\"label\":\"Service\",\"value\":180},{\"label\":\"Downtime\",\"value\":190},{\"label\":\"Logistics\",\"value\":40},{\"label\":\"Contract\",\"value\":84},{\"label\":\"Residual risk\",\"value\":547}]},{\"action\":\"spare-prepositioning\",\"label\":\"Spare-part pre-positioning\",\"type\":\"sdt:ServiceProcess\",\"totalCost\":1011,\"residualRiskScore\":0.2,\"acceptable\":true,\"costs\":[{\"label\":\"Service\",\"value\":420},{\"label\":\"Downtime\",\"value\":95},{\"label\":\"Logistics\",\"value\":60},{\"label\":\"Contract\",\"value\":42},{\"label\":\"Residual risk\",\"value\":393}]},{\"action\":\"preactive-maintenance\",\"label\":\"Preactive maintenance\",\"type\":\"sdt:MaintenanceProcess\",\"totalCost\":2133,\"residualRiskScore\":0.121,\"acceptable\":true,\"costs\":[{\"label\":\"Service\",\"value\":1250},{\"label\":\"Downtime\",\"value\":381},{\"label\":\"Logistics\",\"value\":190},{\"label\":\"Contract\",\"value\":168},{\"label\":\"Residual risk\",\"value\":144}]}],\"recommendation\":{\"action\":\"spare-prepositioning\",\"label\":\"Spare-part pre-positioning\",\"type\":\"sdt:ServiceProcess\",\"totalCost\":1011,\"residualRiskScore\":0.2,\"acceptable\":true,\"costs\":[{\"label\":\"Service\",\"value\":420},{\"label\":\"Downtime\",\"value\":95},{\"label\":\"Logistics\",\"value\":60},{\"label\":\"Contract\",\"value\":42},{\"label\":\"Residual risk\",\"value\":393}]},\"selectionBasis\":\"Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.\",\"contract\":{\"actual\":0.976,\"target\":0.95,\"status\":\"BONUS\"}},\"evidence\",\"none\"]",
+  "snapshot": {
+    "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-reading-4-service-action",
+    "capturedAt": "2026-10-05T18:55:45.253Z",
+    "reading": {
+      "t": "Demo tick 004",
+      "source": "service-action",
+      "modelVersion": "ch5-xgb-cqr-2.0",
+      "windSpeed": 8,
+      "windDirection": 226,
+      "crackMm": 20.6,
+      "crackState": "C2",
+      "rpm": 624,
+      "power": 731,
+      "vibrationRms": 0.0453,
+      "kurtosis": 2.68,
+      "modalF1": 27.76,
+      "rulP10": 564,
+      "rulP50": 640,
+      "rulP90": 828,
+      "rulSpread": 76,
+      "rulUpperSpread": 188,
+      "rulEvidence": {
+        "modelVersion": "ch5-xgb-cqr-2.0",
+        "featureSource": "reference-assisted",
+        "rawQuantiles": [
+          644.0945434570312,
+          640.3276977539062,
+          750.8111572265625
+        ],
+        "quantileAdjusted": true,
+        "outsideTraining": [],
+        "intervalCalibration": {
+          "radius": 76.3111572265625,
+          "nominalCoverage": 0.8,
+          "scope": "reference-only"
+        }
+      },
+      "rulFeatureVector": [
+        0.18072215698674957,
+        0.6773935949915996,
+        2.7422682352529653,
+        0.048645107688586486,
+        3.744812047131177,
+        0.09624281798861857,
+        0.35368964454309865,
+        2.71928167393219,
+        0.0798916329308745,
+        3.6730605245305052,
+        0.04529907393802169,
+        0.16956369007179004,
+        2.6846046577345737,
+        -0.020807243532904633,
+        3.7455762547803215,
+        0.2394017363829211,
+        0.42049277301170507,
+        0.14579115347719251,
+        0.07440168591793736,
+        0.11990667320715805,
+        27.758478868606048,
+        58.72337454562406,
+        117.59815478340326,
+        8,
+        705.3030682987409,
+        13.5655451537894,
+        0.2506558946247138,
+        1.877772916085243,
+        3.748259794405097,
+        0.4955886305111631,
+        3.466671189604321
+      ],
+      "observedAt": "2026-10-05T18:55:45.253Z",
+      "receivedAt": "2026-10-05T18:55:45.253Z",
+      "serviceState": "Watch",
+      "crackGrowthRateMmH": 0.83,
+      "windBin": "high",
+      "serviceMode": "post-service",
+      "serviceAction": "predictive-maintenance",
+      "downtimeH": 8,
+      "serviceNote": "Auto closed-loop Predictive maintenance completed; WT state refreshed after downtime."
+    },
+    "asset": "Turbine-01",
+    "component": "Blade-A",
+    "serviceState": "Watch",
+    "position": {
+      "lat": 52.0734,
+      "lon": -0.62806,
+      "source": "Chapter 5 replay GPS"
+    },
+    "candidates": [
+      {
+        "action": "condition-inspection",
+        "label": "Condition-based inspection",
+        "type": "sdt:InspectionProcess",
+        "totalCost": 1042,
+        "residualRiskScore": 0.236,
+        "acceptable": true,
+        "costs": [
+          {
+            "label": "Service",
+            "value": 180
+          },
+          {
+            "label": "Downtime",
+            "value": 190
+          },
+          {
+            "label": "Logistics",
+            "value": 40
+          },
+          {
+            "label": "Contract",
+            "value": 84
+          },
+          {
+            "label": "Residual risk",
+            "value": 547
+          }
+        ]
+      },
+      {
+        "action": "spare-prepositioning",
+        "label": "Spare-part pre-positioning",
+        "type": "sdt:ServiceProcess",
+        "totalCost": 1011,
+        "residualRiskScore": 0.2,
+        "acceptable": true,
+        "costs": [
+          {
+            "label": "Service",
+            "value": 420
+          },
+          {
+            "label": "Downtime",
+            "value": 95
+          },
+          {
+            "label": "Logistics",
+            "value": 60
+          },
+          {
+            "label": "Contract",
+            "value": 42
+          },
+          {
+            "label": "Residual risk",
+            "value": 393
+          }
+        ]
+      },
+      {
+        "action": "preactive-maintenance",
+        "label": "Preactive maintenance",
+        "type": "sdt:MaintenanceProcess",
+        "totalCost": 2133,
+        "residualRiskScore": 0.121,
+        "acceptable": true,
+        "costs": [
+          {
+            "label": "Service",
+            "value": 1250
+          },
+          {
+            "label": "Downtime",
+            "value": 381
+          },
+          {
+            "label": "Logistics",
+            "value": 190
+          },
+          {
+            "label": "Contract",
+            "value": 168
+          },
+          {
+            "label": "Residual risk",
+            "value": 144
+          }
+        ]
+      }
+    ],
+    "recommendation": {
+      "action": "spare-prepositioning",
+      "label": "Spare-part pre-positioning",
+      "type": "sdt:ServiceProcess",
+      "totalCost": 1011,
+      "residualRiskScore": 0.2,
+      "acceptable": true,
+      "costs": [
+        {
+          "label": "Service",
+          "value": 420
+        },
+        {
+          "label": "Downtime",
+          "value": 95
+        },
+        {
+          "label": "Logistics",
+          "value": 60
+        },
+        {
+          "label": "Contract",
+          "value": 42
+        },
+        {
+          "label": "Residual risk",
+          "value": 393
+        }
+      ]
+    },
+    "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+    "contract": {
+      "actual": 0.976,
+      "target": 0.95,
+      "status": "BONUS"
+    }
+  }
+}

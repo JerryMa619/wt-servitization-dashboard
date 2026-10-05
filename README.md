@@ -97,7 +97,7 @@ The top **WT viva controls** select healthy, growing, service-threshold and high
 
 **Offline coordinate view** removes external basemap tiles while retaining the coordinate and wind markers. It is explicitly not an offline geographic map. Tile failures are reported; online OpenStreetMap attribution remains visible.
 
-Implementation, assumptions, reproducibility and viva walkthrough: [WT research record](docs/research/WT_VIVA_IMPLEMENTATION.md). Browser evidence: [local checks](screenshots/wt-research/verification.json). Run `npm run test:wt:research` and `node scripts/verify-wt-research-ui.mjs` (same browser environment variables below).
+Implementation, assumptions, reproducibility and viva walkthrough: [WT research record](docs/research/WT_VIVA_IMPLEMENTATION.md). Browser evidence: [local checks](screenshots/wt-research/verification.json), [public checks](screenshots/wt-research/public/verification.json). Run `npm run test:wt:research` and `node scripts/verify-wt-research-ui.mjs` (same browser environment variables below).
 
 ![WT policy comparison](screenshots/wt-research/enhanced-comparison-desktop.png)
 

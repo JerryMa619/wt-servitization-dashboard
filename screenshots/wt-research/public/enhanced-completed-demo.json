@@ -1,0 +1,1311 @@
+{
+  "version": 1,
+  "asset": "Turbine-01",
+  "events": [
+    {
+      "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-service-0",
+      "action": "predictive-maintenance",
+      "label": "Predictive maintenance",
+      "status": "completed",
+      "downtimeH": 8,
+      "during": [
+        {
+          "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-service-0-during",
+          "capturedAt": "2026-10-05T18:55:41.019Z",
+          "reading": {
+            "t": "19:55:41",
+            "source": "auto-service",
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "windSpeed": 8,
+            "windDirection": 226,
+            "crackMm": 45.8,
+            "crackState": "C4",
+            "rpm": 0,
+            "power": 0,
+            "vibrationRms": 0.0466,
+            "kurtosis": 2.72,
+            "modalF1": 26.97,
+            "rulP10": 451,
+            "rulP50": 553,
+            "rulP90": 630,
+            "rulSpread": 102,
+            "rulUpperSpread": 77,
+            "rulEvidence": {
+              "modelVersion": "ch5-xgb-cqr-2.0",
+              "featureSource": "reference-assisted",
+              "rawQuantiles": [
+                528.116943359375,
+                553.1668701171875,
+                549.5134887695312
+              ],
+              "quantileAdjusted": true,
+              "outsideTraining": [],
+              "intervalCalibration": {
+                "radius": 76.3111572265625,
+                "nominalCoverage": 0.8,
+                "scope": "reference-only"
+              }
+            },
+            "rulFeatureVector": [
+              0.21705779890455565,
+              0.817462892154263,
+              2.7460477236522465,
+              0.0820411158807213,
+              3.761102139154068,
+              0.10883143766813436,
+              0.3963143333270428,
+              2.6943409581226643,
+              -0.1212644771220448,
+              3.639032422586084,
+              0.04660140197343967,
+              0.1726966540050567,
+              2.7217677048511986,
+              0.10459803371383765,
+              3.706466867881754,
+              0.22570263326588272,
+              0.43189565544319514,
+              0.1494710734794426,
+              0.07376533110616733,
+              0.1191591204719361,
+              26.966066593868604,
+              58.393764927692715,
+              116.79574136443202,
+              8,
+              700.419725166863,
+              15.271643240413558,
+              0.21469581931000403,
+              1.994440242225246,
+              3.766106982931844,
+              0.5960510745828221,
+              3.4683403754427125
+            ],
+            "observedAt": "2026-10-05T18:55:41.019Z",
+            "receivedAt": "2026-10-05T18:55:41.019Z",
+            "serviceState": "MaintenanceDue",
+            "crackGrowthRateMmH": 0.83,
+            "windBin": "high",
+            "serviceMode": "in-downtime",
+            "serviceAction": "predictive-maintenance",
+            "downtimeH": 8,
+            "serviceNote": "Auto Predictive maintenance in progress; planned downtime 8.0 h.",
+            "elapsedDowntimeH": 0
+          },
+          "asset": "Turbine-01",
+          "component": "Blade-A",
+          "serviceState": "MaintenanceDue",
+          "position": {
+            "lat": 52.0734,
+            "lon": -0.62806,
+            "source": "Chapter 5 replay GPS"
+          },
+          "candidates": [
+            {
+              "action": "predictive-maintenance",
+              "label": "Predictive maintenance",
+              "type": "sdt:PredictiveMaintenance",
+              "totalCost": 3616,
+              "residualRiskScore": 0.09,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 2300
+                },
+                {
+                  "label": "Downtime",
+                  "value": 760
+                },
+                {
+                  "label": "Logistics",
+                  "value": 140
+                },
+                {
+                  "label": "Contract",
+                  "value": 336
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 80
+                }
+              ]
+            },
+            {
+              "action": "proactive-maintenance",
+              "label": "Proactive maintenance",
+              "type": "sdt:MaintenanceProcess",
+              "totalCost": 4248,
+              "residualRiskScore": 0.07,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 2650
+                },
+                {
+                  "label": "Downtime",
+                  "value": 950
+                },
+                {
+                  "label": "Logistics",
+                  "value": 180
+                },
+                {
+                  "label": "Contract",
+                  "value": 420
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 48
+                }
+              ]
+            },
+            {
+              "action": "active-maintenance",
+              "label": "Active maintenance",
+              "type": "sdt:MaintenanceProcess",
+              "totalCost": 6132,
+              "residualRiskScore": 0.043,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 3850
+                },
+                {
+                  "label": "Downtime",
+                  "value": 1140
+                },
+                {
+                  "label": "Logistics",
+                  "value": 620
+                },
+                {
+                  "label": "Contract",
+                  "value": 504
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 18
+                }
+              ]
+            },
+            {
+              "action": "spare-prepositioning",
+              "label": "Spare-part pre-positioning",
+              "type": "sdt:ServiceProcess",
+              "totalCost": 1820,
+              "residualRiskScore": 0.35,
+              "acceptable": false,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 420
+                },
+                {
+                  "label": "Downtime",
+                  "value": 95
+                },
+                {
+                  "label": "Logistics",
+                  "value": 60
+                },
+                {
+                  "label": "Contract",
+                  "value": 42
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 1203
+                }
+              ]
+            }
+          ],
+          "recommendation": {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 760
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "contract": {
+            "actual": 0.976,
+            "target": 0.95,
+            "status": "BONUS"
+          }
+        },
+        {
+          "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-service-1-during",
+          "capturedAt": "2026-10-05T18:55:42.434Z",
+          "reading": {
+            "t": "19:55:42",
+            "source": "auto-service",
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "windSpeed": 8,
+            "windDirection": 226,
+            "crackMm": 45.8,
+            "crackState": "C4",
+            "rpm": 0,
+            "power": 0,
+            "vibrationRms": 0.0466,
+            "kurtosis": 2.72,
+            "modalF1": 26.97,
+            "rulP10": 451,
+            "rulP50": 553,
+            "rulP90": 630,
+            "rulSpread": 102,
+            "rulUpperSpread": 77,
+            "rulEvidence": {
+              "modelVersion": "ch5-xgb-cqr-2.0",
+              "featureSource": "reference-assisted",
+              "rawQuantiles": [
+                528.116943359375,
+                553.1668701171875,
+                549.5134887695312
+              ],
+              "quantileAdjusted": true,
+              "outsideTraining": [],
+              "intervalCalibration": {
+                "radius": 76.3111572265625,
+                "nominalCoverage": 0.8,
+                "scope": "reference-only"
+              }
+            },
+            "rulFeatureVector": [
+              0.21705779890455565,
+              0.817462892154263,
+              2.7460477236522465,
+              0.0820411158807213,
+              3.761102139154068,
+              0.10883143766813436,
+              0.3963143333270428,
+              2.6943409581226643,
+              -0.1212644771220448,
+              3.639032422586084,
+              0.04660140197343967,
+              0.1726966540050567,
+              2.7217677048511986,
+              0.10459803371383765,
+              3.706466867881754,
+              0.22570263326588272,
+              0.43189565544319514,
+              0.1494710734794426,
+              0.07376533110616733,
+              0.1191591204719361,
+              26.966066593868604,
+              58.393764927692715,
+              116.79574136443202,
+              8,
+              700.419725166863,
+              15.271643240413558,
+              0.21469581931000403,
+              1.994440242225246,
+              3.766106982931844,
+              0.5960510745828221,
+              3.4683403754427125
+            ],
+            "observedAt": "2026-10-05T18:55:42.433Z",
+            "receivedAt": "2026-10-05T18:55:42.433Z",
+            "serviceState": "MaintenanceDue",
+            "crackGrowthRateMmH": 0.83,
+            "windBin": "high",
+            "serviceMode": "in-downtime",
+            "serviceAction": "predictive-maintenance",
+            "downtimeH": 8,
+            "serviceNote": "Auto Predictive maintenance in progress; planned downtime 8.0 h.",
+            "elapsedDowntimeH": 2.666667
+          },
+          "asset": "Turbine-01",
+          "component": "Blade-A",
+          "serviceState": "MaintenanceDue",
+          "position": {
+            "lat": 52.0734,
+            "lon": -0.62806,
+            "source": "Chapter 5 replay GPS"
+          },
+          "candidates": [
+            {
+              "action": "predictive-maintenance",
+              "label": "Predictive maintenance",
+              "type": "sdt:PredictiveMaintenance",
+              "totalCost": 3616,
+              "residualRiskScore": 0.09,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 2300
+                },
+                {
+                  "label": "Downtime",
+                  "value": 760
+                },
+                {
+                  "label": "Logistics",
+                  "value": 140
+                },
+                {
+                  "label": "Contract",
+                  "value": 336
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 80
+                }
+              ]
+            },
+            {
+              "action": "proactive-maintenance",
+              "label": "Proactive maintenance",
+              "type": "sdt:MaintenanceProcess",
+              "totalCost": 4248,
+              "residualRiskScore": 0.07,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 2650
+                },
+                {
+                  "label": "Downtime",
+                  "value": 950
+                },
+                {
+                  "label": "Logistics",
+                  "value": 180
+                },
+                {
+                  "label": "Contract",
+                  "value": 420
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 48
+                }
+              ]
+            },
+            {
+              "action": "active-maintenance",
+              "label": "Active maintenance",
+              "type": "sdt:MaintenanceProcess",
+              "totalCost": 6132,
+              "residualRiskScore": 0.043,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 3850
+                },
+                {
+                  "label": "Downtime",
+                  "value": 1140
+                },
+                {
+                  "label": "Logistics",
+                  "value": 620
+                },
+                {
+                  "label": "Contract",
+                  "value": 504
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 18
+                }
+              ]
+            },
+            {
+              "action": "spare-prepositioning",
+              "label": "Spare-part pre-positioning",
+              "type": "sdt:ServiceProcess",
+              "totalCost": 1820,
+              "residualRiskScore": 0.35,
+              "acceptable": false,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 420
+                },
+                {
+                  "label": "Downtime",
+                  "value": 95
+                },
+                {
+                  "label": "Logistics",
+                  "value": 60
+                },
+                {
+                  "label": "Contract",
+                  "value": 42
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 1203
+                }
+              ]
+            }
+          ],
+          "recommendation": {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 760
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "contract": {
+            "actual": 0.976,
+            "target": 0.95,
+            "status": "BONUS"
+          }
+        },
+        {
+          "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-service-2-during",
+          "capturedAt": "2026-10-05T18:55:43.846Z",
+          "reading": {
+            "t": "19:55:43",
+            "source": "auto-service",
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "windSpeed": 8,
+            "windDirection": 226,
+            "crackMm": 45.8,
+            "crackState": "C4",
+            "rpm": 0,
+            "power": 0,
+            "vibrationRms": 0.0466,
+            "kurtosis": 2.72,
+            "modalF1": 26.97,
+            "rulP10": 451,
+            "rulP50": 553,
+            "rulP90": 630,
+            "rulSpread": 102,
+            "rulUpperSpread": 77,
+            "rulEvidence": {
+              "modelVersion": "ch5-xgb-cqr-2.0",
+              "featureSource": "reference-assisted",
+              "rawQuantiles": [
+                528.116943359375,
+                553.1668701171875,
+                549.5134887695312
+              ],
+              "quantileAdjusted": true,
+              "outsideTraining": [],
+              "intervalCalibration": {
+                "radius": 76.3111572265625,
+                "nominalCoverage": 0.8,
+                "scope": "reference-only"
+              }
+            },
+            "rulFeatureVector": [
+              0.21705779890455565,
+              0.817462892154263,
+              2.7460477236522465,
+              0.0820411158807213,
+              3.761102139154068,
+              0.10883143766813436,
+              0.3963143333270428,
+              2.6943409581226643,
+              -0.1212644771220448,
+              3.639032422586084,
+              0.04660140197343967,
+              0.1726966540050567,
+              2.7217677048511986,
+              0.10459803371383765,
+              3.706466867881754,
+              0.22570263326588272,
+              0.43189565544319514,
+              0.1494710734794426,
+              0.07376533110616733,
+              0.1191591204719361,
+              26.966066593868604,
+              58.393764927692715,
+              116.79574136443202,
+              8,
+              700.419725166863,
+              15.271643240413558,
+              0.21469581931000403,
+              1.994440242225246,
+              3.766106982931844,
+              0.5960510745828221,
+              3.4683403754427125
+            ],
+            "observedAt": "2026-10-05T18:55:43.846Z",
+            "receivedAt": "2026-10-05T18:55:43.846Z",
+            "serviceState": "MaintenanceDue",
+            "crackGrowthRateMmH": 0.83,
+            "windBin": "high",
+            "serviceMode": "in-downtime",
+            "serviceAction": "predictive-maintenance",
+            "downtimeH": 8,
+            "serviceNote": "Auto Predictive maintenance in progress; planned downtime 8.0 h.",
+            "elapsedDowntimeH": 5.333333
+          },
+          "asset": "Turbine-01",
+          "component": "Blade-A",
+          "serviceState": "MaintenanceDue",
+          "position": {
+            "lat": 52.0734,
+            "lon": -0.62806,
+            "source": "Chapter 5 replay GPS"
+          },
+          "candidates": [
+            {
+              "action": "predictive-maintenance",
+              "label": "Predictive maintenance",
+              "type": "sdt:PredictiveMaintenance",
+              "totalCost": 3616,
+              "residualRiskScore": 0.09,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 2300
+                },
+                {
+                  "label": "Downtime",
+                  "value": 760
+                },
+                {
+                  "label": "Logistics",
+                  "value": 140
+                },
+                {
+                  "label": "Contract",
+                  "value": 336
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 80
+                }
+              ]
+            },
+            {
+              "action": "proactive-maintenance",
+              "label": "Proactive maintenance",
+              "type": "sdt:MaintenanceProcess",
+              "totalCost": 4248,
+              "residualRiskScore": 0.07,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 2650
+                },
+                {
+                  "label": "Downtime",
+                  "value": 950
+                },
+                {
+                  "label": "Logistics",
+                  "value": 180
+                },
+                {
+                  "label": "Contract",
+                  "value": 420
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 48
+                }
+              ]
+            },
+            {
+              "action": "active-maintenance",
+              "label": "Active maintenance",
+              "type": "sdt:MaintenanceProcess",
+              "totalCost": 6132,
+              "residualRiskScore": 0.043,
+              "acceptable": true,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 3850
+                },
+                {
+                  "label": "Downtime",
+                  "value": 1140
+                },
+                {
+                  "label": "Logistics",
+                  "value": 620
+                },
+                {
+                  "label": "Contract",
+                  "value": 504
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 18
+                }
+              ]
+            },
+            {
+              "action": "spare-prepositioning",
+              "label": "Spare-part pre-positioning",
+              "type": "sdt:ServiceProcess",
+              "totalCost": 1820,
+              "residualRiskScore": 0.35,
+              "acceptable": false,
+              "costs": [
+                {
+                  "label": "Service",
+                  "value": 420
+                },
+                {
+                  "label": "Downtime",
+                  "value": 95
+                },
+                {
+                  "label": "Logistics",
+                  "value": 60
+                },
+                {
+                  "label": "Contract",
+                  "value": 42
+                },
+                {
+                  "label": "Residual risk",
+                  "value": 1203
+                }
+              ]
+            }
+          ],
+          "recommendation": {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 760
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "contract": {
+            "actual": 0.976,
+            "target": 0.95,
+            "status": "BONUS"
+          }
+        }
+      ],
+      "progress": {
+        "elapsedH": 8,
+        "totalH": 8
+      },
+      "before": {
+        "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-service-0-before",
+        "capturedAt": "2026-10-05T18:55:41.017Z",
+        "reading": {
+          "t": "Demo tick 000",
+          "source": "auto-simulation",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 45.8,
+          "crackState": "C4",
+          "rpm": 624,
+          "power": 731,
+          "vibrationRms": 0.0466,
+          "kurtosis": 2.72,
+          "modalF1": 26.97,
+          "rulP10": 451,
+          "rulP50": 553,
+          "rulP90": 630,
+          "rulSpread": 102,
+          "rulUpperSpread": 77,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              528.116943359375,
+              553.1668701171875,
+              549.5134887695312
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.21705779890455565,
+            0.817462892154263,
+            2.7460477236522465,
+            0.0820411158807213,
+            3.761102139154068,
+            0.10883143766813436,
+            0.3963143333270428,
+            2.6943409581226643,
+            -0.1212644771220448,
+            3.639032422586084,
+            0.04660140197343967,
+            0.1726966540050567,
+            2.7217677048511986,
+            0.10459803371383765,
+            3.706466867881754,
+            0.22570263326588272,
+            0.43189565544319514,
+            0.1494710734794426,
+            0.07376533110616733,
+            0.1191591204719361,
+            26.966066593868604,
+            58.393764927692715,
+            116.79574136443202,
+            8,
+            700.419725166863,
+            15.271643240413558,
+            0.21469581931000403,
+            1.994440242225246,
+            3.766106982931844,
+            0.5960510745828221,
+            3.4683403754427125
+          ],
+          "observedAt": "2026-10-05T18:55:41.017Z",
+          "receivedAt": "2026-10-05T18:55:41.017Z",
+          "serviceState": "MaintenanceDue",
+          "crackGrowthRateMmH": 0.83,
+          "windBin": "high",
+          "serviceNote": "Simulated crack growth: +0.83 mm/tick, RUL recalculated from crack and wind load."
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "MaintenanceDue",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3617,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 762
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "action": "proactive-maintenance",
+            "label": "Proactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 4250,
+            "residualRiskScore": 0.07,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2650
+              },
+              {
+                "label": "Downtime",
+                "value": 952
+              },
+              {
+                "label": "Logistics",
+                "value": 180
+              },
+              {
+                "label": "Contract",
+                "value": 420
+              },
+              {
+                "label": "Residual risk",
+                "value": 48
+              }
+            ]
+          },
+          {
+            "action": "active-maintenance",
+            "label": "Active maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 6135,
+            "residualRiskScore": 0.043,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 3850
+              },
+              {
+                "label": "Downtime",
+                "value": 1142
+              },
+              {
+                "label": "Logistics",
+                "value": 620
+              },
+              {
+                "label": "Contract",
+                "value": 504
+              },
+              {
+                "label": "Residual risk",
+                "value": 18
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1820,
+            "residualRiskScore": 0.35,
+            "acceptable": false,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 1203
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "predictive-maintenance",
+          "label": "Predictive maintenance",
+          "type": "sdt:PredictiveMaintenance",
+          "totalCost": 3617,
+          "residualRiskScore": 0.09,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 2300
+            },
+            {
+              "label": "Downtime",
+              "value": 762
+            },
+            {
+              "label": "Logistics",
+              "value": 140
+            },
+            {
+              "label": "Contract",
+              "value": 336
+            },
+            {
+              "label": "Residual risk",
+              "value": 80
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "after": {
+        "id": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156-service-3-after",
+        "capturedAt": "2026-10-05T18:55:45.253Z",
+        "reading": {
+          "t": "19:55:45",
+          "source": "service-action",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 20.6,
+          "crackState": "C2",
+          "rpm": 624,
+          "power": 731,
+          "vibrationRms": 0.0453,
+          "kurtosis": 2.68,
+          "modalF1": 27.76,
+          "rulP10": 564,
+          "rulP50": 640,
+          "rulP90": 828,
+          "rulSpread": 76,
+          "rulUpperSpread": 188,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              644.0945434570312,
+              640.3276977539062,
+              750.8111572265625
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.18072215698674957,
+            0.6773935949915996,
+            2.7422682352529653,
+            0.048645107688586486,
+            3.744812047131177,
+            0.09624281798861857,
+            0.35368964454309865,
+            2.71928167393219,
+            0.0798916329308745,
+            3.6730605245305052,
+            0.04529907393802169,
+            0.16956369007179004,
+            2.6846046577345737,
+            -0.020807243532904633,
+            3.7455762547803215,
+            0.2394017363829211,
+            0.42049277301170507,
+            0.14579115347719251,
+            0.07440168591793736,
+            0.11990667320715805,
+            27.758478868606048,
+            58.72337454562406,
+            117.59815478340326,
+            8,
+            705.3030682987409,
+            13.5655451537894,
+            0.2506558946247138,
+            1.877772916085243,
+            3.748259794405097,
+            0.4955886305111631,
+            3.466671189604321
+          ],
+          "observedAt": "2026-10-05T18:55:45.252Z",
+          "receivedAt": "2026-10-05T18:55:45.252Z",
+          "serviceState": "Watch",
+          "crackGrowthRateMmH": 0.83,
+          "windBin": "high",
+          "serviceMode": "post-service",
+          "serviceAction": "predictive-maintenance",
+          "downtimeH": 8,
+          "serviceNote": "Auto closed-loop Predictive maintenance completed; WT state refreshed after downtime."
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "Watch",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "condition-inspection",
+            "label": "Condition-based inspection",
+            "type": "sdt:InspectionProcess",
+            "totalCost": 1042,
+            "residualRiskScore": 0.236,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 180
+              },
+              {
+                "label": "Downtime",
+                "value": 190
+              },
+              {
+                "label": "Logistics",
+                "value": 40
+              },
+              {
+                "label": "Contract",
+                "value": 84
+              },
+              {
+                "label": "Residual risk",
+                "value": 547
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1011,
+            "residualRiskScore": 0.2,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 393
+              }
+            ]
+          },
+          {
+            "action": "preactive-maintenance",
+            "label": "Preactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 2133,
+            "residualRiskScore": 0.121,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 1250
+              },
+              {
+                "label": "Downtime",
+                "value": 381
+              },
+              {
+                "label": "Logistics",
+                "value": 190
+              },
+              {
+                "label": "Contract",
+                "value": 168
+              },
+              {
+                "label": "Residual risk",
+                "value": 144
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "spare-prepositioning",
+          "label": "Spare-part pre-positioning",
+          "type": "sdt:ServiceProcess",
+          "totalCost": 1011,
+          "residualRiskScore": 0.2,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 420
+            },
+            {
+              "label": "Downtime",
+              "value": 95
+            },
+            {
+              "label": "Logistics",
+              "value": 60
+            },
+            {
+              "label": "Contract",
+              "value": 42
+            },
+            {
+              "label": "Residual risk",
+              "value": 393
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      }
+    }
+  ],
+  "stats": {
+    "totalDowntimeH": 8,
+    "observationHours": 9,
+    "completedServices": 1,
+    "lastAction": "predictive-maintenance",
+    "lastCompletedAt": "19:55:45"
+  },
+  "latest": {
+    "t": "Demo tick 004",
+    "source": "service-action",
+    "modelVersion": "ch5-xgb-cqr-2.0",
+    "windSpeed": 8,
+    "windDirection": 226,
+    "crackMm": 20.6,
+    "crackState": "C2",
+    "rpm": 624,
+    "power": 731,
+    "vibrationRms": 0.0453,
+    "kurtosis": 2.68,
+    "modalF1": 27.76,
+    "rulP10": 564,
+    "rulP50": 640,
+    "rulP90": 828,
+    "rulSpread": 76,
+    "rulUpperSpread": 188,
+    "rulEvidence": {
+      "modelVersion": "ch5-xgb-cqr-2.0",
+      "featureSource": "reference-assisted",
+      "rawQuantiles": [
+        644.0945434570312,
+        640.3276977539062,
+        750.8111572265625
+      ],
+      "quantileAdjusted": true,
+      "outsideTraining": [],
+      "intervalCalibration": {
+        "radius": 76.3111572265625,
+        "nominalCoverage": 0.8,
+        "scope": "reference-only"
+      }
+    },
+    "rulFeatureVector": [
+      0.18072215698674957,
+      0.6773935949915996,
+      2.7422682352529653,
+      0.048645107688586486,
+      3.744812047131177,
+      0.09624281798861857,
+      0.35368964454309865,
+      2.71928167393219,
+      0.0798916329308745,
+      3.6730605245305052,
+      0.04529907393802169,
+      0.16956369007179004,
+      2.6846046577345737,
+      -0.020807243532904633,
+      3.7455762547803215,
+      0.2394017363829211,
+      0.42049277301170507,
+      0.14579115347719251,
+      0.07440168591793736,
+      0.11990667320715805,
+      27.758478868606048,
+      58.72337454562406,
+      117.59815478340326,
+      8,
+      705.3030682987409,
+      13.5655451537894,
+      0.2506558946247138,
+      1.877772916085243,
+      3.748259794405097,
+      0.4955886305111631,
+      3.466671189604321
+    ],
+    "observedAt": "2026-10-05T18:55:45.253Z",
+    "receivedAt": "2026-10-05T18:55:45.253Z",
+    "serviceState": "Watch",
+    "crackGrowthRateMmH": 0.83,
+    "windBin": "high",
+    "serviceMode": "post-service",
+    "serviceAction": "predictive-maintenance",
+    "downtimeH": 8,
+    "serviceNote": "Auto closed-loop Predictive maintenance completed; WT state refreshed after downtime."
+  },
+  "manual": null,
+  "cursor": 4,
+  "sessionId": "demo-802bfd4e-3a84-4aa1-a63e-a91d760eb156"
+}
