@@ -1,6 +1,6 @@
 # Automatic case-study walkthrough (v0.5)
 
-The existing explorer now has **自动演示 / Play case study**, with a direct entry at `/cmapss/?story=1`. It opens an approximately three-minute, nine-scene Chinese-language explanation with English technical labels. It is a browser animation with a readable transcript, not a narrated video. The original explorer remains available and its selected dataset, cycle and policy are preserved when the story closes.
+The existing explorer now has **Play case study**, with a direct entry at `/cmapss/?story=1`. It opens an approximately three-minute, nine-scene walkthrough with English explanatory text and controls. It is a browser animation with a readable transcript, not a narrated video. The original explorer remains available and its selected dataset, cycle and policy are preserved when the story closes.
 
 ## Narrative and contributions
 

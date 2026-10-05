@@ -186,4 +186,4 @@ The `/cmapss/` demonstration now offers four separately fitted subset models, on
 
 ### Automatic C-MAPSS case-study story
 
-Open `/cmapss/?story=1` or select **自动演示 / Play case study** for a roughly three-minute walkthrough of observed degradation, DT framework responsibilities, executable ontology evidence, contract decisions and scoped research contributions. It supports pause, chapters, speed, a transcript and real semantic-check exports. See [animated story design](docs/cmapss/ANIMATED_STORY.md).
+Open `/cmapss/?story=1` or select **Play case study** for a roughly three-minute walkthrough of observed degradation, DT framework responsibilities, executable ontology evidence, contract decisions and scoped research contributions. It supports pause, chapters, speed, a transcript and real semantic-check exports. See [animated story design](docs/cmapss/ANIMATED_STORY.md).

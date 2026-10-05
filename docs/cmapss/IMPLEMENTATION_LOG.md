@@ -121,3 +121,11 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Visual QA corrected the play-button contrast and placed narration, evidence and collaboration alongside one another on wide screens. Final screenshots disable CSS transitions during capture; the full automatic sequence was rerun successfully after the changes.
 - Existing original and four-subset explorer browser suites were rerun successfully, including standard/enhanced wind-turbine route smoke checks. Dataset/semantic/contract suites and the new player tests passed. Build passed with existing bundle-size warnings.
 - Implementation commit: `184d45a`. PR #3 records this update; publication verification will be recorded there after deployment.
+
+## 2026-10-05 — English walkthrough and authorised publication
+
+- The user explicitly authorised merging PR #3 and publishing the existing webpage, and requested an entirely English version. This supersedes the earlier pending publication approval.
+- Translated all nine scenes, framework/ontology explanations, contribution statements, controls, status/error messages, accessibility labels, transcript and exported story script into English. Updated the explorer entry and four-stop guide labels.
+- Added browser assertions that visible story scenes and the exported script contain no Chinese characters. The full production-browser suite passed: complete autoplay, four actual semantic executions, contract comparisons, evidence export, failure/retry, restored explorer state, reduced motion and 390/320px layouts, with no browser errors.
+- Player/model checks and the production build passed. Reviewed refreshed English desktop/mobile screenshots. Data, model, policy logic and claim boundaries are unchanged.
+- Final commit, merge, deployment and public verification are recorded on PR #3.
