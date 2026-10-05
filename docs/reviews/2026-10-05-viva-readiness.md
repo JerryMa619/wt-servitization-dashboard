@@ -2,9 +2,9 @@
 
 ## Assessment
 
-Reviewed on 2026-10-05, Europe/London, against implementation commit `e3c6e98`. The dashboard is suitable for a **simulation-based research prototype demonstration with explicit caveats**. It demonstrates an architecture and traceable service workflow, not validated physical crack detection, field hours-to-failure, maintenance efficacy, lifetime cost savings or ISO conformity. This assessment concerns the software case study, not whether the entire thesis satisfies examination requirements. No production code, model parameters or original Chapter 5 sources were changed during this review.
+Reviewed on 2026-10-05, Europe/London. The primary WT audit covers implementation commit `e3c6e98`; a subsequent remote update at `a7286df` adds the C-MAPSS case examined separately below. All incoming changes were preserved. The dashboard is suitable for a **simulation-based research prototype demonstration with explicit caveats**. It demonstrates an architecture and traceable service workflow, not validated physical crack detection, field hours-to-failure, maintenance efficacy, lifetime cost savings or ISO conformity. This assessment concerns the software case study, not whether the entire thesis satisfies examination requirements. No production code, model parameters or original Chapter 5 sources were changed during this review.
 
-## Functional Coverage
+## WT Functional Coverage
 
 | Area | Implemented | Remaining boundary |
 | --- | --- | --- |
@@ -47,7 +47,17 @@ The current archive contains 21 simulated references. Metadata lists 315 acquisi
 
 Existing event replay and JSON import/export already support a controlled walkthrough. Add preset viva cases, an explicit whole-simulation pause/reset and a documented starting snapshot to avoid browser history determining the demonstration. Explain UI time versus modeled hours. Keep a tested local production build and an exported completed event available. The map uses external OpenStreetMap tiles (`src/App.tsx:831`), so local hosting alone is not full offline support. Provide an explicit map-unavailable state or permitted offline alternative, plus a short backup recording. Do not assume public Wi-Fi or GitHub Pages availability during examination.
 
-The main JS bundle remains 1.47 MB raw / 397 kB gzip; chart code is separately loaded. Further code splitting is useful but lower priority than academic evidence and controlled demonstrations.
+The WT application chunk remains approximately 1.47 MB raw / 398 kB gzip; chart code is separately loaded. Further code splitting is useful but lower priority than academic evidence and controlled demonstrations.
+
+## Latest C-MAPSS Extension
+
+The latest remote main also includes `/cmapss/` and a direct nine-scene walkthrough at `/cmapss/?story=1`. This is a separate engine-degradation case, not WT validation. Its exported predictions use a window/trend ridge baseline, not the WT XGBoost engine. NASA C-MAPSS is a public degradation **simulation** benchmark; it does not add physical WT measurements.
+
+Unlike the WT projection, `src/cmapss/semantic.ts` generates real RDF and executes SPARQL and SHACL Core. Unit-removal and evidence-link-removal counterexamples are validated by the actual library. This checks the C-MAPSS application profile, not all original Chapter 4 constraints, OWL inference, physical accuracy or ISO conformity. The controlled contracts keep observed sensor data and RUL fixed while changing assumed responsibility, costs and guardrails. This is particularly useful for explaining the distinction between prognosis and servitization advice. The nine-scene player has pause/restart, fixed Engine 034 evidence, validation waiting/retry and downloadable check records.
+
+Consequently, executable semantics and a guided walkthrough are **not globally absent from the repository**. The highest-value WT improvement is to adapt those existing patterns to WT evidence, with appropriate pseudo-hour units and source boundaries, rather than build another unrelated viewer. C-MAPSS contract comparisons are already implemented; multi-policy lifecycle TCS/downtime evaluation is still a separate gap. The C-MAPSS application does not execute interventions or claim observed service outcomes.
+
+The four subsets have separately fitted models, not a cross-asset transfer validation. Full-test interval coverages are 78.0%, 67.2%, 69.0% and 61.3%; therefore uncertainty reliability is itself a limitation worth discussing. These numbers do not validate WT intervals. See [data/model scope](../cmapss/DATA.md), [multi-dataset protocol](../cmapss/MULTI_DATASET.md), [executed semantic workflow](../cmapss/SEMANTIC_WORKFLOW.md) and [animated narrative](../cmapss/ANIMATED_STORY.md).
 
 ## Verification Performed Today
 
@@ -58,6 +68,9 @@ The main JS bundle remains 1.47 MB raw / 397 kB gzip; chart code is separately l
 - Both public routes completed two services in isolated accelerated test tabs, retaining all 12 architecture modules and animated flow, then resumed the rotor. Desktop/mobile UE controls remained reachable. [Evidence](../../screenshots/framework/public/verification.json), [desktop screenshot](../../screenshots/framework/public/enhanced-after-two-cycles.png).
 - Browser acceleration affects test tabs only; normal simulation timing and application source are unchanged. The rendered enhanced two-cycle screenshot was visually inspected.
 - XGBoost regression checks validate committed native/browser parity fixtures and reported test metrics. No new physical experiment, external model evaluation, raw-data recollection or actual intervention was conducted today.
+- After preserving the remote C-MAPSS merge, all five C-MAPSS suites passed: baseline replay, executable semantics, contract comparisons, four datasets and the story player. They cover 4835 exported snapshots / 32 displayed assets, actual positive/negative SHACL and SPARQL outcomes, contract arithmetic and player lifecycle. These assertion scripts are additional to the 42 named WT tests, not counted as extra individual tests.
+- Existing lockfile dependencies were synchronised with `npm ci`; no package configuration changed. The combined production build passed. Existing large-chunk warnings and one moderate dependency advisory remain; no forced major-version upgrade was made as part of an audit.
+- The complete nine-scene C-MAPSS player also passed against the public deployment: four actual semantic checks including invalid-unit rejection, actual contract examples, evidence download, pause/restart, failure/retry, direct entry/exit, reduced motion and 390/320 px layouts. No browser exceptions were recorded. [Public evidence](../../screenshots/cmapss-story/verification.json). The rendered semantic scene was visually inspected.
 
 ## Suggested Viva Walkthrough
 

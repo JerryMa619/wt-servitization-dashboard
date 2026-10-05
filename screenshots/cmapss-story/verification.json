@@ -1,5 +1,5 @@
 {
-  "base": "http://127.0.0.1:5179/wt-servitization-dashboard/",
+  "base": "https://jerryma619.github.io/wt-servitization-dashboard/",
   "status": "passed",
   "checks": [
     "complete nine-scene autoplay, pause/resume/restart and chapter selection",
