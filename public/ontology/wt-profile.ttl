@@ -1,0 +1,14 @@
+@prefix wt: <https://w3id.org/sdt-wt/demo#> .
+@prefix sdt: <http://purl.org/sdt/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+wt: a owl:Ontology ; owl:versionInfo "1.0" ; rdfs:comment "WT simulation application extension. Local vocabulary identifier; registration is not claimed. Original SDT ontology is unchanged." .
+wt:PseudoRULEstimate a owl:Class ; rdfs:seeAlso sdt:RULEstimate ; rdfs:comment "Synthetic pseudo-hour estimate. Not a subclass or equivalent of the physical-hours SDT estimate." .
+wt:PseudoHour rdfs:label "Synthetic pseudo-hour" .
+wt:GBP rdfs:label "Assumed GBP cost" .
+wt:FeatureWindow a owl:Class .
+wt:Feature a owl:Class .
+wt:Candidate a owl:Class .
+wt:Snapshot a owl:Class .
+wt:ModelArtifact a owl:Class .

@@ -1,0 +1,10 @@
+PREFIX wt: <https://w3id.org/sdt-wt/demo#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?asset ?lower ?point ?upper ?model ?featureSource ?service ?cost ?risk WHERE {
+  <urn:wt:active-snapshot> wt:asset ?a ; wt:estimate ?e ; wt:recommendation ?r .
+  ?a wt:assetName ?asset .
+  ?e wt:unit wt:PseudoHour ; wt:lowerBound ?lower ; wt:pointEstimate ?point ; wt:upperBound ?upper ; wt:modelVersion ?model ; prov:wasDerivedFrom ?window .
+  ?window wt:featureSource ?featureSource .
+  ?r wt:basedOnEstimate ?e ; wt:selectedCandidate ?candidate .
+  ?candidate wt:action ?service ; wt:totalCost ?cost ; wt:riskIndex ?risk .
+}

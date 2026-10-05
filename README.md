@@ -12,7 +12,7 @@ The public repository deploys both routes through GitHub Actions. Local URLs are
 
 ## Overview
 
-This dashboard demonstrates a wind turbine servitization digital twin for blade crack detection and RUL-driven service decision-making. It links WT operation data, GPS/site context, wind conditions, blade vibration, crack growth, RUL estimation, service-state classification, automatic service selection, downtime tracking, and Total Cost of Servitization (TCS).
+This dashboard demonstrates a simulation-based wind turbine servitization digital twin for blade-condition and RUL-driven service decision-making. It links WT operation data, GPS/site context, wind conditions, blade vibration, simulated crack growth, synthetic pseudo-hour RUL estimation, service-state classification, automatic service selection, downtime tracking, and Total Cost of Servitization (TCS). It is not a validated physical crack detector or field lifetime predictor.
 
 The implementation is aligned with the project theme of digital twinning servitization for high-value assets, using an ISO 23247-inspired evidence chain and an ontology-based data structure.
 
@@ -21,13 +21,16 @@ The implementation is aligned with the project theme of digital twinning serviti
 - WT operation animation with blade crack growth from 0 mm.
 - GPS and real site map context.
 - Wind speed, wind direction, vibration, crack state, and RUL monitoring.
-- Automatic crack detection, RUL recalculation, service selection, downtime simulation, and WT state update.
+- Simulated crack progression, RUL recalculation, service selection, downtime simulation, and WT state update.
 - Service decision layer for predictive, preactive, proactive, active, and corrective maintenance.
 - TCS comparison across service strategies.
 - Cost item breakdown for service, downtime, logistics, contract exposure, and residual risk.
 - Integrated turbine / ISO 23247 architecture overlay with state-driven flow highlighting.
 - Recorded service-event replay synchronizing blade crack, RUL, rotor targets and modeled downtime.
 - Interactive ontology instance graph, source-derived class explorer and service decision history on both dashboard routes.
+- Executable WT RDF / SPARQL / SHACL checks with valid and deliberately invalid evidence copies.
+- Deterministic four-policy cost, downtime and risk comparison with one-at-a-time sensitivity analysis.
+- Isolated viva presets, whole-WT simulation pause/reset, saved-session restoration and coordinate-only map fallback.
 
 ## Ontology Module
 
@@ -36,8 +39,9 @@ The **Ontology & Decision Evidence** section sits below WT operation and TCS/ser
 - **Live Graph:** select an entity to inspect readings, class mapping, source and directional relationships; focus its neighborhood, freeze a snapshot, choose a historical service event or download its evidence JSON.
 - **Ontology Schema:** search the 50 native Chapter 4 classes, browse module groups, direct superclass declarations and applicable SDT properties. T-Box and SHACL source files are downloadable.
 - **Decision Trace:** preserve the latest 30 service events in this browser, including original proposals, elapsed downtime, simulated results and explicit interruptions. Reload restores saved history.
+- **Semantic Check:** freeze a captured WT snapshot, generate actual RDF, run three SPARQL competency questions and execute a separate WT SHACL application profile. Missing-unit and missing-estimate-link cases modify only test copies; export the RDF, report and evidence hashes.
 
-The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologySchema.json`. The instance graph is a dashboard projection, not SPARQL query or OWL reasoner output. SHACL definitions are available but live SHACL validation is not executed. Human authorisation, measured intervention assessment and model/policy feedback are not supplied by the simulator and remain explicitly unconfirmed. ISO entity labels are dashboard mappings, separate from OWL class inheritance. Cost values come from the existing TCS model, not native SDT cost properties.
+The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologySchema.json`. The Live Graph remains a dashboard projection, not SPARQL query or OWL reasoner output. Semantic Check separately executes real SPARQL and SHACL Core on the WT application profile, not all original Chapter 4 constraints. Original T-Box and SHACL files are unchanged. Synthetic RUL uses a separate pseudo-hour vocabulary, not physical-hours lifetime assertions. Human authorisation, measured intervention assessment and model/policy feedback remain explicitly unconfirmed. ISO entity labels are dashboard mappings, separate from OWL class inheritance. Cost values are assumed TCS estimates, not native SDT cost properties.
 
 Design, implementation, changes and validation evidence: [implementation log](docs/ontology/IMPLEMENTATION_LOG.md), [module specification](docs/ontology/DESIGN.md), [interaction verification](screenshots/ontology/verification.json), [public deployment verification](screenshots/ontology/publication.json).
 
@@ -63,7 +67,7 @@ The history toolbar exports/imports validated JSON and clears local history with
 
 Current RUL calculations use **responsive XGBoost with a window-calibrated envelope** (`ch5-xgb-cqr-2.0`): 31 Chapter 5 features, 300 trees per quantile, depth 6, rate 0.05, seed 42 and fixed initial prediction 500. Disjoint sets contain 189 training / 63 calibration / 63 test windows; no final refit uses held-out rows. All three quantiles respond to source features. On the same test windows, mean interval width changes from 787.55 to 303.85 pseudo-h, with 90.48% coverage for a nominal 80% envelope. P10/P90 displayed values are calibrated percentile-based bounds, not exact percentiles. Original model artifacts remain unchanged for comparison. Synthetic hours and source-window calibration are **not validated physical lifetime or field coverage**. Model Heuristic Scores remain non-probabilistic; enhanced KPI separates session availability from fixed Chapter 5 references.
 
-Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval, measured effect and live SHACL remain pending.
+Process and equations: [repair log](docs/fixes/IMPLEMENTATION_LOG.md), [model basis](docs/model/MODEL_BASIS.md), [browser results](screenshots/fixes/verification.json). Real sensing/control, approval and measured effect remain pending; executed WT snapshot SHACL checks are now available separately.
 
 XGBoost sources, fitted models and validation: [current calibration record](docs/model/CALIBRATED_XGBOOST.md), [current manifest](models/chapter5-calibrated/manifest.json), [current Python/browser parity](models/chapter5-calibrated/browser-parity.json), [public browser verification](screenshots/xgboost/public/verification.json), [historical integration record](docs/model/XGBOOST_IMPLEMENTATION.md), [preserved original manifest](models/chapter5/manifest.json). Full named feature JSON windows can be imported in Input Scenario. Automatic/basic manual scenarios explicitly use reference-assisted features with no validated coverage; manual RUL overrides retain their own provenance. Existing immutable service events retain historical model versions.
 
@@ -84,6 +88,18 @@ Published standard/enhanced routes also pass the same browser checks: [public ve
 WT Operation, Data Collection and the ontology Sensor node show the rig's **Accel 18 Click (MC3419)** reference, including 80% blade-span / suction-side placement. Auxiliary wind instruments and electrical/tachometer channels are identified by type only; unconfirmed models are not guessed. All hardware remains labelled not connected. Crack and RUL are model/replay outputs, not direct sensor readings.
 
 Source review, implementation decisions and limitations: [instrumentation record](docs/model/INSTRUMENTATION_REFERENCE.md). Layout and interaction evidence: [local browser verification](screenshots/instrumentation/verification.json), [public browser verification](screenshots/instrumentation/public/verification.json).
+
+## WT Research and Viva Controls
+
+The top **WT viva controls** select healthy, growing, service-threshold and high-damage snapshots. Presets start paused; play advances the simulated service loop. Reset affects only the isolated demo. **Return to saved session** restores the original persisted checkpoint and ledger. Demo events are memory-only unless exported, and never replace the original browser session. Original work in progress is explicitly interrupted before entering a demo. Global pause freezes WT data, rotor and service time; the archived waveform reference has its own playback controls.
+
+**Service Policy Comparison**, below ontology, compares fixed interval, crack threshold, RUL-only and RUL-plus-TCS policies over the same modeled horizon, initial crack and exogenous wind trajectory. Repair changes subsequent simulated damage. The table separates incurred charges and a single terminal heuristic risk allowance; the curve shows incurred charges only. Seven sensitivity cases vary consequence, downtime price and repair efficacy. Default RUL-only and RUL-plus-TCS results coincide; no superiority is asserted. This is not measured savings or a calibrated lifecycle optimiser.
+
+**Offline coordinate view** removes external basemap tiles while retaining the coordinate and wind markers. It is explicitly not an offline geographic map. Tile failures are reported; online OpenStreetMap attribution remains visible.
+
+Implementation, assumptions, reproducibility and viva walkthrough: [WT research record](docs/research/WT_VIVA_IMPLEMENTATION.md). Browser evidence: [local checks](screenshots/wt-research/verification.json). Run `npm run test:wt:research` and `node scripts/verify-wt-research-ui.mjs` (same browser environment variables below).
+
+![WT policy comparison](screenshots/wt-research/enhanced-comparison-desktop.png)
 
 ## Local Development
 
@@ -117,6 +133,7 @@ npm run check:ontology
 npm run test:ontology
 npm run test:twin
 npm run test:model
+npm run test:wt:research
 npm run build
 ```
 

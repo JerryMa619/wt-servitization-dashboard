@@ -31,6 +31,14 @@ export function operatingOutput(windSpeed: number, hold = false) {
   return { rpm: Math.round(clamp(speed * 78, 0, modelMetadata.maxRpm)), power: Math.round(clamp(Math.pow(speed, 2.12) * 8.9, 0, modelMetadata.maxPowerW)) };
 }
 
+export function crackGrowthRate(point: { windSpeed: number; vibrationRms: number }, crackMm: number, index: number) {
+  const load = Math.max(0, point.windSpeed - 4.5) * 0.11;
+  const vibration = Math.max(0, point.vibrationRms - 0.04) * 2.4;
+  const damageAcceleration = clamp(crackMm / 80, 0, 1) * 0.34;
+  const cyclePulse = (Math.sin(index / 8) + 1) * 0.08;
+  return clamp(0.16 + load + vibration + damageAcceleration + cyclePulse, 0.08, 1.65);
+}
+
 export function conditionPrediction(windSpeed: number, crackMm: number, overrides: FeatureOverrides = {}) {
   const speed = clamp(windSpeed, 0, 40);
   const values = scenarioFeatures(speed, clamp(crackMm, 0, 80), overrides);

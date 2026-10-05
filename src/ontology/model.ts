@@ -138,7 +138,7 @@ export function buildSemanticGraph(snapshot: OntologySnapshot, execution?: Ontol
   if (execution && snapshot.id !== execution.before.id) {
     const before = execution.before.reading;
     node('proposal-condition', 'Captured blade condition', 'sdt:ConditionEvent', 'DTE', 'evidence', 980, 175, 'Original proposal input', [field('Crack length', `${before.crackMm ?? 'n/a'} mm`), ...proposalProvenance]);
-    node('proposal-rul', 'Captured RUL estimate', 'sdt:RULEstimate', 'DTE', 'prediction', 980, 350, 'Original proposal input', [field('P10 / P50 / P90', `${before.rulP10} / ${before.rulP50} / ${before.rulP90} h`), ...proposalProvenance]);
+    node('proposal-rul', 'Captured RUL estimate', 'sdt:RULEstimate', 'DTE', 'prediction', 980, 350, 'Original proposal input', [field('P10 / P50 / P90', `${before.rulP10} / ${before.rulP50} / ${before.rulP90} pseudo-h`), ...proposalProvenance]);
     link('recommendation', 'proposal-rul', 'prov:wasDerivedFrom');
     link('recommendation', 'proposal-condition', 'prov:wasDerivedFrom');
   } else {
@@ -153,7 +153,7 @@ export function buildSemanticGraph(snapshot: OntologySnapshot, execution?: Ontol
     if (execution.after) {
       const after = execution.after.reading;
       const before = execution.before.reading;
-      node('post-observation', 'Post-service readings', 'sdt:PostActionObservation', 'DCDCE', 'evidence', 490, 525, 'Simulated result', [field('Crack before / after', `${before.crackMm ?? 'n/a'} / ${after.crackMm ?? 'n/a'} mm`), field('RUL P10 before / after', `${before.rulP10} / ${after.rulP10} h`), field('Z vibration before / after', `${before.vibrationRms.toFixed(3)} / ${after.vibrationRms.toFixed(3)} g`), field('Service state after', execution.after.serviceState), field('Evaluation', 'Measured intervention outcome and policy feedback not recorded')]);
+      node('post-observation', 'Post-service readings', 'sdt:PostActionObservation', 'DCDCE', 'evidence', 490, 525, 'Simulated result', [field('Crack before / after', `${before.crackMm ?? 'n/a'} / ${after.crackMm ?? 'n/a'} mm`), field('RUL P10 before / after', `${before.rulP10} / ${after.rulP10} pseudo-h`), field('Z vibration before / after', `${before.vibrationRms.toFixed(3)} / ${after.vibrationRms.toFixed(3)} g`), field('Service state after', execution.after.serviceState), field('Evaluation', 'Measured intervention outcome and policy feedback not recorded')]);
       link('execution', 'post-observation', 'sdt:hasPostActionObservation');
       link('post-observation', 'blade', 'sosa:hasFeatureOfInterest');
     }

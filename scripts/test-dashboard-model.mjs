@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import * as model from '../src/model/operating.ts';
 import * as xgboost from '../src/model/xgboost.ts';
+import * as service from '../src/model/service.ts';
 import { parseSession, closeRestoredSession, interruptExecution, snapshotBelongsToEvent } from '../src/model/session.ts';
 import { actionTypes, buildSemanticGraph } from '../src/ontology/model.ts';
 
@@ -15,7 +16,7 @@ const names = ['clamp', 'makePoint', 'refreshActivePrediction', 'restoredPoint',
 const parts = ast.statements.filter((node) => ts.isFunctionDeclaration(node) && names.includes(node.name?.text) || ts.isVariableStatement(node) && node.declarationList.declarations.some((decl) => ['maintenanceActions', 'serviceEconomics', 'tcsParameters'].includes(decl.name.getText(ast))));
 const js = ts.transpileModule(parts.map((node) => node.getText(ast)).join('\n'), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 const dataset = JSON.parse(readFileSync(new URL('../src/data/dashboardData.json', import.meta.url), 'utf8'));
-const context = vm.createContext({ ...model, ...xgboost, dataset, Date, Math, Number });
+const context = vm.createContext({ ...model, ...xgboost, ...service, dataset, Date, Math, Number });
 vm.runInContext(js, context);
 const base = { t: '20:00', source: 'auto-simulation', modelVersion: model.modelMetadata.version, windSpeed: 8, windDirection: 220, crackMm: 45, crackState: 'C4', ...model.operatingOutput(8), ...model.conditionPrediction(8, 45) };
 const form = { lat: 52, lon: -1, ...base };

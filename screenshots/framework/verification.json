@@ -1,10 +1,10 @@
 {
-  "verifiedAt": "2026-10-02T05:23:55.520Z",
+  "verifiedAt": "2026-10-05T18:47:54.861Z",
   "results": [
     {
       "route": "http://127.0.0.1:5173/",
       "completedCycles": 2,
-      "samples": 394,
+      "samples": 396,
       "stages": [
         "monitor",
         "decision",
@@ -22,7 +22,7 @@
     {
       "route": "http://127.0.0.1:5173/enhanced/",
       "completedCycles": 2,
-      "samples": 399,
+      "samples": 404,
       "stages": [
         "monitor",
         "decision",

@@ -1,0 +1,45 @@
+.research-section { margin: 24px 0; padding: 22px 0; border-top: 1px solid #345047; border-bottom: 1px solid #345047; min-width: 0; }
+.research-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.research-heading h2, .research-heading h3 { margin: 0; font-size: 18px; color: #dfebe6; }
+.research-heading span, .research-scope { color: #adc1b9; font-size: 12px; line-height: 1.6; }
+.research-controls { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; margin: 14px 0; }
+.research-controls label, .demo-toolbar label { display: grid; gap: 6px; font-size: 12px; color: #adc1b9; min-width: 0; }
+.research-controls input, .research-controls select, .demo-toolbar select { width: 100%; min-width: 0; border: 1px solid #476a5d; background: #111d18; color: #dfebe6; border-radius: 4px; min-height: 38px; padding: 8px 10px; font: inherit; }
+.research-controls button, .demo-toolbar button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 38px; min-height: 38px; padding: 8px 12px; border: 1px solid #476a5d; background: #192e24; color: #dfebe6; border-radius: 4px; cursor: pointer; font: inherit; font-size: 12px; }
+.research-controls button:disabled, .demo-toolbar button:disabled { opacity: .45; cursor: default; }
+.research-controls button:hover:not(:disabled), .demo-toolbar button:hover:not(:disabled) { background: #2d493c; }
+.experiment-inputs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; }
+.research-actions { display: flex; gap: 8px; min-width: 0; }
+.research-actions button:first-child { flex: 1; }
+.research-actions button:not(:first-child) { width: 38px; padding: 8px; flex-shrink: 0; }
+.research-table-wrap { overflow-x: auto; max-width: 100%; margin: 16px 0; border: 1px solid #345047; border-radius: 4px; }
+.research-table-wrap table { width: 100%; border-collapse: collapse; color: #dfebe6; font-size: 12px; font-variant-numeric: tabular-nums; }
+.research-table-wrap th, .research-table-wrap td { padding: 12px; border-bottom: 1px solid #294038; text-align: left; vertical-align: top; min-width: 100px; overflow-wrap: anywhere; }
+.research-table-wrap thead { background: #19281f; }
+.research-table-wrap small { display: block; color: #a9beb4; margin-top: 5px; }
+.research-section details, .wt-semantic details { margin: 14px 0; color: #a9beb4; font-size: 12px; line-height: 1.6; }
+.research-section details summary, .wt-semantic details summary { color: #dfebe6; cursor: pointer; padding: 8px 0; }
+.wt-semantic { padding: 20px; min-width: 0; }
+.wt-semantic .research-table-wrap { max-height: 440px; overflow: auto; }
+.wt-semantic thead th { position: sticky; top: 0; background: #19281f; z-index: 1; }
+.wt-semantic pre, .wt-semantic code { display: block; overflow-wrap: anywhere; white-space: pre-wrap; max-width: 100%; font-size: 11px; color: #b7cbc1; }
+.research-warning { color: #edbf7a; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.research-status { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 12px 0; border-block: 1px solid #345047; font-size: 12px; }
+.research-status.pass { color: #6be2b9; }
+.research-status.fail { color: #edbf7a; }
+.research-links { display: flex; gap: 16px; font-size: 12px; }
+.research-links a, .demo-toolbar a { color: #88c7dd; }
+.demo-toolbar { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; padding: 16px 0; border-bottom: 1px solid #345047; margin-bottom: 16px; font-size: 12px; }
+.demo-toolbar label { min-width: 230px; }
+.demo-toolbar > span { flex: 1; min-width: 170px; color: #adc1b9; line-height: 1.5; padding: 8px 0; }
+.demo-toolbar > a { padding: 10px 0; }
+.map-mode { display: inline-flex; align-items: center; gap: 8px; color: #b7cbc1; font-size: 12px; margin-bottom: 10px; }
+.map-mode input { accent-color: #6be2b9; }
+.ontology-tabs { flex-wrap: wrap; }
+@media (max-width: 760px) {
+  .experiment-inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wt-semantic { padding: 14px; }
+  .wt-semantic .research-controls > label { flex: 1 1 240px; }
+  .demo-toolbar label { width: 100%; min-width: 0; }
+}
+@media (max-width: 380px) { .experiment-inputs { grid-template-columns: minmax(0, 1fr); } }

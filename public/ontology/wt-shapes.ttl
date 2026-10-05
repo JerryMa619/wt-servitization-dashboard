@@ -1,0 +1,42 @@
+@prefix wt: <https://w3id.org/sdt-wt/demo#> .
+@prefix sdt: <http://purl.org/sdt/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+wt:SnapshotShape a sh:NodeShape ; sh:targetNode <urn:wt:active-snapshot> ;
+  sh:property [ sh:path wt:asset ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:Asset ] ;
+  sh:property [ sh:path wt:estimate ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wt:PseudoRULEstimate ] ;
+  sh:property [ sh:path wt:recommendation ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdt:ServiceActionRecommendation ] ;
+  sh:property [ sh:path wt:capturedAt ; sh:minCount 1 ; sh:datatype xsd:dateTime ] ;
+  sh:property [ sh:path wt:sourceOntologySHA256 ; sh:minCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] .
+wt:EstimateShape a sh:NodeShape ; sh:targetClass wt:PseudoRULEstimate ;
+  sh:property [ sh:path wt:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue wt:PseudoHour ] ;
+  sh:property [ sh:path wt:lowerBound ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals wt:pointEstimate ] ;
+  sh:property [ sh:path wt:pointEstimate ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals wt:upperBound ] ;
+  sh:property [ sh:path wt:upperBound ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path wt:modelVersion ; sh:minCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:class wt:FeatureWindow ] .
+wt:WindowShape a sh:NodeShape ; sh:targetClass wt:FeatureWindow ;
+  sh:property [ sh:path wt:forAsset ; sh:minCount 1 ; sh:class sdt:Asset ] ;
+  sh:property [ sh:path wt:source ; sh:minCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path wt:featureSource ; sh:minCount 1 ; sh:in ( "chapter5-window" "reference-assisted" "imported-window" "manual-override" "legacy" ) ] .
+wt:FeatureShape a sh:NodeShape ; sh:targetClass wt:Feature ;
+  sh:property [ sh:path wt:featureName ; sh:minCount 1 ; sh:maxCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path wt:featureValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] .
+wt:RecommendationShape a sh:NodeShape ; sh:targetClass sdt:ServiceActionRecommendation ;
+  sh:property [ sh:path wt:basedOnEstimate ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wt:PseudoRULEstimate ] ;
+  sh:property [ sh:path wt:forAsset ; sh:minCount 1 ; sh:class sdt:Asset ] ;
+  sh:property [ sh:path sdt:recommendationStatus ; sh:hasValue "proposed" ] ;
+  sh:property [ sh:path wt:candidate ; sh:minCount 1 ; sh:class wt:Candidate ] ;
+  sh:property [ sh:path wt:selectedCandidate ; sh:minCount 1 ; sh:maxCount 1 ; sh:class wt:Candidate ; sh:node wt:SelectedShape ] .
+wt:SelectedShape a sh:NodeShape ; sh:property [ sh:path wt:eligible ; sh:hasValue true ] .
+wt:CandidateShape a sh:NodeShape ; sh:targetClass wt:Candidate ;
+  sh:property [ sh:path wt:action ; sh:minCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path wt:eligible ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] ;
+  sh:property [ sh:path wt:totalCost ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path wt:costUnit ; sh:hasValue wt:GBP ] ;
+  sh:property [ sh:path wt:riskIndex ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] .
+wt:ModelShape a sh:NodeShape ; sh:targetClass wt:ModelArtifact ;
+  sh:property [ sh:path wt:p50SHA256 ; sh:minCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] ;
+  sh:property [ sh:path wt:trainingFeaturesSHA256 ; sh:minCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] .

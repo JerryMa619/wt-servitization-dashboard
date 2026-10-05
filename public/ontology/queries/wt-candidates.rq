@@ -1,0 +1,6 @@
+PREFIX wt: <https://w3id.org/sdt-wt/demo#>
+SELECT ?service ?cost ?risk ?eligible WHERE {
+  <urn:wt:active-snapshot> wt:recommendation ?r .
+  ?r wt:candidate ?candidate .
+  ?candidate wt:action ?service ; wt:totalCost ?cost ; wt:riskIndex ?risk ; wt:eligible ?eligible .
+} ORDER BY ?cost

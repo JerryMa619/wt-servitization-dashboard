@@ -59,7 +59,7 @@ export function moduleValue(id: ModuleId, snapshot: OntologySnapshot, execution:
     case 'control': return stage === 'downtime' ? 'Simulated hold / rotor target 0' : 'No physical actuator connected';
     case 'registry': return `${snapshot.asset} / ${snapshot.component}`;
     case 'condition': return `${reading.crackState ?? 'C?'} / ${reading.crackMm?.toFixed(1) ?? 'n/a'} mm`;
-    case 'rul': return `P10 ${reading.rulP10} / P50 ${reading.rulP50} h`;
+    case 'rul': return `P10 ${reading.rulP10} / P50 ${reading.rulP50} pseudo-h`;
     case 'state': return snapshot.serviceState;
     case 'tcs': return `GBP ${snapshot.recommendation.totalCost.toLocaleString('en-GB')} / risk ${snapshot.recommendation.residualRiskScore.toFixed(2)}`;
     case 'access': return 'SDT projection / session evidence';

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import L from "leaflet";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from "react-leaflet";
@@ -13,6 +13,8 @@ import {
   Gauge,
   MapPin,
   Network,
+  Pause,
+  Play,
   Radio,
   RotateCcw,
   ShieldCheck,
@@ -29,13 +31,17 @@ import dashboardData from "./data/dashboardData.json";
 import OntologyPanel, { type OntologyFocusRequest } from "./ontology/OntologyPanel";
 import { actionTypes, updateExecutionLog, type OntologyExecution, type OntologySnapshot } from "./ontology/model";
 import TwinWorkspace, { type ReplayRequest } from "./twin/TwinWorkspace";
-import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBounds, inputRangeErrors, modelMetadata, operatingOutput, readingFreshness, simulationAvailability, type SimulationStats } from "./model/operating";
+import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBounds, inputRangeErrors, modelMetadata, operatingOutput, readingFreshness, simulationAvailability, crackGrowthRate, type SimulationStats } from "./model/operating";
 import { closeRestoredSession, interruptExecution, parseSession, sessionKey, type SavedSession } from "./model/session";
 import { bladeSensorFields, bladeSensorReference, derivedConditionNote } from "./model/instrumentation";
 import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulDescription, rulUncertaintyDescription, rulModel, type RulEvidence } from "./model/xgboost";
 import Chart from "./components/TelemetryPanel";
 import VibrationCharts from "./vibration/VibrationCharts";
 import { vibrationFeatures } from "./vibration/model";
+import { maintenanceActions, serviceEconomics, tcsParameters, serviceDecisionByTcs, serviceCandidatesForState, isRiskAcceptableAfterAction, estimateTcs, residualRiskAfterAction } from './model/service';
+import './research/research.css';
+const PolicyComparison = lazy(() => import('./research/PolicyComparison'));
+const demoCases = [{ id: 'healthy', label: 'Healthy start / 0 mm', crack: 0 }, { id: 'growth', label: 'Growing crack / 25 mm', crack: 25 }, { id: 'service', label: 'Service threshold / 45 mm', crack: 45 }, { id: 'damage', label: 'High damage / 65 mm', crack: 65 }];
 
 type ServiceState = "Nominal" | "Watch" | "Degraded" | "MaintenanceDue" | "Critical" | "OutOfContract";
 type MaintenanceActionKey =
@@ -286,74 +292,6 @@ const stateMeta: Record<ServiceState, { color: string; bg: string; action: strin
   }
 };
 
-const maintenanceActions: Record<
-  MaintenanceActionKey,
-  { label: string; description: string; defaultDowntimeH: number; crackReduction: number }
-> = {
-  "condition-inspection": {
-    label: "Condition-based inspection",
-    description: "Inspect the blade, verify crack state and keep the asset under watch.",
-    defaultDowntimeH: 2,
-    crackReduction: 0
-  },
-  "preactive-maintenance": {
-    label: "Preactive maintenance",
-    description: "Early service before the formal threshold is crossed.",
-    defaultDowntimeH: 4,
-    crackReduction: 0.28
-  },
-  "predictive-maintenance": {
-    label: "Predictive maintenance",
-    description: "RUL-triggered planned blade service using the DT prediction.",
-    defaultDowntimeH: 8,
-    crackReduction: 0.55
-  },
-  "proactive-maintenance": {
-    label: "Proactive maintenance",
-    description: "Prevent recurrence through planned repair and operating-policy update.",
-    defaultDowntimeH: 10,
-    crackReduction: 0.62
-  },
-  "active-maintenance": {
-    label: "Active maintenance",
-    description: "Immediate intervention while degradation is active.",
-    defaultDowntimeH: 12,
-    crackReduction: 0.72
-  },
-  "corrective-maintenance": {
-    label: "Corrective maintenance",
-    description: "Repair or replace the blade after a high-risk or failed condition.",
-    defaultDowntimeH: 24,
-    crackReduction: 1
-  },
-  "spare-prepositioning": {
-    label: "Spare-part pre-positioning",
-    description: "Reserve blade kit and logistics slot; no immediate physical repair.",
-    defaultDowntimeH: 1,
-    crackReduction: 0
-  }
-};
-
-const serviceEconomics: Record<
-  MaintenanceActionKey,
-  { directCost: number; logisticsCost: number; planningCredit: number; riskMultiplier: number }
-> = {
-  "condition-inspection": { directCost: 180, logisticsCost: 40, planningCredit: 0, riskMultiplier: 0.92 },
-  "spare-prepositioning": { directCost: 420, logisticsCost: 280, planningCredit: 220, riskMultiplier: 0.78 },
-  "preactive-maintenance": { directCost: 1250, logisticsCost: 320, planningCredit: 130, riskMultiplier: 0.58 },
-  "predictive-maintenance": { directCost: 2300, logisticsCost: 420, planningCredit: 280, riskMultiplier: 0.35 },
-  "proactive-maintenance": { directCost: 2650, logisticsCost: 520, planningCredit: 340, riskMultiplier: 0.3 },
-  "active-maintenance": { directCost: 3850, logisticsCost: 740, planningCredit: 120, riskMultiplier: 0.22 },
-  "corrective-maintenance": { directCost: 7800, logisticsCost: 1350, planningCredit: 0, riskMultiplier: 0.08 }
-};
-
-const tcsParameters = {
-  downtimeCostPerHour: 95,
-  availabilityPenaltyPerHour: 42,
-  energyValuePerKwh: 0.28,
-  unplannedFailureConsequence: 9800
-};
-
 function readDashboardSession(): { data: SavedSession | null; error: string | null } {
   try {
     const raw = localStorage.getItem(sessionKey(site.asset));
@@ -416,14 +354,19 @@ function App() {
   const ontologySessionRef = useRef(bootstrap.data?.sessionId ?? crypto.randomUUID());
   const historyRef = useRef(history);
   const linkedRequestRef = useRef(0);
+  const [simulationPaused, setSimulationPaused] = useState(false);
+  const pausedRef = useRef(false);
+  const [demoCase, setDemoCase] = useState('');
+  const demoPointRef = useRef<HistoryPoint | null>(null);
+  const demoBackupRef = useRef<SavedSession | null>(null);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      if (manualPointRef.current) return;
+      if (manualPointRef.current || pausedRef.current) return;
       const current = historyRef.current;
         const prior = current[current.length - 1];
         const replayPoint =
-          replayHistory.length > 0 ? replayHistory[cursor % replayHistory.length] : makePoint(current.length, prior);
+          demoPointRef.current ?? (replayHistory.length > 0 ? replayHistory[cursor % replayHistory.length] : makePoint(current.length, prior));
         let next = replayPoint;
 
         if (!manualPointRef.current) {
@@ -434,7 +377,7 @@ function App() {
               const previousElapsed = activeService.ontology.progress?.elapsedH ?? 0;
               activeService.ticksRemaining -= 1;
               next = makeDowntimePoint(activeService.preServicePoint, activeService);
-              const during = ontologySnapshot(next, devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-during`);
+              const during = ontologySnapshot(next, demoPointRef.current ? replayGpsPosition(next) : devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-during`);
               activeService.ontology = {
                 ...activeService.ontology,
                 during: [...(activeService.ontology.during ?? []), during],
@@ -463,7 +406,7 @@ function App() {
                   ...activeService.ontology,
                   status: "completed",
                   progress: { elapsedH: activeService.downtimeH, totalH: activeService.downtimeH },
-                  after: ontologySnapshot(next, devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-after`)
+                  after: ontologySnapshot(next, demoPointRef.current ? replayGpsPosition(next) : devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-after`)
                 },
                 note: `${maintenanceActions[activeService.action].label} completed automatically; crack, RUL and vibration are updated.`
               });
@@ -491,12 +434,12 @@ function App() {
                     downtimeH,
                     during: [] as OntologySnapshot[],
                     progress: { elapsedH: 0, totalH: downtimeH },
-                    before: ontologySnapshot(next, devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-before`)
+                    before: ontologySnapshot(next, demoPointRef.current ? replayGpsPosition(next) : devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-before`)
                   }
                 };
                 autoServiceRef.current = runtime;
                 next = makeDowntimePoint(next, runtime);
-                runtime.ontology.during.push(ontologySnapshot(next, devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-during`));
+                runtime.ontology.during.push(ontologySnapshot(next, demoPointRef.current ? replayGpsPosition(next) : devicePositionRef.current ?? replayGpsPosition(next), `${ontologySessionRef.current}-service-${cursor}-during`));
                 setServiceExecution({
                   action,
                   downtimeH,
@@ -510,7 +453,7 @@ function App() {
           }
         }
 
-      next = { ...next, observedAt: new Date().toISOString(), receivedAt: new Date().toISOString() };
+      next = { ...next, ...(demoPointRef.current ? { t: `Demo tick ${String(cursor + 1).padStart(3, '0')}` } : {}), observedAt: new Date().toISOString(), receivedAt: new Date().toISOString() };
       const nextHistory = [...current, next].slice(-48);
       historyRef.current = nextHistory;
       setHistory(nextHistory);
@@ -525,7 +468,7 @@ function App() {
   }, [serviceExecution]);
 
   useEffect(() => {
-    if (!storageReady) return;
+    if (!storageReady || demoPointRef.current) return;
     try {
       const value: SavedSession = { version: 1, asset: site.asset, events: ontologyEvents, stats: autoStats, latest: history[history.length - 1], manual: manualPoint, cursor, sessionId: ontologySessionRef.current };
       localStorage.setItem(sessionKey(site.asset), JSON.stringify(value));
@@ -562,7 +505,7 @@ function App() {
           updatedAt: manualPoint.t
         }
       : null;
-  const currentPosition = manualPosition ?? devicePosition ?? replayPosition;
+  const currentPosition = demoCase ? replayPosition : manualPosition ?? devicePosition ?? replayPosition;
   const liveSnapshot = useMemo(() => ontologySnapshot(latest, currentPosition, `${ontologySessionRef.current}-reading-${cursor}-${latest.source ?? "replay"}`), [latest, currentPosition.lat, currentPosition.lon, currentPosition.source, cursor]);
 
   function focusOntology(nodeId: string, eventId: string, snapshot?: OntologySnapshot, execution?: OntologyExecution) {
@@ -584,12 +527,42 @@ function App() {
     setInputOpen(false);
   }
 
+  function pauseSimulation(paused = true) { pausedRef.current = paused; setSimulationPaused(paused); }
+
+  function startDemo(id: string) {
+    const selected = demoCases.find(c => c.id === id);
+    if (!selected) return;
+    if (!demoBackupRef.current) {
+      const active = autoServiceRef.current;
+      if (active && !window.confirm('Start an isolated demo and interrupt the current simulated intervention? Incurred downtime is preserved in the original session.')) return;
+      const events = active ? updateExecutionLog(ontologyEvents, interruptExecution(active.ontology, 'Interrupted before isolated viva demo')) : ontologyEvents;
+      const saved: SavedSession = { version: 1, asset: site.asset, events, stats: autoStats, latest: historyRef.current[historyRef.current.length - 1], manual: manualPointRef.current, cursor, sessionId: ontologySessionRef.current };
+      demoBackupRef.current = structuredClone(saved);
+      if (storageReady) { try { localStorage.setItem(sessionKey(site.asset), JSON.stringify(saved)); } catch { setStorageWarning(true); setStorageMessage('Original session preserved in memory only; export before closing'); } }
+    }
+    const point: HistoryPoint = { t: 'Demo tick 000', source: 'auto-simulation', modelVersion: rulModel.version, windSpeed: 8, windDirection: 226, crackMm: selected.crack, crackState: crackStateFromMm(selected.crack), ...operatingOutput(8), ...conditionPrediction(8, selected.crack), observedAt: new Date().toISOString(), receivedAt: new Date().toISOString() };
+    point.serviceState = serviceStateFromCondition(point);
+    demoPointRef.current = point; autoServiceRef.current = null; autoPostServiceOverrideRef.current = true; autoCooldownRef.current = 0;
+    manualPointRef.current = null; historyRef.current = [point]; ontologySessionRef.current = `demo-${crypto.randomUUID()}`;
+    pauseSimulation(); setDemoCase(id); setHistory([point]); setManualPoint(null); setCursor(0); setOntologyEvents([]); setAutoStats(emptyStats()); setServiceExecution(null);
+    setOntologyFocus({ id: ++linkedRequestRef.current, nodeId: 'recommendation', eventId: 'live' }); setReplayRequest({ id: ++linkedRequestRef.current, eventId: 'live' });
+  }
+
+  function returnToSession() {
+    const saved = demoBackupRef.current; if (!saved) return;
+    const point = restoredPoint(saved.latest), manual = restoredManual(saved.manual);
+    demoPointRef.current = null; demoBackupRef.current = null; autoServiceRef.current = null; autoPostServiceOverrideRef.current = true; autoCooldownRef.current = 8;
+    historyRef.current = [point]; manualPointRef.current = manual; ontologySessionRef.current = saved.sessionId;
+    pauseSimulation(); setDemoCase(''); setHistory([point]); setManualPoint(manual); setCursor(saved.cursor); setOntologyEvents(saved.events); setAutoStats(saved.stats); setServiceExecution(null);
+    setOntologyFocus({ id: ++linkedRequestRef.current, nodeId: 'recommendation', eventId: 'live' }); setReplayRequest({ id: ++linkedRequestRef.current, eventId: 'live' });
+  }
+
   function exportHistory() {
     const value: SavedSession = { version: 1, asset: site.asset, events: ontologyEvents, stats: autoStats, latest: historyRef.current[historyRef.current.length - 1], manual: manualPointRef.current, cursor, sessionId: ontologySessionRef.current };
     const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: "application/json" }));
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `${site.asset}-service-history.json`;
+    anchor.download = `${demoCase ? 'demo-' : ''}${site.asset}-service-history.json`;
     anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
@@ -697,22 +670,31 @@ function App() {
         </div>
       </header>
 
+      <section className="demo-toolbar" aria-label="WT viva controls">
+        <label>Viva case<select aria-label="WT viva case" value={demoCase} onChange={e => { if (e.target.value) startDemo(e.target.value); else returnToSession(); }}><option value="">Current session</option>{demoCases.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></label>
+        <button aria-label={simulationPaused ? 'Play WT simulation' : 'Pause WT simulation'} title={simulationPaused ? 'Play WT simulation' : 'Pause WT simulation'} onClick={() => pauseSimulation(!simulationPaused)}>{simulationPaused ? <Play size={16} /> : <Pause size={16} />}</button>
+        <button title="Reset isolated demo" aria-label="Reset isolated demo" disabled={!demoCase} onClick={() => startDemo(demoCase)}><RotateCcw size={16} /></button>
+        {demoCase && <button onClick={returnToSession}><RotateCcw size={15} />Return to saved session</button>}
+        <span role="status">{demoCase ? 'Isolated in-memory demo / 8 m/s / original session preserved' : 'Current session'} / {simulationPaused || manualPoint ? 'Paused' : 'Running'} / 1 monitoring tick = 1 modeled h</span>
+        <a href={`${import.meta.env.BASE_URL}cmapss/?story=1`}>C-MAPSS case study</a>
+      </section>
+
       <section className="metric-row" aria-label="Live WT metrics">
         <Metric icon={<MapPin />} label="GPS" value={`${currentPosition.lat.toFixed(4)}, ${currentPosition.lon.toFixed(4)}`} sub={currentPosition.source} />
         <Metric icon={<Wind />} label="Wind speed" value={`${latest.windSpeed.toFixed(1)} m/s`} sub={`${cardinal(latest.windDirection)} ${latest.windDirection} deg`} />
         <Metric icon={<Gauge />} label="Rotor RPM" value={`${latest.rpm}`} sub={`${latest.power} W output`} />
         <Metric icon={<Activity />} label="Blade vibration" value={`${(bladeFeatures.rms[0] ?? latest.vibrationRms).toFixed(3)} g`} sub={`${bladeFeatures.rms[0] == null ? 'Z' : 'X / flapwise'} | ${latest.crackState ?? "C?"} | k ${(bladeFeatures.kurtosis[0] ?? latest.kurtosis).toFixed(2)}`} />
-        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} h`} sub={rulDescription(latest)} />
+        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} pseudo-h`} sub={rulDescription(latest)} />
       </section>
 
-      <div className="history-toolbar" aria-label="Saved service history"><span role={historyError || storageWarning ? "alert" : "status"} className={historyError || storageWarning ? "history-warning" : ""}>{historyError ?? storageMessage}</span><span>{ontologyEvents.length} events / {autoStats.observationHours.toFixed(1)} modeled h</span><button title="Export service history" aria-label="Export service history" onClick={exportHistory}><Download size={16} /></button><button title="Import service history" aria-label="Import service history" disabled={serviceExecution?.status === "in-progress"} onClick={() => importRef.current?.click()}><Upload size={16} /></button><input ref={importRef} type="file" accept="application/json,.json" aria-label="History JSON file" hidden onChange={(e) => { const file = e.target.files?.[0]; if (file) void importHistory(file); e.target.value = ""; }} /><button title="Clear service history" aria-label="Clear service history" disabled={serviceExecution?.status === "in-progress"} onClick={clearHistory}><Trash2 size={16} /></button></div>
+      <div className="history-toolbar" aria-label="Saved service history"><span role={historyError || storageWarning ? "alert" : "status"} className={historyError || storageWarning ? "history-warning" : ""}>{historyError ?? (storageWarning ? storageMessage : demoCase ? "Demo history / in memory only" : storageMessage)}</span><span>{ontologyEvents.length} events / {autoStats.observationHours.toFixed(1)} modeled h</span><button title="Export service history" aria-label="Export service history" onClick={exportHistory}><Download size={16} /></button><button title="Import service history" aria-label="Import service history" disabled={!!demoCase || serviceExecution?.status === "in-progress"} onClick={() => importRef.current?.click()}><Upload size={16} /></button><input ref={importRef} type="file" accept="application/json,.json" aria-label="History JSON file" hidden onChange={(e) => { const file = e.target.files?.[0]; if (file) void importHistory(file); e.target.value = ""; }} /><button title="Clear service history" aria-label="Clear service history" disabled={!!demoCase || serviceExecution?.status === "in-progress"} onClick={clearHistory}><Trash2 size={16} /></button></div>
 
       <TwinWorkspace
         snapshot={liveSnapshot}
         executions={ontologyEvents}
         activeExecution={serviceExecution?.ontology ?? null}
         request={replayRequest}
-        renderTurbine={(view, select, selected) => <TurbinePanel latest={view.reading as HistoryPoint} serviceState={view.serviceState as ServiceState} embedded linked={selected === "condition" || selected === "rul" || selected === "tcs" || selected === "recommendation"} onCrackSelect={() => select("condition")} onRulSelect={() => select("rul")} />}
+        renderTurbine={(view, select, selected) => <TurbinePanel latest={view.reading as HistoryPoint} serviceState={view.serviceState as ServiceState} paused={simulationPaused} embedded linked={selected === "condition" || selected === "rul" || selected === "tcs" || selected === "recommendation"} onCrackSelect={() => select("condition")} onRulSelect={() => select("rul")} />}
         onOntology={focusOntology}
         onCosts={() => document.getElementById("tcs-panel")?.scrollIntoView({ behavior: "smooth", block: "start" })}
       />
@@ -732,6 +714,7 @@ function App() {
 
       <div id="ontology-module"><OntologyPanel
         snapshot={liveSnapshot}
+        onPause={() => pauseSimulation()}
         executions={ontologyEvents}
         focusRequest={ontologyFocus}
         onReplay={(eventId) => {
@@ -739,6 +722,8 @@ function App() {
           document.getElementById("twin-workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
       /></div>
+
+      <Suspense fallback={<p className="research-scope">Loading policy comparison</p>}><PolicyComparison /></Suspense>
 
       {enhancedMode ? (
         <EnhancedDashboardModules
@@ -805,6 +790,8 @@ function SiteMap({
 }) {
   const meta = stateMeta[serviceState];
   const center: [number, number] = [position.lat, position.lon];
+  const [offlineMap, setOfflineMap] = useState(() => !navigator.onLine);
+  const [tileError, setTileError] = useState(false);
   const windEnd = bearingDestination(position.lat, position.lon, latest.windDirection, 0.22);
   const turbineIcon = L.divIcon({
     className: "wt-leaflet-icon",
@@ -826,9 +813,9 @@ function SiteMap({
         <h2>GPS and Real Site Map</h2>
       </div>
       <div className="leaflet-map-shell">
-        <MapContainer center={center} zoom={15} scrollWheelZoom={false} className="leaflet-map" attributionControl={false}>
+        <MapContainer center={center} zoom={15} scrollWheelZoom={false} className="leaflet-map">
           <MapRecenter center={center} />
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {!offlineMap && <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" eventHandlers={{ tileerror: () => setTileError(true) }} />}
           <Polyline positions={[center, windEnd]} pathOptions={{ color: "#4d78bd", weight: 4, opacity: 0.65 }} />
           <Marker position={center} icon={turbineIcon}>
             <Popup>
@@ -840,7 +827,7 @@ function SiteMap({
               <br />
               State: {serviceState}
               <br />
-              RUL p10/p50/p90: {latest.rulP10}/{latest.rulP50}/{latest.rulP90} h
+              RUL p10/p50/p90: {latest.rulP10}/{latest.rulP50}/{latest.rulP90} pseudo-h
             </Popup>
           </Marker>
           <Marker position={windEnd} icon={windIcon}>
@@ -851,6 +838,8 @@ function SiteMap({
         </MapContainer>
       </div>
       <div className="site-facts">
+        <label className="map-mode"><input type="checkbox" aria-label="Offline coordinate view" checked={offlineMap} onChange={e => { setOfflineMap(e.target.checked); setTileError(false); }} />Offline coordinate view</label>
+        {(offlineMap || tileError) && <p role="status" className="research-warning">{offlineMap ? 'Coordinate view only / no geographic basemap' : 'Map tiles unavailable or incomplete / coordinates and wind markers remain available'}</p>}
         <span>{site.name}</span>
         <strong>{site.asset}</strong>
         <small>
@@ -879,18 +868,20 @@ function MapRecenter({ center }: { center: [number, number] }) {
   return null;
 }
 
-function TurbinePanel({ latest, serviceState, embedded = false, linked = false, onCrackSelect, onRulSelect }: { latest: HistoryPoint; serviceState: ServiceState; embedded?: boolean; linked?: boolean; onCrackSelect?: () => void; onRulSelect?: () => void }) {
+function TurbinePanel({ latest, serviceState, embedded = false, linked = false, paused = false, onCrackSelect, onRulSelect }: { latest: HistoryPoint; serviceState: ServiceState; embedded?: boolean; linked?: boolean; paused?: boolean; onCrackSelect?: () => void; onRulSelect?: () => void }) {
   const bladesRef = useRef<HTMLDivElement | null>(null);
   const bladeAngleRef = useRef(0);
   const visualVelocityRef = useRef(0);
   const rpmRef = useRef(latest.rpm);
   const serviceModeRef = useRef(latest.serviceMode);
+  const pausedAnimationRef = useRef(paused);
+  pausedAnimationRef.current = paused;
   const meta = stateMeta[serviceState];
   const crackMm = latest.crackMm ?? 0;
   const severity = clamp(crackMm / 80, 0, 1);
   const crackWidth = severity * 68;
   const crackOpacity = crackMm > 0 ? clamp(0.28 + severity * 0.67, 0, 0.95) : 0;
-  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | p10 RUL ${latest.rulP10} h`;
+  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | p10 RUL ${latest.rulP10} pseudo-h`;
   const regime = operatingRegime(latest.windSpeed);
   const serviceAction = latest.serviceAction ? maintenanceActions[latest.serviceAction] : null;
   const serviceLabel =
@@ -912,6 +903,7 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
     function animateRotor(timestamp: number) {
       const deltaSeconds = Math.min((timestamp - lastTimestamp) / 1000, 0.05);
       lastTimestamp = timestamp;
+      if (pausedAnimationRef.current) { frameId = window.requestAnimationFrame(animateRotor); return; }
       const targetVelocity =
         window.matchMedia('(prefers-reduced-motion: reduce)').matches || serviceModeRef.current === "in-downtime" ? 0 : clamp((rpmRef.current / 680) * 560, 0, 720);
       const response = 1 - Math.exp(-deltaSeconds * 3.2);
@@ -960,9 +952,9 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
         </div>
         <div className="sensor-dot" style={{ background: meta.color }} />
         <div className="crack-readout" style={{ borderColor: meta.color }}>
-          <span>Blade crack detection</span>
+          <span>Simulated blade condition</span>
           <button onClick={onCrackSelect} aria-label="Open blade condition"><Network size={14} /><strong>{crackLabel}</strong></button>
-          <em>{serviceLabel ?? `RUL band ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`}</em>
+          <em>{serviceLabel ?? `RUL band ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`}</em>
         </div>
         <div className="ground-band" />
       </div>
@@ -1010,8 +1002,8 @@ function DecisionPanel({
   const maxTcsCost = Math.max(...tcsAlternatives.map((estimate) => estimate.totalCost), 1);
   const decisionMetrics = [
     { label: "Session availability", value: availability == null ? "Pending" : formatPct(availability), note: `${autoStats.observationHours.toFixed(1)} modeled h / service downtime only` },
-    { label: "Crack length", value: `${(latest.crackMm ?? 0).toFixed(1)} mm`, note: `${latest.crackState ?? crackStateFromMm(latest.crackMm ?? 0)} detected` },
-    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`, note: "p10 / p50 / p90" },
+    { label: "Crack length", value: `${(latest.crackMm ?? 0).toFixed(1)} mm`, note: `${latest.crackState ?? crackStateFromMm(latest.crackMm ?? 0)} simulated state` },
+    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`, note: "Adjusted lower / P50 / upper" },
     {
       label: "Reference contract",
       value: settlement ? settlement.status : `${energyYield} kWh eq.`,
@@ -1069,7 +1061,7 @@ function DecisionPanel({
         </div>
         <div className="tcs-hero">
           <div>
-            <span>Selected strategy cost</span>
+            <span>Single intervention estimate / assumed GBP</span>
             <strong>{formatGbp(recommendedTcs.totalCost)}</strong>
           </div>
           <p>{maintenanceActions[recommendedTcs.action].description}</p>
@@ -1230,7 +1222,7 @@ function EnhancedDashboardModules({
           </div>
           <div className="confidence-stack">
             <ConfidenceBar label="Crack evidence score" value={confidence.crackDetection} note={`Anomaly score ${confidence.anomalyScore.toFixed(0)} / 100`} />
-            <ConfidenceBar label="RUL stability score" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} h`} />
+            <ConfidenceBar label="RUL stability score" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} pseudo-h`} />
             <ConfidenceBar label="Decision support score" value={confidence.decisionConfidence} note={maintenanceActions[serviceDecisionByTcs(latest, serviceState).action].label} />
           </div>
           <details className="model-basis"><summary>Model basis / {modelMetadata.version}</summary><dl>
@@ -1353,7 +1345,7 @@ function EvidenceModal({
         <div className="evidence-chain">
           <EvidenceItem label={`ObservationWindow-${String(latest.acquisitionIndex ?? 421).padStart(4, "0")}`} value={`GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)} | wind ${latest.windSpeed.toFixed(1)} m/s | bin ${latest.windBin ?? "n/a"}`} />
           <EvidenceItem label="FeatureVector" value={`Z RMS ${latest.vibrationRms.toFixed(3)} g | Z kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
-          <EvidenceItem label="RULEstimate" value={`p10 ${latest.rulP10} h | p50 ${latest.rulP50} h | p90 ${latest.rulP90} h`} />
+          <EvidenceItem label="RULEstimate" value={`p10 ${latest.rulP10} pseudo-h | p50 ${latest.rulP50} pseudo-h | p90 ${latest.rulP90} pseudo-h`} />
           <EvidenceItem label="ServiceState" value={serviceState} accent={meta.color} />
           <EvidenceItem label="ServiceActionRecommendation" value={`${maintenanceActions[tcsDecision.action].label} | TCS ${formatGbp(tcsDecision.totalCost)} | residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`} />
           <EvidenceItem label="ContractKPI" value={meta.kpi} />
@@ -1471,9 +1463,9 @@ function ScenarioInputModal({
           <NumberField label="Z kurtosis" value={form.kurtosis} step="0.01" onChange={(value) => updateNumber("kurtosis", value)} />
           <NumberField label="Modal f1 Hz" value={form.modalF1} step="0.01" onChange={(value) => updateNumber("modalF1", value)} />
           <NumberField label="Crack length mm" value={form.crackMm} step="1" onChange={(value) => updateNumber("crackMm", value)} />
-          <NumberField label="RUL p10 h" value={form.rulP10} step="1" onChange={(value) => updateNumber("rulP10", value)} />
-          <NumberField label="RUL p50 h" value={form.rulP50} step="1" onChange={(value) => updateNumber("rulP50", value)} />
-          <NumberField label="RUL p90 h" value={form.rulP90} step="1" onChange={(value) => updateNumber("rulP90", value)} />
+          <NumberField label="RUL lower / pseudo-h" value={form.rulP10} step="1" onChange={(value) => updateNumber("rulP10", value)} />
+          <NumberField label="RUL P50 / pseudo-h" value={form.rulP50} step="1" onChange={(value) => updateNumber("rulP50", value)} />
+          <NumberField label="RUL upper / pseudo-h" value={form.rulP90} step="1" onChange={(value) => updateNumber("rulP90", value)} />
         </div>
 
         <details className="feature-window-input"><summary>Chapter 5 XGBoost feature window</summary><div className="feature-window-tools"><label><Upload size={14} />Feature JSON<input type="file" accept=".json,application/json" aria-label="Import Chapter 5 feature window" onChange={(event) => { void importFeatureWindow(event.target.files?.[0]); event.target.value = ''; }} /></label><button type="button" title="Download current named feature window" onClick={downloadFeatureWindow}><Download size={14} />Feature window</button></div><dl><div><dt>Input source</dt><dd>{rulDescription(previewPoint)}</dd></div><div><dt>Feature coverage</dt><dd>{featureWindow ? '31 / 31 provided' : '31 / 31 reference-assisted; not measured'}</dd></div><div><dt>Training domain</dt><dd>{previewPoint.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Prediction scope</dt><dd>Synthetic pseudo-hours / {rulUncertaintyDescription(previewPoint)}</dd></div></dl></details>
@@ -1577,18 +1569,10 @@ function simulateAutoTwinPoint(base: HistoryPoint, prior: HistoryPoint | undefin
     serviceMode: undefined,
     serviceAction: undefined,
     downtimeH: undefined,
-    serviceNote: `Auto crack detection: +${growthRate.toFixed(2)} mm/tick, RUL recalculated from crack and wind load.`
+    serviceNote: `Simulated crack growth: +${growthRate.toFixed(2)} mm/tick, RUL recalculated from crack and wind load.`
   };
 
   return { ...point, serviceState: serviceStateFromCondition(point) };
-}
-
-function crackGrowthRate(point: HistoryPoint, crackMm: number, index: number) {
-  const load = Math.max(0, point.windSpeed - 4.5) * 0.11;
-  const vibration = Math.max(0, point.vibrationRms - 0.04) * 2.4;
-  const damageAcceleration = clamp(crackMm / 80, 0, 1) * 0.34;
-  const cyclePulse = (Math.sin(index / 8) + 1) * 0.08;
-  return clamp(0.16 + load + vibration + damageAcceleration + cyclePulse, 0.08, 1.65);
 }
 
 function inferCrackFromRul(rulP10: number) {
@@ -1630,85 +1614,6 @@ function makeDowntimePoint(point: HistoryPoint, runtime: AutoServiceRuntime): Hi
 function suggestedMaintenanceAction(point: HistoryPoint, serviceState: ServiceState): MaintenanceActionKey {
   return serviceDecisionByTcs(point, serviceState).action;
 }
-
-function serviceDecisionByTcs(point: HistoryPoint, serviceState: ServiceState) {
-  const candidates = serviceCandidatesForState(point, serviceState);
-  const estimates = candidates
-    .map((action) => estimateTcs(point, action))
-    .sort((a, b) => a.totalCost - b.totalCost);
-  const riskFiltered = estimates.filter((estimate) => isRiskAcceptableAfterAction(point, estimate, serviceState));
-
-  return riskFiltered[0] ?? estimates[0];
-}
-
-function serviceCandidatesForState(point: HistoryPoint, serviceState: ServiceState): MaintenanceActionKey[] {
-  const crackMm = point.crackMm ?? 0;
-
-  if (serviceState === "OutOfContract" || crackMm >= 80) return ["corrective-maintenance", "active-maintenance"];
-  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) {
-    return ["active-maintenance", "corrective-maintenance", "predictive-maintenance"];
-  }
-  if (crackMm >= 45 || point.rulP10 < 360) {
-    return ["predictive-maintenance", "proactive-maintenance", "active-maintenance", "spare-prepositioning"];
-  }
-  if (crackMm >= 30 || serviceState === "Degraded") {
-    return ["spare-prepositioning", "preactive-maintenance", "predictive-maintenance", "condition-inspection"];
-  }
-  if (crackMm >= 20 || serviceState === "Watch") {
-    return ["condition-inspection", "spare-prepositioning", "preactive-maintenance"];
-  }
-  return ["condition-inspection", "spare-prepositioning"];
-}
-
-function isRiskAcceptableAfterAction(point: HistoryPoint, estimate: ServiceCostEstimate, serviceState: ServiceState) {
-  const crackMm = point.crackMm ?? 0;
-
-  if (serviceState === "OutOfContract" || crackMm >= 80) return estimate.residualCrackMm < 20 && estimate.residualRiskScore < 0.24;
-  if (serviceState === "Critical" || crackMm >= 60 || point.rulP10 < 240) return estimate.residualCrackMm < 45 && estimate.residualRiskScore < 0.34;
-  if (crackMm >= 45 || point.rulP10 < 360) return estimate.residualCrackMm < 35 && estimate.residualRiskScore < 0.42;
-  if (crackMm >= 30 || serviceState === "Degraded") return estimate.residualRiskScore < 0.56;
-  return estimate.residualRiskScore < 0.72;
-}
-
-function estimateTcs(point: HistoryPoint, action: MaintenanceActionKey, downtimeOverride?: number): ServiceCostEstimate {
-  const actionConfig = maintenanceActions[action];
-  const economics = serviceEconomics[action];
-  const downtimeH = downtimeOverride ?? actionConfig.defaultDowntimeH;
-  const crackBefore = point.crackMm ?? 0;
-  const residualCrackMm = Number(clamp(crackBefore * (1 - actionConfig.crackReduction), 0, 80).toFixed(1));
-  const residualRulP10 = residualCrackMm === crackBefore ? point.rulP10 : conditionPrediction(point.windSpeed, residualCrackMm).rulP10;
-  const residualRiskScore =
-    residualRiskAfterAction(point, residualCrackMm, residualRulP10) * economics.riskMultiplier;
-  const downtimeCost = downtimeH * tcsParameters.downtimeCostPerHour + (point.power / 1000) * downtimeH * tcsParameters.energyValuePerKwh;
-  const contractCost = downtimeH * tcsParameters.availabilityPenaltyPerHour * (point.rulP10 < 360 ? 1.25 : 1);
-  const residualRiskCost = Math.pow(residualRiskScore, 2) * tcsParameters.unplannedFailureConsequence;
-  const totalCost = Math.max(
-    0,
-    economics.directCost + economics.logisticsCost + downtimeCost + contractCost + residualRiskCost - economics.planningCredit
-  );
-
-  return {
-    action,
-    totalCost: Math.round(totalCost),
-    directCost: Math.round(economics.directCost),
-    downtimeCost: Math.round(downtimeCost),
-    logisticsCost: Math.round(Math.max(0, economics.logisticsCost - economics.planningCredit)),
-    contractCost: Math.round(contractCost),
-    residualRiskCost: Math.round(residualRiskCost),
-    residualRiskScore: Number(residualRiskScore.toFixed(3)),
-    residualCrackMm,
-    residualRulP10
-  };
-}
-
-function residualRiskAfterAction(point: HistoryPoint, residualCrackMm: number, residualRulP10: number) {
-  const crackRisk = clamp(residualCrackMm / 80, 0, 1) * 0.48;
-  const rulRisk = clamp(1 - residualRulP10 / 900, 0, 1) * 0.32;
-  const vibrationRisk = clamp((point.vibrationRms - 0.04) / 0.18, 0, 1) * 0.13;
-  const loadRisk = clamp((point.windSpeed - 7) / 7, 0, 1) * 0.07;
-  return clamp(crackRisk + rulRisk + vibrationRisk + loadRisk, 0.02, 0.98);
-}
-
 
 function tcsCostGroups(estimate: ServiceCostEstimate, point: HistoryPoint) {
   const actionConfig = maintenanceActions[estimate.action];
@@ -1808,7 +1713,7 @@ function residualRiskCostItems(estimate: ServiceCostEstimate, point: HistoryPoin
 
   return splitCost(estimate.residualRiskCost, [
     [`Crack exposure ${estimate.residualCrackMm.toFixed(1)} mm`, crackDriver / totalDriver],
-    [`RUL exposure p10 ${estimate.residualRulP10} h`, rulDriver / totalDriver],
+    [`Lower RUL exposure ${estimate.residualRulP10} pseudo-h`, rulDriver / totalDriver],
     ["Vibration/load uncertainty", (vibrationDriver + loadDriver) / totalDriver]
   ]);
 }
@@ -1873,7 +1778,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
     },
     {
       label: "RUL interval logic",
-      value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} h`,
+      value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`,
       note: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "p10 <= p50 <= p90" : "RUL bounds conflict.",
       status: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "pass" : "warn"
     },
@@ -1898,7 +1803,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
     {
       label: "Chapter 5 provenance reference",
       value: vc2 ? `${vc2.audit_rate_pct.toFixed(0)}% audit` : "n/a",
-      note: "Recorded VC2 audit; live OWL / SHACL validation not run",
+      note: "Recorded VC2 reference; WT snapshot validation is separately executed",
       status: "context"
     }
   ];
@@ -1917,7 +1822,7 @@ function serviceLedgerRows(
       id: "current-advisory",
       time: latest.t,
       service: maintenanceActions[decision.action].label,
-      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, p10 ${latest.rulP10} h`,
+      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, p10 ${latest.rulP10} pseudo-h`,
       outcome: `Advisory TCS ${formatGbp(decision.totalCost)}`
     }
   ];
@@ -2035,7 +1940,7 @@ function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceAction
     serviceMode: "post-service",
     serviceAction: action,
     downtimeH,
-    serviceNote: `${actionConfig.label} completed: crack ${crackBefore.toFixed(1)} mm -> ${crackAfter.toFixed(1)} mm, RUL p50 -> ${prediction.rulP50} h`
+    serviceNote: `${actionConfig.label} completed: crack ${crackBefore.toFixed(1)} mm -> ${crackAfter.toFixed(1)} mm, RUL p50 -> ${prediction.rulP50} pseudo-h`
   };
 
   return { ...point, serviceState: serviceStateFromCondition(point) };
@@ -2100,7 +2005,7 @@ function scenarioConflicts(form: ScenarioForm, touched: Partial<Record<keyof Sce
   }
 
   if ((touched.crackMm || touched.windSpeed) && touched.rulP10 && Math.abs(form.rulP10 - expected.rulP10) > 220) {
-    conflicts.push(`Damage/load and RUL conflict: expected p10 RUL is about ${expected.rulP10} h, not ${Math.round(form.rulP10)} h.`);
+    conflicts.push(`Damage/load and RUL conflict: expected p10 RUL is about ${expected.rulP10} pseudo-h, not ${Math.round(form.rulP10)} pseudo-h.`);
   }
 
   return conflicts;
@@ -2136,7 +2041,7 @@ function operatingRegime(windSpeed: number) {
 
 function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState) {
   const growthEvidence = latest.crackGrowthRateMmH != null ? `, crack growth +${latest.crackGrowthRateMmH.toFixed(2)} mm/tick` : "";
-  const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, p10 RUL ${latest.rulP10} h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
+  const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, p10 RUL ${latest.rulP10} pseudo-h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
   const tcsDecision = serviceDecisionByTcs(latest, serviceState);
   const tcsEvidence = `${maintenanceActions[tcsDecision.action].label}, TCS ${formatGbp(tcsDecision.totalCost)}, residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`;
 
@@ -2258,9 +2163,9 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
       splitLine: { lineStyle: { color: "rgba(128, 169, 158, 0.14)" } }
     },
     series: [
-      { name: "p10 bound", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP10) },
+      { name: "Adjusted lower", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP10) },
       { name: "p50", type: "line", smooth: false, showSymbol: false, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
-      { name: "p90 bound", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP90) }
+      { name: "Adjusted upper", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP90) }
     ]
   };
 }

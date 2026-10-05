@@ -1,0 +1,8 @@
+PREFIX wt: <https://w3id.org/sdt-wt/demo#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+SELECT ?name ?value ?source WHERE {
+  <urn:wt:active-snapshot> wt:estimate ?estimate .
+  ?estimate prov:wasDerivedFrom ?window .
+  ?window wt:featureSource ?source ; wt:feature ?feature .
+  ?feature wt:featureName ?name ; wt:featureValue ?value .
+} ORDER BY ?name

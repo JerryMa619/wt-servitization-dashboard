@@ -34,7 +34,7 @@ try {
     await dialog.getByText('31 / 31 provided', { exact: true }).waitFor();
     assert.equal(await apply.isDisabled(), false);
     const prediction = predictRul(vector, 'imported-window');
-    for (const [label, key] of [['RUL p10 h', 'rulP10'], ['RUL p50 h', 'rulP50'], ['RUL p90 h', 'rulP90']]) assert.equal(Number(await dialog.getByRole('spinbutton', { name: label, exact: true }).inputValue()), prediction[key]);
+    for (const [label, key] of [['RUL lower / pseudo-h', 'rulP10'], ['RUL P50 / pseudo-h', 'rulP50'], ['RUL upper / pseudo-h', 'rulP90']]) assert.equal(Number(await dialog.getByRole('spinbutton', { name: label, exact: true }).inputValue()), prediction[key]);
     const name = route ? 'enhanced' : 'standard';
     await dialog.screenshot({ path: fileURLToPath(new URL(`${name}-feature-input.png`, output)) });
     await apply.click();
@@ -69,7 +69,7 @@ try {
     await page.getByRole('button', { name: 'Input scenario', exact: true }).click();
     await dialog.locator('.feature-window-input summary').click();
     await dialog.getByRole('spinbutton', { name: 'GPS latitude', exact: true }).fill('52.1');
-    assert.equal(Number(await dialog.getByRole('spinbutton', { name: 'RUL p50 h', exact: true }).inputValue()), prediction.rulP50);
+    assert.equal(Number(await dialog.getByRole('spinbutton', { name: 'RUL P50 / pseudo-h', exact: true }).inputValue()), prediction.rulP50);
     assert.equal(await dialog.getByText('31 / 31 provided', { exact: true }).count(), 1);
     await dialog.getByRole('spinbutton', { name: 'Wind speed m/s', exact: true }).fill('40');
     assert.match(await dialog.locator('.feature-window-input').innerText(), /reference-assisted/);
