@@ -1,10 +1,10 @@
 {
-  "verifiedAt": "2026-10-01T23:22:04.035Z",
+  "verifiedAt": "2026-10-05T18:03:00.249Z",
   "results": [
     {
       "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
       "completedCycles": 2,
-      "samples": 359,
+      "samples": 352,
       "stages": [
         "monitor",
         "decision",
@@ -22,7 +22,7 @@
     {
       "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
       "completedCycles": 2,
-      "samples": 360,
+      "samples": 354,
       "stages": [
         "monitor",
         "decision",
