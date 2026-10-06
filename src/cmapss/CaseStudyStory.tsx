@@ -8,8 +8,8 @@ import {compareContracts,contracts} from './contracts';
 import {initialPlayer,semanticStages,storyPoint,storyReducer,storySteps} from './story';
 import type {executeSemantic} from './semantic';
 import './story.css';
-import {CaseComparison,Contributions,ExaminerPanel,Handoff,SensitivityPanel,ServiceScope} from './VivaPanels';
-import {caseRoles,contributionEvidence} from './viva';
+import {CaseComparison,Contributions,ExaminerPanel,Handoff,SensitivityPanel,ServiceScope,ResponsibilityChain,FactorialPanel,EvidenceComparisonPanel} from './VivaPanels';
+import {caseRoles,contributionEvidence,contractFactorial,crossCaseSynthesis,serviceResponsibility} from './viva';
 const base=(import.meta as unknown as {env:{BASE_URL:string}}).env.BASE_URL;
 const points=data.engines.find(e=>e.id===34)!.points;
 const provenance={model:data.model,baselineSHA256:data.baselineSHA256,exporterSHA256:data.exporterSHA256,files:data.files,sensorNumbers:data.sensorNumbers,ontologySHA256:schema.sha256};
@@ -69,7 +69,7 @@ export default function CaseStudyStory({onClose}:{onClose:()=>void}) {
  function toggle(){if(player.finished)restart();else dispatch({type:'toggle'});}
  function go(index:number){dispatch({type:'goto',index});}
  function exportRun(){
-  const value={version:'0.6.0',caseRoles,contributionEvidence,mode:'automated explanation of recorded FD001 evidence',engine:34,dataset:'FD001',stage:step.id,cycle:p.cycle,playbackEnded:player.finished,allChaptersVisited:visited.length===storySteps.length,visitedChapters:visited,provenance,semanticChecks:Object.values(records),claims:'Implemented evidence-to-advice workflow; no authorisation, physical intervention or measured benefit is asserted.',script:storySteps};
+  const value={version:'0.7.0',caseRoles,contributionEvidence,crossCaseSynthesis,serviceResponsibility,factorialExamples:[158,171].map(c=>contractFactorial(points.find(p=>p.cycle===c)!)),mode:'automated explanation of recorded FD001 evidence',engine:34,dataset:'FD001',stage:step.id,cycle:p.cycle,playbackEnded:player.finished,allChaptersVisited:visited.length===storySteps.length,visitedChapters:visited,provenance,semanticChecks:Object.values(records),claims:'Implemented evidence-to-advice workflow; no authorisation, physical intervention or measured benefit is asserted.',script:storySteps};
   const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='cmapss-case-study-story.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
  }
  const history=points.filter(v=>v.cycle<=p.cycle);
@@ -94,7 +94,7 @@ export default function CaseStudyStory({onClose}:{onClose:()=>void}) {
     <div className="cs-narration" key={step.id}><small>{step.tag}</small><h2 data-testid="story-title">{step.title}</h2><p>{step.text}</p><div className="cs-meaning"><small>WHY IT MATTERS</small><p>{step.meaning}</p></div><ExaminerPanel stage={step.id}/></div>
     <div className="cs-evidence">
      <div className="cs-evidence-head"><span>RECORDED EVIDENCE · FD001 / 034</span><b>Cycle <span data-testid="story-cycle">{p.cycle}</span></b></div>
-     {step.id==='purpose'&&<ServiceScope/>}
+     {step.id==='purpose'&&<><ServiceScope/><ResponsibilityChain/></>}
      {step.id==='semantics'&&<Handoff elapsed={player.elapsed} manual={manual}/>}
      {['purpose','observe','predict'].includes(step.id)&&<>
       <svg className="cs-engine" viewBox="0 0 540 110" role="img" aria-label="Conceptual engine and data flow; no measured damage or physical sensor locations are depicted"><path d="M90 20L320 30L440 47L468 57L440 71L320 87L90 97Z" fill="#dce9e4" stroke="#85a6a2"/><ellipse cx="90" cy="58" rx="28" ry="43" fill="#294853"/><g className="cs-fan">{Array.from({length:10},(_,i)=><path key={i} d="M90 58Q75 38 90 22Q107 45 90 58" fill="#b4d0c5" transform={`rotate(${i*36} 90 58)`}/>)}</g>{[170,190,210,230,310,330,350].map(x=><path key={x} d={`M${x} 35v47`} stroke="#6b9996" strokeWidth="8"/>)}<path d="M110 58H465" stroke="#b57b4a" strokeWidth="4"/><text x="10" y="108" fontSize="10" fill="#69857e">CONCEPTUAL ASSET · RECORDED DATA REPLAY</text></svg>
@@ -109,6 +109,8 @@ export default function CaseStudyStory({onClose}:{onClose:()=>void}) {
      </>}
      {['cost','margin'].includes(step.id)&&<><div className="cs-fixed">Same RUL: {f(p.point)} · lower bound {f(p.low)} cycles</div><div className="cs-contracts">{pair.map(({terms,decision,budget})=><article key={terms.id}><small>{terms.name}</small><dl><dt>Consequence cost</dt><dd>{terms.policy.consequence}×</dd><dt>Intervention margin</dt><dd>{terms.policy.gate} cycles</dd></dl><b data-testid={`story-${terms.id}`}>{decision.chosen.name}</b><p>Normalized cost {decision.chosen.total.toFixed(3)} · {decision.gated?'margin active':'cost ranking'}</p>{step.id==='margin'&&<p>Assumed target {terms.target*100}%<br/>Planned-loss budget margin: {budget.plannedMarginSlots.toFixed(0)} slots</p>}</article>)}</div><p className="cs-caption">Contract terms are research assumptions. Targets and intervention margins are independent; the KPI budget does not enter the optimizer. A margin of −3 slots under availability assurance means the assumed loss exceeds the budget. Maintenance advice does not establish compliance with the 99% target.</p></>}
      {step.id==='contributions'&&<><Contributions/><div className="cs-scope"><b>Scope and limitations</b><p>Separate models for four subsets; 32 replay engines and 4,835 snapshots. This is not a transfer-learning evaluation.</p><div>{metadata.map(d=><span key={d.dataset}>{d.dataset}<b>{(d.coverage*100).toFixed(1)}%</b>interval coverage</span>)}</div><p>Coverage uses all test endpoints; the nominal 80% level is not consistently achieved. Service benefits, actual availability, full ISO conformance and theoretical novelty are not established.</p></div></>}
+     {['cost','margin'].includes(step.id)&&<FactorialPanel point={p}/>}
+     {['semantics','quality'].includes(step.id)&&<EvidenceComparisonPanel/>}
      {['predict','cost','margin','contributions'].includes(step.id)&&<SensitivityPanel/>}
      {requirement&&<div className="cs-check" aria-live="polite">{error?<><strong role="alert">Semantic execution incomplete: {error}</strong><button className="cm-button" onClick={()=>setAttempt(v=>v+1)}>Retry validation</button></>:!result?<strong>Executing RDF / SHACL / SPARQL…</strong>:<><strong data-testid="story-check">{result.conforms?'SHACL CONFORMS':'SHACL NON-CONFORMING · expected failure'}</strong><span>{result.triples} triples · {result.rows.length} query rows · {result.violations.length} validation results</span><details><summary>Inspect query results and constraint report</summary><pre>{JSON.stringify({rows:result.rows,violations:result.violations},null,2)}</pre></details></>}</div>}
     </div>

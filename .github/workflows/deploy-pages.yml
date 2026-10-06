@@ -40,6 +40,7 @@ jobs:
           npm run test:cmapss:contracts
           npm run test:cmapss:datasets
           npm run test:cmapss:story
+          npm run test:cmapss:comparison
           npm run test:twin
           npm run test:model
           npm run test:xgboost
