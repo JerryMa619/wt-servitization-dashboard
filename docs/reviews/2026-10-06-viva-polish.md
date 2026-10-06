@@ -81,4 +81,16 @@ the local build and a screenshot/recording backup for the examination.
   prevented TypeScript discovery. Removing those empty cache directories restored
   the build; no dependency manifest/lockfile, model artifact or user data changed.
 
-Public deployment verification is recorded separately after publication.
+## Publication Verification
+
+Implementation commit `2534b82` passed [Pages CI and deployment](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/37486810252), including all WT and separate C-MAPSS suites.
+Both public WT routes passed the same browser checks, including executed semantic
+results for calibrated and recaptured manual evidence, actual single-sample plot
+pixels and 1440/390/320 px layouts. No browser exceptions were recorded.
+[Public verification](../../screenshots/viva-polish/public/verification.json)
+and screenshots use isolated simulated scenarios only. The public enhanced
+semantic desktop and TCS 320 px screenshots were visually inspected.
+
+The final publication-record commit changes documentation and test evidence only.
+Existing large bundles and upstream GitHub Actions runtime/runner migration
+warnings remain maintenance items; they did not prevent successful deployment.

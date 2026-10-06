@@ -1,0 +1,24 @@
+{
+  "base": "https://jerryma619.github.io/wt-servitization-dashboard/",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "checks": [
+        "Adjusted labels in metrics, map, architecture, evidence and executed semantic results",
+        "Manual override not labelled calibrated",
+        "Cost-allocation disclosure and keyboard-accessible breakdown",
+        "1440/390/320 px layouts without page overflow"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "checks": [
+        "Adjusted labels in metrics, map, architecture, evidence and executed semantic results",
+        "Manual override not labelled calibrated",
+        "Cost-allocation disclosure and keyboard-accessible breakdown",
+        "1440/390/320 px layouts without page overflow"
+      ]
+    }
+  ],
+  "errors": []
+}
