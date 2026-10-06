@@ -129,3 +129,17 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Added browser assertions that visible story scenes and the exported script contain no Chinese characters. The full production-browser suite passed: complete autoplay, four actual semantic executions, contract comparisons, evidence export, failure/retry, restored explorer state, reduced motion and 390/320px layouts, with no browser errors.
 - Player/model checks and the production build passed. Reviewed refreshed English desktop/mobile screenshots. Data, model, policy logic and claim boundaries are unchanged.
 - Final commit, merge, deployment and public verification are recorded on PR #3.
+
+## 2026-10-06 — viva-oriented evidence and complementary case roles
+
+- User requested changes following examiner review and an explanation of the two cases' distinct presentation focus.
+- Added asset/service boundary, participant roles, actual implementation-order handoff, per-scene examiner questions, contribution/evidence/gap cards, architecture mapping and complementary WT/C-MAPSS roles. Added manual viva controls while retaining automatic overview.
+- Added actual one-factor sensitivity across 1,233 FD001 snapshots and two reference contracts, a same-margin threshold-only comparator and provenance-bearing exports. Reports descriptive action changes, never service gains.
+- Explicitly identifies validation-after-advice, no operational approval gate, conventional validation alternatives, imperfect interval calibration and zero-wait intervention assumptions.
+- Outstanding prior-work, schema-baseline, heterogeneous-source and outcome evaluations are documented in VIVA_REVISION.md. WT implementation is preserved from current main.
+
+### Local verification
+
+- Production build, player/semantic/sensitivity tests and all nine WT research tests passed. No dependency, ontology-source or model changes.
+- Complete English browser suite passed with zero page errors, including manual mode, actual sensitivity export, all semantic scenes and expanded 390/320px views. Refreshed desktop/mobile screenshots were inspected.
+- Example descriptive result: for availability assurance, interval width ×1.25 changes 150/1,233 snapshot actions; the reference differs from the threshold-only comparator at 121/1,233 snapshots. Neither count establishes better outcomes.

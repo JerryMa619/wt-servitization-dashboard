@@ -2,7 +2,7 @@ import type { Point } from './model.ts';
 export const storySteps = [
 {
   "id": "purpose",
-  "title": "Why is RUL alone not enough?",
+  "title": "What part of servitization is being twinned?",
   "tag": "01 · RESEARCH QUESTION",
   "start": 30,
   "end": 30,
@@ -11,7 +11,7 @@ export const storySteps = [
     0,
     3
   ],
-  "text": "The same engine and degradation evidence can call for different actions under different service responsibilities. This case connects asset prognosis to service advice with explicit, traceable evidence.",
+  "text": "Asset condition and service responsibility are connected but distinct. This prototype twins the evidence-to-advice process: recorded degradation, assumed obligations and proposed recommendations. Service delivery remains outside the implemented boundary.",
   "framework": "Define the asset, service participants and responsibility boundaries.",
   "ontology": "Link Asset and Contract so that service context becomes part of the evidence structure.",
   "meaning": "Research question: how can technical condition and service responsibility enter one inspectable decision chain?"
@@ -42,7 +42,7 @@ export const storySteps = [
   "modules": [
     2
   ],
-  "text": "The DTE uses up to 30 available cycles to produce a RUL estimate and residual interval. Its lower bound maps to a service state. State classification and action selection use different rules.",
+  "text": "The DTE uses up to 30 available cycles to estimate RUL. Residual bounds are imperfectly calibrated: endpoint coverage is about 61–78% across subsets. Advice uses an illustrative normal approximation; inspect its sensitivity below.",
   "framework": "DTE provides state estimation and prognosis for the service-decision function.",
   "ontology": "cm:CycleRULEstimate records cycle units, bounds, the generating model and the source window.",
   "meaning": "Make uncertainty and units explicit so that downstream decisions can inspect the evidence they use."
@@ -59,7 +59,7 @@ export const storySteps = [
     2,
     4
   ],
-  "text": "RDF is generated and SHACL Core and SPARQL execute in this browser. The query identifies the engine, cycle, estimate and action behind the recommendation. This is an executable evidence chain.",
+  "text": "Follow one snapshot through acquisition, prognosis, contract-context advice and semantic inspection. RDF, SHACL Core and SPARQL execute here. Advice is computed before validation; the ontology does not infer or approve the action.",
   "framework": "Cross-System responsibilities support evidence tracing across processing stages.",
   "ontology": "Types, properties and provenance connect Observation, Estimate and Recommendation into a queryable structure.",
   "meaning": "The framework locates responsibilities; the ontology defines the objects exchanged and the relationships between their evidence."
@@ -141,7 +141,7 @@ export const storySteps = [
     3,
     4
   ],
-  "text": "The case demonstrates three implementation-level contributions: an executable mapping of service responsibilities, semantic evidence with units and provenance, and contract-context decisions under fixed technical evidence.",
+  "text": "Three candidate contributions have implementation evidence. Each still needs a research comparison: architecture reuse, semantic advantage over conventional structures, and decision robustness or outcomes.",
   "framework": "Provide a decomposition of responsibilities and connections between functions.",
   "ontology": "Provide object semantics, provenance relationships and executable structural constraints.",
   "meaning": "Together, responsibilities have an implementation location, exchanged data has explicit meaning, and advice has queryable support. Theoretical novelty still requires comparison with prior research."

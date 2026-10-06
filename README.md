@@ -206,3 +206,11 @@ The `/cmapss/` demonstration now offers four separately fitted subset models, on
 ### Automatic C-MAPSS case-study story
 
 Open `/cmapss/?story=1` or select **Play case study** for a roughly three-minute walkthrough of observed degradation, DT framework responsibilities, executable ontology evidence, contract decisions and scoped research contributions. It supports pause, chapters, speed, a transcript and real semantic-check exports. See [animated story design](docs/cmapss/ANIMATED_STORY.md).
+
+### C-MAPSS viva inspection
+
+In the English case-study story, choose **Viva · manual inspection** to inspect
+service boundaries, responsibility handoffs and examiner questions. Expand the
+sensitivity panel for actual FD001 replay calculations and a threshold-only
+comparison. [Viva methods and complementary case roles](docs/cmapss/VIVA_REVISION.md)
+separate implemented evidence from remaining research claims.

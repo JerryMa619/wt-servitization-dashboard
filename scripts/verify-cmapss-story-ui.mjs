@@ -4,7 +4,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE?pathToFileURL(process.env.PLAYWRIGHT_MODULE).href:'playwright');
 const browser=await chromium.launch({headless:true,...(process.env.CHROME_EXECUTABLE?{executablePath:process.env.CHROME_EXECUTABLE}:{})});
 const base=process.env.DASHBOARD_URL??'http://127.0.0.1:5178/';
-const out=new URL('../screenshots/cmapss-story/',import.meta.url);mkdirSync(out,{recursive:true});
+const out=process.env.STORY_OUTPUT?pathToFileURL(process.env.STORY_OUTPUT+'/'):new URL('../screenshots/cmapss-story/',import.meta.url);mkdirSync(out,{recursive:true});
 const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 const stage=id=>page.locator(`[data-stage="${id}"]`);
@@ -35,6 +35,28 @@ try{
    if(width===390&&[4,7,9].includes(n))await shot(`scene-${n}-mobile`);
   }
  }
+ // Manual viva mode holds its scene, preserves semantic execution and exposes reproducible sensitivity.
+ await page.setViewportSize({width:1440,height:1100});
+ await page.getByRole('combobox',{name:'Presentation mode'}).selectOption('viva');
+ await chapter(1).click();await page.getByRole('button',{name:'Restart story'}).click();
+ assert.equal(await page.getByRole('button',{name:'Play story',exact:true}).isDisabled(),true);
+ assert.ok(await page.getByLabel('Asset and service research scope').isVisible());
+ await chapter(4).click();await page.getByTestId('story-check').waitFor({timeout:60000});
+ assert.equal(await page.getByLabel('Implemented evidence handoff').locator('li').count(),5);
+ const manualProgress=await page.getByRole('progressbar').getAttribute('aria-valuenow');await page.waitForTimeout(350);
+ assert.equal(await page.getByRole('progressbar').getAttribute('aria-valuenow'),manualProgress);
+ await chapter(7).click();await page.getByTestId('story-check').waitFor({timeout:60000});
+ await page.getByText('Inspect computed sensitivity and threshold-only comparison',{exact:true}).click();
+ assert.equal(await page.locator('.cs-research tbody tr').count(),9);
+ await page.getByRole('combobox',{name:'Sensitivity contract'}).selectOption('1');
+ const sensitivityPending=page.waitForEvent('download');await page.getByRole('button',{name:'Export sensitivity evidence'}).click();
+ const sensitivityDownload=await sensitivityPending;const sensitivity=JSON.parse(readFileSync(await sensitivityDownload.path(),'utf8'));
+ assert.equal(sensitivity.frames,1233);assert.equal(sensitivity.referencePolicy.consequence,20);assert.equal(sensitivity.rows[0].changed,0);assert.equal(sensitivity.rows.length,9);assert.ok(sensitivity.sourceHashes);
+ await shot('viva-sensitivity-desktop');
+ for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Expanded sensitivity must fit narrow screens');}
+ await shot('viva-sensitivity-mobile');
+ await chapter(9).click();await page.getByText('Still needed to support the research claim',{exact:true}).first().click();
+ assert.ok(await page.getByLabel('Complementary case studies').isVisible());
  await page.getByRole('button',{name:'Exit story'}).click();assert.equal(await page.getByTestId('cycle').innerText(),'80');
  // Deep link, semantic failure/retry, and reduced-motion behavior.
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -45,5 +67,5 @@ try{
  await page.unroute('**/cmapss/cmapss-shapes.ttl');await page.getByRole('button',{name:'Retry validation'}).click();await page.getByTestId('story-check').waitFor({timeout:60000});assert.match(await page.getByTestId('story-check').innerText(),/^SHACL CONFORMS/);
  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Play case study',exact:true}).waitFor();assert.ok(!new URL(page.url()).searchParams.has('story'));
  assert.deepEqual(errors,[]);
- const report={base,status:'passed',checks:['complete nine-scene autoplay, pause/resume/restart and chapter selection','observed cycles 158/171 and actual contract decisions','four actual semantic checks including invalid-unit rejection','downloaded run evidence with hashes and actual completed checks','deep-link entry and Escape exit preserves explorer snapshot','HTTP failure pauses, retry executes successfully','reduced motion and 390/320px layouts'],browserErrors:errors};writeFileSync(new URL('verification.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+ const report={base,status:'passed',checks:['complete nine-scene autoplay, pause/resume/restart and chapter selection','observed cycles 158/171 and actual contract decisions','four actual semantic checks including invalid-unit rejection','downloaded run evidence with hashes and actual completed checks','deep-link entry and Escape exit preserves explorer snapshot','HTTP failure pauses, retry executes successfully','reduced motion and 390/320px layouts','manual viva mode, responsibility handoff, contribution boundaries and actual sensitivity export'],browserErrors:errors};writeFileSync(new URL('verification.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

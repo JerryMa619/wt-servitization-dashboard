@@ -29,3 +29,26 @@ for(const [stage,r] of Object.entries(semanticStages)){
  assert.equal(result.conforms,r.expected,stage);assert.ok(r.expected?result.rows.length>0:result.violations.length>0);
 }
 console.log('PASS: nine-scene player lifecycle, semantic waiting, observed-only frames, both contract comparisons and actual semantic outcomes.');
+
+// Viva analysis uses the production advisory rule, without future truth or outcomes.
+const {sensitivityReport,perturbPoint}=await import('../src/cmapss/viva.ts');
+for(const c of contracts){
+ const report=sensitivityReport(d.engines,c.policy);
+ assert.equal(report.frames,1233);assert.equal(report.rows.length,9);assert.equal(report.rows[0].changed,0);
+ for(const row of report.rows){
+  assert.equal(Object.values(row.actionCounts).reduce((a,b)=>a+b,0),report.frames);
+  assert.ok(row.changed>=0&&row.changed<=report.frames);
+  assert.ok(row.thresholdDisagreements>=0&&row.thresholdDisagreements<=report.frames);
+ }
+ const reference=report.rows[0];
+ const manual=d.engines.flatMap(e=>e.points).filter(p=>decide(p,c.policy).chosen.name!==(p.low<=c.policy.gate?'Planned Maintenance':'Continue')).length;
+ assert.equal(reference.thresholdDisagreements,manual);
+ const original=JSON.stringify(d.engines);sensitivityReport(d.engines,c.policy);assert.equal(JSON.stringify(d.engines),original);
+ const noTruth=d.engines.map(e=>({id:e.id,points:e.points.map(p=>({cycle:p.cycle,point:p.point,low:p.low,high:p.high,settings:p.settings,sensors:p.sensors}))}));
+ assert.deepEqual(sensitivityReport(noTruth,c.policy),report);
+}
+const p={cycle:1,point:50,low:30,high:70,settings:[],sensors:[]};
+assert.equal(perturbPoint(p,1.25).low,25);assert.equal(perturbPoint(p,1.25).high,75);
+assert.throws(()=>sensitivityReport([],defaults));
+const edge={...p,low:0,high:125};assert.equal(perturbPoint(edge,1.25).low,0);assert.equal(perturbPoint(edge,1.25).high,125);
+console.log('PASS: viva sensitivity denominators, unchanged reference, threshold comparison, bounded perturbations, no mutation or evaluation-label dependency.');
