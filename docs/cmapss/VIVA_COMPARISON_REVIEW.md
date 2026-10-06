@@ -1,5 +1,7 @@
 # Second viva revision and post-change review
 
+Latest v0.8: [matched observations, interval-cap audit, semantic stress checks and source positioning](EVALUATION_AUDIT.md). External evaluation remains explicitly unperformed.
+
 Date: 2026-10-06. Scope: C-MAPSS story v0.7 and its Word companion. The WT
 implementation, predictive models and default advisory function are unchanged.
 

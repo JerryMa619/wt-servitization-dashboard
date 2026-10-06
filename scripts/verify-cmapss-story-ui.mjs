@@ -50,7 +50,7 @@ try{
  assert.equal(await page.getByRole('table',{name:'Representation comparison results'}).locator('tbody tr').count(),7);
  const comparePending=page.waitForEvent('download');await page.getByRole('button',{name:'Export comparison evidence'}).click();
  const compareDownload=await comparePending;const compare=JSON.parse(readFileSync(await compareDownload.path(),'utf8'));
- assert.equal(compare.results.length,7);assert.ok(compare.results.every(r=>r.matchesExpected&&r.queryParity));assert.equal(compare.shapesSHA256.length,64);assert.equal(compare.fixturesSHA256.length,64);
+ assert.equal(compare.stressResults.length,35);assert.ok(compare.stressResults.every(r=>r.matchesExpected&&r.queryParity));assert.equal(compare.results.length,7);assert.ok(compare.results.every(r=>r.matchesExpected&&r.queryParity));assert.equal(compare.shapesSHA256.length,64);assert.equal(compare.fixturesSHA256.length,64);
  await shot('viva-comparison-desktop');
  for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Comparison fits narrow screens');}
  await shot('viva-comparison-mobile');await page.setViewportSize({width:1440,height:1100});
@@ -71,6 +71,19 @@ try{
  await shot('viva-sensitivity-desktop');
  for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Expanded sensitivity must fit narrow screens');}
  await shot('viva-sensitivity-mobile');
+ await page.setViewportSize({width:1440,height:1100});
+ await page.getByText('Compare matched cycles and separate uncertainty mechanisms',{exact:true}).click();
+ const matchedPending=page.waitForEvent('download');await page.getByRole('button',{name:'Export matched and mechanism evidence'}).click();
+ const matched=JSON.parse(readFileSync(await (await matchedPending).path(),'utf8'));assert.equal(matched.matched.frames,637);assert.equal(matched.sensitivity.rows[8].changed,4);assert.equal(matched.mechanisms.rows[3].changed,150);
+ assert.equal(await page.getByRole('table',{name:'Matched-cycle sensitivity',exact:true}).locator('tbody tr').count(),9);
+ await shot('evaluation-matched-desktop');
+ for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Matched table fits narrow screens');}
+ await chapter(9).click();await page.getByText('Audit interval coverage and the 125-cycle cap',{exact:true}).click();
+ const intervalPending=page.waitForEvent('download');await page.getByRole('button',{name:'Export interval audit and provenance'}).click();const interval=JSON.parse(readFileSync(await (await intervalPending).path(),'utf8'));assert.equal(interval.intervals.length,4);assert.ok(interval.intervals.every(r=>r.aboveCap.covered===0));
+ await page.getByText('Position the contribution against prior work and plan external validation',{exact:true}).click();
+ const protocolPending=page.waitForEvent('download');await page.getByRole('button',{name:'Export external evaluation protocol'}).click();const protocol=JSON.parse(readFileSync(await (await protocolPending).path(),'utf8'));assert.match(protocol.status,/Not conducted/);assert.equal(protocol.sources.length,4);
+ for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Research panels fit narrow screens');assert.ok(await page.getByRole('table',{name:'Prior-work positioning'}).evaluate(e=>e.scrollWidth<=e.parentElement.clientWidth),'Source content wraps inside its panel');}
+ await page.getByRole('table',{name:'Prior-work positioning'}).screenshot({path:fileURLToPath(new URL('evaluation-research-mobile.png',out))});await page.setViewportSize({width:1440,height:1100});await page.getByRole('table',{name:'Prior-work positioning'}).screenshot({path:fileURLToPath(new URL('evaluation-research-desktop.png',out))});await page.getByRole('table',{name:'Endpoint interval audit'}).screenshot({path:fileURLToPath(new URL('evaluation-interval-desktop.png',out))});
  await chapter(9).click();await page.getByText('Still needed to support the research claim',{exact:true}).first().click();
  assert.ok(await page.getByLabel('Complementary case studies').isVisible());
  await page.getByRole('button',{name:'Exit story'}).click();assert.equal(await page.getByTestId('cycle').innerText(),'80');
@@ -83,5 +96,5 @@ try{
  await page.unroute('**/cmapss/cmapss-shapes.ttl');await page.getByRole('button',{name:'Retry validation'}).click();await page.getByTestId('story-check').waitFor({timeout:60000});assert.match(await page.getByTestId('story-check').innerText(),/^SHACL CONFORMS/);
  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Play case study',exact:true}).waitFor();assert.ok(!new URL(page.url()).searchParams.has('story'));
  assert.deepEqual(errors,[]);
- const report={base,status:'passed',checks:['complete nine-scene autoplay, pause/resume/restart and chapter selection','observed cycles 158/171 and actual contract decisions','four actual semantic checks including invalid-unit rejection','downloaded run evidence with hashes and actual completed checks','deep-link entry and Escape exit preserves explorer snapshot','HTTP failure pauses, retry executes successfully','reduced motion and 390/320px layouts','manual viva mode, responsibility handoff, contribution boundaries and actual sensitivity export','2x2 contract factors, per-engine transitions and first advice cycles','actual JSON/RDF parity experiment, export and expanded mobile layouts'],browserErrors:errors};writeFileSync(new URL('verification.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+ const report={base,status:'passed',checks:['complete nine-scene autoplay, pause/resume/restart and chapter selection','observed cycles 158/171 and actual contract decisions','four actual semantic checks including invalid-unit rejection','downloaded run evidence with hashes and actual completed checks','deep-link entry and Escape exit preserves explorer snapshot','HTTP failure pauses, retry executes successfully','reduced motion and 390/320px layouts','manual viva mode, responsibility handoff, contribution boundaries and actual sensitivity export','2x2 contract factors, per-engine transitions and first advice cycles','actual JSON/RDF parity experiment, 35 stress cases, export and expanded mobile layouts','matched cycles, isolated mechanisms, full endpoint cap audit and external protocol exports'],browserErrors:errors};writeFileSync(new URL('verification.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

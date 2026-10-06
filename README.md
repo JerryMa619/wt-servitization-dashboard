@@ -1,6 +1,8 @@
 # WT Servitization Digital Twin Dashboard
 
-Current v0.7 update: [computed comparisons and renewed viva review](docs/cmapss/VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
+Latest v0.8: [matched observations, interval-cap audit, semantic stress checks and source positioning](docs/cmapss/EVALUATION_AUDIT.md). External evaluation remains explicitly unperformed.
+
+Previous v0.7 update: [computed comparisons and renewed viva review](docs/cmapss/VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
 
 Public dashboard URL: [https://jerryma619.github.io/wt-servitization-dashboard/](https://jerryma619.github.io/wt-servitization-dashboard/)
 
