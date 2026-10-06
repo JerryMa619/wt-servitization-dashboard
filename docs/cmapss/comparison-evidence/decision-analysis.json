@@ -1,0 +1,2116 @@
+{
+  "model": "fd001-window-ridge-v1",
+  "sourceHashes": {
+    "train_FD001.txt": "963b5e22825b34d8b21c69e1aeb4af3e647050eb672ee8834ba4b5d91d2de0f8",
+    "test_FD001.txt": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+    "RUL_FD001.txt": "a19c8ec94931949d0485bdc35118206e9c81c4547b422efb9cf86f4ceddbceca"
+  },
+  "sensitivity": [
+    {
+      "contract": "Maintenance support",
+      "dataset": "FD001",
+      "engineIds": [
+        1,
+        20,
+        34,
+        49,
+        68,
+        81,
+        90,
+        100
+      ],
+      "frames": 1233,
+      "referencePolicy": {
+        "consequence": 5,
+        "maintenance": 1,
+        "leadMultiplier": 1,
+        "gate": 15
+      },
+      "rows": [
+        {
+          "name": "Reference",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 0,
+          "changedFraction": 0,
+          "thresholdDisagreements": 106,
+          "actionCounts": {
+            "Continue": 1010,
+            "Enhanced Monitoring": 106,
+            "Planned Maintenance": 117
+          },
+          "transitions": {
+            "Continue → Continue": 1010,
+            "Enhanced Monitoring → Enhanced Monitoring": 106,
+            "Planned Maintenance → Planned Maintenance": 117
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 9,
+              "referenceFirst": 162,
+              "scenarioFirst": 162,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 19,
+              "referenceFirst": 181,
+              "scenarioFirst": 181,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 24,
+              "referenceFirst": 290,
+              "scenarioFirst": 290,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 8,
+              "referenceFirst": 168,
+              "scenarioFirst": 168,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 180,
+              "scenarioFirst": 180,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 144,
+              "scenarioFirst": 144,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 194,
+              "scenarioFirst": 194,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0
+        },
+        {
+          "name": "Consequence ×0.75",
+          "policy": {
+            "consequence": 3.75,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 9,
+          "changedFraction": 0.0072992700729927005,
+          "thresholdDisagreements": 97,
+          "actionCounts": {
+            "Continue": 1019,
+            "Enhanced Monitoring": 97,
+            "Planned Maintenance": 117
+          },
+          "transitions": {
+            "Continue → Continue": 1010,
+            "Enhanced Monitoring → Enhanced Monitoring": 97,
+            "Planned Maintenance → Planned Maintenance": 117,
+            "Enhanced Monitoring → Continue": 9
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 9,
+              "referenceFirst": 162,
+              "scenarioFirst": 162,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 3,
+              "changedFraction": 0.017241379310344827,
+              "thresholdDisagreements": 16,
+              "referenceFirst": 181,
+              "scenarioFirst": 181,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 3,
+              "changedFraction": 0.010948905109489052,
+              "thresholdDisagreements": 21,
+              "referenceFirst": 290,
+              "scenarioFirst": 290,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 8,
+              "referenceFirst": 168,
+              "scenarioFirst": 168,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 1,
+              "changedFraction": 0.005434782608695652,
+              "thresholdDisagreements": 10,
+              "referenceFirst": 180,
+              "scenarioFirst": 180,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 144,
+              "scenarioFirst": 144,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 2,
+              "changedFraction": 0.011834319526627219,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 194,
+              "scenarioFirst": 194,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.005682423319394594
+        },
+        {
+          "name": "Consequence ×1.25",
+          "policy": {
+            "consequence": 6.25,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 11,
+          "changedFraction": 0.008921330089213302,
+          "thresholdDisagreements": 113,
+          "actionCounts": {
+            "Continue": 1003,
+            "Enhanced Monitoring": 109,
+            "Planned Maintenance": 117,
+            "Inspection": 4
+          },
+          "transitions": {
+            "Continue → Continue": 1003,
+            "Enhanced Monitoring → Enhanced Monitoring": 102,
+            "Planned Maintenance → Planned Maintenance": 117,
+            "Enhanced Monitoring → Inspection": 4,
+            "Continue → Enhanced Monitoring": 7
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 1,
+              "changedFraction": 0.0064516129032258064,
+              "thresholdDisagreements": 9,
+              "referenceFirst": 162,
+              "scenarioFirst": 162,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 19,
+              "referenceFirst": 181,
+              "scenarioFirst": 181,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 5,
+              "changedFraction": 0.01824817518248175,
+              "thresholdDisagreements": 28,
+              "referenceFirst": 290,
+              "scenarioFirst": 290,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 8,
+              "referenceFirst": 168,
+              "scenarioFirst": 168,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 1,
+              "changedFraction": 0.005434782608695652,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 180,
+              "scenarioFirst": 180,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 144,
+              "scenarioFirst": 144,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 4,
+              "changedFraction": 0.023668639053254437,
+              "thresholdDisagreements": 23,
+              "referenceFirst": 194,
+              "scenarioFirst": 194,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.006725401218457206
+        },
+        {
+          "name": "Intervention margin −5 cycles",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 10
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 25,
+          "changedFraction": 0.0202757502027575,
+          "thresholdDisagreements": 131,
+          "actionCounts": {
+            "Continue": 1010,
+            "Enhanced Monitoring": 114,
+            "Inspection": 17,
+            "Planned Maintenance": 92
+          },
+          "transitions": {
+            "Continue → Continue": 1010,
+            "Enhanced Monitoring → Enhanced Monitoring": 106,
+            "Planned Maintenance → Inspection": 17,
+            "Planned Maintenance → Enhanced Monitoring": 8,
+            "Planned Maintenance → Planned Maintenance": 92
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 11,
+              "changedFraction": 0.07096774193548387,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 162,
+              "scenarioFirst": 170,
+              "firstCycleShift": 8
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 3,
+              "changedFraction": 0.017241379310344827,
+              "thresholdDisagreements": 22,
+              "referenceFirst": 181,
+              "scenarioFirst": 184,
+              "firstCycleShift": 3
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 4,
+              "changedFraction": 0.014598540145985401,
+              "thresholdDisagreements": 28,
+              "referenceFirst": 290,
+              "scenarioFirst": 295,
+              "firstCycleShift": 5
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 3,
+              "changedFraction": 0.0189873417721519,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 168,
+              "scenarioFirst": 171,
+              "firstCycleShift": 3
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 2,
+              "changedFraction": 0.010869565217391304,
+              "thresholdDisagreements": 13,
+              "referenceFirst": 180,
+              "scenarioFirst": 182,
+              "firstCycleShift": 2
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 2,
+              "changedFraction": 0.017094017094017096,
+              "thresholdDisagreements": 17,
+              "referenceFirst": 144,
+              "scenarioFirst": 145,
+              "firstCycleShift": 1
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 194,
+              "scenarioFirst": 194,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.018719823184421797
+        },
+        {
+          "name": "Intervention margin +5 cycles",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 20
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 25,
+          "changedFraction": 0.0202757502027575,
+          "thresholdDisagreements": 81,
+          "actionCounts": {
+            "Continue": 1010,
+            "Enhanced Monitoring": 81,
+            "Planned Maintenance": 142
+          },
+          "transitions": {
+            "Continue → Continue": 1010,
+            "Enhanced Monitoring → Enhanced Monitoring": 81,
+            "Enhanced Monitoring → Planned Maintenance": 25,
+            "Planned Maintenance → Planned Maintenance": 117
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 4,
+              "changedFraction": 0.025806451612903226,
+              "thresholdDisagreements": 5,
+              "referenceFirst": 162,
+              "scenarioFirst": 161,
+              "firstCycleShift": -1
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 1,
+              "changedFraction": 0.005747126436781609,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 181,
+              "scenarioFirst": 172,
+              "firstCycleShift": -9
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 10,
+              "changedFraction": 0.0364963503649635,
+              "thresholdDisagreements": 14,
+              "referenceFirst": 290,
+              "scenarioFirst": 279,
+              "firstCycleShift": -11
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 1,
+              "changedFraction": 0.006329113924050633,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 168,
+              "scenarioFirst": 168,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 6,
+              "changedFraction": 0.03260869565217391,
+              "thresholdDisagreements": 5,
+              "referenceFirst": 180,
+              "scenarioFirst": 174,
+              "firstCycleShift": -6
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 1,
+              "changedFraction": 0.008547008547008548,
+              "thresholdDisagreements": 14,
+              "referenceFirst": 144,
+              "scenarioFirst": 143,
+              "firstCycleShift": -1
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 2,
+              "changedFraction": 0.011834319526627219,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 194,
+              "scenarioFirst": 192,
+              "firstCycleShift": -2
+            }
+          ],
+          "equalEngineChangedFraction": 0.01592113325806358
+        },
+        {
+          "name": "Waiting periods ×0.75",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 0.75,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 45,
+          "changedFraction": 0.0364963503649635,
+          "thresholdDisagreements": 61,
+          "actionCounts": {
+            "Continue": 1055,
+            "Enhanced Monitoring": 61,
+            "Planned Maintenance": 117
+          },
+          "transitions": {
+            "Continue → Continue": 1010,
+            "Enhanced Monitoring → Continue": 45,
+            "Enhanced Monitoring → Enhanced Monitoring": 61,
+            "Planned Maintenance → Planned Maintenance": 117
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 2,
+              "changedFraction": 0.012903225806451613,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 162,
+              "scenarioFirst": 162,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 14,
+              "changedFraction": 0.08045977011494253,
+              "thresholdDisagreements": 5,
+              "referenceFirst": 181,
+              "scenarioFirst": 181,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 9,
+              "changedFraction": 0.032846715328467155,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 290,
+              "scenarioFirst": 290,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 3,
+              "changedFraction": 0.0189873417721519,
+              "thresholdDisagreements": 5,
+              "referenceFirst": 168,
+              "scenarioFirst": 168,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 1,
+              "changedFraction": 0.005434782608695652,
+              "thresholdDisagreements": 10,
+              "referenceFirst": 180,
+              "scenarioFirst": 180,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 5,
+              "changedFraction": 0.042735042735042736,
+              "thresholdDisagreements": 10,
+              "referenceFirst": 144,
+              "scenarioFirst": 144,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 11,
+              "changedFraction": 0.0650887573964497,
+              "thresholdDisagreements": 9,
+              "referenceFirst": 194,
+              "scenarioFirst": 194,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.03230695447027516
+        },
+        {
+          "name": "Waiting periods ×1.25",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 1.25,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 59,
+          "changedFraction": 0.047850770478507706,
+          "thresholdDisagreements": 143,
+          "actionCounts": {
+            "Continue": 973,
+            "Enhanced Monitoring": 121,
+            "Inspection": 22,
+            "Planned Maintenance": 117
+          },
+          "transitions": {
+            "Continue → Continue": 973,
+            "Continue → Enhanced Monitoring": 37,
+            "Enhanced Monitoring → Enhanced Monitoring": 84,
+            "Enhanced Monitoring → Inspection": 22,
+            "Planned Maintenance → Planned Maintenance": 117
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 5,
+              "changedFraction": 0.03225806451612903,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 162,
+              "scenarioFirst": 162,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 4,
+              "changedFraction": 0.022988505747126436,
+              "thresholdDisagreements": 22,
+              "referenceFirst": 181,
+              "scenarioFirst": 181,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 23,
+              "changedFraction": 0.08394160583941605,
+              "thresholdDisagreements": 38,
+              "referenceFirst": 290,
+              "scenarioFirst": 290,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 7,
+              "changedFraction": 0.04430379746835443,
+              "thresholdDisagreements": 14,
+              "referenceFirst": 168,
+              "scenarioFirst": 168,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 6,
+              "changedFraction": 0.03260869565217391,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 180,
+              "scenarioFirst": 180,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 3,
+              "changedFraction": 0.02564102564102564,
+              "thresholdDisagreements": 17,
+              "referenceFirst": 144,
+              "scenarioFirst": 144,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 11,
+              "changedFraction": 0.0650887573964497,
+              "thresholdDisagreements": 29,
+              "referenceFirst": 194,
+              "scenarioFirst": 194,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.038353806532584404
+        },
+        {
+          "name": "Interval width ×0.75",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 0.75,
+          "changed": 95,
+          "changedFraction": 0.0770478507704785,
+          "thresholdDisagreements": 77,
+          "actionCounts": {
+            "Continue": 1072,
+            "Enhanced Monitoring": 77,
+            "Planned Maintenance": 84
+          },
+          "transitions": {
+            "Continue → Continue": 1010,
+            "Enhanced Monitoring → Continue": 62,
+            "Enhanced Monitoring → Enhanced Monitoring": 44,
+            "Planned Maintenance → Enhanced Monitoring": 33,
+            "Planned Maintenance → Planned Maintenance": 84
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 15,
+              "changedFraction": 0.0967741935483871,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 162,
+              "scenarioFirst": 173,
+              "firstCycleShift": 11
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 19,
+              "changedFraction": 0.10919540229885058,
+              "thresholdDisagreements": 6,
+              "referenceFirst": 181,
+              "scenarioFirst": 184,
+              "firstCycleShift": 3
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 15,
+              "changedFraction": 0.05474452554744526,
+              "thresholdDisagreements": 19,
+              "referenceFirst": 290,
+              "scenarioFirst": 296,
+              "firstCycleShift": 6
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 9,
+              "changedFraction": 0.056962025316455694,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 168,
+              "scenarioFirst": 173,
+              "firstCycleShift": 5
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 5,
+              "changedFraction": 0.02717391304347826,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 180,
+              "scenarioFirst": 183,
+              "firstCycleShift": 3
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 15,
+              "changedFraction": 0.1282051282051282,
+              "thresholdDisagreements": 6,
+              "referenceFirst": 144,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 17,
+              "changedFraction": 0.10059171597633136,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 194,
+              "scenarioFirst": 195,
+              "firstCycleShift": 1
+            }
+          ],
+          "equalEngineChangedFraction": 0.07170586299200955
+        },
+        {
+          "name": "Interval width ×1.25",
+          "policy": {
+            "consequence": 5,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 15
+          },
+          "intervalWidthMultiplier": 1.25,
+          "changed": 97,
+          "changedFraction": 0.0786699107866991,
+          "thresholdDisagreements": 141,
+          "actionCounts": {
+            "Continue": 944,
+            "Enhanced Monitoring": 141,
+            "Planned Maintenance": 148
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Continue → Enhanced Monitoring": 66,
+            "Enhanced Monitoring → Enhanced Monitoring": 75,
+            "Enhanced Monitoring → Planned Maintenance": 31,
+            "Planned Maintenance → Planned Maintenance": 117
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 16,
+              "changedFraction": 0.1032258064516129,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 162,
+              "scenarioFirst": 160,
+              "firstCycleShift": -2
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 6,
+              "changedFraction": 0.034482758620689655,
+              "thresholdDisagreements": 21,
+              "referenceFirst": 181,
+              "scenarioFirst": 171,
+              "firstCycleShift": -10
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 36,
+              "changedFraction": 0.13138686131386862,
+              "thresholdDisagreements": 36,
+              "referenceFirst": 290,
+              "scenarioFirst": 277,
+              "firstCycleShift": -13
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 11,
+              "changedFraction": 0.06962025316455696,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 168,
+              "scenarioFirst": 167,
+              "firstCycleShift": -1
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 9,
+              "changedFraction": 0.04891304347826087,
+              "thresholdDisagreements": 6,
+              "referenceFirst": 180,
+              "scenarioFirst": 171,
+              "firstCycleShift": -9
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 5,
+              "changedFraction": 0.042735042735042736,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 144,
+              "scenarioFirst": 143,
+              "firstCycleShift": -1
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 14,
+              "changedFraction": 0.08284023668639054,
+              "thresholdDisagreements": 30,
+              "referenceFirst": 194,
+              "scenarioFirst": 192,
+              "firstCycleShift": -2
+            }
+          ],
+          "equalEngineChangedFraction": 0.06415050030630279
+        }
+      ],
+      "scope": "Descriptive replay sensitivity on eight selected engines; correlated snapshots, not independent trials or a representative fleet. No outcome or benefit estimate.",
+      "comparator": "Threshold only: Planned Maintenance when lower bound <= the same scenario margin; Continue otherwise. Different actions do not imply better actions.",
+      "perturbation": "One factor at a time. Width scales distance from the fixed point estimate and clips bounds to 0–125 cycles; it does not recalibrate uncertainty.",
+      "decisionAssumptions": "Cost = direct cost + assumed consequence × normal-approximation probability within an action waiting period. Maintenance has zero waiting period and zero modeled pre-intervention exposure; execution and residual risk are not modeled."
+    },
+    {
+      "contract": "Availability assurance",
+      "dataset": "FD001",
+      "engineIds": [
+        1,
+        20,
+        34,
+        49,
+        68,
+        81,
+        90,
+        100
+      ],
+      "frames": 1233,
+      "referencePolicy": {
+        "consequence": 20,
+        "maintenance": 1,
+        "leadMultiplier": 1,
+        "gate": 25
+      },
+      "rows": [
+        {
+          "name": "Reference",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 0,
+          "changedFraction": 0,
+          "thresholdDisagreements": 121,
+          "actionCounts": {
+            "Continue": 944,
+            "Enhanced Monitoring": 121,
+            "Planned Maintenance": 168
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Enhanced Monitoring → Enhanced Monitoring": 121,
+            "Planned Maintenance → Planned Maintenance": 168
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 13,
+              "referenceFirst": 158,
+              "scenarioFirst": 158,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 171,
+              "scenarioFirst": 171,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 34,
+              "referenceFirst": 277,
+              "scenarioFirst": 277,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 13,
+              "referenceFirst": 164,
+              "scenarioFirst": 164,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 3,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 131,
+              "scenarioFirst": 131,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 26,
+              "referenceFirst": 185,
+              "scenarioFirst": 185,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0
+        },
+        {
+          "name": "Consequence ×0.75",
+          "policy": {
+            "consequence": 15,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 8,
+          "changedFraction": 0.006488240064882401,
+          "thresholdDisagreements": 113,
+          "actionCounts": {
+            "Continue": 952,
+            "Enhanced Monitoring": 113,
+            "Planned Maintenance": 168
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Enhanced Monitoring → Enhanced Monitoring": 113,
+            "Enhanced Monitoring → Continue": 8,
+            "Planned Maintenance → Planned Maintenance": 168
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 1,
+              "changedFraction": 0.0064516129032258064,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 158,
+              "scenarioFirst": 158,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 171,
+              "scenarioFirst": 171,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 3,
+              "changedFraction": 0.010948905109489052,
+              "thresholdDisagreements": 31,
+              "referenceFirst": 277,
+              "scenarioFirst": 277,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 1,
+              "changedFraction": 0.006329113924050633,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 164,
+              "scenarioFirst": 164,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 3,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 1,
+              "changedFraction": 0.008547008547008548,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 131,
+              "scenarioFirst": 131,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 2,
+              "changedFraction": 0.011834319526627219,
+              "thresholdDisagreements": 24,
+              "referenceFirst": 185,
+              "scenarioFirst": 185,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.005513870001300157
+        },
+        {
+          "name": "Consequence ×1.25",
+          "policy": {
+            "consequence": 25,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 21,
+          "changedFraction": 0.0170316301703163,
+          "thresholdDisagreements": 135,
+          "actionCounts": {
+            "Continue": 930,
+            "Enhanced Monitoring": 128,
+            "Planned Maintenance": 168,
+            "Inspection": 7
+          },
+          "transitions": {
+            "Continue → Continue": 930,
+            "Continue → Enhanced Monitoring": 14,
+            "Enhanced Monitoring → Enhanced Monitoring": 114,
+            "Planned Maintenance → Planned Maintenance": 168,
+            "Enhanced Monitoring → Inspection": 7
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 4,
+              "changedFraction": 0.025806451612903226,
+              "thresholdDisagreements": 17,
+              "referenceFirst": 158,
+              "scenarioFirst": 158,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 2,
+              "changedFraction": 0.011494252873563218,
+              "thresholdDisagreements": 20,
+              "referenceFirst": 171,
+              "scenarioFirst": 171,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 3,
+              "changedFraction": 0.010948905109489052,
+              "thresholdDisagreements": 36,
+              "referenceFirst": 277,
+              "scenarioFirst": 277,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 4,
+              "changedFraction": 0.02531645569620253,
+              "thresholdDisagreements": 17,
+              "referenceFirst": 164,
+              "scenarioFirst": 164,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 3,
+              "changedFraction": 0.016304347826086956,
+              "thresholdDisagreements": 6,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 2,
+              "changedFraction": 0.017094017094017096,
+              "thresholdDisagreements": 13,
+              "referenceFirst": 131,
+              "scenarioFirst": 131,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 3,
+              "changedFraction": 0.01775147928994083,
+              "thresholdDisagreements": 26,
+              "referenceFirst": 185,
+              "scenarioFirst": 185,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.015589488687775363
+        },
+        {
+          "name": "Intervention margin −5 cycles",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 20
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 26,
+          "changedFraction": 0.021086780210867802,
+          "thresholdDisagreements": 147,
+          "actionCounts": {
+            "Continue": 944,
+            "Enhanced Monitoring": 122,
+            "Inspection": 25,
+            "Planned Maintenance": 142
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Enhanced Monitoring → Enhanced Monitoring": 121,
+            "Planned Maintenance → Inspection": 25,
+            "Planned Maintenance → Planned Maintenance": 142,
+            "Planned Maintenance → Enhanced Monitoring": 1
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 3,
+              "changedFraction": 0.01935483870967742,
+              "thresholdDisagreements": 16,
+              "referenceFirst": 158,
+              "scenarioFirst": 161,
+              "firstCycleShift": 3
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 2,
+              "changedFraction": 0.011494252873563218,
+              "thresholdDisagreements": 22,
+              "referenceFirst": 171,
+              "scenarioFirst": 172,
+              "firstCycleShift": 1
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 4,
+              "changedFraction": 0.014598540145985401,
+              "thresholdDisagreements": 38,
+              "referenceFirst": 277,
+              "scenarioFirst": 279,
+              "firstCycleShift": 2
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 3,
+              "changedFraction": 0.0189873417721519,
+              "thresholdDisagreements": 16,
+              "referenceFirst": 164,
+              "scenarioFirst": 168,
+              "firstCycleShift": 4
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 4,
+              "changedFraction": 0.021739130434782608,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 170,
+              "scenarioFirst": 174,
+              "firstCycleShift": 4
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 6,
+              "changedFraction": 0.05128205128205128,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 131,
+              "scenarioFirst": 143,
+              "firstCycleShift": 12
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 4,
+              "changedFraction": 0.023668639053254437,
+              "thresholdDisagreements": 30,
+              "referenceFirst": 185,
+              "scenarioFirst": 192,
+              "firstCycleShift": 7
+            }
+          ],
+          "equalEngineChangedFraction": 0.020140599283933285
+        },
+        {
+          "name": "Intervention margin +5 cycles",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 30
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 40,
+          "changedFraction": 0.032441200324412,
+          "thresholdDisagreements": 81,
+          "actionCounts": {
+            "Continue": 944,
+            "Enhanced Monitoring": 81,
+            "Planned Maintenance": 208
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Enhanced Monitoring → Enhanced Monitoring": 81,
+            "Enhanced Monitoring → Planned Maintenance": 40,
+            "Planned Maintenance → Planned Maintenance": 168
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 2,
+              "changedFraction": 0.012903225806451613,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 158,
+              "scenarioFirst": 156,
+              "firstCycleShift": -2
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 12,
+              "changedFraction": 0.06896551724137931,
+              "thresholdDisagreements": 8,
+              "referenceFirst": 171,
+              "scenarioFirst": 162,
+              "firstCycleShift": -9
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 7,
+              "changedFraction": 0.025547445255474453,
+              "thresholdDisagreements": 27,
+              "referenceFirst": 277,
+              "scenarioFirst": 270,
+              "firstCycleShift": -7
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 4,
+              "changedFraction": 0.02531645569620253,
+              "thresholdDisagreements": 9,
+              "referenceFirst": 164,
+              "scenarioFirst": 161,
+              "firstCycleShift": -3
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 3,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 6,
+              "changedFraction": 0.05128205128205128,
+              "thresholdDisagreements": 6,
+              "referenceFirst": 131,
+              "scenarioFirst": 129,
+              "firstCycleShift": -2
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 9,
+              "changedFraction": 0.05325443786982249,
+              "thresholdDisagreements": 17,
+              "referenceFirst": 185,
+              "scenarioFirst": 170,
+              "firstCycleShift": -15
+            }
+          ],
+          "equalEngineChangedFraction": 0.029658641643922706
+        },
+        {
+          "name": "Waiting periods ×0.75",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 0.75,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 43,
+          "changedFraction": 0.034874290348742905,
+          "thresholdDisagreements": 78,
+          "actionCounts": {
+            "Continue": 987,
+            "Enhanced Monitoring": 78,
+            "Planned Maintenance": 168
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Enhanced Monitoring → Continue": 43,
+            "Enhanced Monitoring → Enhanced Monitoring": 78,
+            "Planned Maintenance → Planned Maintenance": 168
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 11,
+              "changedFraction": 0.07096774193548387,
+              "thresholdDisagreements": 2,
+              "referenceFirst": 158,
+              "scenarioFirst": 158,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 2,
+              "changedFraction": 0.011494252873563218,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 171,
+              "scenarioFirst": 171,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 16,
+              "changedFraction": 0.058394160583941604,
+              "thresholdDisagreements": 18,
+              "referenceFirst": 277,
+              "scenarioFirst": 277,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 6,
+              "changedFraction": 0.0379746835443038,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 164,
+              "scenarioFirst": 164,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 1,
+              "changedFraction": 0.005434782608695652,
+              "thresholdDisagreements": 2,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 3,
+              "changedFraction": 0.02564102564102564,
+              "thresholdDisagreements": 9,
+              "referenceFirst": 131,
+              "scenarioFirst": 131,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 4,
+              "changedFraction": 0.023668639053254437,
+              "thresholdDisagreements": 22,
+              "referenceFirst": 185,
+              "scenarioFirst": 185,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.029196910780033527
+        },
+        {
+          "name": "Waiting periods ×1.25",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 1.25,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 1,
+          "changed": 70,
+          "changedFraction": 0.05677210056772101,
+          "thresholdDisagreements": 168,
+          "actionCounts": {
+            "Continue": 897,
+            "Enhanced Monitoring": 145,
+            "Planned Maintenance": 168,
+            "Inspection": 23
+          },
+          "transitions": {
+            "Continue → Continue": 897,
+            "Continue → Enhanced Monitoring": 47,
+            "Enhanced Monitoring → Enhanced Monitoring": 98,
+            "Planned Maintenance → Planned Maintenance": 168,
+            "Enhanced Monitoring → Inspection": 23
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 11,
+              "changedFraction": 0.07096774193548387,
+              "thresholdDisagreements": 24,
+              "referenceFirst": 158,
+              "scenarioFirst": 158,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 8,
+              "changedFraction": 0.04597701149425287,
+              "thresholdDisagreements": 22,
+              "referenceFirst": 171,
+              "scenarioFirst": 171,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 14,
+              "changedFraction": 0.051094890510948905,
+              "thresholdDisagreements": 45,
+              "referenceFirst": 277,
+              "scenarioFirst": 277,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 14,
+              "changedFraction": 0.08860759493670886,
+              "thresholdDisagreements": 23,
+              "referenceFirst": 164,
+              "scenarioFirst": 164,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 8,
+              "changedFraction": 0.043478260869565216,
+              "thresholdDisagreements": 11,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 8,
+              "changedFraction": 0.06837606837606838,
+              "thresholdDisagreements": 16,
+              "referenceFirst": 131,
+              "scenarioFirst": 131,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 7,
+              "changedFraction": 0.04142011834319527,
+              "thresholdDisagreements": 27,
+              "referenceFirst": 185,
+              "scenarioFirst": 185,
+              "firstCycleShift": 0
+            }
+          ],
+          "equalEngineChangedFraction": 0.05124021080827791
+        },
+        {
+          "name": "Interval width ×0.75",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 0.75,
+          "changed": 108,
+          "changedFraction": 0.08759124087591241,
+          "thresholdDisagreements": 67,
+          "actionCounts": {
+            "Continue": 1025,
+            "Enhanced Monitoring": 67,
+            "Planned Maintenance": 141
+          },
+          "transitions": {
+            "Continue → Continue": 944,
+            "Enhanced Monitoring → Continue": 81,
+            "Enhanced Monitoring → Enhanced Monitoring": 40,
+            "Planned Maintenance → Enhanced Monitoring": 27,
+            "Planned Maintenance → Planned Maintenance": 141
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 14,
+              "changedFraction": 0.09032258064516129,
+              "thresholdDisagreements": 5,
+              "referenceFirst": 158,
+              "scenarioFirst": 161,
+              "firstCycleShift": 3
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 10,
+              "changedFraction": 0.05747126436781609,
+              "thresholdDisagreements": 14,
+              "referenceFirst": 171,
+              "scenarioFirst": 172,
+              "firstCycleShift": 1
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 32,
+              "changedFraction": 0.11678832116788321,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 277,
+              "scenarioFirst": 279,
+              "firstCycleShift": 2
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 12,
+              "changedFraction": 0.0759493670886076,
+              "thresholdDisagreements": 7,
+              "referenceFirst": 164,
+              "scenarioFirst": 168,
+              "firstCycleShift": 4
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 7,
+              "changedFraction": 0.03804347826086957,
+              "thresholdDisagreements": 4,
+              "referenceFirst": 170,
+              "scenarioFirst": 174,
+              "firstCycleShift": 4
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 12,
+              "changedFraction": 0.10256410256410256,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 131,
+              "scenarioFirst": 143,
+              "firstCycleShift": 12
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 21,
+              "changedFraction": 0.1242603550295858,
+              "thresholdDisagreements": 13,
+              "referenceFirst": 185,
+              "scenarioFirst": 192,
+              "firstCycleShift": 7
+            }
+          ],
+          "equalEngineChangedFraction": 0.07567493364050326
+        },
+        {
+          "name": "Interval width ×1.25",
+          "policy": {
+            "consequence": 20,
+            "maintenance": 1,
+            "leadMultiplier": 1,
+            "gate": 25
+          },
+          "intervalWidthMultiplier": 1.25,
+          "changed": 150,
+          "changedFraction": 0.12165450121654502,
+          "thresholdDisagreements": 165,
+          "actionCounts": {
+            "Continue": 852,
+            "Enhanced Monitoring": 155,
+            "Planned Maintenance": 216,
+            "Inspection": 10
+          },
+          "transitions": {
+            "Continue → Continue": 852,
+            "Continue → Enhanced Monitoring": 92,
+            "Enhanced Monitoring → Enhanced Monitoring": 63,
+            "Enhanced Monitoring → Planned Maintenance": 48,
+            "Planned Maintenance → Planned Maintenance": 168,
+            "Enhanced Monitoring → Inspection": 10
+          },
+          "byEngine": [
+            {
+              "engine": 1,
+              "frames": 2,
+              "changed": 0,
+              "changedFraction": 0,
+              "thresholdDisagreements": 0,
+              "referenceFirst": null,
+              "scenarioFirst": null,
+              "firstCycleShift": null
+            },
+            {
+              "engine": 20,
+              "frames": 155,
+              "changed": 17,
+              "changedFraction": 0.10967741935483871,
+              "thresholdDisagreements": 26,
+              "referenceFirst": 158,
+              "scenarioFirst": 156,
+              "firstCycleShift": -2
+            },
+            {
+              "engine": 34,
+              "frames": 174,
+              "changed": 22,
+              "changedFraction": 0.12643678160919541,
+              "thresholdDisagreements": 13,
+              "referenceFirst": 171,
+              "scenarioFirst": 162,
+              "firstCycleShift": -9
+            },
+            {
+              "engine": 49,
+              "frames": 274,
+              "changed": 38,
+              "changedFraction": 0.1386861313868613,
+              "thresholdDisagreements": 51,
+              "referenceFirst": 277,
+              "scenarioFirst": 260,
+              "firstCycleShift": -17
+            },
+            {
+              "engine": 68,
+              "frames": 158,
+              "changed": 28,
+              "changedFraction": 0.17721518987341772,
+              "thresholdDisagreements": 33,
+              "referenceFirst": 164,
+              "scenarioFirst": 161,
+              "firstCycleShift": -3
+            },
+            {
+              "engine": 81,
+              "frames": 184,
+              "changed": 13,
+              "changedFraction": 0.07065217391304347,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 170,
+              "scenarioFirst": 170,
+              "firstCycleShift": 0
+            },
+            {
+              "engine": 90,
+              "frames": 117,
+              "changed": 16,
+              "changedFraction": 0.13675213675213677,
+              "thresholdDisagreements": 12,
+              "referenceFirst": 131,
+              "scenarioFirst": 128,
+              "firstCycleShift": -3
+            },
+            {
+              "engine": 100,
+              "frames": 169,
+              "changed": 16,
+              "changedFraction": 0.09467455621301775,
+              "thresholdDisagreements": 15,
+              "referenceFirst": 185,
+              "scenarioFirst": 168,
+              "firstCycleShift": -17
+            }
+          ],
+          "equalEngineChangedFraction": 0.1067617986378139
+        }
+      ],
+      "scope": "Descriptive replay sensitivity on eight selected engines; correlated snapshots, not independent trials or a representative fleet. No outcome or benefit estimate.",
+      "comparator": "Threshold only: Planned Maintenance when lower bound <= the same scenario margin; Continue otherwise. Different actions do not imply better actions.",
+      "perturbation": "One factor at a time. Width scales distance from the fixed point estimate and clips bounds to 0–125 cycles; it does not recalibrate uncertainty.",
+      "decisionAssumptions": "Cost = direct cost + assumed consequence × normal-approximation probability within an action waiting period. Maintenance has zero waiting period and zero modeled pre-intervention exposure; execution and residual risk are not modeled."
+    }
+  ],
+  "factorials": [
+    [
+      {
+        "cycle": 158,
+        "point": 62.1164,
+        "lower": 37.2136,
+        "policy": {
+          "consequence": 5,
+          "gate": 15,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Continue",
+        "gated": false
+      },
+      {
+        "cycle": 158,
+        "point": 62.1164,
+        "lower": 37.2136,
+        "policy": {
+          "consequence": 5,
+          "gate": 25,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Continue",
+        "gated": false
+      },
+      {
+        "cycle": 158,
+        "point": 62.1164,
+        "lower": 37.2136,
+        "policy": {
+          "consequence": 20,
+          "gate": 15,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Enhanced Monitoring",
+        "gated": false
+      },
+      {
+        "cycle": 158,
+        "point": 62.1164,
+        "lower": 37.2136,
+        "policy": {
+          "consequence": 20,
+          "gate": 25,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Enhanced Monitoring",
+        "gated": false
+      }
+    ],
+    [
+      {
+        "cycle": 171,
+        "point": 45.0418,
+        "lower": 20.139,
+        "policy": {
+          "consequence": 5,
+          "gate": 15,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Enhanced Monitoring",
+        "gated": false
+      },
+      {
+        "cycle": 171,
+        "point": 45.0418,
+        "lower": 20.139,
+        "policy": {
+          "consequence": 5,
+          "gate": 25,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Planned Maintenance",
+        "gated": true
+      },
+      {
+        "cycle": 171,
+        "point": 45.0418,
+        "lower": 20.139,
+        "policy": {
+          "consequence": 20,
+          "gate": 15,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Inspection",
+        "gated": false
+      },
+      {
+        "cycle": 171,
+        "point": 45.0418,
+        "lower": 20.139,
+        "policy": {
+          "consequence": 20,
+          "gate": 25,
+          "maintenance": 1,
+          "leadMultiplier": 1
+        },
+        "action": "Planned Maintenance",
+        "gated": true
+      }
+    ]
+  ]
+}

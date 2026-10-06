@@ -45,13 +45,29 @@ try{
  assert.equal(await page.getByLabel('Implemented evidence handoff').locator('li').count(),5);
  const manualProgress=await page.getByRole('progressbar').getAttribute('aria-valuenow');await page.waitForTimeout(350);
  assert.equal(await page.getByRole('progressbar').getAttribute('aria-valuenow'),manualProgress);
+ await page.getByText('Run an equal-requirement JSON versus RDF comparison',{exact:true}).click();
+ await page.getByRole('button',{name:'Run comparison',exact:true}).click();await page.getByTestId('evidence-comparison-result').waitFor({timeout:60000});
+ assert.equal(await page.getByRole('table',{name:'Representation comparison results'}).locator('tbody tr').count(),7);
+ const comparePending=page.waitForEvent('download');await page.getByRole('button',{name:'Export comparison evidence'}).click();
+ const compareDownload=await comparePending;const compare=JSON.parse(readFileSync(await compareDownload.path(),'utf8'));
+ assert.equal(compare.results.length,7);assert.ok(compare.results.every(r=>r.matchesExpected&&r.queryParity));assert.equal(compare.shapesSHA256.length,64);assert.equal(compare.fixturesSHA256.length,64);
+ await shot('viva-comparison-desktop');
+ for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Comparison fits narrow screens');}
+ await shot('viva-comparison-mobile');await page.setViewportSize({width:1440,height:1100});
  await chapter(7).click();await page.getByTestId('story-check').waitFor({timeout:60000});
+ await page.getByText('Separate cost and margin effects · 2 × 2 comparison',{exact:true}).click();
+ const factorial=await page.getByRole('table',{name:'Cost and margin factorial'}).locator('tbody tr').allTextContents();
+ assert.equal(factorial.length,4);assert.ok(factorial[2].includes('Inspection'));await shot('viva-factorial-desktop');
  await page.getByText('Inspect computed sensitivity and threshold-only comparison',{exact:true}).click();
- assert.equal(await page.locator('.cs-research tbody tr').count(),9);
+ assert.equal(await page.getByRole('table',{name:'Aggregate sensitivity'}).locator('tbody tr').count(),9);
  await page.getByRole('combobox',{name:'Sensitivity contract'}).selectOption('1');
  const sensitivityPending=page.waitForEvent('download');await page.getByRole('button',{name:'Export sensitivity evidence'}).click();
  const sensitivityDownload=await sensitivityPending;const sensitivity=JSON.parse(readFileSync(await sensitivityDownload.path(),'utf8'));
  assert.equal(sensitivity.frames,1233);assert.equal(sensitivity.referencePolicy.consequence,20);assert.equal(sensitivity.rows[0].changed,0);assert.equal(sensitivity.rows.length,9);assert.ok(sensitivity.sourceHashes);
+ await page.getByText('Where do the changes occur?',{exact:true}).click();
+ assert.equal(await page.getByRole('table',{name:'Per-engine sensitivity'}).locator('tbody tr').count(),8);
+ assert.equal(sensitivity.rows[8].byEngine.reduce((n,e)=>n+e.changed,0),150);
+ assert.equal(Object.values(sensitivity.rows[8].transitions).reduce((a,b)=>a+b,0),1233);
  await shot('viva-sensitivity-desktop');
  for(const width of [390,320]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Expanded sensitivity must fit narrow screens');}
  await shot('viva-sensitivity-mobile');
@@ -67,5 +83,5 @@ try{
  await page.unroute('**/cmapss/cmapss-shapes.ttl');await page.getByRole('button',{name:'Retry validation'}).click();await page.getByTestId('story-check').waitFor({timeout:60000});assert.match(await page.getByTestId('story-check').innerText(),/^SHACL CONFORMS/);
  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Play case study',exact:true}).waitFor();assert.ok(!new URL(page.url()).searchParams.has('story'));
  assert.deepEqual(errors,[]);
- const report={base,status:'passed',checks:['complete nine-scene autoplay, pause/resume/restart and chapter selection','observed cycles 158/171 and actual contract decisions','four actual semantic checks including invalid-unit rejection','downloaded run evidence with hashes and actual completed checks','deep-link entry and Escape exit preserves explorer snapshot','HTTP failure pauses, retry executes successfully','reduced motion and 390/320px layouts','manual viva mode, responsibility handoff, contribution boundaries and actual sensitivity export'],browserErrors:errors};writeFileSync(new URL('verification.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+ const report={base,status:'passed',checks:['complete nine-scene autoplay, pause/resume/restart and chapter selection','observed cycles 158/171 and actual contract decisions','four actual semantic checks including invalid-unit rejection','downloaded run evidence with hashes and actual completed checks','deep-link entry and Escape exit preserves explorer snapshot','HTTP failure pauses, retry executes successfully','reduced motion and 390/320px layouts','manual viva mode, responsibility handoff, contribution boundaries and actual sensitivity export','2x2 contract factors, per-engine transitions and first advice cycles','actual JSON/RDF parity experiment, export and expanded mobile layouts'],browserErrors:errors};writeFileSync(new URL('verification.json',out),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

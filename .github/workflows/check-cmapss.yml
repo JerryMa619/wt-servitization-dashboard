@@ -27,4 +27,5 @@ jobs:
       - run: npm run test:cmapss:contracts
       - run: npm run test:cmapss:datasets
       - run: npm run test:cmapss:story
+      - run: npm run test:cmapss:comparison
       - run: npm run build

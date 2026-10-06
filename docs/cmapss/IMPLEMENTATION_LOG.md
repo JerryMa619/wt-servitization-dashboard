@@ -143,3 +143,17 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Production build, player/semantic/sensitivity tests and all nine WT research tests passed. No dependency, ontology-source or model changes.
 - Complete English browser suite passed with zero page errors, including manual mode, actual sensitivity export, all semantic scenes and expanded 390/320px views. Refreshed desktop/mobile screenshots were inspected.
 - Example descriptive result: for availability assurance, interval width ×1.25 changes 150/1,233 snapshot actions; the reference differs from the threshold-only comparator at 121/1,233 snapshots. Neither count establishes better outcomes.
+
+## 2026-10-06 — second viva revision and renewed review
+
+- Added 2×2 cost/margin analysis, per-engine sensitivity, all action transitions and first observed maintenance-advice cycles; preserved missing events and separate weighting definitions.
+- Implemented equal-requirement conventional JSON versus RDF/SHACL microbenchmark with real execution and exports; observed bounded parity rather than manufacturing an ontology advantage.
+- Added responsibility-to-review chain and cross-case reuse/adaptation synthesis. Updated Word companion and recorded renewed examiner review in VIVA_COMPARISON_REVIEW.md.
+- New comparison tests are required in both branch/PR and deployment CI. No predictive-model, default policy, source ontology or WT implementation changes.
+
+### Local verification of the second revision
+
+- Production build, story/sensitivity tests, and actual JSON/RDF comparison tests passed.
+- Full desktop/mobile browser verification passed with zero page errors, including real comparison execution and evidence exports.
+- All 12 Word pages and the new desktop/mobile comparison and factorial screenshots were visually inspected.
+- Renewed review retains unequal engine observation windows, authored benchmark scope, uncertainty calibration and absent field outcomes as research limitations.

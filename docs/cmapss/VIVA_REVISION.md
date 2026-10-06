@@ -1,5 +1,7 @@
 # Viva evidence revision — 2026-10-06
 
+Current v0.7 update: [computed comparisons and renewed viva review](VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
+
 ## Research position
 
 This case demonstrates an evidence-to-advice prototype, not a complete physical
