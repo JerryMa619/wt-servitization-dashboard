@@ -13,6 +13,7 @@ import { actionTypes, buildSemanticGraph } from '../src/ontology/model.ts';
 const source = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const ast = ts.createSourceFile('App.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
 const names = ['clamp', 'makePoint', 'refreshActivePrediction', 'restoredPoint', 'restoredManual', 'serviceStateFromCondition', 'crackStateFromMm', 'windBinFromSpeed', 'crackGrowthRate', 'inferCrackFromRul', 'simulateAutoTwinPoint', 'pointFromScenarioForm', 'applyScenarioModel', 'expectedScenarioValues', 'scenarioConflicts', 'outsideRelativeTolerance', 'applyMaintenanceResult', 'serviceDecisionByTcs', 'serviceCandidatesForState', 'isRiskAcceptableAfterAction', 'estimateTcs', 'residualRiskAfterAction', 'cumulativeKpis', 'formatPct', 'formatGbp'];
+names.push('rulOption');
 const parts = ast.statements.filter((node) => ts.isFunctionDeclaration(node) && names.includes(node.name?.text) || ts.isVariableStatement(node) && node.declarationList.declarations.some((decl) => ['maintenanceActions', 'serviceEconomics', 'tcsParameters'].includes(decl.name.getText(ast))));
 const js = ts.transpileModule(parts.map((node) => node.getText(ast)).join('\n'), { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 const dataset = JSON.parse(readFileSync(new URL('../src/data/dashboardData.json', import.meta.url), 'utf8'));
@@ -25,6 +26,21 @@ const before = { id: 'before', capturedAt: '2026-10-01T20:00:00Z', asset: 'WT-01
 const after = { ...structuredClone(before), id: 'after', reading: { ...base, crackMm: 20, ...model.conditionPrediction(8, 20) } };
 const event = { id: 'service-1', action: candidate.action, label: candidate.label, status: 'in-progress', downtimeH: 8, before, during: [], progress: { elapsedH: 2, totalH: 8 } };
 const session = { version: 1, asset: 'WT-01', events: [event], stats: { totalDowntimeH: 2, observationHours: 10, completedServices: 0 }, latest: base, manual: null, cursor: 4, sessionId: 'session-test' };
+
+test('RUL chart retains values and does not call mixed, manual or legacy histories calibrated', () => {
+  const labels = points => Array.from(context.rulOption(points.map(p => p.t), points).series, series => series.name);
+  const manual = { ...base, rulEvidence: { ...base.rulEvidence, featureSource: 'manual-override' } };
+  const legacy = { ...base, modelVersion: 'historical' };
+  assert.deepEqual(labels([base]), ['Adjusted lower', 'P50', 'Adjusted upper']);
+  for (const points of [[manual], [legacy], [base, manual], [base, legacy], []]) {
+    assert.deepEqual(labels(points), ['Lower bound', 'P50', 'Upper bound']);
+    const chart = context.rulOption(points.map(p => p.t), points);
+    for (const [i, key] of ['rulP10', 'rulP50', 'rulP90'].entries()) {
+      assert.deepEqual(Array.from(chart.series[i].data), points.map(p => p[key]));
+      assert.equal(chart.series[i].showSymbol, points.length === 1, 'A single reading needs a visible marker, not an invisible line');
+    }
+  }
+});
 
 test('risk takes the highest severity and never drops as crack increases', () => {
   const ranks = ['Nominal', 'Watch', 'Degraded', 'MaintenanceDue', 'Critical', 'OutOfContract'];

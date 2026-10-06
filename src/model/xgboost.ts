@@ -107,6 +107,12 @@ export function rulDescription(reading: { modelVersion?: string; rulEvidence?: R
   return reading.modelVersion ? `${reading.modelVersion} / legacy bounds` : 'Chapter 5 legacy replay bounds';
 }
 
+export function rulBandLabel(reading: { modelVersion?: string; rulEvidence?: RulEvidence }) {
+  const adjusted = reading.modelVersion === rulModel.version &&
+    reading.rulEvidence?.featureSource !== 'manual-override' && !!reading.rulEvidence?.intervalCalibration;
+  return adjusted ? 'Adjusted lower / P50 / Adjusted upper' : 'Lower / P50 / Upper';
+}
+
 export function rulUncertaintyDescription(reading: { modelVersion?: string; rulEvidence?: RulEvidence }) {
   if (reading.rulEvidence?.featureSource === 'manual-override') return 'Manual RUL assumption / not model uncertainty';
   if (reading.modelVersion !== rulModel.version) return 'Historical bounds retained / not calibrated by the active model';

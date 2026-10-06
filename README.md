@@ -99,6 +99,8 @@ The top **WT viva controls** select healthy, growing, service-threshold and high
 
 Implementation, assumptions, reproducibility and viva walkthrough: [WT research record](docs/research/WT_VIVA_IMPLEMENTATION.md). Browser evidence: [local checks](screenshots/wt-research/verification.json), [public checks](screenshots/wt-research/public/verification.json). Run `npm run test:wt:research` and `node scripts/verify-wt-research-ui.mjs` (same browser environment variables below).
 
+[6 October viva polish and follow-up review](docs/reviews/2026-10-06-viva-polish.md) records provenance-aware RUL labels, the illustrative-cost disclosure and mixed-history/single-reading chart checks. Run `node scripts/verify-viva-polish-ui.mjs` with the same browser environment variables. Model parameters, service economics and exported data keys are unchanged.
+
 ![WT policy comparison](screenshots/wt-research/enhanced-comparison-desktop.png)
 
 ## Local Development

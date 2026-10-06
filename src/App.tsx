@@ -34,7 +34,7 @@ import TwinWorkspace, { type ReplayRequest } from "./twin/TwinWorkspace";
 import { advanceStats, conditionPrediction, conditionState, emptyStats, inputBounds, inputRangeErrors, modelMetadata, operatingOutput, readingFreshness, simulationAvailability, crackGrowthRate, type SimulationStats } from "./model/operating";
 import { closeRestoredSession, interruptExecution, parseSession, sessionKey, type SavedSession } from "./model/session";
 import { bladeSensorFields, bladeSensorReference, derivedConditionNote } from "./model/instrumentation";
-import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulDescription, rulUncertaintyDescription, rulModel, type RulEvidence } from "./model/xgboost";
+import { chapter5ReplayVectors, featureMeasurements, predictRul, readFeatureWindow, rulBandLabel, rulDescription, rulUncertaintyDescription, rulModel, type RulEvidence } from "./model/xgboost";
 import Chart from "./components/TelemetryPanel";
 import VibrationCharts from "./vibration/VibrationCharts";
 import { vibrationFeatures } from "./vibration/model";
@@ -684,7 +684,7 @@ function App() {
         <Metric icon={<Wind />} label="Wind speed" value={`${latest.windSpeed.toFixed(1)} m/s`} sub={`${cardinal(latest.windDirection)} ${latest.windDirection} deg`} />
         <Metric icon={<Gauge />} label="Rotor RPM" value={`${latest.rpm}`} sub={`${latest.power} W output`} />
         <Metric icon={<Activity />} label="Blade vibration" value={`${(bladeFeatures.rms[0] ?? latest.vibrationRms).toFixed(3)} g`} sub={`${bladeFeatures.rms[0] == null ? 'Z' : 'X / flapwise'} | ${latest.crackState ?? "C?"} | k ${(bladeFeatures.kurtosis[0] ?? latest.kurtosis).toFixed(2)}`} />
-        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} pseudo-h`} sub={rulDescription(latest)} />
+        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} pseudo-h`} sub={`${rulBandLabel(latest)} | ${rulDescription(latest)}`} />
       </section>
 
       <div className="history-toolbar" aria-label="Saved service history"><span role={historyError || storageWarning ? "alert" : "status"} className={historyError || storageWarning ? "history-warning" : ""}>{historyError ?? (storageWarning ? storageMessage : demoCase ? "Demo history / in memory only" : storageMessage)}</span><span>{ontologyEvents.length} events / {autoStats.observationHours.toFixed(1)} modeled h</span><button title="Export service history" aria-label="Export service history" onClick={exportHistory}><Download size={16} /></button><button title="Import service history" aria-label="Import service history" disabled={!!demoCase || serviceExecution?.status === "in-progress"} onClick={() => importRef.current?.click()}><Upload size={16} /></button><input ref={importRef} type="file" accept="application/json,.json" aria-label="History JSON file" hidden onChange={(e) => { const file = e.target.files?.[0]; if (file) void importHistory(file); e.target.value = ""; }} /><button title="Clear service history" aria-label="Clear service history" disabled={!!demoCase || serviceExecution?.status === "in-progress"} onClick={clearHistory}><Trash2 size={16} /></button></div>
@@ -740,7 +740,7 @@ function App() {
       <section className="chart-grid" aria-label="Dynamic telemetry charts">
         <Chart title="Wind Speed" option={lineOption(timeLabels, [{ name: "m/s", data: chartHistory.map((p) => p.windSpeed), color: "#26876d" }], "m/s")} />
         <Chart title="Wind Direction" option={directionOption(latest.windDirection)} />
-        <Chart title="Blade RUL Uncertainty" option={rulOption(timeLabels, chartHistory)} />
+        <Chart title="Blade RUL Uncertainty" subtitle="Synthetic pseudo-hours / bound provenance varies by sample; manual and historical bounds are not active-model calibrated uncertainty" option={rulOption(timeLabels, chartHistory)} />
         <VibrationCharts history={chartHistory} latest={latest} />
       </section>
 
@@ -827,7 +827,7 @@ function SiteMap({
               <br />
               State: {serviceState}
               <br />
-              RUL p10/p50/p90: {latest.rulP10}/{latest.rulP50}/{latest.rulP90} pseudo-h
+              RUL {rulBandLabel(latest)}: {latest.rulP10}/{latest.rulP50}/{latest.rulP90} pseudo-h
             </Popup>
           </Marker>
           <Marker position={windEnd} icon={windIcon}>
@@ -881,7 +881,7 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
   const severity = clamp(crackMm / 80, 0, 1);
   const crackWidth = severity * 68;
   const crackOpacity = crackMm > 0 ? clamp(0.28 + severity * 0.67, 0, 0.95) : 0;
-  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | p10 RUL ${latest.rulP10} pseudo-h`;
+  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | lower RUL ${latest.rulP10} pseudo-h`;
   const regime = operatingRegime(latest.windSpeed);
   const serviceAction = latest.serviceAction ? maintenanceActions[latest.serviceAction] : null;
   const serviceLabel =
@@ -1003,7 +1003,7 @@ function DecisionPanel({
   const decisionMetrics = [
     { label: "Session availability", value: availability == null ? "Pending" : formatPct(availability), note: `${autoStats.observationHours.toFixed(1)} modeled h / service downtime only` },
     { label: "Crack length", value: `${(latest.crackMm ?? 0).toFixed(1)} mm`, note: `${latest.crackState ?? crackStateFromMm(latest.crackMm ?? 0)} simulated state` },
-    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`, note: "Adjusted lower / P50 / upper" },
+    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`, note: rulBandLabel(latest) },
     {
       label: "Reference contract",
       value: settlement ? settlement.status : `${energyYield} kWh eq.`,
@@ -1066,6 +1066,7 @@ function DecisionPanel({
           </div>
           <p>{maintenanceActions[recommendedTcs.action].description}</p>
         </div>
+        <p className="tcs-allocation-note">Illustrative cost allocation; not measured expenditure. Item splits, service durations and repair effects are assumptions; the residual-risk allowance is not a calibrated expected failure cost.</p>
         <div className="tcs-summary-grid">
           {recommendedCostGroups.map((group) => (
             <div className="tcs-cost-card" key={group.label} tabIndex={0}>
@@ -1345,7 +1346,7 @@ function EvidenceModal({
         <div className="evidence-chain">
           <EvidenceItem label={`ObservationWindow-${String(latest.acquisitionIndex ?? 421).padStart(4, "0")}`} value={`GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)} | wind ${latest.windSpeed.toFixed(1)} m/s | bin ${latest.windBin ?? "n/a"}`} />
           <EvidenceItem label="FeatureVector" value={`Z RMS ${latest.vibrationRms.toFixed(3)} g | Z kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
-          <EvidenceItem label="RULEstimate" value={`p10 ${latest.rulP10} pseudo-h | p50 ${latest.rulP50} pseudo-h | p90 ${latest.rulP90} pseudo-h`} />
+          <EvidenceItem label={`RULEstimate / ${rulBandLabel(latest)}`} value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} pseudo-h`} />
           <EvidenceItem label="ServiceState" value={serviceState} accent={meta.color} />
           <EvidenceItem label="ServiceActionRecommendation" value={`${maintenanceActions[tcsDecision.action].label} | TCS ${formatGbp(tcsDecision.totalCost)} | residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`} />
           <EvidenceItem label="ContractKPI" value={meta.kpi} />
@@ -1779,7 +1780,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
     {
       label: "RUL interval logic",
       value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`,
-      note: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "p10 <= p50 <= p90" : "RUL bounds conflict.",
+      note: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "lower <= P50 <= upper" : "RUL bounds conflict.",
       status: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "pass" : "warn"
     },
     {
@@ -1822,7 +1823,7 @@ function serviceLedgerRows(
       id: "current-advisory",
       time: latest.t,
       service: maintenanceActions[decision.action].label,
-      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, p10 ${latest.rulP10} pseudo-h`,
+      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, lower RUL ${latest.rulP10} pseudo-h`,
       outcome: `Advisory TCS ${formatGbp(decision.totalCost)}`
     }
   ];
@@ -1985,7 +1986,7 @@ function scenarioConflicts(form: ScenarioForm, touched: Partial<Record<keyof Sce
   if (form.windSpeed < modelMetadata.cutInMs && (form.rpm !== 0 || form.power !== 0)) conflicts.push("Below cut-in wind requires zero RPM and power in this model.");
 
   if (form.rulP10 > form.rulP50 || form.rulP50 > form.rulP90) {
-    conflicts.push("RUL bounds conflict: p10 must be <= p50 <= p90.");
+    conflicts.push("RUL bounds conflict: lower must be <= P50 <= upper.");
   }
 
   if (manuallySet("windSpeed", "rpm") && outsideRelativeTolerance(form.rpm, expected.rpm, 0.28, 55)) {
@@ -2005,7 +2006,7 @@ function scenarioConflicts(form: ScenarioForm, touched: Partial<Record<keyof Sce
   }
 
   if ((touched.crackMm || touched.windSpeed) && touched.rulP10 && Math.abs(form.rulP10 - expected.rulP10) > 220) {
-    conflicts.push(`Damage/load and RUL conflict: expected p10 RUL is about ${expected.rulP10} pseudo-h, not ${Math.round(form.rulP10)} pseudo-h.`);
+    conflicts.push(`Damage/load and RUL conflict: expected lower RUL is about ${expected.rulP10} pseudo-h, not ${Math.round(form.rulP10)} pseudo-h.`);
   }
 
   return conflicts;
@@ -2041,7 +2042,7 @@ function operatingRegime(windSpeed: number) {
 
 function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState) {
   const growthEvidence = latest.crackGrowthRateMmH != null ? `, crack growth +${latest.crackGrowthRateMmH.toFixed(2)} mm/tick` : "";
-  const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, p10 RUL ${latest.rulP10} pseudo-h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
+  const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, lower RUL ${latest.rulP10} pseudo-h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
   const tcsDecision = serviceDecisionByTcs(latest, serviceState);
   const tcsEvidence = `${maintenanceActions[tcsDecision.action].label}, TCS ${formatGbp(tcsDecision.totalCost)}, residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`;
 
@@ -2134,6 +2135,9 @@ function lineOption(labels: string[], series: Array<{ name: string; data: number
 }
 
 function rulOption(labels: string[], history: HistoryPoint[]) {
+  const calibrated = history.length > 0 && history.every((point) => rulBandLabel(point).startsWith('Adjusted'));
+  const lowerLabel = calibrated ? 'Adjusted lower' : 'Lower bound';
+  const upperLabel = calibrated ? 'Adjusted upper' : 'Upper bound';
   return {
     color: ["#b7791f", "#26876d", "#4d78bd"],
     backgroundColor: "transparent",
@@ -2163,9 +2167,9 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
       splitLine: { lineStyle: { color: "rgba(128, 169, 158, 0.14)" } }
     },
     series: [
-      { name: "Adjusted lower", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP10) },
-      { name: "p50", type: "line", smooth: false, showSymbol: false, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
-      { name: "Adjusted upper", type: "line", smooth: false, showSymbol: false, data: history.map((p) => p.rulP90) }
+      { name: lowerLabel, type: "line", smooth: false, showSymbol: history.length === 1, symbolSize: 7, data: history.map((p) => p.rulP10) },
+      { name: "P50", type: "line", smooth: false, showSymbol: history.length === 1, symbolSize: 7, lineStyle: { width: 3 }, data: history.map((p) => p.rulP50) },
+      { name: upperLabel, type: "line", smooth: false, showSymbol: history.length === 1, symbolSize: 7, data: history.map((p) => p.rulP90) }
     ]
   };
 }

@@ -898,6 +898,14 @@ h2 {
   -webkit-line-clamp: 2;
 }
 
+.tcs-allocation-note {
+  margin: 0;
+  color: #a5bcb5;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .tcs-summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));

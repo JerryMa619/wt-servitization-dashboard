@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Download, Play, ShieldCheck } from 'lucide-react';
 import type { OntologySnapshot } from './model';
+import { rulBandLabel } from '../model/xgboost';
 import { executeWtSemantic, semanticQuestions, type WtDefect } from './wtSemantic';
 
 type Result = Awaited<ReturnType<typeof executeWtSemantic>> & { key: string; snapshot: OntologySnapshot };
@@ -34,7 +35,8 @@ export default function WtSemanticWorkbench({ snapshot, onPause }: { snapshot: O
   const preferred = question === 'features' ? ['name', 'value', 'source'] : ['asset', 'service', 'lower', 'point', 'upper', 'model', 'featureSource', 'cost', 'risk'];
   const keys = current?.rows.length ? Object.keys(current.rows[0]) : [];
   const columns = [...preferred.filter(c => keys.includes(c)), ...keys.filter(c => !preferred.includes(c))];
-  const headings: Record<string, string> = { lower: 'Lower / pseudo-h', point: 'P50 / pseudo-h', upper: 'Upper / pseudo-h', cost: 'Assumed GBP', risk: 'Risk index' };
+  const [lower, , upper] = rulBandLabel(current?.snapshot.reading ?? snapshot.reading).split(' / ');
+  const headings: Record<string, string> = { lower: `${lower} / pseudo-h`, point: 'P50 / pseudo-h', upper: `${upper} / pseudo-h`, cost: 'Assumed GBP', risk: 'Risk index' };
   const display = (column: string, value: string) => ['lower', 'point', 'upper', 'cost', 'risk', 'value'].includes(column) && Number.isFinite(Number(value)) ? Number(value).toLocaleString('en-GB', { maximumFractionDigits: 3 }) : value;
   return <section className="wt-semantic" aria-label="WT executable semantic validation">
     <div className="research-heading"><h3>WT Semantic Check</h3><span>Application profile 1.0 / captured evidence</span></div>

@@ -2,9 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { chapter5ReplayVectors, featureMeasurements, predictRawQuantiles, predictRul, readFeatureWindow, referenceFeatures, rulDescription, rulUncertaintyDescription, rulModel, scenarioFeatures } from '../src/model/xgboost.ts';
+import { chapter5ReplayVectors, featureMeasurements, predictRawQuantiles, predictRul, readFeatureWindow, referenceFeatures, rulBandLabel, rulDescription, rulUncertaintyDescription, rulModel, scenarioFeatures } from '../src/model/xgboost.ts';
 
 const fixture = JSON.parse(readFileSync(new URL('../models/chapter5-calibrated/python-parity.json', import.meta.url), 'utf8'));
+test('RUL labels distinguish adjusted active-model bounds from manual and historical evidence', () => {
+  for (const source of ['chapter5-window', 'imported-window', 'reference-assisted']) {
+    const result = predictRul(chapter5ReplayVectors[0], source);
+    assert.equal(rulBandLabel({ modelVersion: rulModel.version, ...result }), 'Adjusted lower / P50 / Adjusted upper');
+    assert.equal(rulBandLabel({ modelVersion: rulModel.version, rulEvidence: { ...result.rulEvidence, featureSource: 'manual-override' } }), 'Lower / P50 / Upper');
+    assert.equal(rulBandLabel({ modelVersion: 'historical', ...result }), 'Lower / P50 / Upper');
+  }
+  assert.equal(rulBandLabel({}), 'Lower / P50 / Upper');
+  assert.equal(rulBandLabel({ modelVersion: rulModel.version }), 'Lower / P50 / Upper');
+});
 test('browser tree evaluation matches Python XGBoost on all windows and missing-value routes', () => {
   let maxError = 0;
   for (const [i, vector] of fixture.vectors.entries()) {
