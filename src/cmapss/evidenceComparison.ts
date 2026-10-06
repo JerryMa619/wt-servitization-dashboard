@@ -56,12 +56,29 @@ export function comparisonFixtures(input:SemanticInput){
  ];
  return cases.map(c=>{const fixture=JSON.parse(JSON.stringify(good)) as Fixture;c.mutate(fixture);return {name:c.name,expected:c.expected,fixture};});
 }
+// Additional project-authored stress cases. The original validators are not changed.
+export function stressFixtures(input:SemanticInput){
+ const good=comparisonFixtures(input)[0].fixture;
+ const defects=[(f:Fixture)=>{f.estimate.unit='hours';},(f:Fixture)=>{f.estimate.asset='urn:stress:wrong';},(f:Fixture)=>{f.recommendation.version='stale';},(f:Fixture)=>{f.estimate.source='nonempty-invalid-hash';},(f:Fixture)=>{f.recommendation.estimate='urn:stress:wrong-estimate';}];
+ const cases=[];
+ for(let mask=0;mask<32;mask++){const fixture=structuredClone(good),expected:string[]=[];
+  defects.forEach((apply,i)=>{if(mask&(1<<i)){apply(fixture);expected.push(`R${i+1}`);}});
+  cases.push({name:`Defect combination ${String(mask).padStart(2,'0')}`,expected,fixture});
+ }
+ const updated=structuredClone(good);updated.expectedVersion='next-version';updated.recommendation.version='next-version';
+ cases.push({name:'Version migration: both updated',expected:[],fixture:updated});
+ const stale=structuredClone(updated);stale.recommendation.version=good.expectedVersion;
+ cases.push({name:'Version migration: stale advice',expected:['R3'],fixture:stale});
+ const renamed=structuredClone(good);renamed.asset='urn:stress:renamed-asset';renamed.estimate.asset=renamed.asset;renamed.estimate.id='urn:stress:renamed-estimate';renamed.recommendation.estimate=renamed.estimate.id;
+ cases.push({name:'Identity migration: consistent links',expected:[],fixture:renamed});
+ return cases;
+}
 async function serialise(store:Store){const w=new Writer();w.addQuads([...store]);return new Promise<string>((resolve,reject)=>w.end((e,t)=>e?reject(e):resolve(t)));}
 const canonical=(rows:Record<string,string>[])=>JSON.stringify(rows.map(r=>Object.fromEntries(Object.entries(r).sort())).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b))));
 export async function runEvidenceComparison(input:SemanticInput){
  const [{QueryEngine},{default:Validator}]=await Promise.all([import('@comunica/query-sparql-rdfjs'),import('rdf-validate-shacl')]);
  const shapeStore=new Store(new Parser().parse(comparisonShapes)),engine=new QueryEngine();const results=[];
- for(const item of comparisonFixtures(input)){
+ for(const item of [...comparisonFixtures(input),...stressFixtures(input)]){
   const store=comparisonDataset(item.fixture),report=await new Validator(shapeStore).validate(store);
   const rdfErrors=[...new Set(report.results.map(r=>r.sourceShape.value.replace(ns,'')))].sort();
   const jsErrors=conventionalCheck(item.fixture),jsRows=conventionalQuery(item.fixture),rdfRows:Record<string,string>[]=[];
@@ -70,7 +87,8 @@ export async function runEvidenceComparison(input:SemanticInput){
    matchesExpected:JSON.stringify(jsErrors)===JSON.stringify(item.expected)&&JSON.stringify(rdfErrors)===JSON.stringify(item.expected),
    queryParity:canonical(jsRows)===canonical(rdfRows),datasetTTL:await serialise(store),reportTTL:await serialise(new Store([...report.dataset]))});
  }
- return {version:'1.0',cycle:input.point.cycle,engine:input.engine,requirements,comparisonShapes,comparisonQuery,results,
+ return {version:'1.0',cycle:input.point.cycle,engine:input.engine,requirements,comparisonShapes,comparisonQuery,results:results.slice(0,7),stressResults:results.slice(7),
+  stressScope:'35 project-authored regression cases: all 32 subsets of five defects, plus version and identity migrations. Same scalar profile and unchanged validators; no independent author, unseen holdout or measured change effort.',
   scope:'Bounded parity experiment: one provenance query, five requirements, seven authored fixtures from one FD001 snapshot. JSON checks and RDF/SHACL receive equivalent values and defects. Separate comparison profile, not the full application ontology or production approval gate.',
   interpretation:'Equal outcomes show both implementations can meet these bounded requirements. No ontology superiority, runtime advantage, broad interoperability or maintenance-cost claim is established.',
   contractAuthority:'Expected contract version is supplied as scenario metadata, not retrieved from an authoritative registry.',provenance:input.provenance};

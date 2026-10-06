@@ -16,3 +16,6 @@
 @media(max-width:700px){.cs-case-comparison>div{grid-template-columns:1fr}.cs-research{padding:10px}.cs-research th,.cs-research td{padding:5px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.cs-handoff li{transition:none}}
 .cs-research pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:10px;max-height:220px;overflow:auto}.cs-research ol{padding-left:20px}.cs-research li{margin:9px 0}.cs-research li p{margin:4px 0}.cs-research small{color:#745d3d}.cs-research button:disabled{opacity:.55;cursor:wait}
+
+.cm-story .cs-audit table{table-layout:fixed}.cm-story .cs-audit th,.cm-story .cs-audit td{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:700px){.cs-audit table[aria-label="Prior-work positioning"] thead{display:none}.cs-audit table[aria-label="Prior-work positioning"] tbody,.cs-audit table[aria-label="Prior-work positioning"] tr,.cs-audit table[aria-label="Prior-work positioning"] th,.cs-audit table[aria-label="Prior-work positioning"] td{display:block;width:100%;box-sizing:border-box}.cs-audit table[aria-label="Prior-work positioning"] tr{margin-bottom:18px;border-bottom:2px solid #cfdccf}}

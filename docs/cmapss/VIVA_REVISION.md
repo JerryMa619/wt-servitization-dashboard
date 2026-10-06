@@ -1,6 +1,8 @@
 # Viva evidence revision — 2026-10-06
 
-Current v0.7 update: [computed comparisons and renewed viva review](VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
+Latest v0.8: [matched observations, interval-cap audit, semantic stress checks and source positioning](EVALUATION_AUDIT.md). External evaluation remains explicitly unperformed.
+
+Previous v0.7 update: [computed comparisons and renewed viva review](VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
 
 ## Research position
 

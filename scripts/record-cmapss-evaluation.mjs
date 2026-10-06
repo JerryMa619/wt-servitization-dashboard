@@ -1,0 +1,10 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {evaluationReport,intervalAudit} from '../src/cmapss/evaluation.ts';
+import {contracts} from '../src/cmapss/contracts.ts';
+const read=p=>JSON.parse(readFileSync(new URL('../'+p,import.meta.url),'utf8'));
+const sha=p=>createHash('sha256').update(readFileSync(new URL('../'+p,import.meta.url))).digest('hex');
+const replay=read('src/cmapss/replay.json');
+const result={version:'0.8',replaySHA256:sha('src/cmapss/replay.json'),evaluationCodeSHA256:sha('src/cmapss/evaluation.ts'),contracts:contracts.map(c=>({id:c.id,policy:c.policy,...evaluationReport(replay.engines,c.policy)})),intervals:['FD001','FD002','FD003','FD004'].map(dataset=>{const path=`docs/cmapss/dataset-evidence/${dataset}-endpoints.json`,r=read(path);return {dataset,sourceFiles:r.sourceFiles,endpointsSHA256:sha(path),...intervalAudit(r.endpoints)};})};
+const dest=new URL('../src/cmapss/evaluation-evidence.json',import.meta.url);writeFileSync(dest,JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({matched:result.contracts.map(c=>({id:c.id,sample:c.matched,widthChange:c.sensitivity.rows[8].changed,mechanisms:c.mechanisms.rows.map(r=>r.changed)})),intervals:result.intervals.map(r=>({dataset:r.dataset,all:r.all,withinCap:r.withinCap,aboveCap:r.aboveCap}))},null,2));

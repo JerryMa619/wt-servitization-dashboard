@@ -1,0 +1,2032 @@
+{
+  "version": "0.8",
+  "replaySHA256": "7b295ddba535b75295cd4b00446926926416515d016aa6ad3e57ec00b8630b2e",
+  "evaluationCodeSHA256": "6d429f665b229e1ddeaafbad54b17ea6680ae11d8991fc3c0e078b5050f49c6a",
+  "contracts": [
+    {
+      "id": "maintenance-support",
+      "policy": {
+        "consequence": 5,
+        "maintenance": 1,
+        "leadMultiplier": 1,
+        "gate": 15
+      },
+      "matched": {
+        "start": 30,
+        "end": 120,
+        "included": [
+          20,
+          34,
+          49,
+          68,
+          81,
+          90,
+          100
+        ],
+        "excluded": [
+          {
+            "engine": 1,
+            "available": 2,
+            "required": 91
+          }
+        ],
+        "frames": 637,
+        "scope": "Retrospective complete-case diagnostic, not a preregistered or representative sample. Equal cycle ranges do not equal degradation stages; short records are excluded explicitly."
+      },
+      "sensitivity": {
+        "dataset": "FD001",
+        "engineIds": [
+          20,
+          34,
+          49,
+          68,
+          81,
+          90,
+          100
+        ],
+        "frames": 637,
+        "referencePolicy": {
+          "consequence": 5,
+          "maintenance": 1,
+          "leadMultiplier": 1,
+          "gate": 15
+        },
+        "rows": [
+          {
+            "name": "Reference",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Consequence ×0.75",
+            "policy": {
+              "consequence": 3.75,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Consequence ×1.25",
+            "policy": {
+              "consequence": 6.25,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Intervention margin −5 cycles",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 10
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Intervention margin +5 cycles",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 20
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Waiting periods ×0.75",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 0.75,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Waiting periods ×1.25",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 1.25,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Interval width ×0.75",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 0.75,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Interval width ×1.25",
+            "policy": {
+              "consequence": 5,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 15
+            },
+            "intervalWidthMultiplier": 1.25,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          }
+        ],
+        "scope": "Descriptive replay sensitivity on 7 selected engines; correlated snapshots, not independent trials or a representative fleet. No outcome or benefit estimate.",
+        "comparator": "Threshold only: Planned Maintenance when lower bound <= the same scenario margin; Continue otherwise. Different actions do not imply better actions.",
+        "perturbation": "One factor at a time. Width scales distance from the fixed point estimate and clips bounds to 0–125 cycles; it does not recalibrate uncertainty.",
+        "decisionAssumptions": "Cost = direct cost + assumed consequence × normal-approximation probability within an action waiting period. Maintenance has zero waiting period and zero modeled pre-intervention exposure; execution and residual risk are not modeled."
+      },
+      "mechanisms": {
+        "frames": 1233,
+        "width": 1.25,
+        "rows": [
+          {
+            "scoreWidth": 1,
+            "eligibilityWidth": 1,
+            "changed": 0,
+            "gated": 117,
+            "transitions": {
+              "Continue → Continue": 1010,
+              "Enhanced Monitoring → Enhanced Monitoring": 106,
+              "Planned Maintenance → Planned Maintenance": 117
+            }
+          },
+          {
+            "scoreWidth": 1,
+            "eligibilityWidth": 1.25,
+            "changed": 31,
+            "gated": 148,
+            "transitions": {
+              "Continue → Continue": 1010,
+              "Enhanced Monitoring → Enhanced Monitoring": 75,
+              "Enhanced Monitoring → Planned Maintenance": 31,
+              "Planned Maintenance → Planned Maintenance": 117
+            }
+          },
+          {
+            "scoreWidth": 1.25,
+            "eligibilityWidth": 1,
+            "changed": 91,
+            "gated": 117,
+            "transitions": {
+              "Continue → Continue": 944,
+              "Continue → Enhanced Monitoring": 66,
+              "Enhanced Monitoring → Enhanced Monitoring": 81,
+              "Enhanced Monitoring → Inspection": 25,
+              "Planned Maintenance → Planned Maintenance": 117
+            }
+          },
+          {
+            "scoreWidth": 1.25,
+            "eligibilityWidth": 1.25,
+            "changed": 97,
+            "gated": 148,
+            "transitions": {
+              "Continue → Continue": 944,
+              "Continue → Enhanced Monitoring": 66,
+              "Enhanced Monitoring → Enhanced Monitoring": 75,
+              "Enhanced Monitoring → Planned Maintenance": 31,
+              "Planned Maintenance → Planned Maintenance": 117
+            }
+          }
+        ],
+        "scope": "Analytical mechanism isolation only: scoring width and eligibility bound are changed separately. Mixed rows are synthetic diagnostics, not deployable uncertainty intervals. Counts are not additive causal effects or service outcomes."
+      }
+    },
+    {
+      "id": "availability-assurance",
+      "policy": {
+        "consequence": 20,
+        "maintenance": 1,
+        "leadMultiplier": 1,
+        "gate": 25
+      },
+      "matched": {
+        "start": 30,
+        "end": 120,
+        "included": [
+          20,
+          34,
+          49,
+          68,
+          81,
+          90,
+          100
+        ],
+        "excluded": [
+          {
+            "engine": 1,
+            "available": 2,
+            "required": 91
+          }
+        ],
+        "frames": 637,
+        "scope": "Retrospective complete-case diagnostic, not a preregistered or representative sample. Equal cycle ranges do not equal degradation stages; short records are excluded explicitly."
+      },
+      "sensitivity": {
+        "dataset": "FD001",
+        "engineIds": [
+          20,
+          34,
+          49,
+          68,
+          81,
+          90,
+          100
+        ],
+        "frames": 637,
+        "referencePolicy": {
+          "consequence": 20,
+          "maintenance": 1,
+          "leadMultiplier": 1,
+          "gate": 25
+        },
+        "rows": [
+          {
+            "name": "Reference",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Consequence ×0.75",
+            "policy": {
+              "consequence": 15,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Consequence ×1.25",
+            "policy": {
+              "consequence": 25,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Intervention margin −5 cycles",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 20
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Intervention margin +5 cycles",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 30
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Waiting periods ×0.75",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 0.75,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Waiting periods ×1.25",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 1.25,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 1,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Interval width ×0.75",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 0.75,
+            "changed": 0,
+            "changedFraction": 0,
+            "thresholdDisagreements": 0,
+            "actionCounts": {
+              "Continue": 637
+            },
+            "transitions": {
+              "Continue → Continue": 637
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0
+          },
+          {
+            "name": "Interval width ×1.25",
+            "policy": {
+              "consequence": 20,
+              "maintenance": 1,
+              "leadMultiplier": 1,
+              "gate": 25
+            },
+            "intervalWidthMultiplier": 1.25,
+            "changed": 4,
+            "changedFraction": 0.006279434850863423,
+            "thresholdDisagreements": 4,
+            "actionCounts": {
+              "Continue": 633,
+              "Enhanced Monitoring": 4
+            },
+            "transitions": {
+              "Continue → Continue": 633,
+              "Continue → Enhanced Monitoring": 4
+            },
+            "byEngine": [
+              {
+                "engine": 20,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 34,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 49,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 68,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 81,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 90,
+                "frames": 91,
+                "changed": 4,
+                "changedFraction": 0.04395604395604396,
+                "thresholdDisagreements": 4,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              },
+              {
+                "engine": 100,
+                "frames": 91,
+                "changed": 0,
+                "changedFraction": 0,
+                "thresholdDisagreements": 0,
+                "referenceFirst": null,
+                "scenarioFirst": null,
+                "firstCycleShift": null
+              }
+            ],
+            "equalEngineChangedFraction": 0.006279434850863423
+          }
+        ],
+        "scope": "Descriptive replay sensitivity on 7 selected engines; correlated snapshots, not independent trials or a representative fleet. No outcome or benefit estimate.",
+        "comparator": "Threshold only: Planned Maintenance when lower bound <= the same scenario margin; Continue otherwise. Different actions do not imply better actions.",
+        "perturbation": "One factor at a time. Width scales distance from the fixed point estimate and clips bounds to 0–125 cycles; it does not recalibrate uncertainty.",
+        "decisionAssumptions": "Cost = direct cost + assumed consequence × normal-approximation probability within an action waiting period. Maintenance has zero waiting period and zero modeled pre-intervention exposure; execution and residual risk are not modeled."
+      },
+      "mechanisms": {
+        "frames": 1233,
+        "width": 1.25,
+        "rows": [
+          {
+            "scoreWidth": 1,
+            "eligibilityWidth": 1,
+            "changed": 0,
+            "gated": 168,
+            "transitions": {
+              "Continue → Continue": 944,
+              "Enhanced Monitoring → Enhanced Monitoring": 121,
+              "Planned Maintenance → Planned Maintenance": 168
+            }
+          },
+          {
+            "scoreWidth": 1,
+            "eligibilityWidth": 1.25,
+            "changed": 48,
+            "gated": 216,
+            "transitions": {
+              "Continue → Continue": 944,
+              "Enhanced Monitoring → Enhanced Monitoring": 73,
+              "Enhanced Monitoring → Planned Maintenance": 48,
+              "Planned Maintenance → Planned Maintenance": 168
+            }
+          },
+          {
+            "scoreWidth": 1.25,
+            "eligibilityWidth": 1,
+            "changed": 150,
+            "gated": 168,
+            "transitions": {
+              "Continue → Continue": 852,
+              "Continue → Enhanced Monitoring": 92,
+              "Enhanced Monitoring → Enhanced Monitoring": 63,
+              "Enhanced Monitoring → Inspection": 58,
+              "Planned Maintenance → Planned Maintenance": 168
+            }
+          },
+          {
+            "scoreWidth": 1.25,
+            "eligibilityWidth": 1.25,
+            "changed": 150,
+            "gated": 216,
+            "transitions": {
+              "Continue → Continue": 852,
+              "Continue → Enhanced Monitoring": 92,
+              "Enhanced Monitoring → Enhanced Monitoring": 63,
+              "Enhanced Monitoring → Planned Maintenance": 48,
+              "Planned Maintenance → Planned Maintenance": 168,
+              "Enhanced Monitoring → Inspection": 10
+            }
+          }
+        ],
+        "scope": "Analytical mechanism isolation only: scoring width and eligibility bound are changed separately. Mixed rows are synthetic diagnostics, not deployable uncertainty intervals. Counts are not additive causal effects or service outcomes."
+      }
+    }
+  ],
+  "intervals": [
+    {
+      "dataset": "FD001",
+      "sourceFiles": {
+        "train_FD001.txt": "963b5e22825b34d8b21c69e1aeb4af3e647050eb672ee8834ba4b5d91d2de0f8",
+        "test_FD001.txt": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+        "RUL_FD001.txt": "a19c8ec94931949d0485bdc35118206e9c81c4547b422efb9cf86f4ceddbceca"
+      },
+      "endpointsSHA256": "61dbed5c41adbcc76a712a8e6dbe0361309c77a85c3e3fcbe1569b69e8ca6340",
+      "all": {
+        "n": 100,
+        "covered": 78,
+        "below": 4,
+        "above": 18,
+        "coverage": 0.78,
+        "meanWidth": 39.22279000000001
+      },
+      "withinCap": {
+        "n": 89,
+        "covered": 78,
+        "below": 4,
+        "above": 7,
+        "coverage": 0.8764044943820225,
+        "meanWidth": 39.513282022471905
+      },
+      "aboveCap": {
+        "n": 11,
+        "covered": 0,
+        "below": 0,
+        "above": 11,
+        "coverage": 0,
+        "meanWidth": 36.87244545454544
+      },
+      "nominal": 0.8,
+      "scope": "One endpoint per test engine, uncapped truth. Training residual 10/90 percentiles motivate an 80% reference, not a coverage guarantee. Truth strata are retrospective diagnostics, never decision inputs. No test-set recalibration or operational probability validation."
+    },
+    {
+      "dataset": "FD002",
+      "sourceFiles": {
+        "train_FD002.txt": "dac6c4dbc4e7c1bdeb5747da3d313d05c395bb99801b44a002b26a2ba13d788f",
+        "test_FD002.txt": "de7b5bf7e998a985c378488480528b7c02cff1406a46740def362dda8d9b4e02",
+        "RUL_FD002.txt": "c851dd96a6ea6998d3c4a8f834d3c8013aa90e93a6ed950dc826ad0655b2906b"
+      },
+      "endpointsSHA256": "beecf2116fc9a95af6554403f4e655eda902921b7a2454d2206a087118148b74",
+      "all": {
+        "n": 259,
+        "covered": 174,
+        "below": 14,
+        "above": 71,
+        "coverage": 0.6718146718146718,
+        "meanWidth": 39.753155598455585
+      },
+      "withinCap": {
+        "n": 202,
+        "covered": 174,
+        "below": 14,
+        "above": 14,
+        "coverage": 0.8613861386138614,
+        "meanWidth": 40.13556336633664
+      },
+      "aboveCap": {
+        "n": 57,
+        "covered": 0,
+        "below": 0,
+        "above": 57,
+        "coverage": 0,
+        "meanWidth": 38.39795614035088
+      },
+      "nominal": 0.8,
+      "scope": "One endpoint per test engine, uncapped truth. Training residual 10/90 percentiles motivate an 80% reference, not a coverage guarantee. Truth strata are retrospective diagnostics, never decision inputs. No test-set recalibration or operational probability validation."
+    },
+    {
+      "dataset": "FD003",
+      "sourceFiles": {
+        "train_FD003.txt": "2abbe9968cc5e8eb091980f51b20f62bb4127336d3482cb52071d53bf23329e2",
+        "test_FD003.txt": "299babd63c8d987cef079c4a425429f33b3a34797d803bbe2ad48c29dbd0d790",
+        "RUL_FD003.txt": "df1e0566306b174a2de41c67a3e7a51877889598b78643fc3e5685259091b7cb"
+      },
+      "endpointsSHA256": "9c1435810999269c4f4956e9b1f6e5cec35d9e761c7db9e69731c98b7d9eb9ef",
+      "all": {
+        "n": 100,
+        "covered": 69,
+        "below": 10,
+        "above": 21,
+        "coverage": 0.69,
+        "meanWidth": 36.03566100000001
+      },
+      "withinCap": {
+        "n": 85,
+        "covered": 69,
+        "below": 10,
+        "above": 6,
+        "coverage": 0.8117647058823529,
+        "meanWidth": 36.44691647058824
+      },
+      "aboveCap": {
+        "n": 15,
+        "covered": 0,
+        "below": 0,
+        "above": 15,
+        "coverage": 0,
+        "meanWidth": 33.70521333333333
+      },
+      "nominal": 0.8,
+      "scope": "One endpoint per test engine, uncapped truth. Training residual 10/90 percentiles motivate an 80% reference, not a coverage guarantee. Truth strata are retrospective diagnostics, never decision inputs. No test-set recalibration or operational probability validation."
+    },
+    {
+      "dataset": "FD004",
+      "sourceFiles": {
+        "train_FD004.txt": "27ef6160b6a1dcb2613a88de9c239f763b223f02cdc41dc5cdedc5dc189b6218",
+        "test_FD004.txt": "1dc675fff0624bac10786927c6715b37d1297657137400d2b1a3138d777a3ba5",
+        "RUL_FD004.txt": "196b836b85a95ac7fdbbf29c5fdf1657382eafa445644d114ffaaf50dc2975e1"
+      },
+      "endpointsSHA256": "5e8d563069c80f71e55ad4f77f94deca21122266204494873153b7b33ba08258",
+      "all": {
+        "n": 248,
+        "covered": 152,
+        "below": 19,
+        "above": 77,
+        "coverage": 0.6129032258064516,
+        "meanWidth": 41.92918225806458
+      },
+      "withinCap": {
+        "n": 181,
+        "covered": 152,
+        "below": 19,
+        "above": 10,
+        "coverage": 0.8397790055248618,
+        "meanWidth": 43.08204309392266
+      },
+      "aboveCap": {
+        "n": 67,
+        "covered": 0,
+        "below": 0,
+        "above": 67,
+        "coverage": 0,
+        "meanWidth": 38.81473731343282
+      },
+      "nominal": 0.8,
+      "scope": "One endpoint per test engine, uncapped truth. Training residual 10/90 percentiles motivate an 80% reference, not a coverage guarantee. Truth strata are retrospective diagnostics, never decision inputs. No test-set recalibration or operational probability validation."
+    }
+  ]
+}

@@ -157,3 +157,18 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Full desktop/mobile browser verification passed with zero page errors, including real comparison execution and evidence exports.
 - All 12 Word pages and the new desktop/mobile comparison and factorial screenshots were visually inspected.
 - Renewed review retains unequal engine observation windows, authored benchmark scope, uncertainty calibration and absent field outcomes as research limitations.
+
+## 2026-10-06 — v0.8 evaluation boundaries
+
+- Added retrospective fixed-cycle complete-case sensitivity and separate scoring/eligibility mechanism analysis, preserving full-window results.
+- Reconstructed hash-verified frozen FD001 endpoints; audited all four test sets and the structural 125-cycle cap without test-set tuning.
+- Added 35 project-authored combination/migration cases to unchanged JSON/RDF validators; independence is not claimed.
+- Added a sourced prior-work matrix and unperformed external-evaluation protocol with empirical service data requirements.
+- Updated the Word companion, retained its generator, and documented renewed examiner judgement in EVALUATION_AUDIT.md.
+
+### v0.8 local verification
+
+- Frozen FD001 reconstruction reconciled 100 endpoints with published RMSE/coverage and eight replay endpoints.
+- Evaluation tests, original story tests, expanded JSON/RDF tests and production build passed.
+- Full final desktop/mobile browser suite passed with zero page errors; new source tables wrap within their panels, including 320px layout.
+- All 15 Word pages and focused new research/interval screenshots visually reviewed. An extra blank cover page and non-wrapping source table were corrected before release.

@@ -1,6 +1,8 @@
 # Automatic case-study walkthrough (v0.5)
 
-Current v0.7 update: [computed comparisons and renewed viva review](VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
+Latest v0.8: [matched observations, interval-cap audit, semantic stress checks and source positioning](EVALUATION_AUDIT.md). External evaluation remains explicitly unperformed.
+
+Previous v0.7 update: [computed comparisons and renewed viva review](VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
 
 The existing explorer now has **Play case study**, with a direct entry at `/cmapss/?story=1`. It opens an approximately three-minute, nine-scene walkthrough with English explanatory text and controls. It is a browser animation with a readable transcript, not a narrated video. The original explorer remains available and its selected dataset, cycle and policy are preserved when the story closes.
 

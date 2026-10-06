@@ -364,6 +364,1743 @@
       "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b548, _:b549;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b548 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#MinCountConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Less than 1 values\".\n_:b549 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
     }
   ],
+  "stressResults": [
+    {
+      "name": "Defect combination 00",
+      "expected": [],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [],
+      "rdfErrors": [],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": true,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#conforms> true.\n"
+    },
+    {
+      "name": "Defect combination 01",
+      "expected": [
+        "R1"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1"
+      ],
+      "rdfErrors": [
+        "R1"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b704;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b704 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 02",
+      "expected": [
+        "R2"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R2"
+      ],
+      "rdfErrors": [
+        "R2"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b782, _:b783;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b782 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b783 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 03",
+      "expected": [
+        "R1",
+        "R2"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b861, _:b862, _:b863;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b861 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b862 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b863 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 04",
+      "expected": [
+        "R3"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R3"
+      ],
+      "rdfErrors": [
+        "R3"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b941, _:b942;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b941 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b942 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 05",
+      "expected": [
+        "R1",
+        "R3"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R3"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R3"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1020, _:b1021, _:b1022;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1020 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1021 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b1022 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 06",
+      "expected": [
+        "R2",
+        "R3"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R3"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R3"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1100, _:b1101, _:b1102, _:b1103;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1100 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b1101 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b1102 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b1103 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 07",
+      "expected": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1181, _:b1182, _:b1183, _:b1184, _:b1185;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1181 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1182 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b1183 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b1184 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b1185 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 08",
+      "expected": [
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R4"
+      ],
+      "rdfErrors": [
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1263;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1263 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 09",
+      "expected": [
+        "R1",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1341, _:b1342;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1341 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1342 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 10",
+      "expected": [
+        "R2",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1420, _:b1421, _:b1422;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1420 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b1421 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b1422 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 11",
+      "expected": [
+        "R1",
+        "R2",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1500, _:b1501, _:b1502, _:b1503;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1500 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1501 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b1502 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b1503 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 12",
+      "expected": [
+        "R3",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R3",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R3",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1581, _:b1582, _:b1583;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1581 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b1582 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b1583 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 13",
+      "expected": [
+        "R1",
+        "R3",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R3",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R3",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1661, _:b1662, _:b1663, _:b1664;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1661 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1662 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b1663 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:b1664 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 14",
+      "expected": [
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1742, _:b1743, _:b1744, _:b1745, _:b1746;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1742 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b1743 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b1744 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b1745 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b1746 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 15",
+      "expected": [
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:stress:wrong",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "version": "stale",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "stale",
+          "estimateAsset": "urn:stress:wrong",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1824, _:b1825, _:b1826, _:b1827, _:b1828, _:b1829;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1824 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1825 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b1826 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b1827 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b1828 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:b1829 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 16",
+      "expected": [
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R5"
+      ],
+      "rdfErrors": [
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1907, _:b1908;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1907 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b1908 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 17",
+      "expected": [
+        "R1",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b1986, _:b1987, _:b1988;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b1986 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b1987 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b1988 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 18",
+      "expected": [
+        "R2",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2066, _:b2067, _:b2068, _:b2069;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2066 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b2067 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b2068 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b2069 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 19",
+      "expected": [
+        "R1",
+        "R2",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2147, _:b2148, _:b2149, _:b2150, _:b2151;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2147 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b2148 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b2149 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b2150 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b2151 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 20",
+      "expected": [
+        "R3",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R3",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R3",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2229, _:b2230, _:b2231, _:b2232;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2229 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b2230 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b2231 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b2232 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 21",
+      "expected": [
+        "R1",
+        "R3",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R3",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R3",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2310, _:b2311, _:b2312, _:b2313, _:b2314;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2310 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b2311 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b2312 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:b2313 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b2314 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 22",
+      "expected": [
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2392, _:b2393, _:b2394, _:b2395, _:b2396, _:b2397;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2392 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b2393 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b2394 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b2395 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b2396 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b2397 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 23",
+      "expected": [
+        "R1",
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R3",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2475, _:b2476, _:b2477, _:b2478, _:b2479, _:b2480, _:b2481;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2475 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b2476 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b2477 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b2478 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b2479 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:b2480 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b2481 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 24",
+      "expected": [
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2559, _:b2560, _:b2561;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2559 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:b2560 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b2561 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 25",
+      "expected": [
+        "R1",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2639, _:b2640, _:b2641, _:b2642;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2639 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b2640 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:b2641 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b2642 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 26",
+      "expected": [
+        "R2",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2720, _:b2721, _:b2722, _:b2723, _:b2724;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2720 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b2721 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b2722 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:b2723 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b2724 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 27",
+      "expected": [
+        "R1",
+        "R2",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2802, _:b2803, _:b2804, _:b2805, _:b2806, _:b2807;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2802 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b2803 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b2804 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b2805 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:b2806 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b2807 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 28",
+      "expected": [
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2885, _:b2886, _:b2887, _:b2888, _:b2889;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2885 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b2886 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b2887 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:b2888 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b2889 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 29",
+      "expected": [
+        "R1",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b2967, _:b2968, _:b2969, _:b2970, _:b2971, _:b2972;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b2967 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b2968 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b2969 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:b2970 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:b2971 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b2972 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 30",
+      "expected": [
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b3050, _:b3051, _:b3052, _:b3053, _:b3054, _:b3055, _:b3056;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b3050 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b3051 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\".\n_:b3052 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"stale\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b3053 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b3054 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\".\n_:b3055 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:b3056 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\".\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Defect combination 31",
+      "expected": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:stress:wrong",
+          "unit": "hours",
+          "model": "fd001-window-ridge-v1",
+          "source": "nonempty-invalid-hash"
+        },
+        "recommendation": {
+          "version": "stale",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:wrong-estimate"
+        }
+      },
+      "jsErrors": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "rdfErrors": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ],
+      "jsRows": [],
+      "rdfRows": [],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:stress:wrong>;\n    <urn:cmapss:comparison:unit> \"hours\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"nonempty-invalid-hash\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:wrong-estimate>;\n    <urn:cmapss:comparison:version> \"stale\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b3134, _:b3135, _:b3136, _:b3137, _:b3138, _:b3139, _:b3140, _:b3141;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b3134 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#HasValueConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R1>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-0;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Missing expected value cycles\".\n_:b3135 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong>.\n_:b3136 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R2>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-2;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:asset>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34>.\n_:b3137 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"stale\".\n_:b3138 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\";\n    <http://www.w3.org/ns/shacl#value> \"1\".\n_:b3139 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#PatternConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R4>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-6;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Value does not match pattern \\\"^[a-f0-9]{64}$\\\"\";\n    <http://www.w3.org/ns/shacl#value> \"nonempty-invalid-hash\".\n_:b3140 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:stress:wrong-estimate>.\n_:b3141 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R5>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-8;\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:estimate>\";\n    <http://www.w3.org/ns/shacl#value> <urn:cmapss:FD001:engine:34:cycle:171:estimate>.\n_:n3-0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-1.\n_:n3-1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:unit>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-3.\n_:n3-3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:asset>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-7.\n_:n3-7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:source>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n_:n3-8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-9.\n_:n3-9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:estimate>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Version migration: both updated",
+      "expected": [],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "next-version",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "next-version",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [],
+      "rdfErrors": [],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "next-version",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "next-version",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": true,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"next-version\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"next-version\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#conforms> true.\n"
+    },
+    {
+      "name": "Version migration: stale advice",
+      "expected": [
+        "R3"
+      ],
+      "fixture": {
+        "asset": "urn:cmapss:FD001:engine:34",
+        "expectedVersion": "next-version",
+        "estimate": {
+          "id": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate"
+        }
+      },
+      "jsErrors": [
+        "R3"
+      ],
+      "rdfErrors": [
+        "R3"
+      ],
+      "jsRows": [
+        {
+          "asset": "urn:cmapss:FD001:engine:34",
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:cmapss:FD001:engine:34:cycle:171:estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:cmapss:FD001:engine:34",
+          "version": "1",
+          "estimateAsset": "urn:cmapss:FD001:engine:34",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": false,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"next-version\".\n<urn:cmapss:FD001:engine:34:cycle:171:estimate> <urn:cmapss:comparison:asset> <urn:cmapss:FD001:engine:34>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:cmapss:FD001:engine:34:cycle:171:estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#result> _:b3296, _:b3297;\n    <http://www.w3.org/ns/shacl#conforms> false.\n_:b3296 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"1\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:b3297 a <http://www.w3.org/ns/shacl#ValidationResult>;\n    <http://www.w3.org/ns/shacl#resultSeverity> <http://www.w3.org/ns/shacl#Violation>;\n    <http://www.w3.org/ns/shacl#sourceConstraintComponent> <http://www.w3.org/ns/shacl#EqualsConstraintComponent>;\n    <http://www.w3.org/ns/shacl#sourceShape> <urn:cmapss:comparison:R3>;\n    <http://www.w3.org/ns/shacl#focusNode> <urn:cmapss:comparison:snapshot>;\n    <http://www.w3.org/ns/shacl#resultPath> _:n3-4;\n    <http://www.w3.org/ns/shacl#value> \"next-version\";\n    <http://www.w3.org/ns/shacl#resultMessage> \"Must have same values as <urn:cmapss:comparison:expectedVersion>\".\n_:n3-4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:recommendation>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:n3-5.\n_:n3-5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <urn:cmapss:comparison:version>;\n    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.\n"
+    },
+    {
+      "name": "Identity migration: consistent links",
+      "expected": [],
+      "fixture": {
+        "asset": "urn:stress:renamed-asset",
+        "expectedVersion": "1",
+        "estimate": {
+          "id": "urn:stress:renamed-estimate",
+          "asset": "urn:stress:renamed-asset",
+          "unit": "cycles",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851"
+        },
+        "recommendation": {
+          "version": "1",
+          "action": "Planned Maintenance",
+          "estimate": "urn:stress:renamed-estimate"
+        }
+      },
+      "jsErrors": [],
+      "rdfErrors": [],
+      "jsRows": [
+        {
+          "asset": "urn:stress:renamed-asset",
+          "estimate": "urn:stress:renamed-estimate",
+          "estimateAsset": "urn:stress:renamed-asset",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "version": "1",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "rdfRows": [
+        {
+          "estimate": "urn:stress:renamed-estimate",
+          "model": "fd001-window-ridge-v1",
+          "source": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+          "asset": "urn:stress:renamed-asset",
+          "version": "1",
+          "estimateAsset": "urn:stress:renamed-asset",
+          "action": "Planned Maintenance"
+        }
+      ],
+      "conforms": true,
+      "matchesExpected": true,
+      "queryParity": true,
+      "datasetTTL": "<urn:cmapss:comparison:snapshot> <urn:cmapss:comparison:asset> <urn:stress:renamed-asset>;\n    <urn:cmapss:comparison:estimate> <urn:stress:renamed-estimate>;\n    <urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:recommendation>;\n    <urn:cmapss:comparison:expectedVersion> \"1\".\n<urn:stress:renamed-estimate> <urn:cmapss:comparison:asset> <urn:stress:renamed-asset>;\n    <urn:cmapss:comparison:unit> \"cycles\";\n    <urn:cmapss:comparison:model> \"fd001-window-ridge-v1\";\n    <urn:cmapss:comparison:source> \"3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851\".\n<urn:cmapss:comparison:recommendation> <urn:cmapss:comparison:estimate> <urn:stress:renamed-estimate>;\n    <urn:cmapss:comparison:version> \"1\";\n    <urn:cmapss:comparison:action> \"Planned Maintenance\".\n",
+      "reportTTL": "_:report a <http://www.w3.org/ns/shacl#ValidationReport>;\n    <http://www.w3.org/ns/shacl#conforms> true.\n"
+    }
+  ],
+  "stressScope": "35 project-authored regression cases: all 32 subsets of five defects, plus version and identity migrations. Same scalar profile and unchanged validators; no independent author, unseen holdout or measured change effort.",
   "scope": "Bounded parity experiment: one provenance query, five requirements, seven authored fixtures from one FD001 snapshot. JSON checks and RDF/SHACL receive equivalent values and defects. Separate comparison profile, not the full application ontology or production approval gate.",
   "interpretation": "Equal outcomes show both implementations can meet these bounded requirements. No ontology superiority, runtime advantage, broad interoperability or maintenance-cost claim is established.",
   "contractAuthority": "Expected contract version is supplied as scenario metadata, not retrieved from an authoritative registry.",
@@ -25156,5 +26893,5 @@
     "ontologySHA256": "925a2b4cdb97a5dc5c2dfda7408202921865bc847d9607cdfbaee808ef5bb6ce"
   },
   "shapesSHA256": "316d21584017e4685fdf6bb9c7e6ebd385600def2a0ab357a7199271f0e53868",
-  "fixturesSHA256": "ffd7540df9b0c007eb69035ebaaf7117050d4d6c5ed714fc72275a8408628fe2"
+  "fixturesSHA256": "55ea1ce34f839ab2f3bab6a8a7dee60365f4db6e8764c48aa51c2a82d2bb0cbc"
 }
