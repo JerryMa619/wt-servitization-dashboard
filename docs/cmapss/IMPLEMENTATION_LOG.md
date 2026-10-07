@@ -172,3 +172,11 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Evaluation tests, original story tests, expanded JSON/RDF tests and production build passed.
 - Full final desktop/mobile browser suite passed with zero page errors; new source tables wrap within their panels, including 320px layout.
 - All 15 Word pages and focused new research/interval screenshots visually reviewed. An extra blank cover page and non-wrapping source table were corrected before release.
+
+## 2026-10-07 — English viva presentation script
+
+- Added `C-MAPSS_English_Viva_Presentation_Script.docx`, an English edition of the reviewed v0.8 companion, and its reproducible `scripts/cmapss/build_english_script.py` generator.
+- Reorganised the material into a three-minute opening, nine-scene spoken narration, two-case comparison, supporting experiments, viva answers and revision-pinned references. Consolidated historical review sections into the current evaluation position.
+- Preserved the numerical evidence, interval-cap limitation, bounded JSON/RDF parity, proposed-only service handoff and outstanding independent evaluation. English is used throughout the substantive text, tables and Q&A; three clearly labelled optional Chinese speaker notes are excluded from the spoken script.
+- Retained the original Chinese companion as a separate edition. No website or scientific-model changes.
+- Validation: generated with python-docx; rendered all 14 pages using the documents renderer and visually reviewed every page; checked table fit, page breaks, source targets and that Chinese text occurs only in the three notes. `git diff --check` passed.
