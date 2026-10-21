@@ -1,5 +1,9 @@
 # Automatic case-study walkthrough (v0.5)
 
+Latest v0.8: [matched observations, interval-cap audit, semantic stress checks and source positioning](EVALUATION_AUDIT.md). External evaluation remains explicitly unperformed.
+
+Previous v0.7 update: [computed comparisons and renewed viva review](VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
+
 The existing explorer now has **Play case study**, with a direct entry at `/cmapss/?story=1`. It opens an approximately three-minute, nine-scene walkthrough with English explanatory text and controls. It is a browser animation with a readable transcript, not a narrated video. The original explorer remains available and its selected dataset, cycle and policy are preserved when the story closes.
 
 ## Narrative and contributions
@@ -48,3 +52,14 @@ CHROME_EXECUTABLE=/path/to/chrome node scripts/verify-cmapss-story-ui.mjs
 ```
 
 The pure player test covers progression, waiting, pause/restart, observed-only frames, known action comparisons and all four actual semantic outcomes. The browser test runs the complete automatic sequence, verifies exported evidence, then checks manual scenes, failure/retry, direct entry/exit, reduced motion and 390/320px layouts. Screenshots and the machine-readable result are under `screenshots/cmapss-story/`.
+
+## Viva revision (v0.6)
+
+The opening now distinguishes asset evidence, service context and unimplemented
+service delivery. The semantic chapter walks through the actual implementation
+order; validation inspects advice, rather than enforcing approval. Choose
+**Viva · manual inspection** to pause progression and inspect examiner questions,
+contribution boundaries and computed FD001 sensitivity. The complementary-case
+cards distinguish WT process demonstration from C-MAPSS evidence-to-advice
+validation. See [VIVA_REVISION.md](VIVA_REVISION.md) for methods, denominators and
+outstanding research comparisons; no measured service benefit is asserted.

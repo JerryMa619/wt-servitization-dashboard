@@ -1,5 +1,9 @@
 # WT Servitization Digital Twin Dashboard
 
+Latest v0.8: [matched observations, interval-cap audit, semantic stress checks and source positioning](docs/cmapss/EVALUATION_AUDIT.md). External evaluation remains explicitly unperformed.
+
+Previous v0.7 update: [computed comparisons and renewed viva review](docs/cmapss/VIVA_COMPARISON_REVIEW.md). Includes a cost/margin factorial, per-engine sensitivity, an executable equal-requirement JSON/RDF comparison, and cross-case synthesis. Earlier version notes below retain their historical scope.
+
 Public dashboard URL: [https://jerryma619.github.io/wt-servitization-dashboard/](https://jerryma619.github.io/wt-servitization-dashboard/)
 
 Enhanced public dashboard URL: [https://jerryma619.github.io/wt-servitization-dashboard/enhanced/](https://jerryma619.github.io/wt-servitization-dashboard/enhanced/)
@@ -210,3 +214,11 @@ The `/cmapss/` demonstration now offers four separately fitted subset models, on
 ### Automatic C-MAPSS case-study story
 
 Open `/cmapss/?story=1` or select **Play case study** for a roughly three-minute walkthrough of observed degradation, DT framework responsibilities, executable ontology evidence, contract decisions and scoped research contributions. It supports pause, chapters, speed, a transcript and real semantic-check exports. See [animated story design](docs/cmapss/ANIMATED_STORY.md).
+
+### C-MAPSS viva inspection
+
+In the English case-study story, choose **Viva · manual inspection** to inspect
+service boundaries, responsibility handoffs and examiner questions. Expand the
+sensitivity panel for actual FD001 replay calculations and a threshold-only
+comparison. [Viva methods and complementary case roles](docs/cmapss/VIVA_REVISION.md)
+separate implemented evidence from remaining research claims.

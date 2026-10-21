@@ -129,3 +129,54 @@ Deterministic data generation; prefix-only feature test; source hashes; action s
 - Added browser assertions that visible story scenes and the exported script contain no Chinese characters. The full production-browser suite passed: complete autoplay, four actual semantic executions, contract comparisons, evidence export, failure/retry, restored explorer state, reduced motion and 390/320px layouts, with no browser errors.
 - Player/model checks and the production build passed. Reviewed refreshed English desktop/mobile screenshots. Data, model, policy logic and claim boundaries are unchanged.
 - Final commit, merge, deployment and public verification are recorded on PR #3.
+
+## 2026-10-06 — viva-oriented evidence and complementary case roles
+
+- User requested changes following examiner review and an explanation of the two cases' distinct presentation focus.
+- Added asset/service boundary, participant roles, actual implementation-order handoff, per-scene examiner questions, contribution/evidence/gap cards, architecture mapping and complementary WT/C-MAPSS roles. Added manual viva controls while retaining automatic overview.
+- Added actual one-factor sensitivity across 1,233 FD001 snapshots and two reference contracts, a same-margin threshold-only comparator and provenance-bearing exports. Reports descriptive action changes, never service gains.
+- Explicitly identifies validation-after-advice, no operational approval gate, conventional validation alternatives, imperfect interval calibration and zero-wait intervention assumptions.
+- Outstanding prior-work, schema-baseline, heterogeneous-source and outcome evaluations are documented in VIVA_REVISION.md. WT implementation is preserved from current main.
+
+### Local verification
+
+- Production build, player/semantic/sensitivity tests and all nine WT research tests passed. No dependency, ontology-source or model changes.
+- Complete English browser suite passed with zero page errors, including manual mode, actual sensitivity export, all semantic scenes and expanded 390/320px views. Refreshed desktop/mobile screenshots were inspected.
+- Example descriptive result: for availability assurance, interval width ×1.25 changes 150/1,233 snapshot actions; the reference differs from the threshold-only comparator at 121/1,233 snapshots. Neither count establishes better outcomes.
+
+## 2026-10-06 — second viva revision and renewed review
+
+- Added 2×2 cost/margin analysis, per-engine sensitivity, all action transitions and first observed maintenance-advice cycles; preserved missing events and separate weighting definitions.
+- Implemented equal-requirement conventional JSON versus RDF/SHACL microbenchmark with real execution and exports; observed bounded parity rather than manufacturing an ontology advantage.
+- Added responsibility-to-review chain and cross-case reuse/adaptation synthesis. Updated Word companion and recorded renewed examiner review in VIVA_COMPARISON_REVIEW.md.
+- New comparison tests are required in both branch/PR and deployment CI. No predictive-model, default policy, source ontology or WT implementation changes.
+
+### Local verification of the second revision
+
+- Production build, story/sensitivity tests, and actual JSON/RDF comparison tests passed.
+- Full desktop/mobile browser verification passed with zero page errors, including real comparison execution and evidence exports.
+- All 12 Word pages and the new desktop/mobile comparison and factorial screenshots were visually inspected.
+- Renewed review retains unequal engine observation windows, authored benchmark scope, uncertainty calibration and absent field outcomes as research limitations.
+
+## 2026-10-06 — v0.8 evaluation boundaries
+
+- Added retrospective fixed-cycle complete-case sensitivity and separate scoring/eligibility mechanism analysis, preserving full-window results.
+- Reconstructed hash-verified frozen FD001 endpoints; audited all four test sets and the structural 125-cycle cap without test-set tuning.
+- Added 35 project-authored combination/migration cases to unchanged JSON/RDF validators; independence is not claimed.
+- Added a sourced prior-work matrix and unperformed external-evaluation protocol with empirical service data requirements.
+- Updated the Word companion, retained its generator, and documented renewed examiner judgement in EVALUATION_AUDIT.md.
+
+### v0.8 local verification
+
+- Frozen FD001 reconstruction reconciled 100 endpoints with published RMSE/coverage and eight replay endpoints.
+- Evaluation tests, original story tests, expanded JSON/RDF tests and production build passed.
+- Full final desktop/mobile browser suite passed with zero page errors; new source tables wrap within their panels, including 320px layout.
+- All 15 Word pages and focused new research/interval screenshots visually reviewed. An extra blank cover page and non-wrapping source table were corrected before release.
+
+## 2026-10-07 — English viva presentation script
+
+- Added `C-MAPSS_English_Viva_Presentation_Script.docx`, an English edition of the reviewed v0.8 companion, and its reproducible `scripts/cmapss/build_english_script.py` generator.
+- Reorganised the material into a three-minute opening, nine-scene spoken narration, two-case comparison, supporting experiments, viva answers and revision-pinned references. Consolidated historical review sections into the current evaluation position.
+- Preserved the numerical evidence, interval-cap limitation, bounded JSON/RDF parity, proposed-only service handoff and outstanding independent evaluation. English is used throughout the substantive text, tables and Q&A; three clearly labelled optional Chinese speaker notes are excluded from the spoken script.
+- Retained the original Chinese companion as a separate edition. No website or scientific-model changes.
+- Validation: generated with python-docx; rendered all 14 pages using the documents renderer and visually reviewed every page; checked table fit, page breaks, source targets and that Chinese text occurs only in the three notes. `git diff --check` passed.

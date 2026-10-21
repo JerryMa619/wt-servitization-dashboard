@@ -29,3 +29,49 @@ for(const [stage,r] of Object.entries(semanticStages)){
  assert.equal(result.conforms,r.expected,stage);assert.ok(r.expected?result.rows.length>0:result.violations.length>0);
 }
 console.log('PASS: nine-scene player lifecycle, semantic waiting, observed-only frames, both contract comparisons and actual semantic outcomes.');
+
+// Viva analysis uses the production advisory rule, without future truth or outcomes.
+const {sensitivityReport,perturbPoint}=await import('../src/cmapss/viva.ts');
+for(const c of contracts){
+ const report=sensitivityReport(d.engines,c.policy);
+ assert.equal(report.frames,1233);assert.equal(report.rows.length,9);assert.equal(report.rows[0].changed,0);
+ for(const row of report.rows){
+  assert.equal(Object.values(row.actionCounts).reduce((a,b)=>a+b,0),report.frames);
+  assert.ok(row.changed>=0&&row.changed<=report.frames);
+  assert.ok(row.thresholdDisagreements>=0&&row.thresholdDisagreements<=report.frames);
+ }
+ const reference=report.rows[0];
+ const manual=d.engines.flatMap(e=>e.points).filter(p=>decide(p,c.policy).chosen.name!==(p.low<=c.policy.gate?'Planned Maintenance':'Continue')).length;
+ assert.equal(reference.thresholdDisagreements,manual);
+ const original=JSON.stringify(d.engines);sensitivityReport(d.engines,c.policy);assert.equal(JSON.stringify(d.engines),original);
+ const noTruth=d.engines.map(e=>({id:e.id,points:e.points.map(p=>({cycle:p.cycle,point:p.point,low:p.low,high:p.high,settings:p.settings,sensors:p.sensors}))}));
+ assert.deepEqual(sensitivityReport(noTruth,c.policy),report);
+}
+const p={cycle:1,point:50,low:30,high:70,settings:[],sensors:[]};
+assert.equal(perturbPoint(p,1.25).low,25);assert.equal(perturbPoint(p,1.25).high,75);
+assert.throws(()=>sensitivityReport([],defaults));
+const edge={...p,low:0,high:125};assert.equal(perturbPoint(edge,1.25).low,0);assert.equal(perturbPoint(edge,1.25).high,125);
+console.log('PASS: viva sensitivity denominators, unchanged reference, threshold comparison, bounded perturbations, no mutation or evaluation-label dependency.');
+
+const {contractFactorial}=await import('../src/cmapss/viva.ts');
+assert.deepEqual(contractFactorial(points.find(p=>p.cycle===171)).map(r=>r.action),['Enhanced Monitoring','Planned Maintenance','Inspection','Planned Maintenance']);
+assert.deepEqual(contractFactorial(points.find(p=>p.cycle===158)).map(r=>r.action),['Continue','Continue','Enhanced Monitoring','Enhanced Monitoring']);
+for(const c of contracts){for(const row of sensitivityReport(d.engines,c.policy).rows){
+ assert.equal(row.byEngine.reduce((n,e)=>n+e.frames,0),1233);
+ assert.equal(row.byEngine.reduce((n,e)=>n+e.changed,0),row.changed);
+ assert.equal(Object.values(row.transitions).reduce((a,b)=>a+b,0),1233);
+ assert.equal(Object.entries(row.transitions).filter(([key])=>{const [from,to]=key.split(' → ');return from!==to;}).reduce((n,[,count])=>n+count,0),row.changed);
+ for(const engine of row.byEngine){
+  const source=d.engines.find(e=>e.id===engine.engine).points;
+  const ref=source.find(p=>decide(p,c.policy).chosen.name==='Planned Maintenance')?.cycle??null;
+  const alt=source.find(p=>decide(perturbPoint(p,row.intervalWidthMultiplier),row.policy).chosen.name==='Planned Maintenance')?.cycle??null;
+  assert.equal(engine.referenceFirst,ref);assert.equal(engine.scenarioFirst,alt);
+  assert.equal(engine.firstCycleShift,ref===null||alt===null?null:alt-ref);
+ }
+}
+}
+const sparse=[{id:1,points:[{...p,cycle:30,point:100,low:90,high:110}]},{id:2,points:[{...p,cycle:10,point:15,low:5,high:25},{...p,cycle:20,point:10,low:0,high:20}]}];
+const sparseReport=sensitivityReport(sparse,defaults);
+assert.equal(sparseReport.rows[0].byEngine[0].referenceFirst,null);assert.equal(sparseReport.rows[0].byEngine[0].firstCycleShift,null);
+assert.equal(sparseReport.rows[0].byEngine[1].referenceFirst,10);
+console.log('PASS: factorial effects, per-engine reconciliation, all transition counts and censored first-observed advice cycles.');
