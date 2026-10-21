@@ -35,3 +35,8 @@ The hardware boundary remains visible: sensing and actuation are not physically 
 ## Publication
 
 Implementation, tests, this process record and isolated browser-generated demonstration screenshots are tracked in the existing GitHub repository. No private thesis, personal location/history, credentials or raw hardware archive is included. Public verification is recorded separately after deployment.
+
+- Implementation commit: `0016b916b91ec8e48c8d4e5abb20f2033fd3aaa1`.
+- [GitHub Pages deployment 39695482011](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/39695482011) completed successfully, including source/model verification and production build.
+- The same browser script passed on both public routes, sampling 461 standard and 482 enhanced frames across two completed service cycles each. Direction, active/idle state, actual framework visibility, global pause, recorded evidence, mobile layout and reduced motion checks all passed, with no browser runtime errors.
+- [Public browser results](../../screenshots/ome-interfaces/public/verification.json) and screenshots are tracked separately from local evidence. This publication record does not change application code.

@@ -1,0 +1,44 @@
+{
+  "verifiedAt": "2026-10-21T23:47:50.707Z",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "samples": 461,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Two completed cycles with directional interface state",
+        "Module selection and hardware boundary",
+        "Global pause",
+        "Historical downtime and result",
+        "320/390/820px layouts",
+        "Overlay preference",
+        "Reduced motion"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "samples": 482,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Two completed cycles with directional interface state",
+        "Module selection and hardware boundary",
+        "Global pause",
+        "Historical downtime and result",
+        "320/390/820px layouts",
+        "Overlay preference",
+        "Reduced motion"
+      ]
+    }
+  ],
+  "errors": []
+}

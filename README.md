@@ -69,7 +69,7 @@ Design and process record: [workspace specification](docs/twin/DESIGN.md), [impl
 
 Continuous Framework fix: [root cause and repair](docs/twin/FRAMEWORK_CONTINUITY_FIX.md), [two-cycle visibility/flow regression](screenshots/framework/verification.json). New telemetry preserves measured graph dimensions; completion does not hide the framework or stop live monitoring flow.
 
-OME / DCDCE connections: explicit **IF-01 observation data -> Data Collection** and **IF-02 Device Control -> simulated WT** lanes, with matching module identifiers, source/time, phase-dependent hold status and replay-aware evidence. These are dashboard interface IDs, not physical links or ISO clause numbers. [Design and implementation record](docs/twin/OME_DCDCE_INTERFACES.md), [browser verification](screenshots/ome-interfaces/verification.json).
+OME / DCDCE connections: explicit **IF-01 observation data -> Data Collection** and **IF-02 Device Control -> simulated WT** lanes, with matching module identifiers, source/time, phase-dependent hold status and replay-aware evidence. These are dashboard interface IDs, not physical links or ISO clause numbers. [Design and implementation record](docs/twin/OME_DCDCE_INTERFACES.md), [local browser verification](screenshots/ome-interfaces/verification.json), [public browser verification](screenshots/ome-interfaces/public/verification.json).
 
 ![Integrated architecture](screenshots/twin/architecture-desktop.png)
 
