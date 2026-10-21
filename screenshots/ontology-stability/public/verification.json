@@ -1,0 +1,9 @@
+{
+  "base": "https://jerryma619.github.io/wt-servitization-dashboard/",
+  "checkedAt": "2026-10-21T23:37:12.260Z",
+  "results": [
+    "standard: absent-execution focus recovery, persistent graph instance, camera retention, three service events with 297 sampled frames and zero frames without visible nodes, repeated tabs, hidden/visible canvas and desktop/mobile resizing passed.",
+    "enhanced: absent-execution focus recovery, persistent graph instance, camera retention, three service events with 301 sampled frames and zero frames without visible nodes, repeated tabs, hidden/visible canvas and desktop/mobile resizing passed."
+  ],
+  "errors": []
+}

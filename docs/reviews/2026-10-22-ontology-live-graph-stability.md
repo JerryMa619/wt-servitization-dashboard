@@ -77,3 +77,21 @@ successful recovery does not overwrite the pre-fix reproduction evidence.
 Public checks use `DASHBOARD_URL` and write to a separate `public/` subdirectory.
 
 Publication and public verification are recorded below once confirmed.
+
+## Public Verification
+
+Fix commit `23f78df` was published on 2026-10-22 (Europe/London). The
+[Pages workflow](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/39694361100)
+passed tests, build and deployment. The public standard/enhanced routes passed
+the same stability checks, excluding the deliberately injected local-only fault.
+
+The published standard route sampled 297 frames and the enhanced route 301 frames
+across three service events each, with zero frames without visible nodes.
+Historical/live recovery, persistent graph DOM identity, retained user camera,
+eight tab switches, hidden/visible recovery and desktop/mobile resize checks
+passed with no page-runtime errors. The public mobile screenshot was inspected.
+
+Results and screenshots are in `screenshots/ontology-stability/public/`, separate
+from the original reproduction, intermediate hidden-dimension diagnosis and
+final local checks. This follow-up evidence commit changes only documentation
+and verification artifacts; it does not change the verified application code.
