@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import ReactFlow, { Background, Handle, MarkerType, Position, useNodesState, type NodeProps, type Edge, type Node } from 'reactflow';
-import { ArrowUpRight, ChevronLeft, ChevronRight, Database, History, Layers, Network, Pause, Play, Radio, RotateCcw, ShieldCheck, Wind } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Database, History, Layers, Network, Pause, Play, Radio, RotateCcw, ShieldCheck, Wind } from 'lucide-react';
 import { evidenceSource, type OntologyExecution, type OntologySnapshot } from '../ontology/model';
 import { auxiliaryChannelReferences, bladeSensorFields, derivedConditionNote } from '../model/instrumentation';
 import { rulBandLabel, rulDescription, rulUncertaintyDescription, rulModel } from '../model/xgboost';
-import { activeConnections, activeModules, architectureModules, moduleValue, replayFrames, stageLabel, workflowStage, type ArchitectureModule, type ModuleId, type ReplayFrame } from './model';
+import { activeConnections, activeModules, architectureModules, moduleValue, omeConnections, replayFrames, stageLabel, workflowStage, type ArchitectureModule, type ModuleId, type ReplayFrame } from './model';
 import './twin.css';
 
 export type ReplayRequest = { id: number; eventId: string };
@@ -13,7 +13,7 @@ type ModuleData = { module: ArchitectureModule; value: string; active: boolean; 
 function ModuleNode({ data }: NodeProps<ModuleData>) {
   return <div className={`twin-module-node ${data.active ? 'active' : ''} ${data.selected ? 'selected' : ''}`}>
     {[Position.Left, Position.Right, Position.Top, Position.Bottom].map((position) => <Handle key={`target-${position}`} id={`target-${position}`} type="target" position={position} />)}
-    <span>{data.module.extension ? 'SERVITIZATION EXTENSION' : data.module.subEntity}</span>
+    <span>{data.module.id === 'collection' ? 'IF-01 / ' : data.module.id === 'control' ? 'IF-02 / ' : ''}{data.module.extension ? 'SERVITIZATION EXTENSION' : data.module.subEntity}</span>
     <strong>{data.module.title}</strong><small>{data.value}</small>
     {[Position.Left, Position.Right, Position.Top, Position.Bottom].map((position) => <Handle key={`source-${position}`} id={`source-${position}`} type="source" position={position} />)}
   </div>;
@@ -44,20 +44,21 @@ function detailRows(id: ModuleId, snapshot: OntologySnapshot, event: OntologyExe
     case 'tcs':
     case 'recommendation': return [{ label: 'Recommendation', value: snapshot.recommendation.label }, { label: 'Selection', value: snapshot.recommendation.acceptable ? 'Lowest TCS passing the residual-risk policy' : 'No candidate passed; minimum-cost fallback' }, ...snapshot.recommendation.costs.map((cost) => ({ label: cost.label, value: `GBP ${cost.value.toLocaleString('en-GB')}` }))];
     case 'execution': return [{ label: 'Event', value: event?.id ?? 'No current execution' }, { label: 'Planned downtime', value: event ? `${event.downtimeH} h / compressed simulation time` : 'Not started' }, { label: 'Outcome', value: 'Simulated readings; measured assessment pending' }];
-    case 'control': return [{ label: 'Control output', value: p.serviceMode === 'in-downtime' ? 'Simulation sets rotor RPM and power targets to zero' : 'No current hold command' }, { label: 'Device connection', value: 'No physical actuator connected' }];
+    case 'control': return [{ label: 'Interface IF-02', value: 'DCDCE / Device Control -> OME (simulated WT)' }, { label: 'Control output', value: p.serviceMode === 'in-downtime' ? 'Simulation sets rotor RPM and power targets to zero' : 'No current hold command' }, { label: 'Device connection', value: 'No physical actuator connected' }];
     case 'authorisation': return [{ label: 'Human authorisation', value: 'Not recorded' }, { label: 'Simulator', value: 'Automatic demonstration policy executes eligible maintenance' }];
     case 'kpi': return [{ label: 'Contract target', value: snapshot.contract ? `${(snapshot.contract.target * 100).toFixed(1)}%` : 'Unavailable' }, { label: 'Reference availability', value: snapshot.contract ? `${(snapshot.contract.actual * 100).toFixed(1)}%` : 'Unavailable' }, { label: 'Scope', value: 'Chapter 5 reference; not recalculated from this simulated intervention' }];
     case 'registry': return [{ label: 'Asset / component', value: `${snapshot.asset} / ${snapshot.component}` }, { label: 'State', value: snapshot.serviceState }, { label: 'Coordinates', value: `${snapshot.position.lat.toFixed(5)}, ${snapshot.position.lon.toFixed(5)} / ${snapshot.position.source}` }];
     case 'access': return [{ label: 'Representation', value: 'Chapter 4 SDT schema / shared event records' }, { label: 'Validation', value: 'WT snapshot checks in Semantic Check / no OWL inference' }, { label: 'Persistence', value: 'Latest 30 events saved in this browser; history JSON import / export' }];
-    default: return [{ label: 'Observation', value: `${p.vibrationRms.toFixed(3)} g / wind ${p.windSpeed.toFixed(1)} m/s / ${p.windDirection} deg` }, ...bladeSensorFields, ...auxiliaryChannelReferences, { label: 'Auxiliary source', value: 'Chapter 5 commissioning plan / not live hardware' }, { label: 'Derived outputs', value: derivedConditionNote }, ...common];
+    default: return [{ label: 'Interface IF-01', value: 'OME observation frame -> DCDCE / Data Collection' }, { label: 'Observation', value: `${p.vibrationRms.toFixed(3)} g / wind ${p.windSpeed.toFixed(1)} m/s / ${p.windDirection} deg` }, ...bladeSensorFields, ...auxiliaryChannelReferences, { label: 'Auxiliary source', value: 'Chapter 5 commissioning plan / not live hardware' }, { label: 'Derived outputs', value: derivedConditionNote }, ...common];
   }
 }
 
-export default function TwinWorkspace({ snapshot, executions, activeExecution, request, renderTurbine, onOntology: navigateOntology, onCosts }: {
+export default function TwinWorkspace({ snapshot, executions, activeExecution, request, paused = false, renderTurbine, onOntology: navigateOntology, onCosts }: {
   snapshot: OntologySnapshot;
   executions: OntologyExecution[];
   activeExecution: OntologyExecution | null;
   request: ReplayRequest | null;
+  paused?: boolean;
   renderTurbine: (snapshot: OntologySnapshot, select: (id: ModuleId) => void, selected: ModuleId) => ReactNode;
   onOntology: (node: string, eventId: string, snapshot?: OntologySnapshot, execution?: OntologyExecution) => void;
   onCosts: () => void;
@@ -103,7 +104,8 @@ export default function TwinWorkspace({ snapshot, executions, activeExecution, r
   const inspected = decisionModule ? decisionView : view;
   const progressH = frame?.elapsedH ?? event?.progress?.elapsedH ?? 0;
   const progress = event ? Math.min(100, (progressH / Math.max(0.1, event.downtimeH)) * 100) : 0;
-  const streaming = !replay && view.reading.source !== 'manual-input';
+  const streaming = !replay && !paused && view.reading.source !== 'manual-input';
+  const interfaces = omeConnections(view, stage);
   function selectModule(id: ModuleId) { setSelected(id); setOverlay(true); }
   function onOntology(node: string, eventId: string) {
     const evidence = replay ? view : stage === 'result' ? event?.after : stage === 'downtime' ? event?.during?.[event.during.length - 1] : undefined;
@@ -131,6 +133,15 @@ export default function TwinWorkspace({ snapshot, executions, activeExecution, r
     <header className="twin-heading"><div className="section-title"><Wind size={19} /><h2>WT Operation & Digital Twin</h2></div><div className="twin-view-controls"><span className="twin-mode"><Radio size={13} />{replay ? 'EVENT REPLAY' : 'LIVE VIEW'}</span><label className="twin-toggle"><Layers size={15} /><span>Architecture overlay</span><input type="checkbox" role="switch" aria-label="Architecture overlay" checked={overlay} onChange={(e) => setOverlay(e.target.checked)} /><i /></label></div></header>
     <div className="twin-replay-toolbar"><label><History size={15} /><select aria-label="Wind turbine event replay" value={replay?.id ?? 'live'} onChange={(e) => { if (e.target.value === 'live') { setReplay(null); setPlaying(false); } else { const event = executions.find((entry) => entry.id === e.target.value); if (event) startReplay(event); } }}><option value="live">Current operation</option>{replay && !executions.some((entry) => entry.id === replay.id) && <option value={replay.id}>Pinned / {replay.label} / {replay.status}</option>}{executions.map((entry) => <option key={entry.id} value={entry.id}>{entry.before.reading.t} / {entry.label} / {entry.status}</option>)}</select></label><span className="twin-stage-label">{stageLabel(stage)}</span>{replay && <><button title="Return to live operation" aria-label="Return to live operation" onClick={() => { setReplay(null); setPlaying(false); }}><RotateCcw size={16} /></button><span className="twin-replay-boundary">Historical snapshot / live simulation continues</span></>}</div>
     <div className="twin-body">
+      {overlay && <div className="twin-interfaces" role="group" aria-label="OME and DCDCE interfaces">
+        <div className="twin-interface-caption"><b>OME / DCDCE INTERFACES</b><span>{replay ? 'Recorded frame' : paused ? 'Paused frame' : 'Current frame'} / {view.reading.t} / {evidenceSource(view.reading)}</span></div>
+        {interfaces.map((link) => <button key={link.id} type="button" className={`twin-interface ${link.active ? 'active' : 'idle'} ${link.target === 'OME' ? 'reverse' : ''}`} aria-label={`${link.id}: ${link.source} to ${link.target}, ${link.label}`} aria-pressed={selected === link.module} data-interface={link.id} data-active={link.active} data-moving={link.active && (streaming || playing)} onClick={() => selectModule(link.module)}>
+          <span className="twin-interface-endpoint"><b>OME</b><small>{link.module === 'collection' ? 'WT observations' : 'Simulated WT'}</small></span>
+          <span className="twin-interface-path"><span><b>{link.id}</b> {link.label}</span><i aria-hidden="true">{link.target === 'OME' ? <ArrowLeft size={17} /> : <ArrowRight size={17} />}</i><small>{link.detail}</small></span>
+          <span className="twin-interface-endpoint"><b>DCDCE</b><small>{link.module === 'collection' ? 'Data Collection' : 'Device Control'}</small><em>{link.state}</em></span>
+        </button>)}
+        <p>Dashboard interface IDs / hardware sensing and actuation not connected</p>
+      </div>}
       <div className="twin-physical"><div className="twin-entity-caption"><b>OME</b><span>{view.asset} / {view.component}</span><time>{view.reading.t}</time></div>{renderTurbine(view, selectModule, selected)}<div className="twin-physical-evidence"><span>{evidenceSource(view.reading)}</span><span>State <b>{view.serviceState}</b></span><button onClick={() => onOntology('condition', replay?.id ?? 'live')}><Network size={14} />Blade evidence<ArrowUpRight size={12} /></button></div></div>
       {overlay ? <div className="twin-digital"><div className="twin-architecture-canvas" data-testid="twin-architecture"><ReactFlow style={{ width: 860, height: 580 }} nodes={nodes} onNodesChange={onNodesChange} edges={edges} nodeTypes={nodeTypes} fitView fitViewOptions={{ padding: 0.045 }} nodesDraggable={false} nodesConnectable={false} zoomOnScroll={false} panOnDrag={false} preventScrolling={false} onNodeClick={(_, node) => { if (architectureModules.some((module) => module.id === node.id)) setSelected(node.id as ModuleId); }} attributionPosition="bottom-left"><Background gap={22} color="#263e35" /></ReactFlow></div><div className="twin-module-detail" aria-label="Architecture module details"><div className="twin-detail-title"><div><span>{selection.subEntity}{selection.extension ? ' / research extension' : ''}</span><h3>{selection.title}</h3></div>{selection.ontologyNode && <button onClick={() => onOntology(selection.ontologyNode!, replay?.id ?? 'live')}><Network size={14} />Ontology<ArrowUpRight size={12} /></button>}</div><dl>{detailRows(selected, inspected, event).map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl></div></div> : <div className="twin-operation-summary"><span className="twin-summary-label">OPERATING EVIDENCE</span><dl><div><dt>Wind speed / direction</dt><dd>{view.reading.windSpeed.toFixed(1)} m/s / {view.reading.windDirection} deg</dd></div><div><dt>{rulBandLabel(view.reading)}</dt><dd>{view.reading.rulP10} / {view.reading.rulP50} / {view.reading.rulP90} pseudo-h</dd></div><div><dt>Vibration RMS</dt><dd>{view.reading.vibrationRms.toFixed(3)} g</dd></div></dl><div className="twin-proposal"><span>{event ? 'Captured intervention proposal' : 'Current service recommendation'}</span><strong>{decisionView.recommendation.label}</strong><b>GBP {decisionView.recommendation.totalCost.toLocaleString('en-GB')}</b><small>{decisionView.recommendation.acceptable ? 'Residual-risk filter passed' : 'Minimum-cost fallback / risk filter not passed'}</small><button onClick={() => selectModule('tcs')}><Layers size={15} />Decision path</button></div></div>}
     </div>

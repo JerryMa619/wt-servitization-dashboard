@@ -27,6 +27,16 @@ export function workflowStage(snapshot: OntologySnapshot): WorkflowStage {
   return snapshot.serviceState === 'Nominal' ? 'monitor' : 'decision';
 }
 
+// Dashboard interface IDs, not ISO clause numbers or physical device acknowledgements.
+export function omeConnections(snapshot: OntologySnapshot, stage: WorkflowStage) {
+  const p = snapshot.reading;
+  const holding = stage === 'downtime';
+  return [
+    { id: 'IF-01', module: 'collection' as const, source: 'OME', target: 'DCDCE', active: true, label: 'Observation data', detail: `${p.windSpeed.toFixed(1)} m/s / ${p.vibrationRms.toFixed(3)} g`, state: 'Frame available' },
+    { id: 'IF-02', module: 'control' as const, source: 'DCDCE', target: 'OME', active: holding, label: holding ? 'Simulated hold' : 'Control standby', detail: holding ? 'RPM / power targets = 0' : 'No hold command', state: holding ? 'Simulation only' : 'Idle' }
+  ];
+}
+
 export function replayFrames(execution: OntologyExecution): ReplayFrame[] {
   const frames: ReplayFrame[] = [
     { id: `${execution.id}-evidence`, label: 'Pre-service evidence', stage: 'monitor', snapshot: execution.before, elapsedH: 0 },

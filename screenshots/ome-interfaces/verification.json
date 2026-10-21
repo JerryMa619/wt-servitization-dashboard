@@ -1,0 +1,44 @@
+{
+  "verifiedAt": "2026-10-21T23:44:40.724Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "samples": 522,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Two completed cycles with directional interface state",
+        "Module selection and hardware boundary",
+        "Global pause",
+        "Historical downtime and result",
+        "320/390/820px layouts",
+        "Overlay preference",
+        "Reduced motion"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "samples": 525,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "checks": [
+        "Two completed cycles with directional interface state",
+        "Module selection and hardware boundary",
+        "Global pause",
+        "Historical downtime and result",
+        "320/390/820px layouts",
+        "Overlay preference",
+        "Reduced motion"
+      ]
+    }
+  ],
+  "errors": []
+}

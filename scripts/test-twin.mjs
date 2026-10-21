@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { replayFrames, workflowStage, activeModules, activeConnections, architectureModules, moduleValue } from '../src/twin/model.ts';
+import { replayFrames, workflowStage, activeModules, activeConnections, architectureModules, moduleValue, omeConnections } from '../src/twin/model.ts';
 import { updateExecutionLog, buildSemanticGraph } from '../src/ontology/model.ts';
 
 const candidate = { action: 'predictive-maintenance', label: 'Predictive maintenance', type: 'sdt:PredictiveMaintenance', totalCost: 3200, residualRiskScore: 0.3, acceptable: true, costs: [] };
@@ -73,4 +73,25 @@ test('architecture covers ISO sub-entities and marks research-specific modules',
   for (const id of ['state', 'tcs', 'authorisation', 'kpi']) assert.equal(architectureModules.find((module) => module.id === id).extension, true);
   assert.match(moduleValue('control', before, null, 'monitor'), /No physical actuator/);
   assert.match(moduleValue('authorisation', before, event, 'result'), /Not recorded/);
+});
+
+test('OME interfaces distinguish incoming observations from simulated outgoing control in every stage', () => {
+  for (const stage of ['monitor', 'decision', 'downtime', 'result', 'monitor']) {
+    const [data, control] = omeConnections(stage === 'downtime' ? during : before, stage);
+    assert.equal(data.id, 'IF-01');
+    assert.deepEqual([data.source, data.target, data.module, data.active], ['OME', 'DCDCE', 'collection', true]);
+    assert.match(data.detail, /8.0 m\/s \/ 0.120 g/);
+    assert.deepEqual([control.id, control.source, control.target, control.module], ['IF-02', 'DCDCE', 'OME', 'control']);
+    assert.equal(control.active, stage === 'downtime');
+    assert.equal(control.detail, stage === 'downtime' ? 'RPM / power targets = 0' : 'No hold command');
+    assert.equal(control.state, stage === 'downtime' ? 'Simulation only' : 'Idle');
+  }
+});
+
+test('OME observation interface uses the selected frame without changing the evidence', () => {
+  const frame = { ...structuredClone(before), reading: { ...before.reading, windSpeed: 3.2, vibrationRms: 0.047 } };
+  const original = structuredClone(frame);
+  assert.equal(omeConnections(frame, 'monitor')[0].detail, '3.2 m/s / 0.047 g');
+  assert.deepEqual(frame, original);
+  assert.equal(omeConnections(before, 'monitor')[0].detail, '8.0 m/s / 0.120 g');
 });

@@ -694,6 +694,7 @@ function App() {
         executions={ontologyEvents}
         activeExecution={serviceExecution?.ontology ?? null}
         request={replayRequest}
+        paused={simulationPaused}
         renderTurbine={(view, select, selected) => <TurbinePanel latest={view.reading as HistoryPoint} serviceState={view.serviceState as ServiceState} paused={simulationPaused} embedded linked={selected === "condition" || selected === "rul" || selected === "tcs" || selected === "recommendation"} onCrackSelect={() => select("condition")} onRulSelect={() => select("rul")} />}
         onOntology={focusOntology}
         onCosts={() => document.getElementById("tcs-panel")?.scrollIntoView({ behavior: "smooth", block: "start" })}
