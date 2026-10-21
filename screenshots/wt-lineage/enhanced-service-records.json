@@ -1,0 +1,2381 @@
+{
+  "format": "wt-data-lineage-1.0",
+  "sessionId": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa",
+  "retainedRecords": 6,
+  "capacity": 120,
+  "scope": "Browser memory capture of dashboard updates; not raw sensor logging, measured maintenance, full RDF history or OWL inference. Older records beyond capacity are discarded.",
+  "timeBasis": "recordedAt is browser wall-clock capture time; reading.t may be a simulated tick; modeled hours are not UI seconds.",
+  "ontologySHA256": "925a2b4cdb97a5dc5c2dfda7408202921865bc847d9607cdfbaee808ef5bb6ce",
+  "activeModelReference": {
+    "version": "ch5-xgb-cqr-2.0",
+    "hashes": {
+      "p10": "65db49b01d3f91b738eca4acdf01d82107e5ce05361025ae93c3257e2344455b",
+      "p50": "a73bac9fae9811b8f7cd0758409528d476fe2e396f040554a59071d306e6f867",
+      "p90": "118762fd6b27347791ea3b9958f904a781473ac2d078cbd755674f00ac33ae65"
+    },
+    "trainingFeaturesSHA256": "26082a04cd11cc3fed7c7d4d158c25efd027096f269cd1e7714fbc3fcea9b161",
+    "scope": "Reference only for records carrying this model version and not manual overrides"
+  },
+  "records": [
+    {
+      "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:record-6",
+      "sequence": 6,
+      "recordedAt": "2026-10-21T23:06:47.801Z",
+      "snapshot": {
+        "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation",
+        "capturedAt": "2026-10-21T23:06:47.787Z",
+        "reading": {
+          "t": "Demo tick 005",
+          "source": "auto-simulation",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 21.4,
+          "crackState": "C2",
+          "rpm": 624,
+          "power": 731,
+          "vibrationRms": 0.0454,
+          "kurtosis": 2.69,
+          "modalF1": 27.73,
+          "rulP10": 567,
+          "rulP50": 644,
+          "rulP90": 828,
+          "rulSpread": 77,
+          "rulUpperSpread": 184,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              644.2305908203125,
+              644.0768432617188,
+              750.8111572265625
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.1819438939539726,
+            0.6818597230827822,
+            2.7369085269236453,
+            0.04221155455507387,
+            3.7445145655699124,
+            0.0966433257228694,
+            0.3554902277234091,
+            2.71887714872332,
+            0.0782825017479687,
+            3.676724367258559,
+            0.04535023090615835,
+            0.1695842007488952,
+            2.6866870819375497,
+            -0.01781242080118212,
+            3.741552287195311,
+            0.24423648931235836,
+            0.4175893726697883,
+            0.14438417488474267,
+            0.07437573931151387,
+            0.1194083233899023,
+            27.72959533572239,
+            58.72511748520211,
+            117.58965268386535,
+            8,
+            705.2931744244326,
+            13.741919789455116,
+            0.2492539316413161,
+            1.8826327901391529,
+            3.7476372977665093,
+            0.49796379478431907,
+            3.4888752264804976
+          ],
+          "observedAt": "2026-10-21T23:06:47.787Z",
+          "receivedAt": "2026-10-21T23:06:47.787Z",
+          "serviceState": "Watch",
+          "crackGrowthRateMmH": 0.77,
+          "windBin": "high",
+          "serviceNote": "Simulated crack growth: +0.77 mm/tick, RUL recalculated from crack and wind load."
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "Watch",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "condition-inspection",
+            "label": "Condition-based inspection",
+            "type": "sdt:InspectionProcess",
+            "totalCost": 1058,
+            "residualRiskScore": 0.24,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 180
+              },
+              {
+                "label": "Downtime",
+                "value": 190
+              },
+              {
+                "label": "Logistics",
+                "value": 40
+              },
+              {
+                "label": "Contract",
+                "value": 84
+              },
+              {
+                "label": "Residual risk",
+                "value": 564
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1022,
+            "residualRiskScore": 0.203,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 405
+              }
+            ]
+          },
+          {
+            "action": "preactive-maintenance",
+            "label": "Preactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 2138,
+            "residualRiskScore": 0.124,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 1250
+              },
+              {
+                "label": "Downtime",
+                "value": 381
+              },
+              {
+                "label": "Logistics",
+                "value": 190
+              },
+              {
+                "label": "Contract",
+                "value": 168
+              },
+              {
+                "label": "Residual risk",
+                "value": 150
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "spare-prepositioning",
+          "label": "Spare-part pre-positioning",
+          "type": "sdt:ServiceProcess",
+          "totalCost": 1022,
+          "residualRiskScore": 0.203,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 420
+            },
+            {
+              "label": "Downtime",
+              "value": 95
+            },
+            {
+              "label": "Logistics",
+              "value": 60
+            },
+            {
+              "label": "Contract",
+              "value": 42
+            },
+            {
+              "label": "Residual risk",
+              "value": 405
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "rows": [
+        {
+          "id": "gps",
+          "nodeId": "asset",
+          "layer": "OME",
+          "responsibility": "Asset / site context",
+          "entity": "sdt:Asset",
+          "label": "Site position",
+          "value": "52.07340, -0.62806",
+          "unit": "deg",
+          "source": "Chapter 5 replay GPS",
+          "evidence": "Scenario/site coordinates; not a measured moving-turbine track",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "registry",
+          "nodeId": "blade",
+          "layer": "DTE",
+          "responsibility": "Operation & Management / asset registry",
+          "entity": "sdt:Asset / sdt:Component",
+          "label": "Asset registry",
+          "value": "Turbine-01 / Blade-A",
+          "unit": "identifier",
+          "source": "Dashboard asset/component configuration",
+          "evidence": "Stable asset identity links observations and service evidence; not a new physical asset registration",
+          "uri": "urn:wt-dashboard:Turbine-01:blade"
+        },
+        {
+          "id": "wind",
+          "nodeId": "environment",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / environment context",
+          "entity": "sdt:OperatingEnvironment",
+          "label": "Wind context",
+          "value": "8.00 m/s / 226.0 deg",
+          "unit": "m/s; deg",
+          "source": "Simulation / model-derived",
+          "evidence": "No acquisition-window identifier supplied; anemometer / wind vane are rig references, not connected devices. Direction is context, not an RUL feature.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:environment"
+        },
+        {
+          "id": "vibration",
+          "nodeId": "observation",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / observation",
+          "entity": "sosa:Observation",
+          "label": "Blade vibration",
+          "value": "0.0454 g / 2.690 kurtosis",
+          "unit": "g; dimensionless",
+          "source": "Simulation / model-derived / reference-assisted",
+          "evidence": "No acquisition-window identifier supplied; logical MC3419 channel. No live accelerometer feed; archived waveforms are separate references.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:observation"
+        },
+        {
+          "id": "crack",
+          "nodeId": "condition",
+          "layer": "DTE",
+          "responsibility": "Application & Service / condition",
+          "entity": "sdt:ConditionEvent",
+          "label": "Blade condition",
+          "value": "21.400 mm / C2",
+          "unit": "mm",
+          "source": "Simulation / model-derived",
+          "evidence": "Replay or assumed crack growth / simulated repair; not independent signal-to-crack detection",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:condition"
+        },
+        {
+          "id": "rul",
+          "nodeId": "rul",
+          "layer": "DTE",
+          "responsibility": "Application & Service / prognosis",
+          "entity": "sdt:RULEstimate (projection) / wt:PseudoRULEstimate (RDF)",
+          "label": "RUL estimate",
+          "value": "567 / 644 / 828 pseudo-h",
+          "unit": "pseudo-h",
+          "source": "XGBoost / reference-assisted scenario",
+          "evidence": "Adjusted lower / P50 / Adjusted upper; reference-assisted; model ch5-xgb-cqr-2.0; synthetic target, not field lifetime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:rul"
+        },
+        {
+          "id": "state",
+          "nodeId": "state",
+          "layer": "DTE",
+          "responsibility": "Application & Service / service policy",
+          "entity": "sdt:ServiceState",
+          "label": "Service state",
+          "value": "Watch",
+          "unit": "category",
+          "source": "Recorded service state / src/model/operating.ts / conditionState",
+          "evidence": "Rule-based or recorded service status; downtime explicitly sets MaintenanceDue. Not an OWL-inferred state.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:state"
+        },
+        {
+          "id": "recommendation",
+          "nodeId": "recommendation",
+          "layer": "DTE → UE",
+          "responsibility": "Application & Service → advisory user view",
+          "entity": "sdt:ServiceActionRecommendation",
+          "label": "Service / TCS",
+          "value": "Spare-part pre-positioning / GBP 1022.00",
+          "unit": "GBP (assumed)",
+          "source": "src/model/service.ts / serviceDecisionByTcs",
+          "evidence": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:recommendation"
+        },
+        {
+          "id": "service",
+          "nodeId": "asset",
+          "layer": "DCDCE → UE",
+          "responsibility": "Device Control mapping / simulated control status",
+          "entity": "Snapshot control metadata (not an OWL assertion)",
+          "label": "Execution context",
+          "value": "Advisory / no active downtime in this reading",
+          "unit": "modeled h",
+          "source": "Simulation / model-derived / src/App.tsx service simulator",
+          "evidence": "Context attached to this asset snapshot, not a fabricated execution individual. Actual simulated event records are in Decision Trace; no physical actuation or measured outcome.",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "contract",
+          "nodeId": "kpi",
+          "layer": "UE",
+          "responsibility": "Contract KPI / reference reporting",
+          "entity": "sdt:ContractKPI",
+          "label": "Availability reference",
+          "value": "97.60% / target 95.00%",
+          "unit": "%",
+          "source": "src/data/dashboardData.json / service.kpiSettlement",
+          "evidence": "Static Chapter 5 dataset reference; not recomputed from current simulated downtime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:kpi"
+        },
+        {
+          "id": "provenance",
+          "nodeId": "observation",
+          "layer": "DTE / cross-system",
+          "responsibility": "Resource Access & Interchange / evidence access",
+          "entity": "PROV-O links / snapshot metadata",
+          "label": "Evidence provenance",
+          "value": "auto-simulation / reference-assisted",
+          "unit": "source metadata",
+          "source": "Shared dashboard snapshot / in-memory record buffer",
+          "evidence": "No acquisition-window identifier supplied; record export retains source, model and timestamps. Cross-system responsibility, not a separate ISO layer or full OWL validation.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-5-auto-simulation:observation"
+        }
+      ],
+      "changes": [
+        "vibration",
+        "crack",
+        "rul",
+        "recommendation",
+        "service",
+        "provenance"
+      ]
+    },
+    {
+      "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:record-5",
+      "sequence": 5,
+      "recordedAt": "2026-10-21T23:06:47.626Z",
+      "snapshot": {
+        "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action",
+        "capturedAt": "2026-10-21T23:06:47.597Z",
+        "reading": {
+          "t": "Demo tick 004",
+          "source": "service-action",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 20.6,
+          "crackState": "C2",
+          "rpm": 624,
+          "power": 731,
+          "vibrationRms": 0.0453,
+          "kurtosis": 2.68,
+          "modalF1": 27.76,
+          "rulP10": 564,
+          "rulP50": 640,
+          "rulP90": 828,
+          "rulSpread": 76,
+          "rulUpperSpread": 188,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              644.0945434570312,
+              640.3276977539062,
+              750.8111572265625
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.18072215698674957,
+            0.6773935949915996,
+            2.7422682352529653,
+            0.048645107688586486,
+            3.744812047131177,
+            0.09624281798861857,
+            0.35368964454309865,
+            2.71928167393219,
+            0.0798916329308745,
+            3.6730605245305052,
+            0.04529907393802169,
+            0.16956369007179004,
+            2.6846046577345737,
+            -0.020807243532904633,
+            3.7455762547803215,
+            0.2394017363829211,
+            0.42049277301170507,
+            0.14579115347719251,
+            0.07440168591793736,
+            0.11990667320715805,
+            27.758478868606048,
+            58.72337454562406,
+            117.59815478340326,
+            8,
+            705.3030682987409,
+            13.5655451537894,
+            0.2506558946247138,
+            1.877772916085243,
+            3.748259794405097,
+            0.4955886305111631,
+            3.466671189604321
+          ],
+          "observedAt": "2026-10-21T23:06:47.596Z",
+          "receivedAt": "2026-10-21T23:06:47.596Z",
+          "serviceState": "Watch",
+          "crackGrowthRateMmH": 0.83,
+          "windBin": "high",
+          "serviceMode": "post-service",
+          "serviceAction": "predictive-maintenance",
+          "downtimeH": 8,
+          "serviceNote": "Auto closed-loop Predictive maintenance completed; WT state refreshed after downtime."
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "Watch",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "condition-inspection",
+            "label": "Condition-based inspection",
+            "type": "sdt:InspectionProcess",
+            "totalCost": 1042,
+            "residualRiskScore": 0.236,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 180
+              },
+              {
+                "label": "Downtime",
+                "value": 190
+              },
+              {
+                "label": "Logistics",
+                "value": 40
+              },
+              {
+                "label": "Contract",
+                "value": 84
+              },
+              {
+                "label": "Residual risk",
+                "value": 547
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1011,
+            "residualRiskScore": 0.2,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 393
+              }
+            ]
+          },
+          {
+            "action": "preactive-maintenance",
+            "label": "Preactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 2133,
+            "residualRiskScore": 0.121,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 1250
+              },
+              {
+                "label": "Downtime",
+                "value": 381
+              },
+              {
+                "label": "Logistics",
+                "value": 190
+              },
+              {
+                "label": "Contract",
+                "value": 168
+              },
+              {
+                "label": "Residual risk",
+                "value": 144
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "spare-prepositioning",
+          "label": "Spare-part pre-positioning",
+          "type": "sdt:ServiceProcess",
+          "totalCost": 1011,
+          "residualRiskScore": 0.2,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 420
+            },
+            {
+              "label": "Downtime",
+              "value": 95
+            },
+            {
+              "label": "Logistics",
+              "value": 60
+            },
+            {
+              "label": "Contract",
+              "value": 42
+            },
+            {
+              "label": "Residual risk",
+              "value": 393
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "rows": [
+        {
+          "id": "gps",
+          "nodeId": "asset",
+          "layer": "OME",
+          "responsibility": "Asset / site context",
+          "entity": "sdt:Asset",
+          "label": "Site position",
+          "value": "52.07340, -0.62806",
+          "unit": "deg",
+          "source": "Chapter 5 replay GPS",
+          "evidence": "Scenario/site coordinates; not a measured moving-turbine track",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "registry",
+          "nodeId": "blade",
+          "layer": "DTE",
+          "responsibility": "Operation & Management / asset registry",
+          "entity": "sdt:Asset / sdt:Component",
+          "label": "Asset registry",
+          "value": "Turbine-01 / Blade-A",
+          "unit": "identifier",
+          "source": "Dashboard asset/component configuration",
+          "evidence": "Stable asset identity links observations and service evidence; not a new physical asset registration",
+          "uri": "urn:wt-dashboard:Turbine-01:blade"
+        },
+        {
+          "id": "wind",
+          "nodeId": "environment",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / environment context",
+          "entity": "sdt:OperatingEnvironment",
+          "label": "Wind context",
+          "value": "8.00 m/s / 226.0 deg",
+          "unit": "m/s; deg",
+          "source": "Simulation / model-derived",
+          "evidence": "No acquisition-window identifier supplied; anemometer / wind vane are rig references, not connected devices. Direction is context, not an RUL feature.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:environment"
+        },
+        {
+          "id": "vibration",
+          "nodeId": "observation",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / observation",
+          "entity": "sosa:Observation",
+          "label": "Blade vibration",
+          "value": "0.0453 g / 2.680 kurtosis",
+          "unit": "g; dimensionless",
+          "source": "Simulation / model-derived / reference-assisted",
+          "evidence": "No acquisition-window identifier supplied; logical MC3419 channel. No live accelerometer feed; archived waveforms are separate references.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:observation"
+        },
+        {
+          "id": "crack",
+          "nodeId": "condition",
+          "layer": "DTE",
+          "responsibility": "Application & Service / condition",
+          "entity": "sdt:ConditionEvent",
+          "label": "Blade condition",
+          "value": "20.600 mm / C2",
+          "unit": "mm",
+          "source": "Simulation / model-derived",
+          "evidence": "Replay or assumed crack growth / simulated repair; not independent signal-to-crack detection",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:condition"
+        },
+        {
+          "id": "rul",
+          "nodeId": "rul",
+          "layer": "DTE",
+          "responsibility": "Application & Service / prognosis",
+          "entity": "sdt:RULEstimate (projection) / wt:PseudoRULEstimate (RDF)",
+          "label": "RUL estimate",
+          "value": "564 / 640 / 828 pseudo-h",
+          "unit": "pseudo-h",
+          "source": "XGBoost / reference-assisted scenario",
+          "evidence": "Adjusted lower / P50 / Adjusted upper; reference-assisted; model ch5-xgb-cqr-2.0; synthetic target, not field lifetime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:rul"
+        },
+        {
+          "id": "state",
+          "nodeId": "state",
+          "layer": "DTE",
+          "responsibility": "Application & Service / service policy",
+          "entity": "sdt:ServiceState",
+          "label": "Service state",
+          "value": "Watch",
+          "unit": "category",
+          "source": "Recorded service state / src/model/operating.ts / conditionState",
+          "evidence": "Rule-based or recorded service status; downtime explicitly sets MaintenanceDue. Not an OWL-inferred state.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:state"
+        },
+        {
+          "id": "recommendation",
+          "nodeId": "recommendation",
+          "layer": "DTE → UE",
+          "responsibility": "Application & Service → advisory user view",
+          "entity": "sdt:ServiceActionRecommendation",
+          "label": "Service / TCS",
+          "value": "Spare-part pre-positioning / GBP 1011.00",
+          "unit": "GBP (assumed)",
+          "source": "src/model/service.ts / serviceDecisionByTcs",
+          "evidence": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:recommendation"
+        },
+        {
+          "id": "service",
+          "nodeId": "asset",
+          "layer": "DCDCE → UE",
+          "responsibility": "Device Control mapping / simulated control status",
+          "entity": "Snapshot control metadata (not an OWL assertion)",
+          "label": "Execution context",
+          "value": "post-service / predictive-maintenance / elapsed time not supplied",
+          "unit": "modeled h",
+          "source": "Simulation / model-derived / src/App.tsx service simulator",
+          "evidence": "Context attached to this asset snapshot, not a fabricated execution individual. Actual simulated event records are in Decision Trace; no physical actuation or measured outcome.",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "contract",
+          "nodeId": "kpi",
+          "layer": "UE",
+          "responsibility": "Contract KPI / reference reporting",
+          "entity": "sdt:ContractKPI",
+          "label": "Availability reference",
+          "value": "97.60% / target 95.00%",
+          "unit": "%",
+          "source": "src/data/dashboardData.json / service.kpiSettlement",
+          "evidence": "Static Chapter 5 dataset reference; not recomputed from current simulated downtime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:kpi"
+        },
+        {
+          "id": "provenance",
+          "nodeId": "observation",
+          "layer": "DTE / cross-system",
+          "responsibility": "Resource Access & Interchange / evidence access",
+          "entity": "PROV-O links / snapshot metadata",
+          "label": "Evidence provenance",
+          "value": "service-action / reference-assisted",
+          "unit": "source metadata",
+          "source": "Shared dashboard snapshot / in-memory record buffer",
+          "evidence": "No acquisition-window identifier supplied; record export retains source, model and timestamps. Cross-system responsibility, not a separate ISO layer or full OWL validation.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-4-service-action:observation"
+        }
+      ],
+      "changes": [
+        "vibration",
+        "crack",
+        "rul",
+        "state",
+        "recommendation",
+        "service",
+        "provenance"
+      ]
+    },
+    {
+      "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:record-4",
+      "sequence": 4,
+      "recordedAt": "2026-10-21T23:06:47.433Z",
+      "snapshot": {
+        "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service",
+        "capturedAt": "2026-10-21T23:06:47.400Z",
+        "reading": {
+          "t": "Demo tick 003",
+          "source": "auto-service",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 45.8,
+          "crackState": "C4",
+          "rpm": 0,
+          "power": 0,
+          "vibrationRms": 0.0466,
+          "kurtosis": 2.72,
+          "modalF1": 26.97,
+          "rulP10": 451,
+          "rulP50": 553,
+          "rulP90": 630,
+          "rulSpread": 102,
+          "rulUpperSpread": 77,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              528.116943359375,
+              553.1668701171875,
+              549.5134887695312
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.21705779890455565,
+            0.817462892154263,
+            2.7460477236522465,
+            0.0820411158807213,
+            3.761102139154068,
+            0.10883143766813436,
+            0.3963143333270428,
+            2.6943409581226643,
+            -0.1212644771220448,
+            3.639032422586084,
+            0.04660140197343967,
+            0.1726966540050567,
+            2.7217677048511986,
+            0.10459803371383765,
+            3.706466867881754,
+            0.22570263326588272,
+            0.43189565544319514,
+            0.1494710734794426,
+            0.07376533110616733,
+            0.1191591204719361,
+            26.966066593868604,
+            58.393764927692715,
+            116.79574136443202,
+            8,
+            700.419725166863,
+            15.271643240413558,
+            0.21469581931000403,
+            1.994440242225246,
+            3.766106982931844,
+            0.5960510745828221,
+            3.4683403754427125
+          ],
+          "observedAt": "2026-10-21T23:06:47.400Z",
+          "receivedAt": "2026-10-21T23:06:47.400Z",
+          "serviceState": "MaintenanceDue",
+          "crackGrowthRateMmH": 0.83,
+          "windBin": "high",
+          "serviceMode": "in-downtime",
+          "serviceAction": "predictive-maintenance",
+          "downtimeH": 8,
+          "serviceNote": "Auto Predictive maintenance in progress; planned downtime 8.0 h.",
+          "elapsedDowntimeH": 5.333333
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "MaintenanceDue",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 760
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "action": "proactive-maintenance",
+            "label": "Proactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 4248,
+            "residualRiskScore": 0.07,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2650
+              },
+              {
+                "label": "Downtime",
+                "value": 950
+              },
+              {
+                "label": "Logistics",
+                "value": 180
+              },
+              {
+                "label": "Contract",
+                "value": 420
+              },
+              {
+                "label": "Residual risk",
+                "value": 48
+              }
+            ]
+          },
+          {
+            "action": "active-maintenance",
+            "label": "Active maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 6132,
+            "residualRiskScore": 0.043,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 3850
+              },
+              {
+                "label": "Downtime",
+                "value": 1140
+              },
+              {
+                "label": "Logistics",
+                "value": 620
+              },
+              {
+                "label": "Contract",
+                "value": 504
+              },
+              {
+                "label": "Residual risk",
+                "value": 18
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1820,
+            "residualRiskScore": 0.35,
+            "acceptable": false,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 1203
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "predictive-maintenance",
+          "label": "Predictive maintenance",
+          "type": "sdt:PredictiveMaintenance",
+          "totalCost": 3616,
+          "residualRiskScore": 0.09,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 2300
+            },
+            {
+              "label": "Downtime",
+              "value": 760
+            },
+            {
+              "label": "Logistics",
+              "value": 140
+            },
+            {
+              "label": "Contract",
+              "value": 336
+            },
+            {
+              "label": "Residual risk",
+              "value": 80
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "rows": [
+        {
+          "id": "gps",
+          "nodeId": "asset",
+          "layer": "OME",
+          "responsibility": "Asset / site context",
+          "entity": "sdt:Asset",
+          "label": "Site position",
+          "value": "52.07340, -0.62806",
+          "unit": "deg",
+          "source": "Chapter 5 replay GPS",
+          "evidence": "Scenario/site coordinates; not a measured moving-turbine track",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "registry",
+          "nodeId": "blade",
+          "layer": "DTE",
+          "responsibility": "Operation & Management / asset registry",
+          "entity": "sdt:Asset / sdt:Component",
+          "label": "Asset registry",
+          "value": "Turbine-01 / Blade-A",
+          "unit": "identifier",
+          "source": "Dashboard asset/component configuration",
+          "evidence": "Stable asset identity links observations and service evidence; not a new physical asset registration",
+          "uri": "urn:wt-dashboard:Turbine-01:blade"
+        },
+        {
+          "id": "wind",
+          "nodeId": "environment",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / environment context",
+          "entity": "sdt:OperatingEnvironment",
+          "label": "Wind context",
+          "value": "8.00 m/s / 226.0 deg",
+          "unit": "m/s; deg",
+          "source": "Simulation / model-derived",
+          "evidence": "No acquisition-window identifier supplied; anemometer / wind vane are rig references, not connected devices. Direction is context, not an RUL feature.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:environment"
+        },
+        {
+          "id": "vibration",
+          "nodeId": "observation",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / observation",
+          "entity": "sosa:Observation",
+          "label": "Blade vibration",
+          "value": "0.0466 g / 2.720 kurtosis",
+          "unit": "g; dimensionless",
+          "source": "Simulation / model-derived / reference-assisted",
+          "evidence": "No acquisition-window identifier supplied; logical MC3419 channel. No live accelerometer feed; archived waveforms are separate references.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:observation"
+        },
+        {
+          "id": "crack",
+          "nodeId": "condition",
+          "layer": "DTE",
+          "responsibility": "Application & Service / condition",
+          "entity": "sdt:ConditionEvent",
+          "label": "Blade condition",
+          "value": "45.800 mm / C4",
+          "unit": "mm",
+          "source": "Simulation / model-derived",
+          "evidence": "Replay or assumed crack growth / simulated repair; not independent signal-to-crack detection",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:condition"
+        },
+        {
+          "id": "rul",
+          "nodeId": "rul",
+          "layer": "DTE",
+          "responsibility": "Application & Service / prognosis",
+          "entity": "sdt:RULEstimate (projection) / wt:PseudoRULEstimate (RDF)",
+          "label": "RUL estimate",
+          "value": "451 / 553 / 630 pseudo-h",
+          "unit": "pseudo-h",
+          "source": "XGBoost / reference-assisted scenario",
+          "evidence": "Adjusted lower / P50 / Adjusted upper; reference-assisted; model ch5-xgb-cqr-2.0; synthetic target, not field lifetime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:rul"
+        },
+        {
+          "id": "state",
+          "nodeId": "state",
+          "layer": "DTE",
+          "responsibility": "Application & Service / service policy",
+          "entity": "sdt:ServiceState",
+          "label": "Service state",
+          "value": "MaintenanceDue",
+          "unit": "category",
+          "source": "src/App.tsx / makeDowntimePoint (simulated service hold)",
+          "evidence": "Rule-based or recorded service status; downtime explicitly sets MaintenanceDue. Not an OWL-inferred state.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:state"
+        },
+        {
+          "id": "recommendation",
+          "nodeId": "recommendation",
+          "layer": "DTE → UE",
+          "responsibility": "Application & Service → advisory user view",
+          "entity": "sdt:ServiceActionRecommendation",
+          "label": "Service / TCS",
+          "value": "Predictive maintenance / GBP 3616.00",
+          "unit": "GBP (assumed)",
+          "source": "src/model/service.ts / serviceDecisionByTcs",
+          "evidence": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:recommendation"
+        },
+        {
+          "id": "service",
+          "nodeId": "asset",
+          "layer": "DCDCE → UE",
+          "responsibility": "Device Control mapping / simulated control status",
+          "entity": "Snapshot control metadata (not an OWL assertion)",
+          "label": "Execution context",
+          "value": "in-downtime / predictive-maintenance / 5.333333 h elapsed",
+          "unit": "modeled h",
+          "source": "Simulation / model-derived / src/App.tsx service simulator",
+          "evidence": "Context attached to this asset snapshot, not a fabricated execution individual. Actual simulated event records are in Decision Trace; no physical actuation or measured outcome.",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "contract",
+          "nodeId": "kpi",
+          "layer": "UE",
+          "responsibility": "Contract KPI / reference reporting",
+          "entity": "sdt:ContractKPI",
+          "label": "Availability reference",
+          "value": "97.60% / target 95.00%",
+          "unit": "%",
+          "source": "src/data/dashboardData.json / service.kpiSettlement",
+          "evidence": "Static Chapter 5 dataset reference; not recomputed from current simulated downtime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:kpi"
+        },
+        {
+          "id": "provenance",
+          "nodeId": "observation",
+          "layer": "DTE / cross-system",
+          "responsibility": "Resource Access & Interchange / evidence access",
+          "entity": "PROV-O links / snapshot metadata",
+          "label": "Evidence provenance",
+          "value": "auto-service / reference-assisted",
+          "unit": "source metadata",
+          "source": "Shared dashboard snapshot / in-memory record buffer",
+          "evidence": "No acquisition-window identifier supplied; record export retains source, model and timestamps. Cross-system responsibility, not a separate ISO layer or full OWL validation.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-3-auto-service:observation"
+        }
+      ],
+      "changes": [
+        "service"
+      ]
+    },
+    {
+      "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:record-3",
+      "sequence": 3,
+      "recordedAt": "2026-10-21T23:06:47.236Z",
+      "snapshot": {
+        "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service",
+        "capturedAt": "2026-10-21T23:06:47.212Z",
+        "reading": {
+          "t": "Demo tick 002",
+          "source": "auto-service",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 45.8,
+          "crackState": "C4",
+          "rpm": 0,
+          "power": 0,
+          "vibrationRms": 0.0466,
+          "kurtosis": 2.72,
+          "modalF1": 26.97,
+          "rulP10": 451,
+          "rulP50": 553,
+          "rulP90": 630,
+          "rulSpread": 102,
+          "rulUpperSpread": 77,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              528.116943359375,
+              553.1668701171875,
+              549.5134887695312
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.21705779890455565,
+            0.817462892154263,
+            2.7460477236522465,
+            0.0820411158807213,
+            3.761102139154068,
+            0.10883143766813436,
+            0.3963143333270428,
+            2.6943409581226643,
+            -0.1212644771220448,
+            3.639032422586084,
+            0.04660140197343967,
+            0.1726966540050567,
+            2.7217677048511986,
+            0.10459803371383765,
+            3.706466867881754,
+            0.22570263326588272,
+            0.43189565544319514,
+            0.1494710734794426,
+            0.07376533110616733,
+            0.1191591204719361,
+            26.966066593868604,
+            58.393764927692715,
+            116.79574136443202,
+            8,
+            700.419725166863,
+            15.271643240413558,
+            0.21469581931000403,
+            1.994440242225246,
+            3.766106982931844,
+            0.5960510745828221,
+            3.4683403754427125
+          ],
+          "observedAt": "2026-10-21T23:06:47.212Z",
+          "receivedAt": "2026-10-21T23:06:47.212Z",
+          "serviceState": "MaintenanceDue",
+          "crackGrowthRateMmH": 0.83,
+          "windBin": "high",
+          "serviceMode": "in-downtime",
+          "serviceAction": "predictive-maintenance",
+          "downtimeH": 8,
+          "serviceNote": "Auto Predictive maintenance in progress; planned downtime 8.0 h.",
+          "elapsedDowntimeH": 2.666667
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "MaintenanceDue",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 760
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "action": "proactive-maintenance",
+            "label": "Proactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 4248,
+            "residualRiskScore": 0.07,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2650
+              },
+              {
+                "label": "Downtime",
+                "value": 950
+              },
+              {
+                "label": "Logistics",
+                "value": 180
+              },
+              {
+                "label": "Contract",
+                "value": 420
+              },
+              {
+                "label": "Residual risk",
+                "value": 48
+              }
+            ]
+          },
+          {
+            "action": "active-maintenance",
+            "label": "Active maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 6132,
+            "residualRiskScore": 0.043,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 3850
+              },
+              {
+                "label": "Downtime",
+                "value": 1140
+              },
+              {
+                "label": "Logistics",
+                "value": 620
+              },
+              {
+                "label": "Contract",
+                "value": 504
+              },
+              {
+                "label": "Residual risk",
+                "value": 18
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1820,
+            "residualRiskScore": 0.35,
+            "acceptable": false,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 1203
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "predictive-maintenance",
+          "label": "Predictive maintenance",
+          "type": "sdt:PredictiveMaintenance",
+          "totalCost": 3616,
+          "residualRiskScore": 0.09,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 2300
+            },
+            {
+              "label": "Downtime",
+              "value": 760
+            },
+            {
+              "label": "Logistics",
+              "value": 140
+            },
+            {
+              "label": "Contract",
+              "value": 336
+            },
+            {
+              "label": "Residual risk",
+              "value": 80
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "rows": [
+        {
+          "id": "gps",
+          "nodeId": "asset",
+          "layer": "OME",
+          "responsibility": "Asset / site context",
+          "entity": "sdt:Asset",
+          "label": "Site position",
+          "value": "52.07340, -0.62806",
+          "unit": "deg",
+          "source": "Chapter 5 replay GPS",
+          "evidence": "Scenario/site coordinates; not a measured moving-turbine track",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "registry",
+          "nodeId": "blade",
+          "layer": "DTE",
+          "responsibility": "Operation & Management / asset registry",
+          "entity": "sdt:Asset / sdt:Component",
+          "label": "Asset registry",
+          "value": "Turbine-01 / Blade-A",
+          "unit": "identifier",
+          "source": "Dashboard asset/component configuration",
+          "evidence": "Stable asset identity links observations and service evidence; not a new physical asset registration",
+          "uri": "urn:wt-dashboard:Turbine-01:blade"
+        },
+        {
+          "id": "wind",
+          "nodeId": "environment",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / environment context",
+          "entity": "sdt:OperatingEnvironment",
+          "label": "Wind context",
+          "value": "8.00 m/s / 226.0 deg",
+          "unit": "m/s; deg",
+          "source": "Simulation / model-derived",
+          "evidence": "No acquisition-window identifier supplied; anemometer / wind vane are rig references, not connected devices. Direction is context, not an RUL feature.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:environment"
+        },
+        {
+          "id": "vibration",
+          "nodeId": "observation",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / observation",
+          "entity": "sosa:Observation",
+          "label": "Blade vibration",
+          "value": "0.0466 g / 2.720 kurtosis",
+          "unit": "g; dimensionless",
+          "source": "Simulation / model-derived / reference-assisted",
+          "evidence": "No acquisition-window identifier supplied; logical MC3419 channel. No live accelerometer feed; archived waveforms are separate references.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:observation"
+        },
+        {
+          "id": "crack",
+          "nodeId": "condition",
+          "layer": "DTE",
+          "responsibility": "Application & Service / condition",
+          "entity": "sdt:ConditionEvent",
+          "label": "Blade condition",
+          "value": "45.800 mm / C4",
+          "unit": "mm",
+          "source": "Simulation / model-derived",
+          "evidence": "Replay or assumed crack growth / simulated repair; not independent signal-to-crack detection",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:condition"
+        },
+        {
+          "id": "rul",
+          "nodeId": "rul",
+          "layer": "DTE",
+          "responsibility": "Application & Service / prognosis",
+          "entity": "sdt:RULEstimate (projection) / wt:PseudoRULEstimate (RDF)",
+          "label": "RUL estimate",
+          "value": "451 / 553 / 630 pseudo-h",
+          "unit": "pseudo-h",
+          "source": "XGBoost / reference-assisted scenario",
+          "evidence": "Adjusted lower / P50 / Adjusted upper; reference-assisted; model ch5-xgb-cqr-2.0; synthetic target, not field lifetime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:rul"
+        },
+        {
+          "id": "state",
+          "nodeId": "state",
+          "layer": "DTE",
+          "responsibility": "Application & Service / service policy",
+          "entity": "sdt:ServiceState",
+          "label": "Service state",
+          "value": "MaintenanceDue",
+          "unit": "category",
+          "source": "src/App.tsx / makeDowntimePoint (simulated service hold)",
+          "evidence": "Rule-based or recorded service status; downtime explicitly sets MaintenanceDue. Not an OWL-inferred state.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:state"
+        },
+        {
+          "id": "recommendation",
+          "nodeId": "recommendation",
+          "layer": "DTE → UE",
+          "responsibility": "Application & Service → advisory user view",
+          "entity": "sdt:ServiceActionRecommendation",
+          "label": "Service / TCS",
+          "value": "Predictive maintenance / GBP 3616.00",
+          "unit": "GBP (assumed)",
+          "source": "src/model/service.ts / serviceDecisionByTcs",
+          "evidence": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:recommendation"
+        },
+        {
+          "id": "service",
+          "nodeId": "asset",
+          "layer": "DCDCE → UE",
+          "responsibility": "Device Control mapping / simulated control status",
+          "entity": "Snapshot control metadata (not an OWL assertion)",
+          "label": "Execution context",
+          "value": "in-downtime / predictive-maintenance / 2.666667 h elapsed",
+          "unit": "modeled h",
+          "source": "Simulation / model-derived / src/App.tsx service simulator",
+          "evidence": "Context attached to this asset snapshot, not a fabricated execution individual. Actual simulated event records are in Decision Trace; no physical actuation or measured outcome.",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "contract",
+          "nodeId": "kpi",
+          "layer": "UE",
+          "responsibility": "Contract KPI / reference reporting",
+          "entity": "sdt:ContractKPI",
+          "label": "Availability reference",
+          "value": "97.60% / target 95.00%",
+          "unit": "%",
+          "source": "src/data/dashboardData.json / service.kpiSettlement",
+          "evidence": "Static Chapter 5 dataset reference; not recomputed from current simulated downtime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:kpi"
+        },
+        {
+          "id": "provenance",
+          "nodeId": "observation",
+          "layer": "DTE / cross-system",
+          "responsibility": "Resource Access & Interchange / evidence access",
+          "entity": "PROV-O links / snapshot metadata",
+          "label": "Evidence provenance",
+          "value": "auto-service / reference-assisted",
+          "unit": "source metadata",
+          "source": "Shared dashboard snapshot / in-memory record buffer",
+          "evidence": "No acquisition-window identifier supplied; record export retains source, model and timestamps. Cross-system responsibility, not a separate ISO layer or full OWL validation.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-2-auto-service:observation"
+        }
+      ],
+      "changes": [
+        "service"
+      ]
+    },
+    {
+      "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:record-2",
+      "sequence": 2,
+      "recordedAt": "2026-10-21T23:06:47.048Z",
+      "snapshot": {
+        "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service",
+        "capturedAt": "2026-10-21T23:06:47.019Z",
+        "reading": {
+          "t": "Demo tick 001",
+          "source": "auto-service",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 45.8,
+          "crackState": "C4",
+          "rpm": 0,
+          "power": 0,
+          "vibrationRms": 0.0466,
+          "kurtosis": 2.72,
+          "modalF1": 26.97,
+          "rulP10": 451,
+          "rulP50": 553,
+          "rulP90": 630,
+          "rulSpread": 102,
+          "rulUpperSpread": 77,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              528.116943359375,
+              553.1668701171875,
+              549.5134887695312
+            ],
+            "quantileAdjusted": true,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.21705779890455565,
+            0.817462892154263,
+            2.7460477236522465,
+            0.0820411158807213,
+            3.761102139154068,
+            0.10883143766813436,
+            0.3963143333270428,
+            2.6943409581226643,
+            -0.1212644771220448,
+            3.639032422586084,
+            0.04660140197343967,
+            0.1726966540050567,
+            2.7217677048511986,
+            0.10459803371383765,
+            3.706466867881754,
+            0.22570263326588272,
+            0.43189565544319514,
+            0.1494710734794426,
+            0.07376533110616733,
+            0.1191591204719361,
+            26.966066593868604,
+            58.393764927692715,
+            116.79574136443202,
+            8,
+            700.419725166863,
+            15.271643240413558,
+            0.21469581931000403,
+            1.994440242225246,
+            3.766106982931844,
+            0.5960510745828221,
+            3.4683403754427125
+          ],
+          "observedAt": "2026-10-21T23:06:47.016Z",
+          "receivedAt": "2026-10-21T23:06:47.016Z",
+          "serviceState": "MaintenanceDue",
+          "crackGrowthRateMmH": 0.83,
+          "windBin": "high",
+          "serviceMode": "in-downtime",
+          "serviceAction": "predictive-maintenance",
+          "downtimeH": 8,
+          "serviceNote": "Auto Predictive maintenance in progress; planned downtime 8.0 h.",
+          "elapsedDowntimeH": 0
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "MaintenanceDue",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.09,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 760
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "action": "proactive-maintenance",
+            "label": "Proactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 4248,
+            "residualRiskScore": 0.07,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2650
+              },
+              {
+                "label": "Downtime",
+                "value": 950
+              },
+              {
+                "label": "Logistics",
+                "value": 180
+              },
+              {
+                "label": "Contract",
+                "value": 420
+              },
+              {
+                "label": "Residual risk",
+                "value": 48
+              }
+            ]
+          },
+          {
+            "action": "active-maintenance",
+            "label": "Active maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 6132,
+            "residualRiskScore": 0.043,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 3850
+              },
+              {
+                "label": "Downtime",
+                "value": 1140
+              },
+              {
+                "label": "Logistics",
+                "value": 620
+              },
+              {
+                "label": "Contract",
+                "value": 504
+              },
+              {
+                "label": "Residual risk",
+                "value": 18
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1820,
+            "residualRiskScore": 0.35,
+            "acceptable": false,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 1203
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "predictive-maintenance",
+          "label": "Predictive maintenance",
+          "type": "sdt:PredictiveMaintenance",
+          "totalCost": 3616,
+          "residualRiskScore": 0.09,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 2300
+            },
+            {
+              "label": "Downtime",
+              "value": 760
+            },
+            {
+              "label": "Logistics",
+              "value": 140
+            },
+            {
+              "label": "Contract",
+              "value": 336
+            },
+            {
+              "label": "Residual risk",
+              "value": 80
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "rows": [
+        {
+          "id": "gps",
+          "nodeId": "asset",
+          "layer": "OME",
+          "responsibility": "Asset / site context",
+          "entity": "sdt:Asset",
+          "label": "Site position",
+          "value": "52.07340, -0.62806",
+          "unit": "deg",
+          "source": "Chapter 5 replay GPS",
+          "evidence": "Scenario/site coordinates; not a measured moving-turbine track",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "registry",
+          "nodeId": "blade",
+          "layer": "DTE",
+          "responsibility": "Operation & Management / asset registry",
+          "entity": "sdt:Asset / sdt:Component",
+          "label": "Asset registry",
+          "value": "Turbine-01 / Blade-A",
+          "unit": "identifier",
+          "source": "Dashboard asset/component configuration",
+          "evidence": "Stable asset identity links observations and service evidence; not a new physical asset registration",
+          "uri": "urn:wt-dashboard:Turbine-01:blade"
+        },
+        {
+          "id": "wind",
+          "nodeId": "environment",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / environment context",
+          "entity": "sdt:OperatingEnvironment",
+          "label": "Wind context",
+          "value": "8.00 m/s / 226.0 deg",
+          "unit": "m/s; deg",
+          "source": "Simulation / model-derived",
+          "evidence": "No acquisition-window identifier supplied; anemometer / wind vane are rig references, not connected devices. Direction is context, not an RUL feature.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:environment"
+        },
+        {
+          "id": "vibration",
+          "nodeId": "observation",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / observation",
+          "entity": "sosa:Observation",
+          "label": "Blade vibration",
+          "value": "0.0466 g / 2.720 kurtosis",
+          "unit": "g; dimensionless",
+          "source": "Simulation / model-derived / reference-assisted",
+          "evidence": "No acquisition-window identifier supplied; logical MC3419 channel. No live accelerometer feed; archived waveforms are separate references.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:observation"
+        },
+        {
+          "id": "crack",
+          "nodeId": "condition",
+          "layer": "DTE",
+          "responsibility": "Application & Service / condition",
+          "entity": "sdt:ConditionEvent",
+          "label": "Blade condition",
+          "value": "45.800 mm / C4",
+          "unit": "mm",
+          "source": "Simulation / model-derived",
+          "evidence": "Replay or assumed crack growth / simulated repair; not independent signal-to-crack detection",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:condition"
+        },
+        {
+          "id": "rul",
+          "nodeId": "rul",
+          "layer": "DTE",
+          "responsibility": "Application & Service / prognosis",
+          "entity": "sdt:RULEstimate (projection) / wt:PseudoRULEstimate (RDF)",
+          "label": "RUL estimate",
+          "value": "451 / 553 / 630 pseudo-h",
+          "unit": "pseudo-h",
+          "source": "XGBoost / reference-assisted scenario",
+          "evidence": "Adjusted lower / P50 / Adjusted upper; reference-assisted; model ch5-xgb-cqr-2.0; synthetic target, not field lifetime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:rul"
+        },
+        {
+          "id": "state",
+          "nodeId": "state",
+          "layer": "DTE",
+          "responsibility": "Application & Service / service policy",
+          "entity": "sdt:ServiceState",
+          "label": "Service state",
+          "value": "MaintenanceDue",
+          "unit": "category",
+          "source": "src/App.tsx / makeDowntimePoint (simulated service hold)",
+          "evidence": "Rule-based or recorded service status; downtime explicitly sets MaintenanceDue. Not an OWL-inferred state.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:state"
+        },
+        {
+          "id": "recommendation",
+          "nodeId": "recommendation",
+          "layer": "DTE → UE",
+          "responsibility": "Application & Service → advisory user view",
+          "entity": "sdt:ServiceActionRecommendation",
+          "label": "Service / TCS",
+          "value": "Predictive maintenance / GBP 3616.00",
+          "unit": "GBP (assumed)",
+          "source": "src/model/service.ts / serviceDecisionByTcs",
+          "evidence": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:recommendation"
+        },
+        {
+          "id": "service",
+          "nodeId": "asset",
+          "layer": "DCDCE → UE",
+          "responsibility": "Device Control mapping / simulated control status",
+          "entity": "Snapshot control metadata (not an OWL assertion)",
+          "label": "Execution context",
+          "value": "in-downtime / predictive-maintenance / 0 h elapsed",
+          "unit": "modeled h",
+          "source": "Simulation / model-derived / src/App.tsx service simulator",
+          "evidence": "Context attached to this asset snapshot, not a fabricated execution individual. Actual simulated event records are in Decision Trace; no physical actuation or measured outcome.",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "contract",
+          "nodeId": "kpi",
+          "layer": "UE",
+          "responsibility": "Contract KPI / reference reporting",
+          "entity": "sdt:ContractKPI",
+          "label": "Availability reference",
+          "value": "97.60% / target 95.00%",
+          "unit": "%",
+          "source": "src/data/dashboardData.json / service.kpiSettlement",
+          "evidence": "Static Chapter 5 dataset reference; not recomputed from current simulated downtime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:kpi"
+        },
+        {
+          "id": "provenance",
+          "nodeId": "observation",
+          "layer": "DTE / cross-system",
+          "responsibility": "Resource Access & Interchange / evidence access",
+          "entity": "PROV-O links / snapshot metadata",
+          "label": "Evidence provenance",
+          "value": "auto-service / reference-assisted",
+          "unit": "source metadata",
+          "source": "Shared dashboard snapshot / in-memory record buffer",
+          "evidence": "No acquisition-window identifier supplied; record export retains source, model and timestamps. Cross-system responsibility, not a separate ISO layer or full OWL validation.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-1-auto-service:observation"
+        }
+      ],
+      "changes": [
+        "vibration",
+        "crack",
+        "rul",
+        "state",
+        "service",
+        "provenance"
+      ]
+    },
+    {
+      "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:record-1",
+      "sequence": 1,
+      "recordedAt": "2026-10-21T23:06:46.694Z",
+      "snapshot": {
+        "id": "demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation",
+        "capturedAt": "2026-10-21T23:06:46.677Z",
+        "reading": {
+          "t": "Demo tick 000",
+          "source": "auto-simulation",
+          "modelVersion": "ch5-xgb-cqr-2.0",
+          "windSpeed": 8,
+          "windDirection": 226,
+          "crackMm": 45,
+          "crackState": "C4",
+          "rpm": 624,
+          "power": 731,
+          "vibrationRms": 0.0465,
+          "kurtosis": 2.72,
+          "modalF1": 27.02,
+          "rulP10": 451,
+          "rulP50": 543,
+          "rulP90": 626,
+          "rulSpread": 92,
+          "rulUpperSpread": 83,
+          "rulEvidence": {
+            "modelVersion": "ch5-xgb-cqr-2.0",
+            "featureSource": "reference-assisted",
+            "rawQuantiles": [
+              528.1348876953125,
+              543.4525756835938,
+              549.5070190429688
+            ],
+            "quantileAdjusted": false,
+            "outsideTraining": [],
+            "intervalCalibration": {
+              "radius": 76.3111572265625,
+              "nominalCoverage": 0.8,
+              "scope": "reference-only"
+            }
+          },
+          "rulFeatureVector": [
+            0.21571253923251468,
+            0.8072999421137819,
+            2.7478237325079258,
+            0.08746288377621424,
+            3.7397069046067037,
+            0.10841384468883271,
+            0.3945637882993436,
+            2.6936133738312713,
+            -0.12722788693443707,
+            3.6369359008455118,
+            0.04645558595851594,
+            0.17211015201988256,
+            2.7233372367038697,
+            0.1117094677848873,
+            3.705521456121401,
+            0.2223268116770851,
+            0.4341318766903966,
+            0.15050039015293193,
+            0.07367983217424277,
+            0.11935471578096792,
+            27.018229166666668,
+            58.376736111111114,
+            116.75347222222223,
+            8,
+            700.1555555555556,
+            15.255555555555556,
+            0.21535876460311779,
+            1.989713950756461,
+            3.742480362922251,
+            0.5927400347026509,
+            3.4587416686248718
+          ],
+          "observedAt": "2026-10-21T23:06:46.676Z",
+          "receivedAt": "2026-10-21T23:06:46.676Z",
+          "serviceState": "MaintenanceDue"
+        },
+        "asset": "Turbine-01",
+        "component": "Blade-A",
+        "serviceState": "MaintenanceDue",
+        "position": {
+          "lat": 52.0734,
+          "lon": -0.62806,
+          "source": "Chapter 5 replay GPS"
+        },
+        "candidates": [
+          {
+            "action": "predictive-maintenance",
+            "label": "Predictive maintenance",
+            "type": "sdt:PredictiveMaintenance",
+            "totalCost": 3616,
+            "residualRiskScore": 0.089,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2300
+              },
+              {
+                "label": "Downtime",
+                "value": 762
+              },
+              {
+                "label": "Logistics",
+                "value": 140
+              },
+              {
+                "label": "Contract",
+                "value": 336
+              },
+              {
+                "label": "Residual risk",
+                "value": 78
+              }
+            ]
+          },
+          {
+            "action": "proactive-maintenance",
+            "label": "Proactive maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 4246,
+            "residualRiskScore": 0.067,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 2650
+              },
+              {
+                "label": "Downtime",
+                "value": 952
+              },
+              {
+                "label": "Logistics",
+                "value": 180
+              },
+              {
+                "label": "Contract",
+                "value": 420
+              },
+              {
+                "label": "Residual risk",
+                "value": 44
+              }
+            ]
+          },
+          {
+            "action": "active-maintenance",
+            "label": "Active maintenance",
+            "type": "sdt:MaintenanceProcess",
+            "totalCost": 6135,
+            "residualRiskScore": 0.043,
+            "acceptable": true,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 3850
+              },
+              {
+                "label": "Downtime",
+                "value": 1142
+              },
+              {
+                "label": "Logistics",
+                "value": 620
+              },
+              {
+                "label": "Contract",
+                "value": 504
+              },
+              {
+                "label": "Residual risk",
+                "value": 18
+              }
+            ]
+          },
+          {
+            "action": "spare-prepositioning",
+            "label": "Spare-part pre-positioning",
+            "type": "sdt:ServiceProcess",
+            "totalCost": 1794,
+            "residualRiskScore": 0.347,
+            "acceptable": false,
+            "costs": [
+              {
+                "label": "Service",
+                "value": 420
+              },
+              {
+                "label": "Downtime",
+                "value": 95
+              },
+              {
+                "label": "Logistics",
+                "value": 60
+              },
+              {
+                "label": "Contract",
+                "value": 42
+              },
+              {
+                "label": "Residual risk",
+                "value": 1177
+              }
+            ]
+          }
+        ],
+        "recommendation": {
+          "action": "predictive-maintenance",
+          "label": "Predictive maintenance",
+          "type": "sdt:PredictiveMaintenance",
+          "totalCost": 3616,
+          "residualRiskScore": 0.089,
+          "acceptable": true,
+          "costs": [
+            {
+              "label": "Service",
+              "value": 2300
+            },
+            {
+              "label": "Downtime",
+              "value": 762
+            },
+            {
+              "label": "Logistics",
+              "value": 140
+            },
+            {
+              "label": "Contract",
+              "value": 336
+            },
+            {
+              "label": "Residual risk",
+              "value": 78
+            }
+          ]
+        },
+        "selectionBasis": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+        "contract": {
+          "actual": 0.976,
+          "target": 0.95,
+          "status": "BONUS"
+        }
+      },
+      "rows": [
+        {
+          "id": "gps",
+          "nodeId": "asset",
+          "layer": "OME",
+          "responsibility": "Asset / site context",
+          "entity": "sdt:Asset",
+          "label": "Site position",
+          "value": "52.07340, -0.62806",
+          "unit": "deg",
+          "source": "Chapter 5 replay GPS",
+          "evidence": "Scenario/site coordinates; not a measured moving-turbine track",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "registry",
+          "nodeId": "blade",
+          "layer": "DTE",
+          "responsibility": "Operation & Management / asset registry",
+          "entity": "sdt:Asset / sdt:Component",
+          "label": "Asset registry",
+          "value": "Turbine-01 / Blade-A",
+          "unit": "identifier",
+          "source": "Dashboard asset/component configuration",
+          "evidence": "Stable asset identity links observations and service evidence; not a new physical asset registration",
+          "uri": "urn:wt-dashboard:Turbine-01:blade"
+        },
+        {
+          "id": "wind",
+          "nodeId": "environment",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / environment context",
+          "entity": "sdt:OperatingEnvironment",
+          "label": "Wind context",
+          "value": "8.00 m/s / 226.0 deg",
+          "unit": "m/s; deg",
+          "source": "Simulation / model-derived",
+          "evidence": "No acquisition-window identifier supplied; anemometer / wind vane are rig references, not connected devices. Direction is context, not an RUL feature.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:environment"
+        },
+        {
+          "id": "vibration",
+          "nodeId": "observation",
+          "layer": "DCDCE",
+          "responsibility": "Data Collection / observation",
+          "entity": "sosa:Observation",
+          "label": "Blade vibration",
+          "value": "0.0465 g / 2.720 kurtosis",
+          "unit": "g; dimensionless",
+          "source": "Simulation / model-derived / reference-assisted",
+          "evidence": "No acquisition-window identifier supplied; logical MC3419 channel. No live accelerometer feed; archived waveforms are separate references.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:observation"
+        },
+        {
+          "id": "crack",
+          "nodeId": "condition",
+          "layer": "DTE",
+          "responsibility": "Application & Service / condition",
+          "entity": "sdt:ConditionEvent",
+          "label": "Blade condition",
+          "value": "45.000 mm / C4",
+          "unit": "mm",
+          "source": "Simulation / model-derived",
+          "evidence": "Replay or assumed crack growth / simulated repair; not independent signal-to-crack detection",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:condition"
+        },
+        {
+          "id": "rul",
+          "nodeId": "rul",
+          "layer": "DTE",
+          "responsibility": "Application & Service / prognosis",
+          "entity": "sdt:RULEstimate (projection) / wt:PseudoRULEstimate (RDF)",
+          "label": "RUL estimate",
+          "value": "451 / 543 / 626 pseudo-h",
+          "unit": "pseudo-h",
+          "source": "XGBoost / reference-assisted scenario",
+          "evidence": "Adjusted lower / P50 / Adjusted upper; reference-assisted; model ch5-xgb-cqr-2.0; synthetic target, not field lifetime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:rul"
+        },
+        {
+          "id": "state",
+          "nodeId": "state",
+          "layer": "DTE",
+          "responsibility": "Application & Service / service policy",
+          "entity": "sdt:ServiceState",
+          "label": "Service state",
+          "value": "MaintenanceDue",
+          "unit": "category",
+          "source": "Recorded service state / src/model/operating.ts / conditionState",
+          "evidence": "Rule-based or recorded service status; downtime explicitly sets MaintenanceDue. Not an OWL-inferred state.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:state"
+        },
+        {
+          "id": "recommendation",
+          "nodeId": "recommendation",
+          "layer": "DTE → UE",
+          "responsibility": "Application & Service → advisory user view",
+          "entity": "sdt:ServiceActionRecommendation",
+          "label": "Service / TCS",
+          "value": "Predictive maintenance / GBP 3616.00",
+          "unit": "GBP (assumed)",
+          "source": "src/model/service.ts / serviceDecisionByTcs",
+          "evidence": "Minimum estimated TCS among candidates passing the existing residual-risk policy; minimum-cost fallback if none pass.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:recommendation"
+        },
+        {
+          "id": "service",
+          "nodeId": "asset",
+          "layer": "DCDCE → UE",
+          "responsibility": "Device Control mapping / simulated control status",
+          "entity": "Snapshot control metadata (not an OWL assertion)",
+          "label": "Execution context",
+          "value": "Advisory / no active downtime in this reading",
+          "unit": "modeled h",
+          "source": "Simulation / model-derived / src/App.tsx service simulator",
+          "evidence": "Context attached to this asset snapshot, not a fabricated execution individual. Actual simulated event records are in Decision Trace; no physical actuation or measured outcome.",
+          "uri": "urn:wt-dashboard:Turbine-01:asset"
+        },
+        {
+          "id": "contract",
+          "nodeId": "kpi",
+          "layer": "UE",
+          "responsibility": "Contract KPI / reference reporting",
+          "entity": "sdt:ContractKPI",
+          "label": "Availability reference",
+          "value": "97.60% / target 95.00%",
+          "unit": "%",
+          "source": "src/data/dashboardData.json / service.kpiSettlement",
+          "evidence": "Static Chapter 5 dataset reference; not recomputed from current simulated downtime",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:kpi"
+        },
+        {
+          "id": "provenance",
+          "nodeId": "observation",
+          "layer": "DTE / cross-system",
+          "responsibility": "Resource Access & Interchange / evidence access",
+          "entity": "PROV-O links / snapshot metadata",
+          "label": "Evidence provenance",
+          "value": "auto-simulation / reference-assisted",
+          "unit": "source metadata",
+          "source": "Shared dashboard snapshot / in-memory record buffer",
+          "evidence": "No acquisition-window identifier supplied; record export retains source, model and timestamps. Cross-system responsibility, not a separate ISO layer or full OWL validation.",
+          "uri": "urn:wt-dashboard:Turbine-01:demo-174d63cd-fcf3-4826-bf22-1d29ba78fdaa-reading-0-auto-simulation:observation"
+        }
+      ],
+      "changes": [
+        "gps",
+        "registry",
+        "wind",
+        "vibration",
+        "crack",
+        "rul",
+        "state",
+        "recommendation",
+        "service",
+        "contract",
+        "provenance"
+      ]
+    }
+  ]
+}

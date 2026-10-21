@@ -1,22 +1,24 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import ReactFlow, { Background, Controls, Handle, MarkerType, Position, type NodeProps } from 'reactflow';
-import { BookOpen, Download, Focus, GitBranch, History, Network, Pause, Play, Search, ShieldCheck } from 'lucide-react';
+import { BookOpen, Database, Download, Focus, GitBranch, History, Layers, Network, Pause, Play, Search, ShieldCheck } from 'lucide-react';
 import schema from '../data/ontologySchema.json';
 import { buildSemanticGraph, evidenceSource, type OntologyExecution, type OntologySnapshot, type SemanticNode } from './model';
 import './ontology.css';
 import { snapshotBelongsToEvent } from '../model/session';
+import { appendDataRecord, mappingRows, snapshotFingerprint, type DataRecord } from './lineage';
+import { MappingView, RecordsView } from './DataLineagePanel';
 
 const colors = { asset: '#7bc8ed', evidence: '#68d5b3', prediction: '#c5aff2', decision: '#f2cf7c', service: '#edacb2', contract: '#a8c9d8' };
 const SemanticWorkbench = lazy(() => import('./WtSemanticWorkbench'));
-type OntologyTab = 'live' | 'schema' | 'trace' | 'semantic';
-const tabs = [{ id: 'live' as const, label: 'Live Graph', icon: Network }, { id: 'schema' as const, label: 'Ontology Schema', icon: BookOpen }, { id: 'trace' as const, label: 'Decision Trace', icon: History }, { id: 'semantic' as const, label: 'Semantic Check', icon: ShieldCheck }];
+type OntologyTab = 'live' | 'mapping' | 'records' | 'schema' | 'trace' | 'semantic';
+const tabs = [{ id: 'live' as const, label: 'Live Graph', icon: Network }, { id: 'mapping' as const, label: 'DT Mapping', icon: Layers }, { id: 'records' as const, label: 'Data Records', icon: Database }, { id: 'schema' as const, label: 'Ontology Schema', icon: BookOpen }, { id: 'trace' as const, label: 'Decision Trace', icon: History }, { id: 'semantic' as const, label: 'Semantic Check', icon: ShieldCheck }];
 
-function EntityNode({ data, selected }: NodeProps<{ entity: SemanticNode }>) {
+function EntityNode({ data, selected }: NodeProps<{ entity: SemanticNode; updated: boolean }>) {
   const n = data.entity;
-  return <div className={`semantic-node ${selected ? 'selected' : ''}`} style={{ borderColor: colors[n.group] }}>
+  return <div className={`semantic-node ${selected ? 'selected' : ''} ${data.updated ? 'data-updated' : ''}`} style={{ borderColor: colors[n.group] }}>
     {[Position.Left, Position.Right, Position.Top, Position.Bottom].map((position) => <Handle key={`target-${position}`} id={`target-${position}`} type="target" position={position} />)}
     <div className="semantic-node-meta"><span style={{ color: colors[n.group] }}>{n.group}</span><span>{n.layer}</span></div>
-    <strong>{n.title}</strong><span className="semantic-node-type" title={n.type}>{n.type}</span><small>{n.status}</small>
+    <strong>{n.title}</strong><span className="semantic-node-type" title={n.type}>{n.type}</span><small>{n.status}</small><span className="semantic-node-value" title={n.fields[0]?.value}>{n.fields[0]?.value}</span>{data.updated && <span className="semantic-update-dot" title="Value or provenance updated in latest capture" aria-label="Updated in latest capture" />}
     {[Position.Left, Position.Right, Position.Top, Position.Bottom].map((position) => <Handle key={`source-${position}`} id={`source-${position}`} type="source" position={position} />)}
   </div>;
 }
@@ -51,7 +53,7 @@ function downloadGraph(snapshot: OntologySnapshot, execution?: OntologyExecution
 
 export type OntologyFocusRequest = { id: number; nodeId: string; eventId: string; snapshot?: OntologySnapshot; execution?: OntologyExecution };
 
-export default function OntologyPanel({ snapshot, executions: log, focusRequest, onReplay, onPause }: { snapshot: OntologySnapshot; executions: OntologyExecution[]; focusRequest: OntologyFocusRequest | null; onReplay: (eventId: string) => void; onPause: () => void }) {
+export default function OntologyPanel({ snapshot, sessionId, paused, onSimulation, executions: log, focusRequest, onReplay, onPause }: { snapshot: OntologySnapshot; sessionId: string; paused: boolean; onSimulation: () => void; executions: OntologyExecution[]; focusRequest: OntologyFocusRequest | null; onReplay: (eventId: string) => void; onPause: () => void }) {
   const [tab, setTab] = useState<OntologyTab>('live');
   const [selected, setSelected] = useState('recommendation');
   const [eventId, setEventId] = useState('live');
@@ -60,6 +62,16 @@ export default function OntologyPanel({ snapshot, executions: log, focusRequest,
   const [query, setQuery] = useState('');
   const [classId, setClassId] = useState('sdt:ServiceActionRecommendation');
   const [focused, setFocused] = useState(() => window.matchMedia('(max-width: 760px)').matches);
+  const [recording, setRecording] = useState(true);
+  const [stream, setStream] = useState<{ sessionId: string; records: DataRecord[] }>({ sessionId, records: [] });
+  const records = stream.sessionId === sessionId ? stream.records : [];
+  useEffect(() => {
+    setStream(previous => {
+      const base = previous.sessionId === sessionId ? previous.records : [];
+      const next = recording ? appendDataRecord(base, snapshot, new Date().toISOString()) : base;
+      return previous.sessionId === sessionId && next === previous.records ? previous : { sessionId, records: next };
+    });
+  }, [snapshot, sessionId, recording]);
   useEffect(() => {
     if (!focusRequest) { setEventId('live'); setFrozen(null); setPinned(null); return; }
     setTab('live');
@@ -71,11 +83,16 @@ export default function OntologyPanel({ snapshot, executions: log, focusRequest,
   }, [focusRequest]);
   const event = frozen && pinned?.id === eventId ? pinned : log.find((entry) => entry.id === eventId) ?? (pinned?.id === eventId ? pinned : undefined);
   const current = frozen ?? event?.before ?? snapshot;
+  const currentRows = useMemo(() => mappingRows(current), [current]);
+  const currentFingerprint = snapshotFingerprint(current);
+  const currentRecord = records.find(record => record.fingerprint === currentFingerprint);
+  const changes = currentRecord?.changes ?? [];
+  const updatedNodeIds = new Set(currentRows.filter(row => changes.includes(row.id)).map(row => row.nodeId));
   const graph = useMemo(() => buildSemanticGraph(current, event), [current, event]);
   const inspected = graph.nodes.find((node) => node.id === selected) ?? { id: selected, uri: '', title: 'No matching evidence', type: 'Unavailable', layer: 'UE', group: 'service' as const, status: 'Not recorded', x: 0, y: 0, fields: [{ label: 'Selected module', value: selected }, { label: 'Evidence', value: 'No execution or entity record exists in this snapshot' }] };
   const neighbors = new Set(graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).flatMap((edge) => [edge.source, edge.target]));
   const visibleNodes = graph.nodes.filter((entity) => !focused || neighbors.has(entity.id) || entity.id === inspected.id);
-  const nodes = visibleNodes.map((entity, index) => ({ id: entity.id, type: 'entity', position: focused ? { x: (index % 2) * 245, y: Math.floor(index / 2) * 175 } : { x: entity.x, y: entity.y }, data: { entity }, selected: entity.id === inspected.id, style: { opacity: focused || neighbors.has(entity.id) || entity.id === inspected.id ? 1 : 0.72 }, ariaLabel: `${entity.title}, ${entity.type}` }));
+  const nodes = visibleNodes.map((entity, index) => ({ id: entity.id, type: 'entity', position: focused ? { x: (index % 2) * 245, y: Math.floor(index / 2) * 175 } : { x: entity.x, y: entity.y }, data: { entity, updated: updatedNodeIds.has(entity.id) }, selected: entity.id === inspected.id, style: { opacity: focused || neighbors.has(entity.id) || entity.id === inspected.id ? 1 : 0.72 }, ariaLabel: `${entity.title}, ${entity.type}` }));
   const edges = graph.relations.filter((edge) => nodes.some((node) => node.id === edge.source) && nodes.some((node) => node.id === edge.target)).map((edge, index) => {
     const active = edge.source === inspected.id || edge.target === inspected.id;
     const from = nodes.find((node) => node.id === edge.source)!.position;
@@ -105,6 +122,11 @@ export default function OntologyPanel({ snapshot, executions: log, focusRequest,
     const record = log.find((entry) => entry.id === id) ?? (pinned?.id === id ? pinned : null);
     setEventId(id); setFrozen(null); setPinned(record ? structuredClone(record) : null);
   }
+  function inspectRecord(record: DataRecord, semantic: boolean) {
+    setEventId('live'); setPinned(null); setFrozen(structuredClone(record.snapshot)); setSelected('observation');
+    if (semantic) onPause();
+    setTab(semantic ? 'semantic' : 'live');
+  }
   return <section className="ontology-workspace" aria-label="Ontology and decision evidence">
     <div className="ontology-heading"><div><div className="section-title"><Network size={18} /><h2>Ontology & Decision Evidence</h2></div><span className="ontology-subtitle">{schema.counts.classes} classes · {schema.counts.objectProperties} relationships · {schema.counts.dataProperties} data properties</span></div><div className="ontology-source-tag">SDT v{schema.version}<span>Chapter 4</span></div></div>
     <div className="ontology-toolbar">
@@ -116,13 +138,16 @@ export default function OntologyPanel({ snapshot, executions: log, focusRequest,
       </div>
     </div>
 
+    {tab === 'mapping' && <div role="tabpanel" id="ontology-view-mapping" aria-labelledby="ontology-tab-mapping"><div className="ontology-context"><span className={`ontology-live-dot ${event || frozen ? 'paused' : ''}`} /><strong>{event || frozen ? 'Captured / historical mapping' : 'Live DT mapping'}</strong>{(event || frozen) && <button className="lineage-stream-link" onClick={() => selectEvent('live')}><Play size={13} />Return to live mapping</button>}</div><MappingView snapshot={current} changes={changes} onEntity={nodeId => { setSelected(nodeId); setTab('live'); }} /></div>}
+    {tab === 'records' && <div role="tabpanel" id="ontology-view-records" aria-labelledby="ontology-tab-records"><RecordsView records={records} snapshot={snapshot} sessionId={sessionId} recording={recording} paused={paused} onRecording={() => setRecording(value => !value)} onSimulation={onSimulation} onCapture={() => setStream(previous => ({ sessionId, records: appendDataRecord(previous.sessionId === sessionId ? previous.records : [], snapshot, new Date().toISOString()) }))} onClear={() => setStream({ sessionId, records: [] })} onInspect={inspectRecord} /></div>}
+
     {tab === 'semantic' && <div role="tabpanel" id="ontology-view-semantic" aria-labelledby="ontology-tab-semantic"><Suspense fallback={<p className="research-scope">Loading semantic engine</p>}><SemanticWorkbench snapshot={current} onPause={onPause} /></Suspense></div>}
 
     {tab === 'live' && <div role="tabpanel" id="ontology-view-live" aria-labelledby="ontology-tab-live">
-      <div className="ontology-context"><span className={`ontology-live-dot ${event || frozen ? 'paused' : ''}`} /><strong>{event ? frozen ? 'Linked replay frame' : 'Service event snapshot' : frozen ? 'Frozen snapshot' : 'Live projection'}</strong><span>{evidenceSource(current.reading)}</span><time>{current.reading.t}</time></div>
+      <div className="ontology-context"><span className={`ontology-live-dot ${event || frozen ? 'paused' : ''}`} /><strong>{event ? frozen ? 'Linked replay frame' : 'Service event snapshot' : frozen ? 'Frozen snapshot' : 'Live projection'}</strong><span>{evidenceSource(current.reading)}</span><button className="lineage-stream-link" onClick={() => setTab('records')}><Database size={13} />{records.length} captured / {changes.length} updated</button><time>{current.reading.t}</time></div>
       <div className="ontology-content">
         <div className="ontology-canvas" data-testid="ontology-graph"><ReactFlow key={`${event ? 'event' : 'current'}-${focused ? inspected.id : 'all'}`} nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView fitViewOptions={{ padding: 0.12 }} minZoom={0.25} maxZoom={1.8} nodesDraggable={false} nodesConnectable={false} onNodeClick={(_, node) => setSelected(node.id)} attributionPosition="bottom-left"><Background color="#354b46" gap={24} /><Controls showInteractive={false} /></ReactFlow></div>
-        <aside className="ontology-inspector" aria-label="Ontology entity details"><div className="ontology-inspector-head"><span style={{ color: colors[inspected.group] }}>{inspected.type}</span><h3>{inspected.title}</h3><span className="ontology-detail-status">{inspected.status}</span></div><dl>{inspected.fields.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl><details><summary>Entity URI & relationships</summary><code>{inspected.uri}</code><ul className="ontology-relationships">{graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).map((edge, index) => {
+        <aside className="ontology-inspector" aria-label="Ontology entity details"><div className="ontology-inspector-head"><span style={{ color: colors[inspected.group] }}>{inspected.type}</span><h3>{inspected.title}</h3><span className="ontology-detail-status">{inspected.status}</span></div>{currentRows.filter(row => row.nodeId === inspected.id).map(row => <div className="lineage-inspector-source" key={row.id}><strong>{row.label} / {row.value}</strong><span>{row.layer} / {row.responsibility}</span><span>Source: {row.source}</span><small>{row.evidence}</small></div>)}<dl>{inspected.fields.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl><details><summary>Entity URI & relationships</summary><code>{inspected.uri}</code><ul className="ontology-relationships">{graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).map((edge, index) => {
           const target = edge.source === inspected.id ? edge.target : edge.source;
           return <li key={index}><span>{edge.source === inspected.id ? 'Outgoing' : 'Incoming'} · {edge.predicate}</span><button onClick={() => setSelected(target)}>{graph.nodes.find((node) => node.id === target)?.title}</button></li>;
         })}</ul></details></aside>

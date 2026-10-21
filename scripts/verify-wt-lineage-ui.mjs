@@ -1,0 +1,110 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright');
+const base = process.env.DASHBOARD_URL ?? 'http://127.0.0.1:5173/';
+const out = new URL('../screenshots/wt-lineage/', import.meta.url); mkdirSync(out, { recursive: true });
+const browser = await chromium.launch({ headless: true, ...(process.env.CHROME_EXECUTABLE ? { executablePath: process.env.CHROME_EXECUTABLE } : {}) });
+const errors = [], results = [];
+try {
+  for (const route of ['', 'enhanced/']) {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true });
+    await context.addInitScript(() => { const original = window.setInterval.bind(window); window.setInterval = (handler, ms, ...args) => original(handler, ms === 1400 ? 160 : ms, ...args); });
+    const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message)); page.on('dialog', d => d.accept());
+    await page.route('**/*.tile.openstreetmap.org/**', r => r.abort());
+    await page.goto(new URL(route, base).href, { waitUntil: 'domcontentloaded', timeout: 120000 });
+    const module = page.getByRole('region', { name: 'Ontology and decision evidence' });
+    await module.waitFor({ timeout: 120000 });
+    await page.getByRole('combobox', { name: 'WT viva case' }).selectOption('healthy');
+    await module.getByRole('tab', { name: 'DT Mapping', exact: true }).click();
+    await module.scrollIntoViewIfNeeded();
+    assert.equal(await module.locator('.mapping-table tbody tr').count(), 11);
+    assert.match(await module.innerText(), /Operation & Management/); assert.match(await module.innerText(), /wt:PseudoRULEstimate/);
+    const prefix = route ? 'enhanced' : 'standard';
+    await module.screenshot({ path: fileURLToPath(new URL(`${prefix}-mapping-desktop.png`, out)) });
+    await module.getByRole('button', { name: 'sosa:Observation', exact: true }).click();
+    assert.match(await module.locator('.ontology-inspector').innerText(), /Source:.*Simulation/);
+    await module.getByRole('tab', { name: 'Data Records', exact: true }).click();
+    const rows = module.locator('.lineage-record-list tbody tr');
+    await rows.first().waitFor();
+    assert.equal(await rows.count(), 1, 'New demo has isolated capture buffer');
+    await module.getByRole('button', { name: 'Run WT', exact: true }).click();
+    await page.waitForFunction(() => document.querySelectorAll('.lineage-record-list tbody tr').length >= 4);
+    await module.getByRole('button', { name: 'Pause data capture', exact: true }).click();
+    const count = await rows.count(); await page.waitForTimeout(600); assert.equal(await rows.count(), count, 'Capture pause does not stop WT');
+    await module.getByRole('button', { name: 'Pause WT', exact: true }).click();
+    await module.getByRole('button', { name: 'Capture current reading', exact: true }).click();
+    const capturedCount = await rows.count(); assert.equal(capturedCount, count + 1);
+    await module.getByRole('button', { name: 'Capture current reading', exact: true }).click(); assert.equal(await rows.count(), capturedCount, 'Duplicate capture is deduplicated');
+    await module.locator('.lineage-record-list tbody tr').last().getByRole('button').click();
+    const original = await module.getByRole('complementary', { name: 'Captured record provenance' }).innerText();
+    await module.getByRole('button', { name: 'Resume data capture', exact: true }).click();
+    await module.getByRole('button', { name: 'Run WT', exact: true }).click(); await page.waitForTimeout(650);
+    assert.equal(await module.getByRole('complementary', { name: 'Captured record provenance' }).innerText(), original, 'Selected source frame remains immutable');
+    if (!route) {
+      await page.waitForFunction(() => document.querySelectorAll('.lineage-record-list tbody tr').length === 120, { timeout: 35000 });
+      await page.waitForTimeout(500);
+      assert.equal(await module.locator('.lineage-record-detail h3').innerText(), 'Record #0001', 'Pinned source frame survives buffer eviction');
+      assert.match(await module.locator('.lineage-record-detail').innerText(), /not included in the bulk export/);
+    }
+    await module.getByRole('button', { name: 'Pause WT', exact: true }).click();
+    await module.screenshot({ path: fileURLToPath(new URL(`${prefix}-records-desktop.png`, out)) });
+    const downloadPromise = page.waitForEvent('download'); await module.getByRole('button', { name: 'Export data records JSON', exact: true }).click();
+    const downloaded = JSON.parse(readFileSync(await (await downloadPromise).path(), 'utf8'));
+    assert.equal(createHash('sha256').update(JSON.stringify(downloaded.payload)).digest('hex'), downloaded.payloadSHA256);
+    assert.equal(downloaded.payload.records.length, await rows.count()); assert.ok(downloaded.payload.records.every(r => r.rows.length === 11));
+    await module.getByRole('button', { name: 'View captured record graph', exact: true }).click();
+    assert.match(await module.locator('.ontology-context').innerText(), /Frozen snapshot/);
+    const inspector = await module.locator('.ontology-inspector').innerText();
+    await page.getByRole('button', { name: 'Play WT simulation', exact: true }).click(); await page.waitForTimeout(500);
+    assert.equal(await module.locator('.ontology-inspector').innerText(), inspector);
+    await page.getByRole('button', { name: 'Pause WT simulation', exact: true }).click();
+    await module.getByRole('tab', { name: 'DT Mapping', exact: true }).click();
+    assert.match(await module.locator('.ontology-context').innerText(), /historical mapping/);
+    await module.getByRole('button', { name: 'Return to live mapping', exact: true }).click();
+    await module.getByRole('tab', { name: 'Live Graph', exact: true }).click();
+    const liveBefore = await module.locator('.ontology-inspector').innerText();
+    await page.getByRole('button', { name: 'Play WT simulation', exact: true }).click(); await page.waitForTimeout(500);
+    assert.notEqual(await module.locator('.ontology-inspector').innerText(), liveBefore, 'Live ontology evidence updates from actual WT frames');
+    assert.ok(await module.locator('.semantic-node.data-updated').count() > 0);
+    await page.getByRole('button', { name: 'Pause WT simulation', exact: true }).click();
+    await module.getByRole('tab', { name: 'Data Records', exact: true }).click();
+    await module.getByRole('button', { name: 'Validate captured record in Semantic Check', exact: true }).click();
+    const semantic = page.getByRole('region', { name: 'WT executable semantic validation' });
+    await semantic.getByRole('button', { name: 'Run RDF / SHACL / SPARQL', exact: true }).click();
+    await semantic.getByTestId('wt-shacl-result').waitFor({ timeout: 120000 }); assert.match(await semantic.getByTestId('wt-shacl-result').innerText(), /^CONFORMS/);
+    await module.getByRole('tab', { name: 'Live Graph', exact: true }).click();
+    await module.getByRole('button', { name: 'Resume live graph', exact: true }).click();
+    for (const width of [390, 320]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const [tab, file] of [['DT Mapping', 'mapping'], ['Data Records', 'records'], ['Live Graph', 'live']]) {
+        await module.getByRole('tab', { name: tab, exact: true }).click(); await module.scrollIntoViewIfNeeded();
+        assert.ok(await module.evaluate(el => el.scrollWidth <= el.clientWidth + 1), `${route}${width}/${tab}: module overflow`);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${route}${width}/${tab}: page overflow`);
+        await module.screenshot({ path: fileURLToPath(new URL(`${prefix}-${file}-${width}.png`, out)) });
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.getByRole('combobox', { name: 'WT viva case' }).selectOption('service');
+    await module.getByRole('tab', { name: 'Data Records', exact: true }).click();
+    await rows.first().waitFor();
+    assert.equal(await rows.count(), 1, 'A new case clears prior captured frames');
+    await module.getByRole('button', { name: 'Run WT', exact: true }).click();
+    await page.locator('.service-run.completed').waitFor({ timeout: 30000 });
+    await module.getByRole('button', { name: 'Pause WT', exact: true }).click();
+    const serviceDownload = page.waitForEvent('download'); await module.getByRole('button', { name: 'Export data records JSON', exact: true }).click();
+    const service = JSON.parse(readFileSync(await (await serviceDownload).path(), 'utf8')).payload;
+    assert.ok(service.records.some(r => r.snapshot.reading.serviceMode === 'in-downtime'));
+    assert.ok(service.records.some(r => r.snapshot.reading.serviceMode === 'post-service'));
+    writeFileSync(new URL(`${prefix}-service-records.json`, out), JSON.stringify(service, null, 2) + '\n');
+    await module.getByRole('button', { name: 'Clear captured records', exact: true }).click();
+    assert.equal(await rows.count(), 0); assert.match(await module.innerText(), /No captured records/);
+    await module.getByRole('button', { name: 'Capture current reading', exact: true }).click(); assert.equal(await rows.count(), 1);
+    results.push(`${prefix}: live DT/ontology mapping, source drilldown, immutable and deduplicated captures, separate capture/WT pause, hashed export, frozen graph, actual semantic execution, service/downtime cycle, session isolation, clear and 390/320 px layouts passed.`);
+    await context.close();
+  }
+  assert.deepEqual(errors, []);
+  writeFileSync(new URL('verification.json', out), JSON.stringify({ checkedAt: new Date().toISOString(), base, results, errors }, null, 2) + '\n');
+  console.log(results.join('\n'));
+} finally { await browser.close(); }

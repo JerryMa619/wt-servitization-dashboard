@@ -714,6 +714,9 @@ function App() {
 
       <div id="ontology-module"><OntologyPanel
         snapshot={liveSnapshot}
+        sessionId={ontologySessionRef.current}
+        paused={simulationPaused}
+        onSimulation={() => pauseSimulation(!simulationPaused)}
         onPause={() => pauseSimulation()}
         executions={ontologyEvents}
         focusRequest={ontologyFocus}

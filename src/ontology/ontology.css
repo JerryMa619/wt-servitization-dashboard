@@ -92,6 +92,80 @@
 .ontology-before-after th { color: #96b6a0; font-weight: 500; }
 .ontology-before-after td { color: #e1eae3; font-variant-numeric: tabular-nums; }
 .ontology-trace-boundary { color: #b8a781; font-size: 11px; line-height: 1.7; margin-top: 18px; }
+.semantic-node { position: relative; }
+.semantic-node-value { display: block; margin-top: 7px; color: #dcebe5; font-size: 10px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.semantic-update-dot { position: absolute; right: 8px; top: 6px; width: 5px; height: 5px; border-radius: 50%; background: #8df1c7; }
+.semantic-node.data-updated { animation: semantic-data-update 1s ease-out; }
+@keyframes semantic-data-update { from { box-shadow: 0 0 0 2px #79d6b5; } to { box-shadow: 0 0 0 0 transparent; } }
+.lineage-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.lineage-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid #30443e; padding: 18px 16px; gap: 12px; }
+.lineage-flow > div { display: flex; align-items: center; min-width: 0; gap: 9px; }
+.lineage-flow span { font-size: 10px; color: #95aeb9; }
+.lineage-flow strong { color: #dae9e3; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.lineage-flow svg { color: #81cbb0; flex-shrink: 0; margin-left: auto; }
+.lineage-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding: 12px 16px; color: #9cb8af; font-size: 11px; line-height: 1.6; }
+.lineage-table-scroll { min-width: 0; overflow: auto; }
+.lineage-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; text-align: left; }
+.lineage-table th { font-size: 11px; font-weight: 500; color: #a3c0b5; background: #14201c; position: sticky; top: 0; z-index: 1; }
+.lineage-table th, .lineage-table td { padding: 13px 16px; border-bottom: 1px solid #293f36; vertical-align: top; overflow-wrap: anywhere; }
+.lineage-table td { color: #dbe8e1; line-height: 1.55; }
+.lineage-table strong { display: block; font-size: 12px; font-weight: 500; }
+.lineage-table small { display: block; font-size: 10px; color: #94b0a4; line-height: 1.65; margin-top: 5px; }
+.mapping-table th:nth-child(1) { width: 22%; }
+.mapping-table th:nth-child(2) { width: 24%; }
+.mapping-table th:nth-child(3) { width: 22%; }
+.mapping-table th:nth-child(4) { width: 32%; }
+.lineage-layer { display: block; color: #8dd5e1; font-size: 10px; margin-bottom: 5px; }
+.lineage-table .lineage-update-label { color: #99e6bb; }
+.lineage-changed td:first-child { border-left: 2px solid #79bd9c; }
+.lineage-entity-link, .lineage-stream-link { display: inline-flex; align-items: flex-start; gap: 6px; background: transparent; color: #d6c4ef; padding: 0; border: 0; text-align: left; cursor: pointer; font: inherit; overflow-wrap: anywhere; }
+.lineage-entity-link svg { flex-shrink: 0; margin-top: 3px; }
+.lineage-stream-link { align-items: center; color: #9de3c0; font-size: 11px; }
+.lineage-boundary { color: #a9b7b0; font-size: 11px; line-height: 1.75; padding: 12px 16px; margin: 0; border-top: 1px solid #30443e; }
+.lineage-record-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid #30443e; }
+.lineage-record-state { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: #a1dbc0; font-size: 12px; }
+.lineage-record-state strong { font-weight: 500; }
+.lineage-record-state span { color: #a2b4c6; font-size: 11px; }
+.lineage-record-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.lineage-record-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 34px; min-height: 34px; padding: 6px 8px; border: 1px solid #435c51; border-radius: 4px; background: #192820; color: #c5e6d4; font-size: 11px; cursor: pointer; }
+.lineage-record-actions button:disabled { opacity: 0.4; cursor: default; }
+.lineage-record-actions button[aria-pressed="false"] { color: #dfc895; }
+.lineage-record-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr); border-top: 1px solid #30443e; }
+.lineage-record-list { min-width: 0; }
+.lineage-record-list > .lineage-table-scroll { height: 530px; }
+.lineage-list-heading { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; gap: 8px; color: #b8d2c4; font-size: 12px; border-bottom: 1px solid #30443e; }
+.lineage-list-heading button, .lineage-record-list td button { background: transparent; color: #a3d9ed; border: 0; padding: 4px 0; cursor: pointer; font: inherit; font-size: 11px; }
+.lineage-list-heading button[aria-pressed="true"] { color: #9ce3b9; }
+.lineage-record-list th:first-child { width: 24%; }
+.lineage-record-list th:nth-child(2) { width: 36%; }
+.lineage-record-list th:nth-child(3) { width: 40%; }
+.lineage-selected { background: #20372d; }
+.lineage-record-detail { min-width: 0; max-height: 574px; overflow: auto; padding: 16px 20px; border-left: 1px solid #30443e; }
+.lineage-detail-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.lineage-detail-header > div:first-child > span { font-size: 11px; color: #b4c0d7; }
+.lineage-record-detail dd > span, .lineage-field-sources dd > small, .lineage-field-sources dd > code { display: block; margin-top: 5px; }
+.lineage-field-sources dd > span, .lineage-field-sources dd > small { color: #a0b7aa; font-size: 11px; }
+.lineage-field-sources dd > strong { font-size: 12px; font-weight: 500; }
+.lineage-inspector-source { border-left: 2px solid #8abfcf; padding: 9px 11px; margin-top: 12px; font-size: 11px; line-height: 1.7; }
+.lineage-inspector-source > * { display: block; overflow-wrap: anywhere; }
+.lineage-inspector-source strong { color: #deece5; font-size: 12px; }
+.lineage-inspector-source span, .lineage-inspector-source small { color: #a2bcaf; }
+.lineage-error { color: #f2b0ad; padding: 0 16px; font-size: 12px; }
+@media (max-width: 900px) {
+  .lineage-record-layout { grid-template-columns: minmax(0, 1fr); }
+  .lineage-record-detail { border-left: 0; border-top: 1px solid #30443e; }
+  .lineage-record-list > .lineage-table-scroll { height: 300px; }
+  .lineage-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .mapping-table { min-width: 740px; }
+  .lineage-record-toolbar, .lineage-flow, .lineage-caption { padding-left: 8px; padding-right: 8px; }
+  .lineage-record-detail { padding: 16px 12px; }
+  .lineage-table th, .lineage-table td { padding: 11px 8px; }
+  .lineage-record-state { width: 100%; }
+  .lineage-record-actions { gap: 5px; }
+  .lineage-boundary { padding: 12px 8px; }
+}
 @media (max-width: 1100px) {
   .ontology-content { grid-template-columns: minmax(0, 1fr) 280px; }
   .ontology-schema-layout, .ontology-trace-layout { grid-template-columns: 260px minmax(0, 1fr); }

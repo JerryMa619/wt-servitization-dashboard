@@ -3,6 +3,7 @@ import { rulBandLabel, rulDescription, rulUncertaintyDescription, type RulEviden
 
 export type OntologyReading = {
   t: string;
+  acquisitionIndex?: number;
   source?: string;
   observedAt?: string;
   receivedAt?: string;

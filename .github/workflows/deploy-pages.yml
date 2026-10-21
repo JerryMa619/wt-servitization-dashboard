@@ -45,6 +45,7 @@ jobs:
           npm run test:xgboost
           npm run test:vibration
           npm run test:wt:research
+          npm run test:wt:lineage
 
       - name: Build dashboard
         run: npm run build

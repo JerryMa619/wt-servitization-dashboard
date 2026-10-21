@@ -37,6 +37,8 @@ The implementation is aligned with the project theme of digital twinning serviti
 The **Ontology & Decision Evidence** section sits below WT operation and TCS/service decision panels. It includes:
 
 - **Live Graph:** select an entity to inspect readings, class mapping, source and directional relationships; focus its neighborhood, freeze a snapshot, choose a historical service event or download its evidence JSON.
+- **DT Mapping:** follow OME, DCDCE, DTE sub-entity responsibilities and UE into the corresponding ontology instances, current values and per-field sources. Select an ontology representation to inspect its graph entity. Historical mappings remain explicitly labelled.
+- **Data Records:** capture the same WT frames during monitoring, simulated downtime and post-service updates. Inspect immutable values, timestamps, acquisition/feature origin and entity URIs; open a captured graph or execute its existing Semantic Check. WT playback and capture pause are independent. The latest 120 frames are held in memory, cleared on session/case changes, and exportable as JSON with a payload SHA-256. This buffer is not persisted on reload or a raw hardware archive.
 - **Ontology Schema:** search the 50 native Chapter 4 classes, browse module groups, direct superclass declarations and applicable SDT properties. T-Box and SHACL source files are downloadable.
 - **Decision Trace:** preserve the latest 30 service events in this browser, including original proposals, elapsed downtime, simulated results and explicit interruptions. Reload restores saved history.
 - **Semantic Check:** freeze a captured WT snapshot, generate actual RDF, run three SPARQL competency questions and execute a separate WT SHACL application profile. Missing-unit and missing-estimate-link cases modify only test copies; export the RDF, report and evidence hashes.
@@ -44,6 +46,8 @@ The **Ontology & Decision Evidence** section sits below WT operation and TCS/ser
 The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologySchema.json`. The Live Graph remains a dashboard projection, not SPARQL query or OWL reasoner output. Semantic Check separately executes real SPARQL and SHACL Core on the WT application profile, not all original Chapter 4 constraints. Original T-Box and SHACL files are unchanged. Synthetic RUL uses a separate pseudo-hour vocabulary, not physical-hours lifetime assertions. Human authorisation, measured intervention assessment and model/policy feedback remain explicitly unconfirmed. ISO entity labels are dashboard mappings, separate from OWL class inheritance. Cost values are assumed TCS estimates, not native SDT cost properties.
 
 Design, implementation, changes and validation evidence: [implementation log](docs/ontology/IMPLEMENTATION_LOG.md), [module specification](docs/ontology/DESIGN.md), [interaction verification](screenshots/ontology/verification.json), [public deployment verification](screenshots/ontology/publication.json).
+
+DT/ontology mapping and recording design: [data-lineage implementation](docs/ontology/DT_DATA_LINEAGE.md). Run `npm run test:wt:lineage`; browser verification is `node scripts/verify-wt-lineage-ui.mjs` with the Playwright/browser environment variables documented below. Source mapping does not change the RUL model, TCS coefficients, physical sensor connectivity or original Chapter 4 ontology.
 
 ![Ontology graph](screenshots/ontology/live-desktop.png)
 
