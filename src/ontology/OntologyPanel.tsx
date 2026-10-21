@@ -1,12 +1,13 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import ReactFlow, { Background, Controls, Handle, MarkerType, Position, type NodeProps } from 'reactflow';
+import { Handle, MarkerType, Position, type NodeProps } from 'reactflow';
 import { BookOpen, Database, Download, Focus, GitBranch, History, Layers, Network, Pause, Play, Search, ShieldCheck } from 'lucide-react';
 import schema from '../data/ontologySchema.json';
-import { buildSemanticGraph, evidenceSource, type OntologyExecution, type OntologySnapshot, type SemanticNode } from './model';
+import { buildSemanticGraph, evidenceSource, semanticGraphView, type OntologyExecution, type OntologySnapshot, type SemanticNode } from './model';
 import './ontology.css';
 import { snapshotBelongsToEvent } from '../model/session';
 import { appendDataRecord, mappingRows, snapshotFingerprint, type DataRecord } from './lineage';
 import { MappingView, RecordsView } from './DataLineagePanel';
+import OntologyCanvas from './OntologyCanvas';
 
 const colors = { asset: '#7bc8ed', evidence: '#68d5b3', prediction: '#c5aff2', decision: '#f2cf7c', service: '#edacb2', contract: '#a8c9d8' };
 const SemanticWorkbench = lazy(() => import('./WtSemanticWorkbench'));
@@ -90,10 +91,9 @@ export default function OntologyPanel({ snapshot, sessionId, paused, onSimulatio
   const updatedNodeIds = new Set(currentRows.filter(row => changes.includes(row.id)).map(row => row.nodeId));
   const graph = useMemo(() => buildSemanticGraph(current, event), [current, event]);
   const inspected = graph.nodes.find((node) => node.id === selected) ?? { id: selected, uri: '', title: 'No matching evidence', type: 'Unavailable', layer: 'UE', group: 'service' as const, status: 'Not recorded', x: 0, y: 0, fields: [{ label: 'Selected module', value: selected }, { label: 'Evidence', value: 'No execution or entity record exists in this snapshot' }] };
-  const neighbors = new Set(graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).flatMap((edge) => [edge.source, edge.target]));
-  const visibleNodes = graph.nodes.filter((entity) => !focused || neighbors.has(entity.id) || entity.id === inspected.id);
-  const nodes = visibleNodes.map((entity, index) => ({ id: entity.id, type: 'entity', position: focused ? { x: (index % 2) * 245, y: Math.floor(index / 2) * 175 } : { x: entity.x, y: entity.y }, data: { entity, updated: updatedNodeIds.has(entity.id) }, selected: entity.id === inspected.id, style: { opacity: focused || neighbors.has(entity.id) || entity.id === inspected.id ? 1 : 0.72 }, ariaLabel: `${entity.title}, ${entity.type}` }));
-  const edges = graph.relations.filter((edge) => nodes.some((node) => node.id === edge.source) && nodes.some((node) => node.id === edge.target)).map((edge, index) => {
+  const view = semanticGraphView(graph, inspected.id, focused);
+  const nodes = view.nodes.map(entity => ({ id: entity.id, type: 'entity', position: { x: entity.x, y: entity.y }, data: { entity, updated: updatedNodeIds.has(entity.id) }, selected: entity.id === inspected.id, style: { opacity: !view.selectionAvailable || view.focusApplied || view.neighbors.has(entity.id) || entity.id === inspected.id ? 1 : 0.72 }, ariaLabel: `${entity.title}, ${entity.type}` }));
+  const edges = view.relations.map((edge) => {
     const active = edge.source === inspected.id || edge.target === inspected.id;
     const from = nodes.find((node) => node.id === edge.source)!.position;
     const to = nodes.find((node) => node.id === edge.target)!.position;
@@ -105,7 +105,7 @@ export default function OntologyPanel({ snapshot, sessionId, paused, onSimulatio
     } else if (to.y === from.y) {
       sourceSide = from.y === 0 ? 'top' : 'bottom'; targetSide = sourceSide;
     }
-    return { id: `relation-${index}`, source: edge.source, target: edge.target, sourceHandle: `source-${sourceSide}`, targetHandle: `target-${targetSide}`, label: active ? edge.predicate : undefined, type: 'smoothstep', pathOptions: { offset: 18 }, markerEnd: { type: MarkerType.ArrowClosed, color: active ? '#f2cf7c' : '#54756e' }, style: { stroke: active ? '#f2cf7c' : '#54756e', strokeWidth: active ? 1.8 : 1, opacity: active ? 1 : 0.35 }, labelStyle: { fill: '#f8dfa6', fontSize: 10 }, labelBgStyle: { fill: '#101918', fillOpacity: 0.95 }, labelBgPadding: [4, 3] as [number, number], labelBgBorderRadius: 2 };
+    return { id: JSON.stringify([edge.source, edge.predicate, edge.target]), source: edge.source, target: edge.target, sourceHandle: `source-${sourceSide}`, targetHandle: `target-${targetSide}`, label: active ? edge.predicate : undefined, type: 'smoothstep', pathOptions: { offset: 18 }, markerEnd: { type: MarkerType.ArrowClosed, color: active ? '#f2cf7c' : '#54756e' }, style: { stroke: active ? '#f2cf7c' : '#54756e', strokeWidth: active ? 1.8 : 1, opacity: active ? 1 : 0.35 }, labelStyle: { fill: '#f8dfa6', fontSize: 10 }, labelBgStyle: { fill: '#101918', fillOpacity: 0.95 }, labelBgPadding: [4, 3] as [number, number], labelBgBorderRadius: 2 };
   });
   const selectedClass = schema.classes.find((cls) => cls.id === classId)!;
   const matches = schema.classes.filter((cls) => `${cls.label} ${cls.id} ${cls.description}`.toLowerCase().includes(query.toLowerCase()));
@@ -145,8 +145,9 @@ export default function OntologyPanel({ snapshot, sessionId, paused, onSimulatio
 
     {tab === 'live' && <div role="tabpanel" id="ontology-view-live" aria-labelledby="ontology-tab-live">
       <div className="ontology-context"><span className={`ontology-live-dot ${event || frozen ? 'paused' : ''}`} /><strong>{event ? frozen ? 'Linked replay frame' : 'Service event snapshot' : frozen ? 'Frozen snapshot' : 'Live projection'}</strong><span>{evidenceSource(current.reading)}</span><button className="lineage-stream-link" onClick={() => setTab('records')}><Database size={13} />{records.length} captured / {changes.length} updated</button><time>{current.reading.t}</time></div>
+      {!view.selectionAvailable && <p className="ontology-selection-notice" role="status">Selected entity is not recorded in this snapshot. Showing available evidence.</p>}
       <div className="ontology-content">
-        <div className="ontology-canvas" data-testid="ontology-graph"><ReactFlow key={`${event ? 'event' : 'current'}-${focused ? inspected.id : 'all'}`} nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView fitViewOptions={{ padding: 0.12 }} minZoom={0.25} maxZoom={1.8} nodesDraggable={false} nodesConnectable={false} onNodeClick={(_, node) => setSelected(node.id)} attributionPosition="bottom-left"><Background color="#354b46" gap={24} /><Controls showInteractive={false} /></ReactFlow></div>
+        <OntologyCanvas nodes={nodes} edges={edges} nodeTypes={nodeTypes} layoutKey={view.layoutKey} onSelect={setSelected} />
         <aside className="ontology-inspector" aria-label="Ontology entity details"><div className="ontology-inspector-head"><span style={{ color: colors[inspected.group] }}>{inspected.type}</span><h3>{inspected.title}</h3><span className="ontology-detail-status">{inspected.status}</span></div>{currentRows.filter(row => row.nodeId === inspected.id).map(row => <div className="lineage-inspector-source" key={row.id}><strong>{row.label} / {row.value}</strong><span>{row.layer} / {row.responsibility}</span><span>Source: {row.source}</span><small>{row.evidence}</small></div>)}<dl>{inspected.fields.map((row) => <div key={row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>)}</dl><details><summary>Entity URI & relationships</summary><code>{inspected.uri}</code><ul className="ontology-relationships">{graph.relations.filter((edge) => edge.source === inspected.id || edge.target === inspected.id).map((edge, index) => {
           const target = edge.source === inspected.id ? edge.target : edge.source;
           return <li key={index}><span>{edge.source === inspected.id ? 'Outgoing' : 'Incoming'} · {edge.predicate}</span><button onClick={() => setSelected(target)}>{graph.nodes.find((node) => node.id === target)?.title}</button></li>;

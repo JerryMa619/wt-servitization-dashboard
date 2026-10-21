@@ -81,6 +81,27 @@ export type SemanticNode = {
 export type SemanticRelation = { source: string; target: string; predicate: string };
 export type SemanticGraph = { nodes: SemanticNode[]; relations: SemanticRelation[] };
 
+export function semanticGraphView(graph: SemanticGraph, selected: string, focused: boolean) {
+  const selectionAvailable = graph.nodes.some(node => node.id === selected);
+  const neighbors = new Set(graph.relations.filter(edge => edge.source === selected || edge.target === selected).flatMap(edge => [edge.source, edge.target]));
+  // A missing historical entity must not remove all current evidence in focus mode.
+  const focusApplied = focused && selectionAvailable;
+  const nodes = graph.nodes.filter(node => !focusApplied || neighbors.has(node.id) || node.id === selected)
+    .map((node, index) => focusApplied ? { ...node, x: (index % 2) * 245, y: Math.floor(index / 2) * 175 } : node);
+  const ids = new Set(nodes.map(node => node.id));
+  return { selectionAvailable, focusApplied, neighbors, nodes, relations: graph.relations.filter(edge => ids.has(edge.source) && ids.has(edge.target)),
+    layoutKey: JSON.stringify(nodes.map(node => [node.id, node.x, node.y])) };
+}
+
+export function retainNodeMeasurements<T extends { id: string; type?: string; width?: number | null; height?: number | null }>(incoming: T[], previous: T[]): T[] {
+  const measured = new Map(previous.map(node => [node.id, node]));
+  return incoming.map(node => {
+    const before = measured.get(node.id);
+    return before && before.type === node.type && typeof before.width === 'number' && Number.isFinite(before.width) && before.width > 0 && typeof before.height === 'number' && Number.isFinite(before.height) && before.height > 0
+      ? { ...node, width: before.width, height: before.height } : node;
+  });
+}
+
 export const actionTypes: Record<string, string> = {
   'condition-inspection': 'sdt:InspectionProcess',
   'predictive-maintenance': 'sdt:PredictiveMaintenance',

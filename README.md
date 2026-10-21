@@ -53,6 +53,8 @@ Design, implementation, changes and validation evidence: [implementation log](do
 
 DT/ontology mapping and recording design: [data-lineage implementation and complete update history](docs/ontology/DT_DATA_LINEAGE.md). Verification evidence: [local](screenshots/wt-lineage/verification.json) and [published](screenshots/wt-lineage/public/verification.json). Run `npm run test:wt:lineage`; browser verification is `node scripts/verify-wt-lineage-ui.mjs` with the Playwright/browser environment variables documented below. Source mapping does not change the RUL model, TCS coefficients, physical sensor connectivity or original Chapter 4 ontology.
 
+Live Graph missing-node focus, viewport and error recovery: [stability fix and verification](docs/reviews/2026-10-22-ontology-live-graph-stability.md).
+
 ![Ontology graph](screenshots/ontology/live-desktop.png)
 
 ## Integrated Digital Twin Workspace

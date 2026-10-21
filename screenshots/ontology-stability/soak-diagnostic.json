@@ -1,0 +1,31 @@
+{
+  "samples": 314,
+  "blanks": 314,
+  "frame": 1223,
+  "firstBlank": {
+    "bounds": {
+      "x": 14,
+      "y": 6432.109375,
+      "width": 362,
+      "height": 440,
+      "top": 6432.109375,
+      "right": 376,
+      "bottom": 6872.109375,
+      "left": 14
+    },
+    "node": {
+      "x": 6.130434989929199,
+      "y": 6553.92138671875,
+      "width": 79.5240249633789,
+      "height": 47.4267578125,
+      "top": 6553.92138671875,
+      "right": 85.6544599533081,
+      "bottom": 6601.34814453125,
+      "left": 6.130434989929199
+    },
+    "nodeStyle": "z-index: 0; transform: translate(0px, 0px); pointer-events: all; visibility: hidden; opacity: 0.72;",
+    "visibility": "hidden",
+    "viewport": "transform: translate(-7.86957px, 121.812px) scale(0.405735);",
+    "nodes": 12
+  }
+}

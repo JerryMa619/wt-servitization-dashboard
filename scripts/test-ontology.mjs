@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildSemanticGraph, updateExecutionLog, actionTypes, evidenceSource } from '../src/ontology/model.ts';
+import { buildSemanticGraph, updateExecutionLog, actionTypes, evidenceSource, semanticGraphView, retainNodeMeasurements } from '../src/ontology/model.ts';
 import { bladeSensorReference, auxiliaryChannelReferences } from '../src/model/instrumentation.ts';
 
 const schema = JSON.parse(readFileSync(new URL('../src/data/ontologySchema.json', import.meta.url), 'utf8'));
@@ -87,4 +87,45 @@ test('service labels map only to existing classes and sources remain labelled', 
   assert.equal(actionTypes['preactive-maintenance'], 'sdt:MaintenanceProcess');
   assert.match(evidenceSource(snapshot.reading), /Simulation/);
   assert.match(evidenceSource({ ...snapshot.reading, source: 'manual-input' }), /Manual/);
+});
+
+test('missing historical entities retain current nodes instead of blanking focused Live Graph', () => {
+  const graph = buildSemanticGraph(snapshot);
+  for (const missing of ['execution', 'post-observation', 'unknown']) {
+    const view = semanticGraphView(graph, missing, true);
+    assert.equal(view.selectionAvailable, false); assert.equal(view.focusApplied, false);
+    assert.deepEqual(view.nodes, graph.nodes); assert.deepEqual(view.relations, graph.relations);
+    assert.ok(!view.nodes.some(node => node.id === missing), 'No fabricated execution evidence');
+  }
+});
+
+test('focus includes isolated entities and their available neighbors with no dangling edges', () => {
+  const graph = buildSemanticGraph(snapshot);
+  for (const node of graph.nodes) {
+    const view = semanticGraphView(graph, node.id, true);
+    assert.ok(view.nodes.some(item => item.id === node.id));
+    for (const edge of view.relations) assert.ok(view.nodes.some(item => item.id === edge.source) && view.nodes.some(item => item.id === edge.target));
+    assert.ok(view.nodes.every(item => Number.isFinite(item.x) && Number.isFinite(item.y)));
+  }
+});
+
+test('viewport layout keys change for actual layouts, not telemetry values, timestamps or evidence identities', () => {
+  const first = buildSemanticGraph(snapshot), changed = structuredClone(snapshot);
+  changed.id = 'new-tick'; changed.capturedAt = '2026-10-22T15:00:00Z'; changed.reading.windSpeed = 10;
+  const next = buildSemanticGraph(changed);
+  assert.equal(semanticGraphView(first, 'rul', false).layoutKey, semanticGraphView(next, 'rul', false).layoutKey);
+  assert.equal(semanticGraphView(first, 'rul', false).layoutKey, semanticGraphView(first, 'asset', false).layoutKey);
+  assert.notEqual(semanticGraphView(first, 'rul', true).layoutKey, semanticGraphView(first, 'sensor', true).layoutKey);
+  assert.notEqual(semanticGraphView(first, 'rul', false).layoutKey, semanticGraphView(buildSemanticGraph(snapshot, execution), 'rul', false).layoutKey);
+});
+
+test('live node updates retain valid measured dimensions without copying stale values or positions', () => {
+  const previous = [{ id: 'rul', type: 'entity', width: 196, height: 120, data: { value: 200 }, position: { x: 0, y: 0 } }];
+  const incoming = [{ id: 'rul', type: 'entity', data: { value: 180 }, position: { x: 245, y: 175 } }, { id: 'new', type: 'entity', data: { value: 1 }, position: { x: 0, y: 0 } }];
+  const result = retainNodeMeasurements(incoming, previous);
+  assert.equal(result[0].width, 196); assert.equal(result[0].height, 120);
+  assert.deepEqual(result[0].data, incoming[0].data); assert.deepEqual(result[0].position, incoming[0].position);
+  assert.equal(result[1].width, undefined); assert.equal(previous[0].data.value, 200);
+  assert.deepEqual(retainNodeMeasurements([{ id: 'unmeasured' }], []), [{ id: 'unmeasured' }]);
+  for (const bad of [{ type: 'other' }, { width: 0 }, { height: NaN }]) assert.equal(retainNodeMeasurements(incoming, [{ ...previous[0], ...bad }])[0].width, undefined);
 });

@@ -1,0 +1,10 @@
+{
+  "base": "http://127.0.0.1:5173/",
+  "checkedAt": "2026-10-21T23:33:31.399Z",
+  "results": [
+    "standard: absent-execution focus recovery, persistent graph instance, camera retention, three service events with 317 sampled frames and zero frames without visible nodes, repeated tabs, hidden/visible canvas and desktop/mobile resizing passed.",
+    "enhanced: absent-execution focus recovery, persistent graph instance, camera retention, three service events with 327 sampled frames and zero frames without visible nodes, repeated tabs, hidden/visible canvas and desktop/mobile resizing passed.",
+    "Local-only injected renderer fault: graph error contained, snapshot inspector retained and Retry graph recovered. No production debug hook added."
+  ],
+  "errors": []
+}
