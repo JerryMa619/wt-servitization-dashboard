@@ -51,7 +51,7 @@ The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologyS
 
 Design, implementation, changes and validation evidence: [implementation log](docs/ontology/IMPLEMENTATION_LOG.md), [module specification](docs/ontology/DESIGN.md), [interaction verification](screenshots/ontology/verification.json), [public deployment verification](screenshots/ontology/publication.json).
 
-DT/ontology mapping and recording design: [data-lineage implementation](docs/ontology/DT_DATA_LINEAGE.md). Run `npm run test:wt:lineage`; browser verification is `node scripts/verify-wt-lineage-ui.mjs` with the Playwright/browser environment variables documented below. Source mapping does not change the RUL model, TCS coefficients, physical sensor connectivity or original Chapter 4 ontology.
+DT/ontology mapping and recording design: [data-lineage implementation and complete update history](docs/ontology/DT_DATA_LINEAGE.md). Verification evidence: [local](screenshots/wt-lineage/verification.json) and [published](screenshots/wt-lineage/public/verification.json). Run `npm run test:wt:lineage`; browser verification is `node scripts/verify-wt-lineage-ui.mjs` with the Playwright/browser environment variables documented below. Source mapping does not change the RUL model, TCS coefficients, physical sensor connectivity or original Chapter 4 ontology.
 
 ![Ontology graph](screenshots/ontology/live-desktop.png)
 

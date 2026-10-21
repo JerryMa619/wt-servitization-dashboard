@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-21T23:19:51.886Z",
+  "base": "https://jerryma619.github.io/wt-servitization-dashboard/",
+  "results": [
+    "standard: live DT/ontology mapping, source drilldown, immutable and deduplicated captures, separate capture/WT pause, hashed export, frozen graph, actual semantic execution, service/downtime cycle, session isolation, clear and 390/320 px layouts passed.",
+    "enhanced: live DT/ontology mapping, source drilldown, immutable and deduplicated captures, separate capture/WT pause, hashed export, frozen graph, actual semantic execution, service/downtime cycle, session isolation, clear and 390/320 px layouts passed."
+  ],
+  "errors": []
+}

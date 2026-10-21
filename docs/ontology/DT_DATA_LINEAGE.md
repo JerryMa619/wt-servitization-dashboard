@@ -183,3 +183,31 @@ tests, including the newer remote C-MAPSS comparison/evaluation suites. TypeScri
 and the production build passed again; the existing large-chunk warnings remain.
 The diff against remote main contains only the intended WT feature and its
 documentation/evidence, with the remote C-MAPSS changes retained.
+
+## Confirmed Publication
+
+Verified 2026-10-22 (Europe/London). Commit `45e372d` was pushed to main. The
+[Pages workflow](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/39692475511)
+completed successfully, including ontology/model tests, production build and
+deployment. The public [enhanced dashboard](https://jerryma619.github.io/wt-servitization-dashboard/enhanced/)
+and standard route both passed the complete lineage browser suite.
+
+Public checks covered the eleven mapping rows, source drilldown, actual live
+graph updates, capture/WT pause separation, duplicate suppression, immutable
+historical frames, the 120-record capacity and pinned-frame eviction case,
+JSON export hash reconciliation, actual RDF/SHACL/SPARQL handoff, a simulated
+maintenance/downtime/post-service cycle, case isolation, clear/reset and
+390/320 px layouts. There were no browser page-runtime errors. Representative
+published desktop and mobile screenshots were visually inspected.
+
+Public results are in
+[`screenshots/wt-lineage/public/verification.json`](../../screenshots/wt-lineage/public/verification.json)
+with adjacent screenshots and isolated simulated-service records. They are
+separate from local evidence. These records do not contain the user's saved
+browser history, private Thesis files or physical telemetry. The final evidence
+commit adds only publication documentation and test artifacts, not a new model
+or application behaviour.
+
+The successful workflow retained informational runner/action deprecation notices
+and the existing build-size warnings. No workflow migration or unrelated
+dependency upgrade was included in this feature publication.
