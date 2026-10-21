@@ -4,7 +4,8 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright');
 const base = process.env.DASHBOARD_URL ?? 'http://127.0.0.1:5173/';
-const out = new URL('../screenshots/wt-lineage/', import.meta.url); mkdirSync(out, { recursive: true });
+const published = !['localhost', '127.0.0.1'].includes(new URL(base).hostname);
+const out = new URL(published ? '../screenshots/wt-lineage/public/' : '../screenshots/wt-lineage/', import.meta.url); mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROME_EXECUTABLE ? { executablePath: process.env.CHROME_EXECUTABLE } : {}) });
 const errors = [], results = [];
 try {

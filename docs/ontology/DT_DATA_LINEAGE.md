@@ -162,3 +162,24 @@ existing lockfile dependencies were restored with local `npm ci --offline
 needed. Validation was rerun after recovery. Local preview is
 `http://127.0.0.1:5173/enhanced/` (standard route `/`). These checks do not claim
 that the public Pages version has been updated.
+
+## GitHub Publication Preparation
+
+On 2026-10-22 the user requested publication of the complete update process.
+Feature commit `dab1927` contains the WT implementation, tests, screenshots,
+simulated records and this chronological account. The fetched remote main was
+`40bc726` and contained eight commits newer than the original local baseline,
+including already-public C-MAPSS research/evaluation work and viva documents.
+Merge commit `3c15853` preserves those changes without rewriting remote history.
+The sole conflict was the npm scripts list; all WT and C-MAPSS commands were kept.
+No private Thesis files were added by the WT feature commit.
+
+The browser verifier now writes public checks into `screenshots/wt-lineage/public/`
+so release evidence does not overwrite local verification. Publication results
+and the exact workflow URL are recorded below once confirmed.
+
+After integration, the complete `scripts/test-*.mjs` run passed all 66 reported
+tests, including the newer remote C-MAPSS comparison/evaluation suites. TypeScript
+and the production build passed again; the existing large-chunk warnings remain.
+The diff against remote main contains only the intended WT feature and its
+documentation/evidence, with the remote C-MAPSS changes retained.
