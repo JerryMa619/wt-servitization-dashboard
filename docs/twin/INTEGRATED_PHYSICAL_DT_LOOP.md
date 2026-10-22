@@ -49,3 +49,10 @@ Replaced the obsolete strip browser verifier with `scripts/verify-framework-clos
 - The unchanged `verify-wt-lineage-ui.mjs` regression also passed on both routes: live mapping and source drilldown, bounded/deduplicated captures, immutable pinned records, independent capture/WT pause, payload hashes, frozen/live ontology, executable RDF/SHACL/SPARQL, service/downtime records and 390 / 320 px layouts. An identical-SHA copy wrote its transient results outside the repository to preserve earlier historical screenshots.
 
 Only project code, this process record and isolated simulated browser evidence are published. No private thesis or personal session/location records are uploaded. Publication evidence is recorded after deployment.
+
+## Publication
+
+- Application commit: `2c9eb6a491b8cfc6a64961942d2ea0941c8277e2`.
+- [GitHub Pages deployment 39697216436](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/39697216436) succeeded, including source/model checks and the production build.
+- The complete-loop verifier passed on both public routes: 461 standard and 462 enhanced sampled frames, two completed service cycles each, all four workflow phases, the same Physical WT animation without remounting, all 12 digital modules, correctly anchored observation / control edges, replay, pause, narrow-screen navigation and reduced motion. No browser runtime errors.
+- [Public results and screenshots](../../screenshots/framework-closed-loop/public/verification.json) are separate from local evidence. This evidence-only publication record does not alter application code.
