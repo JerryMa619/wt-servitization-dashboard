@@ -24,29 +24,21 @@
 .twin-workspace button:disabled { opacity: 0.35; cursor: default; }
 .twin-workspace button:focus-visible, .twin-workspace input:focus-visible, .twin-workspace select:focus-visible { outline: 2px solid #b7e6c7; outline-offset: 3px; }
 .twin-body { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: stretch; }
-.architecture-open .twin-body { grid-template-columns: minmax(340px, 0.8fr) minmax(0, 1.35fr); }
-.twin-interfaces { grid-column: 1 / -1; padding: 10px 16px; border-top: 1px solid #365442; border-bottom: 1px solid #365442; background: #12231e; min-width: 0; }
-.twin-interface-caption { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: #a2bbb0; font-size: 10px; margin-bottom: 6px; }
-.twin-interface-caption b { color: #b6cfc2; font-weight: 500; }
-.twin-workspace .twin-interface { display: grid; grid-template-columns: minmax(110px, 0.8fr) minmax(160px, 1fr) minmax(150px, 1.35fr); align-items: center; gap: 22px; width: 100%; padding: 8px 10px; border: 0; border-bottom: 1px solid #2b4439; border-radius: 0; text-align: left; }
-.twin-interface[aria-pressed="true"] { background: #20362b; box-shadow: inset 2px 0 #e7c783; }
-.twin-interface-endpoint { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.twin-interface-endpoint b { color: #94c9ed; font-size: 11px; }
-.twin-interface-endpoint:last-child b { color: #9bdbc2; }
-.twin-interface-endpoint small, .twin-interface-path small { font-size: 10px; line-height: 1.4; color: #a5bbaf; overflow-wrap: anywhere; }
-.twin-interface-endpoint em { color: #96bba5; font-size: 9px; font-style: normal; }
-.twin-interface-path { display: grid; grid-template-rows: auto 15px auto; gap: 3px; min-width: 0; }
-.twin-interface-path > span { color: #d5e5db; font-size: 11px; overflow-wrap: anywhere; }
-.twin-interface-path > span b { font-size: 10px; font-weight: 500; color: #a4bdb1; }
-.twin-interface-path i { display: block; align-self: center; position: relative; height: 1px; margin-right: 2px; border-top: 1px solid #84c9aa; }
-.twin-interface-path svg { position: absolute; right: -3px; top: -9px; color: #a6dfbf; }
-.twin-interface.reverse .twin-interface-path svg { left: -3px; right: auto; }
-.twin-interface.idle .twin-interface-path i { border-top-style: dashed; border-color: #688375; }
-.twin-interface.idle .twin-interface-path svg { color: #81968b; }
-.twin-interface[data-moving="true"] .twin-interface-path i::after { content: ''; position: absolute; left: 0; top: -2px; width: 18px; height: 3px; background: #f1d08b; animation: twin-interface-flow 2s linear infinite; }
-.twin-interface.reverse .twin-interface-path i::after { animation-direction: reverse; }
-.twin-interfaces > p { margin: 7px 10px 0; color: #9aad9f; font-size: 10px; line-height: 1.5; }
-@keyframes twin-interface-flow { from { left: 0; } to { left: calc(100% - 18px); } }
+.twin-integrated { min-width: 0; }
+.twin-canvas-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 9px 16px; border-bottom: 1px solid #365442; color: #a2bbb0; font-size: 10px; }
+.twin-canvas-toolbar > div { display: flex; gap: 6px; margin-left: auto; }
+.twin-canvas-toolbar button { width: 30px; height: 30px; padding: 0; }
+.twin-ome-node { position: relative; height: 100%; border: 1px solid #557d88; background: #12221c; }
+.twin-ome-content { height: 100%; overflow-y: auto; overscroll-behavior: contain; }
+.twin-ome-content .twin-physical { padding: 12px 22px 12px 12px; border-right: 0; }
+.twin-ome-content .twin-entity-caption { flex-wrap: wrap; gap: 5px 8px; margin-bottom: 10px; }
+.twin-ome-content .twin-entity-caption b { flex-basis: 100%; }
+.twin-workspace .twin-ome-content .turbine-stage { height: 370px; }
+.twin-ome-content .twin-physical-evidence { gap: 6px; }
+.twin-ome-port { position: absolute; right: 7px; font-size: 8px; color: #b6d4c2; background: #12221c; padding: 2px; pointer-events: none; }
+.twin-ome-port.observation { top: 185px; }
+.twin-ome-port.feedback { top: 376px; color: #8faaa0; }
+.twin-ome-port.feedback.active { color: #f3d18b; }
 .twin-physical { min-width: 0; padding: 16px; border-right: 1px solid #365442; }
 .twin-entity-caption { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 12px; color: #afc6b6; }
 .twin-entity-caption b { color: #94c9ed; }
@@ -84,9 +76,8 @@
 .twin-proposal strong { display: block; font-size: 19px; line-height: 1.4; margin: 9px 0; color: #e9e8d4; }
 .twin-proposal > b { display: block; font-size: 16px; color: #e9ca8c; font-variant-numeric: tabular-nums; }
 .twin-proposal small { display: block; color: #a9c3b1; font-size: 11px; margin: 8px 0 14px; }
-.twin-digital { min-width: 0; }
-.twin-architecture-canvas { height: 580px; background: #101b17; overflow-x: auto; }
-.twin-architecture-canvas > .react-flow { width: 860px; min-width: 860px; height: 580px; }
+.twin-architecture-canvas { height: 740px; background: #101b17; overflow-x: auto; }
+.twin-architecture-canvas > .react-flow { width: 1360px; min-width: 1360px; height: 740px; }
 .twin-architecture-canvas .react-flow__node-group { background: #17272088; border: 1px solid; border-radius: 4px; }
 .twin-zone-label { padding: 8px; display: flex; align-items: flex-start; flex-direction: column; gap: 3px; text-align: left; line-height: 1.2; }
 .twin-zone-label b { font-size: 12px; color: #e4eadb; }
@@ -125,7 +116,6 @@
 .twin-replay-player span { font-size: 11px; color: #e7c68b; max-width: 260px; }
 .twin-replay-player button, .twin-replay-toolbar > button { padding: 0; width: 32px; height: 32px; flex: 0 0 32px; }
 @media (max-width: 1100px) {
-  .architecture-open .twin-body { grid-template-columns: minmax(290px, 0.75fr) minmax(0, 1.4fr); }
   .architecture-open .turbine-stage { height: 400px; }
 }
 @media (max-width: 820px) {
@@ -145,10 +135,5 @@
   .twin-replay-player { flex-wrap: wrap; }
   .twin-replay-player > span { width: 100%; max-width: none; }
   .twin-module-detail dl { grid-template-columns: minmax(0, 1fr); }
-  .twin-interfaces { padding: 10px; }
-  .twin-workspace .twin-interface { grid-template-columns: 65px minmax(0, 1fr) 87px; gap: 10px; padding: 10px 0; }
-  .twin-interface-endpoint small, .twin-interface-path small { font-size: 9px; }
-  .twin-interface-path > span { font-size: 10px; }
-  .twin-interfaces > p { margin-left: 0; margin-right: 0; }
 }
-@media (prefers-reduced-motion: reduce) { .twin-workspace *, .twin-interface-path i::after { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .twin-workspace * { animation: none !important; transition: none !important; } }

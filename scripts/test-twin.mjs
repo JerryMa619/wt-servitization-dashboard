@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { replayFrames, workflowStage, activeModules, activeConnections, architectureModules, moduleValue, omeConnections } from '../src/twin/model.ts';
+import { replayFrames, workflowStage, activeModules, activeConnections, activeFrameworkConnections, architectureModules, frameworkRelations, moduleValue } from '../src/twin/model.ts';
 import { updateExecutionLog, buildSemanticGraph } from '../src/ontology/model.ts';
 
 const candidate = { action: 'predictive-maintenance', label: 'Predictive maintenance', type: 'sdt:PredictiveMaintenance', totalCost: 3200, residualRiskScore: 0.3, acceptable: true, costs: [] };
@@ -75,23 +75,23 @@ test('architecture covers ISO sub-entities and marks research-specific modules',
   assert.match(moduleValue('authorisation', before, event, 'result'), /Not recorded/);
 });
 
-test('OME interfaces distinguish incoming observations from simulated outgoing control in every stage', () => {
+test('Physical WT participates in the same active framework through every service stage', () => {
   for (const stage of ['monitor', 'decision', 'downtime', 'result', 'monitor']) {
-    const [data, control] = omeConnections(stage === 'downtime' ? during : before, stage);
-    assert.equal(data.id, 'IF-01');
-    assert.deepEqual([data.source, data.target, data.module, data.active], ['OME', 'DCDCE', 'collection', true]);
-    assert.match(data.detail, /8.0 m\/s \/ 0.120 g/);
-    assert.deepEqual([control.id, control.source, control.target, control.module], ['IF-02', 'DCDCE', 'OME', 'control']);
-    assert.equal(control.active, stage === 'downtime');
-    assert.equal(control.detail, stage === 'downtime' ? 'RPM / power targets = 0' : 'No hold command');
-    assert.equal(control.state, stage === 'downtime' ? 'Simulation only' : 'Idle');
+    const links = activeFrameworkConnections(stage);
+    assert.ok(links.some(([from, to]) => from === 'ome' && to === 'collection'));
+    assert.equal(links.some(([from, to]) => from === 'control' && to === 'ome'), stage === 'downtime');
+    for (const [from, to] of links) assert.ok(frameworkRelations.some(([source, target]) => source === from && target === to), `${from} -> ${to} must exist in the rendered framework`);
+    assert.ok(!links.some(([from, to]) => from === 'authorisation' || to === 'kpi'));
   }
 });
 
-test('OME observation interface uses the selected frame without changing the evidence', () => {
-  const frame = { ...structuredClone(before), reading: { ...before.reading, windSpeed: 3.2, vibrationRms: 0.047 } };
-  const original = structuredClone(frame);
-  assert.equal(omeConnections(frame, 'monitor')[0].detail, '3.2 m/s / 0.047 g');
-  assert.deepEqual(frame, original);
-  assert.equal(omeConnections(before, 'monitor')[0].detail, '8.0 m/s / 0.120 g');
+test('one framework topology closes the Physical WT, DCDCE, DTE and UE service loop', () => {
+  const cycle = ['ome', 'collection', 'condition', 'rul', 'tcs', 'recommendation', 'execution', 'control', 'ome'];
+  const valid = new Set(['ome', ...architectureModules.map((module) => module.id)]);
+  for (const [source, target] of frameworkRelations) assert.ok(valid.has(source) && valid.has(target));
+  for (let index = 1; index < cycle.length; index++) assert.ok(frameworkRelations.some(([source, target]) => source === cycle[index - 1] && target === cycle[index]), `${cycle[index - 1]} -> ${cycle[index]}`);
+  assert.equal(frameworkRelations.filter(([source]) => source === 'ome').length, 1, 'Physical observations enter the DT through Data Collection');
+  assert.equal(frameworkRelations.filter(([, target]) => target === 'ome').length, 1, 'Control feedback returns to the same Physical WT through Device Control');
+  assert.ok(frameworkRelations.some(([source, target]) => source === 'collection' && target === 'registry'));
+  assert.ok(frameworkRelations.some(([source, target]) => source === 'registry' && target === 'access'));
 });

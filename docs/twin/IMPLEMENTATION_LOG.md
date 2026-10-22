@@ -1,5 +1,9 @@
 # Implementation Record
 
+## 2026-10-22 - Physical WT in the Complete DT Loop
+
+Following the user's correction, removed the detached OME / DCDCE strip and its "Simulated WT" endpoint. Embedded the actual wind turbine animation as **OME / Physical WT** in the same graph as every DCDCE / DTE / UE module, with directly anchored acquisition and returning control edges. Hardware connection status remains separate from entity identity. Whole-graph mobile navigation, preserved rotor identity, replay, geometry and two-cycle tests are documented in the [complete loop implementation record](INTEGRATED_PHYSICAL_DT_LOOP.md).
+
 ## 2026-10-22 - OME / DCDCE Boundary
 
 Added matching IF-01 observation and IF-02 simulated-control identifiers across a new directional boundary strip, DCDCE module captions and inspectors. Service-phase state, selected replay evidence, source/time, global pause and reduced motion remain explicit. Two new model tests, complete 72-test regression and both-route browser verification passed. Full design, implementation, initial accessibility correction and evidence: [OME / DCDCE interfaces](OME_DCDCE_INTERFACES.md).

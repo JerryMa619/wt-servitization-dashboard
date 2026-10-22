@@ -4,21 +4,40 @@ import { rulBandLabel } from '../model/xgboost.ts';
 export type WorkflowStage = 'monitor' | 'decision' | 'downtime' | 'result';
 export type ReplayFrame = { id: string; label: string; stage: WorkflowStage; snapshot: OntologySnapshot; elapsedH: number };
 export type ModuleId = 'collection' | 'control' | 'registry' | 'condition' | 'rul' | 'state' | 'tcs' | 'access' | 'authorisation' | 'recommendation' | 'execution' | 'kpi';
+export type FrameworkNodeId = ModuleId | 'ome';
 export type ArchitectureModule = { id: ModuleId; title: string; entity: string; subEntity: string; extension: boolean; x: number; y: number; width: number; height: number; ontologyNode?: string };
 
 export const architectureModules: ArchitectureModule[] = [
   { id: 'collection', title: 'Data collection', entity: 'dcdce', subEntity: 'Data Collection', extension: false, x: 10, y: 154, width: 168, height: 106, ontologyNode: 'observation' },
-  { id: 'control', title: 'Device control', entity: 'dcdce', subEntity: 'Device Control', extension: false, x: 10, y: 302, width: 168, height: 106, ontologyNode: 'execution' },
+  { id: 'control', title: 'Device control', entity: 'dcdce', subEntity: 'Device Control', extension: false, x: 10, y: 345, width: 168, height: 106, ontologyNode: 'execution' },
   { id: 'registry', title: 'Asset model & synchronisation', entity: 'dte', subEntity: 'Operation & Management', extension: false, x: 12, y: 48, width: 366, height: 78, ontologyNode: 'asset' },
   { id: 'condition', title: 'Blade condition', entity: 'dte', subEntity: 'Application & Service', extension: false, x: 12, y: 154, width: 174, height: 106, ontologyNode: 'condition' },
   { id: 'rul', title: 'RUL prediction', entity: 'dte', subEntity: 'Application & Service', extension: false, x: 204, y: 154, width: 174, height: 106, ontologyNode: 'rul' },
-  { id: 'state', title: 'Service State', entity: 'dte', subEntity: 'Application & Service', extension: true, x: 12, y: 302, width: 174, height: 106, ontologyNode: 'state' },
-  { id: 'tcs', title: 'TCS & risk selection', entity: 'dte', subEntity: 'Application & Service', extension: true, x: 204, y: 302, width: 174, height: 106, ontologyNode: 'recommendation' },
-  { id: 'access', title: 'Evidence access & interchange', entity: 'dte', subEntity: 'Resource Access & Interchange', extension: false, x: 12, y: 440, width: 366, height: 78, ontologyNode: 'rul' },
+  { id: 'state', title: 'Service State', entity: 'dte', subEntity: 'Application & Service', extension: true, x: 12, y: 345, width: 174, height: 106, ontologyNode: 'state' },
+  { id: 'tcs', title: 'TCS & risk selection', entity: 'dte', subEntity: 'Application & Service', extension: true, x: 204, y: 345, width: 174, height: 106, ontologyNode: 'recommendation' },
+  { id: 'access', title: 'Evidence access & interchange', entity: 'dte', subEntity: 'Resource Access & Interchange', extension: false, x: 12, y: 600, width: 366, height: 78, ontologyNode: 'rul' },
   { id: 'authorisation', title: 'Authorisation', entity: 'ue', subEntity: 'Service governance', extension: true, x: 12, y: 48, width: 174, height: 78 },
   { id: 'recommendation', title: 'Service recommendation', entity: 'ue', subEntity: 'Decision support', extension: true, x: 12, y: 154, width: 174, height: 106, ontologyNode: 'recommendation' },
-  { id: 'execution', title: 'Service execution', entity: 'ue', subEntity: 'Service workflow', extension: true, x: 12, y: 302, width: 174, height: 106, ontologyNode: 'execution' },
-  { id: 'kpi', title: 'Contract KPI', entity: 'ue', subEntity: 'Contract reporting', extension: true, x: 12, y: 440, width: 174, height: 78, ontologyNode: 'kpi' }
+  { id: 'execution', title: 'Service execution', entity: 'ue', subEntity: 'Service workflow', extension: true, x: 12, y: 345, width: 174, height: 106, ontologyNode: 'execution' },
+  { id: 'kpi', title: 'Contract KPI', entity: 'ue', subEntity: 'Contract reporting', extension: true, x: 12, y: 600, width: 174, height: 78, ontologyNode: 'kpi' }
+];
+
+export const frameworkRelations: readonly (readonly [FrameworkNodeId, FrameworkNodeId, string, string, string])[] = [
+  ['ome', 'collection', 'IF-01 / Observations', 'right', 'left'],
+  ['collection', 'condition', 'Data', 'right', 'left'],
+  ['collection', 'registry', '', 'top', 'left'],
+  ['condition', 'rul', 'Model', 'bottom', 'bottom'],
+  ['condition', 'state', '', 'bottom', 'top'],
+  ['rul', 'tcs', '', 'bottom', 'top'],
+  ['state', 'tcs', 'Risk filter', 'bottom', 'bottom'],
+  ['tcs', 'recommendation', 'Proposal', 'right', 'left'],
+  ['recommendation', 'execution', 'Auto demo', 'bottom', 'top'],
+  ['authorisation', 'execution', '', 'right', 'right'],
+  ['execution', 'control', 'Hold request', 'bottom', 'bottom'],
+  ['control', 'ome', 'IF-02 / Control feedback', 'left', 'right'],
+  ['execution', 'collection', 'Post-service record', 'right', 'bottom'],
+  ['registry', 'access', '', 'left', 'left'],
+  ['execution', 'kpi', 'Reference only', 'bottom', 'top']
 ];
 
 export function workflowStage(snapshot: OntologySnapshot): WorkflowStage {
@@ -27,14 +46,8 @@ export function workflowStage(snapshot: OntologySnapshot): WorkflowStage {
   return snapshot.serviceState === 'Nominal' ? 'monitor' : 'decision';
 }
 
-// Dashboard interface IDs, not ISO clause numbers or physical device acknowledgements.
-export function omeConnections(snapshot: OntologySnapshot, stage: WorkflowStage) {
-  const p = snapshot.reading;
-  const holding = stage === 'downtime';
-  return [
-    { id: 'IF-01', module: 'collection' as const, source: 'OME', target: 'DCDCE', active: true, label: 'Observation data', detail: `${p.windSpeed.toFixed(1)} m/s / ${p.vibrationRms.toFixed(3)} g`, state: 'Frame available' },
-    { id: 'IF-02', module: 'control' as const, source: 'DCDCE', target: 'OME', active: holding, label: holding ? 'Simulated hold' : 'Control standby', detail: holding ? 'RPM / power targets = 0' : 'No hold command', state: holding ? 'Simulation only' : 'Idle' }
-  ];
+export function activeFrameworkConnections(stage: WorkflowStage): [FrameworkNodeId, FrameworkNodeId][] {
+  return [['ome', 'collection'], ...activeConnections(stage), ...(stage === 'downtime' ? [['control', 'ome'] as [FrameworkNodeId, FrameworkNodeId]] : [])];
 }
 
 export function replayFrames(execution: OntologyExecution): ReplayFrame[] {

@@ -53,7 +53,7 @@ The turbine reuses the existing smooth requestAnimationFrame rotor and crack rep
 - Lower band: service, authorisation, execution, modeled downtime and assessment status.
 - CSE is a cross-system band below the loop, not an entity in the serial flow.
 - Supporting map and service decision share a row; TCS spans the full width; duplicate static architecture and old animated chain removed.
-- Mobile stacks physical and digital views. The fixed-format architecture scrolls horizontally inside its container; the page does not overflow.
+- Physical WT and all digital entities now share one connected graph. On mobile, the whole architecture scrolls horizontally inside its container; wind / network icon controls reveal the physical asset or digital core. The page does not overflow. The original separate-pane layout and detached OME / DCDCE strip are superseded; see [complete physical / DT loop](INTEGRATED_PHYSICAL_DT_LOOP.md).
 - Buttons, switches and replay slider have accessible labels; reduced-motion preference stops rotor / CSS flow animations.
 
 ## Evidence boundaries

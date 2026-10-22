@@ -1,5 +1,7 @@
 # OME / DCDCE Interface Indicators
 
+**Superseded after user clarification:** this record describes the initial detached interface strip. The current implementation embeds the actual **Physical WT** animation in the **complete connected framework**, returning control to the same OME. See [integrated physical / DT loop](INTEGRATED_PHYSICAL_DT_LOOP.md) for the correction and current verification. Previous screenshots below are historical, not the current layout; the old strip verifier has been replaced by `scripts/verify-framework-closed-loop-ui.mjs`.
+
 ## Request and Design (22 October 2026)
 
 The integrated workspace showed the OME turbine and the internal DCDCE / DTE / UE workflow, but did not explicitly identify the OME-to-DCDCE boundary. Add two directional interfaces without introducing an extra ISO entity or claiming a physical connection.

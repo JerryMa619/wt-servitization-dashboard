@@ -1,0 +1,64 @@
+{
+  "verifiedAt": "2026-10-22T00:00:10.534Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "samples": 522,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "endpointDistancesPx": [
+        2.60379421719421,
+        2.6037724018142794,
+        2.603772402443681,
+        2.603794217139766
+      ],
+      "screenshotColors": 1994,
+      "checks": [
+        "Actual Physical WT animation in one connected framework",
+        "Complete OME-DCDCE-DTE-UE-control-OME topology",
+        "Two completed service cycles / 13 visible nodes",
+        "Rotor not remounted and continues after service",
+        "Paths anchored to actual ports",
+        "Edge selection",
+        "Global pause / selected-frame replay",
+        "1024/820/390/320px layouts and whole-graph navigation",
+        "Overlay / RUL navigation",
+        "Reduced motion / screenshot pixels"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "samples": 521,
+      "stages": [
+        "monitor",
+        "decision",
+        "downtime",
+        "result"
+      ],
+      "endpointDistancesPx": [
+        2.60379421719421,
+        2.6037724018142794,
+        2.603772402443681,
+        2.603794217139766
+      ],
+      "screenshotColors": 1999,
+      "checks": [
+        "Actual Physical WT animation in one connected framework",
+        "Complete OME-DCDCE-DTE-UE-control-OME topology",
+        "Two completed service cycles / 13 visible nodes",
+        "Rotor not remounted and continues after service",
+        "Paths anchored to actual ports",
+        "Edge selection",
+        "Global pause / selected-frame replay",
+        "1024/820/390/320px layouts and whole-graph navigation",
+        "Overlay / RUL navigation",
+        "Reduced motion / screenshot pixels"
+      ]
+    }
+  ],
+  "errors": []
+}
