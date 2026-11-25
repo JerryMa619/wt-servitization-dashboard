@@ -22,6 +22,7 @@
     "test:cmapss:story": "node --experimental-strip-types scripts/test-cmapss-story.mjs",
     "test:wt:research": "node --experimental-strip-types scripts/test-wt-research.mjs",
     "test:wt:lineage": "node --experimental-strip-types scripts/test-wt-lineage.mjs",
+    "test:wt:questions": "node --experimental-strip-types scripts/test-semantic-questions.mjs",
     "test:cmapss:comparison": "node --experimental-strip-types scripts/test-cmapss-comparison.mjs",
     "test:cmapss:evaluation": "node --experimental-strip-types scripts/test-cmapss-evaluation.mjs",
     "record:cmapss:evaluation": "node --experimental-strip-types scripts/record-cmapss-evaluation.mjs"

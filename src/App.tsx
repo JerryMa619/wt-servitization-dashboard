@@ -739,7 +739,6 @@ function App() {
         sessionId={ontologySessionRef.current}
         paused={simulationPaused || !!manualPoint}
         onSimulation={() => { if (simulationPaused || manualPoint) resumeSimulation(); else pauseSimulation(); }}
-        onPause={() => pauseSimulation()}
         executions={ontologyEvents}
         focusRequest={ontologyFocus}
         onReplay={(eventId) => {

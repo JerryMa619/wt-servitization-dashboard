@@ -1,5 +1,9 @@
 # Ontology dashboard implementation log
 
+## 2026-11-25: semantic questions v1
+
+Added 14 preset competency questions, bounded English/Chinese question interpretation and answer/evidence inspection on both WT routes. Querying captures independent evidence and no longer implicitly pauses the WT. Original Chapter 4 sources remain unchanged. Full design, development findings, regression commands and publication evidence: [Semantic Questions implementation record](SEMANTIC_QUESTIONS.md). This supersedes the earlier three-question and implicit-pause descriptions, not their historical verification receipts.
+
 ## 2026-10-01: brief and source inspection
 
 Requested by Jerry Ma: implement a first ontology display in the existing WT dashboard and record the work in GitHub.

@@ -40,3 +40,26 @@ wt:CandidateShape a sh:NodeShape ; sh:targetClass wt:Candidate ;
 wt:ModelShape a sh:NodeShape ; sh:targetClass wt:ModelArtifact ;
   sh:property [ sh:path wt:p50SHA256 ; sh:minCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] ;
   sh:property [ sh:path wt:trainingFeaturesSHA256 ; sh:minCount 1 ; sh:pattern "^[a-f0-9]{64}$" ] .
+
+wt:CostItemShape a sh:NodeShape ; sh:targetClass wt:CostItem ;
+  sh:property [ sh:path wt:costLabel ; sh:minCount 1 ; sh:maxCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path wt:costValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ;
+  sh:property [ sh:path wt:costUnit ; sh:hasValue wt:GBP ] .
+wt:PhysicalContextShape a sh:NodeShape ; sh:targetClass sdt:Asset ;
+  sh:property [ sh:path wt:crackMm ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 80 ] .
+wt:TimeEvidenceShape a sh:NodeShape ; sh:targetNode <urn:wt:active-snapshot> ;
+  sh:property [ sh:path wt:observedAt ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] ;
+  sh:property [ sh:path wt:receivedAt ; sh:maxCount 1 ; sh:datatype xsd:dateTime ] .
+wt:RetainedEventShape a sh:NodeShape ; sh:targetClass sdt:ActionExecution ;
+  sh:property [ sh:path wt:eventId ; sh:minCount 1 ; sh:maxCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path wt:executionStatus ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "in-progress" "completed" "interrupted" ) ] ;
+  sh:property [ sh:path wt:plannedDowntime ; sh:minCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+  sh:property [ sh:path wt:elapsedDowntime ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:lessThanOrEquals wt:plannedDowntime ] ;
+  sh:property [ sh:path wt:downtimeUnit ; sh:hasValue wt:ModeledHour ] ;
+  sh:property [ sh:path wt:beforeCapturedAt ; sh:minCount 1 ; sh:datatype xsd:dateTime ; sh:lessThanOrEquals wt:afterCapturedAt ] ;
+  sh:or (
+    [ sh:property [ sh:path wt:executionStatus ; sh:in ( "in-progress" "interrupted" ) ] ]
+    [ sh:property [ sh:path wt:executionStatus ; sh:hasValue "completed" ] ;
+      sh:property [ sh:path wt:afterCapturedAt ; sh:minCount 1 ; sh:datatype xsd:dateTime ] ;
+      sh:property [ sh:path wt:afterP50 ; sh:minCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ] ]
+  ) .

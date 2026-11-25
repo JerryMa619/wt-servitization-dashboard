@@ -24,6 +24,8 @@ The implementation is aligned with the project theme of digital twinning serviti
 
 Simulation recovery update (25 November 2026): **Resume live DT** releases held manual input and global pause and returns framework / ontology views to current readings without clearing stored service history. Manual holds and paused views are now labelled explicitly. [Investigation, reproduced 26.5 mm case and repair](docs/reviews/2026-11-25-wt-simulation-recovery.md), [local verification](screenshots/simulation-recovery/verification.json), [public verification](screenshots/simulation-recovery/public/verification.json). Export transient Data Records before reloading the page.
 
+Semantic questions update (25 November 2026): 14 preset questions, bounded English/Chinese natural-language input, captured answers with RDF/SPARQL/SHACL evidence, provenance and downloadable hashes. Entering or executing Semantic Check no longer pauses DT; live monitoring and automatic service execution continue. [Design, limitations and implementation/verification record](docs/ontology/SEMANTIC_QUESTIONS.md), [local browser checks](screenshots/semantic-questions/verification.json).
+
 - WT operation animation with blade crack growth from 0 mm.
 - GPS and real site map context.
 - Wind speed, wind direction, vibration, crack state, and RUL monitoring.
@@ -47,7 +49,7 @@ The **Ontology & Decision Evidence** section sits below WT operation and TCS/ser
 - **Data Records:** capture the same WT frames during monitoring, simulated downtime and post-service updates. Inspect immutable values, timestamps, acquisition/feature origin and entity URIs; open a captured graph or execute its existing Semantic Check. WT playback and capture pause are independent. The latest 120 frames are held in memory, cleared on session/case changes, and exportable as JSON with a payload SHA-256. This buffer is not persisted on reload or a raw hardware archive.
 - **Ontology Schema:** search the 50 native Chapter 4 classes, browse module groups, direct superclass declarations and applicable SDT properties. T-Box and SHACL source files are downloadable.
 - **Decision Trace:** preserve the latest 30 service events in this browser, including original proposals, elapsed downtime, simulated results and explicit interruptions. Reload restores saved history.
-- **Semantic Check:** freeze a captured WT snapshot, generate actual RDF, run three SPARQL competency questions and execute a separate WT SHACL application profile. Missing-unit and missing-estimate-link cases modify only test copies; export the RDF, report and evidence hashes.
+- **Semantic Check:** choose from 14 competency questions or enter one English/Chinese evidence question. A bounded interpreter selects a fixed, read-only SPARQL template, with clarification or abstention outside its supported scope. A separate worker queries a captured RDF snapshot and executes WT-profile SHACL without pausing the DT. Answers show recognized intent, snapshot/time, sources, matching rows, limits and hashes; RDF, reports and complete evidence are exportable. Missing-unit and missing-estimate-link cases modify only test copies. The latest five answers stay in memory while this panel remains mounted, not across tab changes/reloads.
 
 The T-Box is a licensed source snapshot, parsed with N3 into `src/data/ontologySchema.json`. The Live Graph remains a dashboard projection, not SPARQL query or OWL reasoner output. Semantic Check separately executes real SPARQL and SHACL Core on the WT application profile, not all original Chapter 4 constraints. Original T-Box and SHACL files are unchanged. Synthetic RUL uses a separate pseudo-hour vocabulary, not physical-hours lifetime assertions. Human authorisation, measured intervention assessment and model/policy feedback remain explicitly unconfirmed. ISO entity labels are dashboard mappings, separate from OWL class inheritance. Cost values are assumed TCS estimates, not native SDT cost properties.
 
@@ -150,6 +152,7 @@ npm run test:ontology
 npm run test:twin
 npm run test:model
 npm run test:wt:research
+npm run test:wt:questions
 npm run build
 ```
 
@@ -167,6 +170,8 @@ node scripts/verify-framework-cycle.mjs
 Environment variables: `PLAYWRIGHT_MODULE` (absolute installed Playwright module path), `CHROME_EXECUTABLE` (browser executable), and optional `DASHBOARD_URL` (default `http://127.0.0.1:5173/`). The repair verification script uses the first two variables; other browser scripts can use a normally installed Playwright package. Results are saved under `screenshots/ontology/`, `screenshots/twin/` and `screenshots/fixes/`. Tests accelerate only the simulator in isolated tabs; normal application timing is unchanged.
 
 `node scripts/verify-ontology-publication.mjs` checks the public standard/enhanced routes, ontology browser and source download using the same optional browser environment variables. Its default URL is the GitHub Pages site; results are written to `screenshots/ontology/publication.json`.
+
+`node scripts/verify-semantic-questions-ui.mjs` checks all 14 real-worker queries, English/Chinese routing, immutable evidence exports, continuing DT/service execution, cancellation/error/timeout recovery, explicit operator pause and 820/390/320 px layouts. Its default production-preview URL is `http://127.0.0.1:4173/wt-servitization-dashboard/`; set `DASHBOARD_URL` for development or public verification. Use the same `PLAYWRIGHT_MODULE` / `CHROME_EXECUTABLE` variables. Results are written to `screenshots/semantic-questions/` (public checks in its `public/` subfolder).
 
 `node scripts/verify-fixes-publication.mjs` checks deployed history tools, architecture reachability, deferred charts and enhanced model/KPI scope. Results: `screenshots/fixes/publication.json`.
 

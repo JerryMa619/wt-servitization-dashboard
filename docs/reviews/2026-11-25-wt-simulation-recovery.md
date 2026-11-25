@@ -16,6 +16,8 @@ The simulator exits each tick when either `manualPointRef.current` or `pausedRef
 
 Opening Semantic Check also intentionally pauses WT simulation while freezing evidence. This existing behavior remains; returning to live operation now has an explicit complete recovery command.
 
+**Superseded later on 25 November 2026:** [WT Semantic Questions v1](../ontology/SEMANTIC_QUESTIONS.md) removes that implicit pause. Entering the panel and executing queries now preserve running/paused state. Each answer captures its own evidence in a worker without freezing the global DT. The recovery fixes and the historical test record below remain applicable.
+
 ## Changes
 
 - `App.resumeSimulation()` releases both manual hold and global pause. It retains the accepted manual reading, unchanged, in the bounded in-memory history and uses that crack length as the starting point for subsequent automatic ticks. `autoPostServiceOverrideRef` prevents an archived crack label from replacing that resumed starting point. New ticks run the existing model and carry their own automatic source and timestamps.

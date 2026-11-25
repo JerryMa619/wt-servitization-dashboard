@@ -1,0 +1,46 @@
+{
+  "verifiedAt": "2026-11-25T11:45:25.878Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:4173/wt-servitization-dashboard/",
+      "headerCrack": 27.1,
+      "playCrack": 27.2,
+      "recordCrack": 27.4,
+      "recoveredCrack": 27.3,
+      "completedBefore": 2,
+      "completedAfter": 3,
+      "checks": [
+        "Held manual + global pause resumes",
+        "Starts from 26.5 mm",
+        "Reloaded manual input resumes via Play",
+        "Data Records Run WT resumes",
+        "One command clears manual/pause/replay/frozen ontology",
+        "Independent capture preference retained",
+        "Completed service evidence preserved",
+        "New service/downtime/post-service loop",
+        "390/320px controls fit"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:4173/wt-servitization-dashboard/enhanced/",
+      "headerCrack": 27.1,
+      "playCrack": 27.2,
+      "recordCrack": 27.4,
+      "recoveredCrack": 27.3,
+      "completedBefore": 2,
+      "completedAfter": 3,
+      "checks": [
+        "Held manual + global pause resumes",
+        "Starts from 26.5 mm",
+        "Reloaded manual input resumes via Play",
+        "Data Records Run WT resumes",
+        "One command clears manual/pause/replay/frozen ontology",
+        "Independent capture preference retained",
+        "Completed service evidence preserved",
+        "New service/downtime/post-service loop",
+        "390/320px controls fit"
+      ]
+    }
+  ],
+  "errors": []
+}

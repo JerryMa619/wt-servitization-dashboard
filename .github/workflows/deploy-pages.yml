@@ -48,6 +48,7 @@ jobs:
           npm run test:vibration
           npm run test:wt:research
           npm run test:wt:lineage
+          npm run test:wt:questions
 
       - name: Build dashboard
         run: npm run build

@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/wt-servitization-dashboard/" : "/",
   plugins: [react()],
+  worker: { format: 'es' },
   server: {
     host: "127.0.0.1",
     port: 5173
