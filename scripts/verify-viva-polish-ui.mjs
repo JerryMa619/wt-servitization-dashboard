@@ -49,12 +49,12 @@ try {
     await semantic.getByRole('button', { name: 'Run RDF / SHACL / SPARQL' }).click();
     await semantic.getByTestId('wt-shacl-result').waitFor({ timeout: 60000 });
     assert.match(await semantic.getByTestId('wt-shacl-result').innerText(), /^CONFORMS/);
-    assert.equal(await semantic.getByRole('columnheader', { name: 'Adjusted lower / pseudo-h', exact: true }).count(), 1);
-    assert.equal(await semantic.getByRole('columnheader', { name: 'Adjusted upper / pseudo-h', exact: true }).count(), 1);
+    assert.equal(await semantic.getByRole('columnheader', { name: 'Adjusted lower / model h', exact: true }).count(), 1);
+    assert.equal(await semantic.getByRole('columnheader', { name: 'Adjusted upper / model h', exact: true }).count(), 1);
     await semantic.screenshot({ path: fileURLToPath(new URL(`${name}-semantic.png`, out)) });
     await page.getByRole('button', { name: 'Input scenario', exact: true }).click();
     const input = page.getByRole('dialog', { name: 'Input WT scenario data', exact: true });
-    const point = input.getByRole('spinbutton', { name: 'RUL P50 / pseudo-h', exact: true });
+    const point = input.getByRole('spinbutton', { name: 'RUL P50 / model h', exact: true });
     await point.fill(String(Number(await point.inputValue()) + 20));
     await input.getByRole('button', { name: 'Apply to dashboard', exact: true }).click();
     assert.match(await metric.innerText(), /Lower \/ P50 \/ Upper.*Manual RUL assumption/);
@@ -80,8 +80,8 @@ try {
     await page.getByRole('tab', { name: 'Semantic Check', exact: true }).click();
     await semantic.getByRole('button', { name: 'Run RDF / SHACL / SPARQL' }).click();
     await semantic.getByTestId('wt-shacl-result').waitFor({ timeout: 60000 });
-    assert.equal(await semantic.getByRole('columnheader', { name: 'Lower / pseudo-h', exact: true }).count(), 1);
-    assert.equal(await semantic.getByRole('columnheader', { name: 'Upper / pseudo-h', exact: true }).count(), 1);
+    assert.equal(await semantic.getByRole('columnheader', { name: 'Lower / model h', exact: true }).count(), 1);
+    assert.equal(await semantic.getByRole('columnheader', { name: 'Upper / model h', exact: true }).count(), 1);
     results.push({ route: page.url(), checks: ['Adjusted labels in metrics, map, architecture, evidence and executed semantic results', 'Manual override not labelled calibrated', 'Cost-allocation disclosure and keyboard-accessible breakdown', '1440/390/320 px layouts without page overflow'] });
     await context.close();
   }

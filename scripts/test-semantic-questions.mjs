@@ -43,6 +43,8 @@ test('all 14 CQ templates execute actual SPARQL and retain immutable, hash-verif
     assert.ok(result.rows.length > 0, question.id);
     assert.deepEqual(input, original);
     assert.equal(result.querySHA256, await sha256(result.query));
+    assert.doesNotMatch(result.answer.text, /pseudo/i);
+    assert.match(result.datasetTTL, /PseudoHour/);
     assert.equal(result.datasetSHA256, await sha256(result.datasetTTL));
     assert.equal(result.rowsSHA256, await sha256(JSON.stringify(result.rows)));
     assert.equal(result.reportSHA256, await sha256(result.reportTTL));
@@ -52,7 +54,7 @@ test('all 14 CQ templates execute actual SPARQL and retain immutable, hash-verif
 });
 test('answers reconcile with captured fields, costs and eligibility without global-optimum or field-life claims', async () => {
   const rul = await executeSemanticQuestion(packet('rul'), shapes);
-  assert.equal(Number(rul.rows[0].point), reading.rulP50); assert.match(rul.answer.text, /pseudo-h/);
+  assert.equal(Number(rul.rows[0].point), reading.rulP50); assert.match(rul.answer.text, /model h/);
   const cheapest = await executeSemanticQuestion(packet('cheapest'), shapes);
   assert.equal(Number(cheapest.rows[0].cost), Math.min(...candidates.filter(c => c.acceptable).map(c => c.totalCost)));
   const costs = await executeSemanticQuestion(packet('costs'), shapes);

@@ -16,7 +16,7 @@ test('mapping covers ISO entities and DTE responsibilities and links actual proj
   for (const layer of ['OME', 'DCDCE', 'DTE', 'UE']) assert.ok(rows.some(row => row.layer === layer));
   for (const responsibility of ['Operation & Management', 'Application & Service', 'Resource Access & Interchange']) assert.ok(rows.some(row => row.responsibility.includes(responsibility)));
   for (const row of rows) assert.equal(row.uri, graph.nodes.find(node => node.id === row.nodeId)?.uri);
-  assert.match(rows.find(row => row.id === 'rul').entity, /wt:PseudoRULEstimate/);
+  assert.match(rows.find(row => row.id === 'rul').entity, /WT model-hour estimate/);
   assert.match(rows.find(row => row.id === 'vibration').evidence, /No live accelerometer/);
   assert.match(rows.find(row => row.id === 'contract').evidence, /Static Chapter 5/);
 });
@@ -60,7 +60,7 @@ test('exports retain exact snapshots, units, source and schema hash, without att
   const records = appendDataRecord([], snapshot, 'capture');
   const payload = recordExport(records, 'session', schema.sha256);
   assert.equal(payload.ontologySHA256, schema.sha256); assert.equal(payload.activeModelReference.version, rulModel.version);
-  assert.deepEqual(payload.records[0].snapshot, snapshot); assert.equal(payload.records[0].rows.find(row => row.id === 'rul').unit, 'pseudo-h');
+  assert.deepEqual(payload.records[0].snapshot, snapshot); assert.equal(payload.records[0].rows.find(row => row.id === 'rul').unit, 'model h');
   assert.ok(!('fingerprint' in payload.records[0])); assert.match(payload.scope, /not raw sensor/);
   const manual = structuredClone(snapshot); manual.reading.rulEvidence.featureSource = 'manual-override';
   assert.equal(recordExport(appendDataRecord([], manual, 'capture'), 'manual', schema.sha256).activeModelReference, undefined);

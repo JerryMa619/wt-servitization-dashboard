@@ -27,7 +27,7 @@ try {
     const twin = page.getByRole('region', { name: 'Integrated wind turbine digital twin' });
     const turbine = twin.getByRole('region', { name: 'Wind turbine physical animation' });
     assert.equal(await turbine.getAttribute('data-crack-mm'), '45');
-    assert.match(await turbine.innerText(), /Simulated blade condition/i); assert.match(await turbine.innerText(), /pseudo-h/);
+    assert.match(await turbine.innerText(), /Simulated blade condition/i); assert.match(await turbine.innerText(), /model h/);
     const angle = await turbine.locator('.blades').getAttribute('style'); await page.waitForTimeout(250);
     assert.equal(await turbine.locator('.blades').getAttribute('style'), angle, 'Whole-simulation pause freezes rotor view without fabricating zero RPM');
     await page.getByRole('button', { name: 'Play WT simulation', exact: true }).click();

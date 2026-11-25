@@ -705,7 +705,7 @@ function App() {
         <Metric icon={<Wind />} label="Wind speed" value={`${latest.windSpeed.toFixed(1)} m/s`} sub={`${cardinal(latest.windDirection)} ${latest.windDirection} deg`} />
         <Metric icon={<Gauge />} label="Rotor RPM" value={`${latest.rpm}`} sub={`${latest.power} W output`} />
         <Metric icon={<Activity />} label="Blade vibration" value={`${(bladeFeatures.rms[0] ?? latest.vibrationRms).toFixed(3)} g`} sub={`${bladeFeatures.rms[0] == null ? 'Z' : 'X / flapwise'} | ${latest.crackState ?? "C?"} | k ${(bladeFeatures.kurtosis[0] ?? latest.kurtosis).toFixed(2)}`} />
-        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} pseudo-h`} sub={`${rulBandLabel(latest)} | ${rulDescription(latest)}`} />
+        <Metric icon={<Waves />} label="Blade RUL" value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} model h`} sub={`${rulBandLabel(latest)} | ${rulDescription(latest)}`} />
       </section>
 
       <div className="history-toolbar" aria-label="Saved service history"><span role={historyError || storageWarning ? "alert" : "status"} className={historyError || storageWarning ? "history-warning" : ""}>{historyError ?? (storageWarning ? storageMessage : demoCase ? "Demo history / in memory only" : storageMessage)}</span><span>{ontologyEvents.length} events / {autoStats.observationHours.toFixed(1)} modeled h</span><button title="Export service history" aria-label="Export service history" onClick={exportHistory}><Download size={16} /></button><button title="Import service history" aria-label="Import service history" disabled={!!demoCase || serviceExecution?.status === "in-progress"} onClick={() => importRef.current?.click()}><Upload size={16} /></button><input ref={importRef} type="file" accept="application/json,.json" aria-label="History JSON file" hidden onChange={(e) => { const file = e.target.files?.[0]; if (file) void importHistory(file); e.target.value = ""; }} /><button title="Clear service history" aria-label="Clear service history" disabled={!!demoCase || serviceExecution?.status === "in-progress"} onClick={clearHistory}><Trash2 size={16} /></button></div>
@@ -764,7 +764,7 @@ function App() {
       <section className="chart-grid" aria-label="Dynamic telemetry charts">
         <Chart title="Wind Speed" option={lineOption(timeLabels, [{ name: "m/s", data: chartHistory.map((p) => p.windSpeed), color: "#26876d" }], "m/s")} />
         <Chart title="Wind Direction" option={directionOption(latest.windDirection)} />
-        <Chart title="Blade RUL Uncertainty" subtitle="Synthetic pseudo-hours / bound provenance varies by sample; manual and historical bounds are not active-model calibrated uncertainty" option={rulOption(timeLabels, chartHistory)} />
+        <Chart title="Blade RUL Uncertainty" subtitle="Synthetic model hours / bound provenance varies by sample; manual and historical bounds are not active-model calibrated uncertainty" option={rulOption(timeLabels, chartHistory)} />
         <VibrationCharts history={chartHistory} latest={latest} />
       </section>
 
@@ -851,7 +851,7 @@ function SiteMap({
               <br />
               State: {serviceState}
               <br />
-              RUL {rulBandLabel(latest)}: {latest.rulP10}/{latest.rulP50}/{latest.rulP90} pseudo-h
+              RUL {rulBandLabel(latest)}: {latest.rulP10}/{latest.rulP50}/{latest.rulP90} model h
             </Popup>
           </Marker>
           <Marker position={windEnd} icon={windIcon}>
@@ -905,7 +905,7 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
   const severity = clamp(crackMm / 80, 0, 1);
   const crackWidth = severity * 68;
   const crackOpacity = crackMm > 0 ? clamp(0.28 + severity * 0.67, 0, 0.95) : 0;
-  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | lower RUL ${latest.rulP10} pseudo-h`;
+  const crackLabel = `${latest.crackState ?? "C?"} | ${crackMm.toFixed(1)} mm crack | lower RUL ${latest.rulP10} model h`;
   const regime = operatingRegime(latest.windSpeed);
   const serviceAction = latest.serviceAction ? maintenanceActions[latest.serviceAction] : null;
   const serviceLabel =
@@ -978,7 +978,7 @@ function TurbinePanel({ latest, serviceState, embedded = false, linked = false, 
         <div className="crack-readout" style={{ borderColor: meta.color }}>
           <span>Simulated blade condition</span>
           <button onClick={onCrackSelect} aria-label="Open blade condition"><Network size={14} /><strong>{crackLabel}</strong></button>
-          <em>{serviceLabel ?? `RUL band ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`}</em>
+          <em>{serviceLabel ?? `RUL band ${latest.rulP10}/${latest.rulP50}/${latest.rulP90} model h`}</em>
         </div>
         <div className="ground-band" />
       </div>
@@ -1027,7 +1027,7 @@ function DecisionPanel({
   const decisionMetrics = [
     { label: "Session availability", value: availability == null ? "Pending" : formatPct(availability), note: `${autoStats.observationHours.toFixed(1)} modeled h / service downtime only` },
     { label: "Crack length", value: `${(latest.crackMm ?? 0).toFixed(1)} mm`, note: `${latest.crackState ?? crackStateFromMm(latest.crackMm ?? 0)} simulated state` },
-    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`, note: rulBandLabel(latest) },
+    { label: "RUL band", value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} model h`, note: rulBandLabel(latest) },
     {
       label: "Reference contract",
       value: settlement ? settlement.status : `${energyYield} kWh eq.`,
@@ -1247,7 +1247,7 @@ function EnhancedDashboardModules({
           </div>
           <div className="confidence-stack">
             <ConfidenceBar label="Crack evidence score" value={confidence.crackDetection} note={`Anomaly score ${confidence.anomalyScore.toFixed(0)} / 100`} />
-            <ConfidenceBar label="RUL stability score" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} pseudo-h`} />
+            <ConfidenceBar label="RUL stability score" value={confidence.rulConfidence} note={`RUL spread ${latest.rulP90 - latest.rulP10} model h`} />
             <ConfidenceBar label="Decision support score" value={confidence.decisionConfidence} note={maintenanceActions[serviceDecisionByTcs(latest, serviceState).action].label} />
           </div>
           <details className="model-basis"><summary>Model basis / {modelMetadata.version}</summary><dl>
@@ -1255,11 +1255,11 @@ function EnhancedDashboardModules({
             <div><dt>Source</dt><dd>{modelMetadata.basis}</dd></div>
             <div><dt>RUL model</dt><dd>31 features / reg:quantileerror / 300 trees per quantile / depth 6 / learning rate 0.05 / seed 42 / initial prediction 500</dd></div>
             <div><dt>Vibration basis</dt><dd>Charts show X/Y/Z separately. Existing signal thresholds, growth and TCS inputs retain Z RMS/kurtosis; waveform references are not inference inputs.</dd></div>
-            <div><dt>Training target</dt><dd>{rulModel.target}; crack length is excluded from the model inputs</dd></div>
+            <div><dt>Training target</dt><dd>{rulModel.target.replace('pseudo-hours', 'model hours')}; crack length is excluded from the model inputs</dd></div>
             <div><dt>Data split</dt><dd>189 training / 63 calibration / 63 test windows; no final refit on calibration or test rows</dd></div>
-            <div><dt>Held-out result</dt><dd>RMSE {rulModel.evaluation.rmse.toFixed(2)} pseudo-h / MAE {rulModel.evaluation.mae.toFixed(2)} pseudo-h / PICP {(rulModel.evaluation.picp * 100).toFixed(1)}% / MPIW {rulModel.evaluation.mpiw.toFixed(2)} pseudo-h</dd></div>
-            <div><dt>Same-split baseline</dt><dd>Original RMSE {rulModel.comparison.originalSameSplit.rmse.toFixed(2)} / PICP {(rulModel.comparison.originalSameSplit.picp * 100).toFixed(1)}% / MPIW {rulModel.comparison.originalSameSplit.mpiw.toFixed(2)} pseudo-h; original model files retained</dd></div>
-            <div><dt>Interval calibration</dt><dd>Nominal 80% P10/P90-based envelope; outward correction {rulModel.calibration.radius.toFixed(2)} pseudo-h / raw percentiles retained. Adjusted bounds are not exact percentiles.</dd></div>
+            <div><dt>Held-out result</dt><dd>RMSE {rulModel.evaluation.rmse.toFixed(2)} model h / MAE {rulModel.evaluation.mae.toFixed(2)} model h / PICP {(rulModel.evaluation.picp * 100).toFixed(1)}% / MPIW {rulModel.evaluation.mpiw.toFixed(2)} model h</dd></div>
+            <div><dt>Same-split baseline</dt><dd>Original RMSE {rulModel.comparison.originalSameSplit.rmse.toFixed(2)} / PICP {(rulModel.comparison.originalSameSplit.picp * 100).toFixed(1)}% / MPIW {rulModel.comparison.originalSameSplit.mpiw.toFixed(2)} model h; original model files retained</dd></div>
+            <div><dt>Interval calibration</dt><dd>Nominal 80% P10/P90-based envelope; outward correction {rulModel.calibration.radius.toFixed(2)} model h / raw percentiles retained. Adjusted bounds are not exact percentiles.</dd></div>
             <div><dt>Current uncertainty</dt><dd>{rulUncertaintyDescription(latest)}. Repeated source windows do not establish independent-blade validation.</dd></div>
             <div><dt>Current input</dt><dd>{rulDescription(latest)}; {latest.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div>
             <div><dt>Operating envelope</dt><dd>Cut-in {modelMetadata.cutInMs} m/s / {modelMetadata.maxRpm} RPM / {modelMetadata.maxPowerW} W; operating/growth/repair models remain scenario assumptions. Wind direction is context only.</dd></div>
@@ -1370,7 +1370,7 @@ function EvidenceModal({
         <div className="evidence-chain">
           <EvidenceItem label={`ObservationWindow-${String(latest.acquisitionIndex ?? 421).padStart(4, "0")}`} value={`GPS ${position.lat.toFixed(4)}, ${position.lon.toFixed(4)} | wind ${latest.windSpeed.toFixed(1)} m/s | bin ${latest.windBin ?? "n/a"}`} />
           <EvidenceItem label="FeatureVector" value={`Z RMS ${latest.vibrationRms.toFixed(3)} g | Z kurtosis ${latest.kurtosis.toFixed(2)} | f1 ${latest.modalF1.toFixed(2)} Hz | crack ${latest.crackState ?? "n/a"} ${latest.crackMm ?? 0} mm | growth ${latest.crackGrowthRateMmH?.toFixed(2) ?? "n/a"} mm/tick`} />
-          <EvidenceItem label={`RULEstimate / ${rulBandLabel(latest)}`} value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} pseudo-h`} />
+          <EvidenceItem label={`RULEstimate / ${rulBandLabel(latest)}`} value={`${latest.rulP10} / ${latest.rulP50} / ${latest.rulP90} model h`} />
           <EvidenceItem label="ServiceState" value={serviceState} accent={meta.color} />
           <EvidenceItem label="ServiceActionRecommendation" value={`${maintenanceActions[tcsDecision.action].label} | TCS ${formatGbp(tcsDecision.totalCost)} | residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`} />
           <EvidenceItem label="ContractKPI" value={meta.kpi} />
@@ -1488,12 +1488,12 @@ function ScenarioInputModal({
           <NumberField label="Z kurtosis" value={form.kurtosis} step="0.01" onChange={(value) => updateNumber("kurtosis", value)} />
           <NumberField label="Modal f1 Hz" value={form.modalF1} step="0.01" onChange={(value) => updateNumber("modalF1", value)} />
           <NumberField label="Crack length mm" value={form.crackMm} step="1" onChange={(value) => updateNumber("crackMm", value)} />
-          <NumberField label="RUL lower / pseudo-h" value={form.rulP10} step="1" onChange={(value) => updateNumber("rulP10", value)} />
-          <NumberField label="RUL P50 / pseudo-h" value={form.rulP50} step="1" onChange={(value) => updateNumber("rulP50", value)} />
-          <NumberField label="RUL upper / pseudo-h" value={form.rulP90} step="1" onChange={(value) => updateNumber("rulP90", value)} />
+          <NumberField label="RUL lower / model h" value={form.rulP10} step="1" onChange={(value) => updateNumber("rulP10", value)} />
+          <NumberField label="RUL P50 / model h" value={form.rulP50} step="1" onChange={(value) => updateNumber("rulP50", value)} />
+          <NumberField label="RUL upper / model h" value={form.rulP90} step="1" onChange={(value) => updateNumber("rulP90", value)} />
         </div>
 
-        <details className="feature-window-input"><summary>Chapter 5 XGBoost feature window</summary><div className="feature-window-tools"><label><Upload size={14} />Feature JSON<input type="file" accept=".json,application/json" aria-label="Import Chapter 5 feature window" onChange={(event) => { void importFeatureWindow(event.target.files?.[0]); event.target.value = ''; }} /></label><button type="button" title="Download current named feature window" onClick={downloadFeatureWindow}><Download size={14} />Feature window</button></div><dl><div><dt>Input source</dt><dd>{rulDescription(previewPoint)}</dd></div><div><dt>Feature coverage</dt><dd>{featureWindow ? '31 / 31 provided' : '31 / 31 reference-assisted; not measured'}</dd></div><div><dt>Training domain</dt><dd>{previewPoint.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Prediction scope</dt><dd>Synthetic pseudo-hours / {rulUncertaintyDescription(previewPoint)}</dd></div></dl></details>
+        <details className="feature-window-input"><summary>Chapter 5 XGBoost feature window</summary><div className="feature-window-tools"><label><Upload size={14} />Feature JSON<input type="file" accept=".json,application/json" aria-label="Import Chapter 5 feature window" onChange={(event) => { void importFeatureWindow(event.target.files?.[0]); event.target.value = ''; }} /></label><button type="button" title="Download current named feature window" onClick={downloadFeatureWindow}><Download size={14} />Feature window</button></div><dl><div><dt>Input source</dt><dd>{rulDescription(previewPoint)}</dd></div><div><dt>Feature coverage</dt><dd>{featureWindow ? '31 / 31 provided' : '31 / 31 reference-assisted; not measured'}</dd></div><div><dt>Training domain</dt><dd>{previewPoint.rulEvidence?.outsideTraining.length ?? 0} features outside training range</dd></div><div><dt>Prediction scope</dt><dd>Synthetic model hours / {rulUncertaintyDescription(previewPoint)}</dd></div></dl></details>
 
         <div className="scenario-result" style={{ borderColor: previewMeta.color, background: previewMeta.bg }}>
           <span>Servitization output preview</span>
@@ -1738,7 +1738,7 @@ function residualRiskCostItems(estimate: ServiceCostEstimate, point: HistoryPoin
 
   return splitCost(estimate.residualRiskCost, [
     [`Crack exposure ${estimate.residualCrackMm.toFixed(1)} mm`, crackDriver / totalDriver],
-    [`Lower RUL exposure ${estimate.residualRulP10} pseudo-h`, rulDriver / totalDriver],
+    [`Lower RUL exposure ${estimate.residualRulP10} model h`, rulDriver / totalDriver],
     ["Vibration/load uncertainty", (vibrationDriver + loadDriver) / totalDriver]
   ]);
 }
@@ -1803,7 +1803,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
     },
     {
       label: "RUL interval logic",
-      value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} pseudo-h`,
+      value: `${latest.rulP10}/${latest.rulP50}/${latest.rulP90} model h`,
       note: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "lower <= P50 <= upper" : "RUL bounds conflict.",
       status: latest.rulP10 <= latest.rulP50 && latest.rulP50 <= latest.rulP90 ? "pass" : "warn"
     },
@@ -1815,7 +1815,7 @@ function dataQualityRows(latest: HistoryPoint, position: LivePosition, confidenc
     },
     {
       label: "RUL interval scope",
-      value: `${latest.rulP90 - latest.rulP10} pseudo-h width`,
+      value: `${latest.rulP90 - latest.rulP10} model h width`,
       note: rulUncertaintyDescription(latest),
       status: latest.rulP90 - latest.rulP10 > 600 ? "warn" : "context"
     },
@@ -1847,7 +1847,7 @@ function serviceLedgerRows(
       id: "current-advisory",
       time: latest.t,
       service: maintenanceActions[decision.action].label,
-      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, lower RUL ${latest.rulP10} pseudo-h`,
+      evidence: `${latest.crackState ?? "C?"} ${latest.crackMm?.toFixed(1) ?? "0.0"} mm, lower RUL ${latest.rulP10} model h`,
       outcome: `Advisory TCS ${formatGbp(decision.totalCost)}`
     }
   ];
@@ -1965,7 +1965,7 @@ function applyMaintenanceResult(current: HistoryPoint, action: MaintenanceAction
     serviceMode: "post-service",
     serviceAction: action,
     downtimeH,
-    serviceNote: `${actionConfig.label} completed: crack ${crackBefore.toFixed(1)} mm -> ${crackAfter.toFixed(1)} mm, RUL p50 -> ${prediction.rulP50} pseudo-h`
+    serviceNote: `${actionConfig.label} completed: crack ${crackBefore.toFixed(1)} mm -> ${crackAfter.toFixed(1)} mm, RUL p50 -> ${prediction.rulP50} model h`
   };
 
   return { ...point, serviceState: serviceStateFromCondition(point) };
@@ -2030,7 +2030,7 @@ function scenarioConflicts(form: ScenarioForm, touched: Partial<Record<keyof Sce
   }
 
   if ((touched.crackMm || touched.windSpeed) && touched.rulP10 && Math.abs(form.rulP10 - expected.rulP10) > 220) {
-    conflicts.push(`Damage/load and RUL conflict: expected lower RUL is about ${expected.rulP10} pseudo-h, not ${Math.round(form.rulP10)} pseudo-h.`);
+    conflicts.push(`Damage/load and RUL conflict: expected lower RUL is about ${expected.rulP10} model h, not ${Math.round(form.rulP10)} model h.`);
   }
 
   return conflicts;
@@ -2066,7 +2066,7 @@ function operatingRegime(windSpeed: number) {
 
 function servitizationActivity(latest: HistoryPoint, serviceState: ServiceState) {
   const growthEvidence = latest.crackGrowthRateMmH != null ? `, crack growth +${latest.crackGrowthRateMmH.toFixed(2)} mm/tick` : "";
-  const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, lower RUL ${latest.rulP10} pseudo-h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
+  const baseEvidence = `${latest.crackState ?? "C?"}, ${operatingRegime(latest.windSpeed)}, lower RUL ${latest.rulP10} model h, RMS ${latest.vibrationRms.toFixed(3)} g${growthEvidence}`;
   const tcsDecision = serviceDecisionByTcs(latest, serviceState);
   const tcsEvidence = `${maintenanceActions[tcsDecision.action].label}, TCS ${formatGbp(tcsDecision.totalCost)}, residual risk ${tcsDecision.residualRiskScore.toFixed(2)}`;
 
@@ -2183,7 +2183,7 @@ function rulOption(labels: string[], history: HistoryPoint[]) {
     },
     yAxis: {
       type: "value",
-      name: "pseudo-h",
+      name: "model h",
       nameTextStyle: { color: "#8fa7a0" },
       axisLine: { lineStyle: { color: "rgba(128, 169, 158, 0.34)" } },
       axisTick: { lineStyle: { color: "rgba(128, 169, 158, 0.28)" } },

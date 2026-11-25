@@ -86,6 +86,6 @@ export function runComparison(config: ExperimentConfig) {
   });
   return { version: 'wt-policy-comparison-1.0', modelVersion: rulModel.version, modelHashes: { ...rulModel.modelHashes }, sourceHashes: { ...rulModel.sourceHashes }, config: { ...config }, wind: Array.from({ length: config.horizon + 1 }, (_, i) => experimentWind(config, i)), results, sensitivity,
     scope: 'Deterministic simulation; not measured savings. Same calendar horizon/wind/initial crack, action-dependent damage. Advisory inspection/prepositioning not executed. No discounting or failure probability model.',
-    accounting: 'Direct/logistics charged once at start; downtime/contract pro rata only as incurred; repair at completion only. One terminal heuristic risk allowance, not repeated per service. All policies force corrective at 80 mm. Unsafe operating h: crack >=60 mm or lower RUL <240 pseudo-h. Baseline monitoring costs omitted equally.' };
+    accounting: 'Direct/logistics charged once at start; downtime/contract pro rata only as incurred; repair at completion only. One terminal heuristic risk allowance, not repeated per service. All policies force corrective at 80 mm. Unsafe operating h: crack >=60 mm or lower RUL <240 model h. Baseline monitoring costs omitted equally.' };
 }
 export type Comparison = ReturnType<typeof runComparison>;

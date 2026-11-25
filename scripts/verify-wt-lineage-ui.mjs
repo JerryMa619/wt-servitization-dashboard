@@ -21,7 +21,7 @@ try {
     await module.getByRole('tab', { name: 'DT Mapping', exact: true }).click();
     await module.scrollIntoViewIfNeeded();
     assert.equal(await module.locator('.mapping-table tbody tr').count(), 11);
-    assert.match(await module.innerText(), /Operation & Management/); assert.match(await module.innerText(), /wt:PseudoRULEstimate/);
+    assert.match(await module.innerText(), /Operation & Management/); assert.match(await module.innerText(), /WT model-hour estimate/);
     const prefix = route ? 'enhanced' : 'standard';
     await module.screenshot({ path: fileURLToPath(new URL(`${prefix}-mapping-desktop.png`, out)) });
     await module.getByRole('button', { name: 'sosa:Observation', exact: true }).click();

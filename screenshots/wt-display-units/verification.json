@@ -1,0 +1,31 @@
+{
+  "verifiedAt": "2026-11-25T14:27:02.487Z",
+  "results": [
+    {
+      "route": "http://127.0.0.1:5173/",
+      "capturedP50": 745,
+      "completedServices": 1,
+      "checks": [
+        "No pseudo wording in ordinary overview, expanded model basis, input, graph, mapping, records, trace or answers",
+        "Model-hour labels and synthetic/field-validation boundaries retained",
+        "Model values unchanged by inspection",
+        "Legacy RDF identifiers, SHACL/SPARQL and export hash retained",
+        "Desktop / 390 / 320 px"
+      ]
+    },
+    {
+      "route": "http://127.0.0.1:5173/enhanced/",
+      "capturedP50": 746,
+      "completedServices": 1,
+      "checks": [
+        "No pseudo wording in ordinary overview, expanded model basis, input, graph, mapping, records, trace or answers",
+        "Model-hour labels and synthetic/field-validation boundaries retained",
+        "Model values unchanged by inspection",
+        "Legacy RDF identifiers, SHACL/SPARQL and export hash retained",
+        "Desktop / 390 / 320 px"
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Generated simulation only. Explicitly paused after a completed service for stable wording screenshots; test-only accelerated WT ticks. Raw technical RDF/query identifiers intentionally retain legacy names."
+}

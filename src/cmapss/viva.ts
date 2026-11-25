@@ -1,7 +1,7 @@
 import {decide, type Point, type Scenario} from './model.ts';
 
 export const caseRoles = [
- {name:'Micro wind turbine',focus:'How does the service process operate?',evidence:'Simulated condition → service selection → downtime and repair → updated state; policy cost comparison and semantic evidence.',boundary:'Reference-assisted / simulated condition, pseudo-hour RUL and assumed economics. No independent field intervention validation.'},
+ {name:'Micro wind turbine',focus:'How does the service process operate?',evidence:'Simulated condition → service selection → downtime and repair → updated state; policy cost comparison and semantic evidence.',boundary:'Reference-assisted / simulated condition, model-hour RUL and assumed economics. No independent field intervention validation.'},
  {name:'C-MAPSS',focus:'How is a service recommendation justified?',evidence:'Original degradation observations → prefix-only prognosis → explicit contract assumptions → queryable recommendation evidence.',boundary:'NASA simulation benchmark replay; no maintenance trajectories, real contracts or measured service outcomes. No physical closed loop.'}
 ];
 export const contributionEvidence = [
@@ -83,7 +83,7 @@ export function contractFactorial(p:Point){
 }
 export const crossCaseSynthesis=[
  ['Reusable method','Responsibility groups; proposed advice; model/source provenance; executable evidence queries and constraints.','Implementation reuse is visible; general industrial portability is untested.'],
- ['Necessary adaptation','WT uses pseudo-h, reference-assisted condition and simulated repair; C-MAPSS uses cycles, recorded degradation and no repair trajectory.','Keep local estimate types and action assumptions distinct; do not equate units or outcomes.'],
+ ['Necessary adaptation','WT uses model h, reference-assisted condition and simulated repair; C-MAPSS uses cycles, recorded degradation and no repair trajectory.','Keep local estimate types and action assumptions distinct; do not equate units or outcomes.'],
  ['Lesson from the second case','C-MAPSS separates prognosis evidence from assumed service responsibility and exposes uncertainty-sensitive advice.','WT supplies a simulated process example, not empirical validation of C-MAPSS recommendations.'],
  ['Shared unresolved evidence','Empirical contracts, cross-source integration, independent field intervention and service outcomes.','Two implemented cases do not by themselves establish novelty, generalisation or effectiveness.']
 ];
