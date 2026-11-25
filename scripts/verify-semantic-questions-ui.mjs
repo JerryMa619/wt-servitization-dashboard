@@ -6,7 +6,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright');
 const base = process.env.DASHBOARD_URL ?? 'http://127.0.0.1:4173/wt-servitization-dashboard/';
 const published = !['127.0.0.1', 'localhost', '[::1]'].includes(new URL(base).hostname);
-const out = new URL(published ? '../screenshots/semantic-questions/public/' : '../screenshots/semantic-questions/', import.meta.url);
+const environment = published ? 'public' : new URL(base).pathname === '/' ? 'development' : 'production-preview';
+const out = new URL(`../screenshots/semantic-questions/${environment === 'production-preview' ? '' : `${environment}/`}`, import.meta.url);
 mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROME_EXECUTABLE ? { executablePath: process.env.CHROME_EXECUTABLE } : {}) });
 const errors = [], results = [];
@@ -16,13 +17,13 @@ try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true });
     await context.addInitScript(() => {
       const interval = window.setInterval.bind(window), timeout = window.setTimeout.bind(window);
-      window.setInterval = (handler, ms, ...args) => interval(handler, ms === 1400 ? 100 : ms, ...args);
+      window.setInterval = (handler, ms, ...args) => interval(ms === 1400 ? () => { if (!window.__holdSemanticCapture) handler(...args); } : handler, ms === 1400 ? 100 : ms, ...args);
       window.setTimeout = (handler, ms, ...args) => timeout(handler, ms === 30000 && window.__fastQuestionTimeout ? 350 : ms, ...args);
     });
     const page = await context.newPage();
     page.on('pageerror', e => { if (!e.message.includes('fixture semantic worker failure')) errors.push(e.message); });
     await page.route('**/*.tile.openstreetmap.org/**', r => r.abort());
-    await page.goto(new URL(route, base).href, { waitUntil: 'domcontentloaded' });
+    await page.goto(new URL(route, base).href, { waitUntil: 'domcontentloaded', timeout: 120000 });
     const controls = page.getByRole('region', { name: 'WT viva controls' });
     const ontology = page.getByRole('region', { name: 'Ontology and decision evidence' });
     const semantic = page.getByRole('region', { name: 'WT executable semantic validation' });
@@ -74,14 +75,17 @@ try {
       if (id === 'authorisation') assert.equal(evidence.answer.status, 'insufficient-evidence');
     }
     assert.equal(await semantic.locator('[aria-label="Recent semantic answers"] button').count(), 5);
-    await page.waitForFunction(() => {
-      const key = Object.keys(localStorage).find(key => key.startsWith('wt-servitization-session-v1:'));
-      const latest = JSON.parse(localStorage.getItem(key)).latest;
-      return latest.serviceMode === 'in-downtime' && latest.elapsedDowntimeH === 0;
-    }, null, { timeout: 30000 });
-    const servicesBeforeQuestion = (await session()).stats.completedServices;
     await page.route(shapeRoute, async r => { await new Promise(resolve => setTimeout(resolve, 1500)); try { await r.continue(); } catch {} });
-    await semantic.getByRole('button', { name: 'Run RDF / SHACL / SPARQL', exact: true }).click();
+    // Submit in the observed phase without a slow auto-scroll crossing accelerated service ticks.
+    const phase = await page.waitForFunction(() => {
+      const key = Object.keys(localStorage).find(key => key.startsWith('wt-servitization-session-v1:'));
+      const saved = JSON.parse(localStorage.getItem(key));
+      const button = document.querySelector('.wt-semantic .semantic-submit-actions button');
+      if (saved.latest.serviceMode !== 'in-downtime' || saved.latest.elapsedDowntimeH !== 0 || !button || button.disabled) return false;
+      button.click();
+      return { completedServices: saved.stats.completedServices };
+    }, null, { timeout: 30000 });
+    const servicesBeforeQuestion = (await phase.jsonValue()).completedServices;
     await semantic.getByTestId('wt-shacl-result').waitFor();
     assert.equal((await download()).snapshot.reading.serviceMode, 'in-downtime', 'Question snapshot was captured during the intervention');
     const servicesAfterQuestion = (await session()).stats.completedServices;
@@ -142,6 +146,9 @@ try {
     assert.match(await semantic.getByTestId('wt-question-interpretation').innerText(), /frozen\/historical/);
     await semantic.getByRole('button', { name: 'Use live evidence', exact: true }).click();
     await ask('What is the current RUL?'); await semantic.getByTestId('wt-shacl-result').waitFor();
+    // Running/service assertions are complete; hold test ticks only to avoid screenshot layout shifts above this panel.
+    await page.evaluate(() => { window.__holdSemanticCapture = true; });
+    await page.waitForTimeout(200);
     const name = route ? 'enhanced' : 'standard';
     await semantic.screenshot({ path: fileURLToPath(new URL(`${name}-answer-desktop.png`, out)) });
     assert.ok(await semantic.locator('[aria-label="Recent semantic answers"] button').count() <= 5);
@@ -155,6 +162,6 @@ try {
     await context.close();
   }
   assert.deepEqual(errors, []);
-  writeFileSync(new URL('verification.json', out), JSON.stringify({ verifiedAt: new Date().toISOString(), results, errors }, null, 2) + '\n');
+  writeFileSync(new URL('verification.json', out), JSON.stringify({ verifiedAt: new Date().toISOString(), environment, screenshotTiming: 'Test WT ticks held only for final static images, after running/service assertions completed.', results, errors }, null, 2) + '\n');
   console.log(JSON.stringify(results, null, 2));
 } finally { await browser.close(); }
