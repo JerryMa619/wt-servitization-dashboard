@@ -1,0 +1,31 @@
+{
+  "verifiedAt": "2026-11-25T14:42:32.230Z",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "capturedP50": 644,
+      "completedServices": 1,
+      "checks": [
+        "No pseudo wording in ordinary overview, expanded model basis, input, graph, mapping, records, trace or answers",
+        "Model-hour labels and synthetic/field-validation boundaries retained",
+        "Model values unchanged by inspection",
+        "Legacy RDF identifiers, SHACL/SPARQL and export hash retained",
+        "Desktop / 390 / 320 px"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "capturedP50": 643,
+      "completedServices": 1,
+      "checks": [
+        "No pseudo wording in ordinary overview, expanded model basis, input, graph, mapping, records, trace or answers",
+        "Model-hour labels and synthetic/field-validation boundaries retained",
+        "Model values unchanged by inspection",
+        "Legacy RDF identifiers, SHACL/SPARQL and export hash retained",
+        "Desktop / 390 / 320 px"
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Generated simulation only. Explicitly paused after a completed service for stable wording screenshots; test-only accelerated WT ticks. Raw technical RDF/query identifiers intentionally retain legacy names."
+}
