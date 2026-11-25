@@ -1,0 +1,23 @@
+{
+  "verifiedAt": "2026-11-25T12:05:30.400Z",
+  "applicationCommit": "307c651bf6a7b4ffea3a9eaebc6199e57eb5f180",
+  "deploymentRun": "https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/45610066515",
+  "results": [
+    {
+      "file": "WtSemanticWorkbench-CmBnVufx.js",
+      "url": "https://jerryma619.github.io/wt-servitization-dashboard/assets/WtSemanticWorkbench-CmBnVufx.js",
+      "status": 200,
+      "localSHA256": "8d06e4f25228e6658ef6eb4b30c1e5400de436cdfcbc6f226d9e069f50d6bc3d",
+      "publishedSHA256": "8d06e4f25228e6658ef6eb4b30c1e5400de436cdfcbc6f226d9e069f50d6bc3d",
+      "equal": true
+    },
+    {
+      "file": "semantic.worker-BvRI1Qf1.js",
+      "url": "https://jerryma619.github.io/wt-servitization-dashboard/assets/semantic.worker-BvRI1Qf1.js",
+      "status": 200,
+      "localSHA256": "3012ed7b679d7ca532d29a347e4ef3a7a331f5d4d7b7cd39921420473e70d68c",
+      "publishedSHA256": "3012ed7b679d7ca532d29a347e4ef3a7a331f5d4d7b7cd39921420473e70d68c",
+      "equal": true
+    }
+  ]
+}

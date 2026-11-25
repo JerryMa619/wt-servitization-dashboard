@@ -1,5 +1,7 @@
 {
-  "verifiedAt": "2026-11-25T11:44:46.043Z",
+  "verifiedAt": "2026-11-25T11:57:07.052Z",
+  "environment": "production-preview",
+  "screenshotTiming": "Test WT ticks held only for final static images, after running/service assertions completed.",
   "results": [
     {
       "route": "http://127.0.0.1:4173/wt-servitization-dashboard/",
@@ -25,8 +27,8 @@
     {
       "route": "http://127.0.0.1:4173/wt-servitization-dashboard/enhanced/",
       "presets": 14,
-      "queryCursor": 4,
-      "afterDelayedQueryCursor": 21,
+      "queryCursor": 5,
+      "afterDelayedQueryCursor": 22,
       "servicesBeforeQuestion": 0,
       "servicesAfterQuestion": 1,
       "checks": [

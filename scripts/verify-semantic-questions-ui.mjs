@@ -35,7 +35,10 @@ try {
     const before = (await session()).cursor;
     await ontology.getByRole('tab', { name: 'Semantic Check', exact: true }).click();
     await semantic.waitFor();
-    await page.waitForTimeout(350);
+    await page.waitForFunction(cursor => {
+      const key = Object.keys(localStorage).find(key => key.startsWith('wt-servitization-session-v1:'));
+      return JSON.parse(localStorage.getItem(key)).cursor > cursor;
+    }, before, { timeout: 10000 });
     assert.ok((await session()).cursor > before, 'Entering Semantic Check does not pause WT');
     const shapeRoute = '**/ontology/wt-shapes.ttl';
     await page.route(shapeRoute, async r => { await new Promise(resolve => setTimeout(resolve, 1500)); try { await r.continue(); } catch {} });

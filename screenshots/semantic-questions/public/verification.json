@@ -1,0 +1,50 @@
+{
+  "verifiedAt": "2026-11-25T12:05:41.659Z",
+  "environment": "public",
+  "screenshotTiming": "Test WT ticks held only for final static images, after running/service assertions completed.",
+  "results": [
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/",
+      "presets": 14,
+      "queryCursor": 3,
+      "afterDelayedQueryCursor": 24,
+      "servicesBeforeQuestion": 0,
+      "servicesAfterQuestion": 1,
+      "checks": [
+        "WT advances entering and executing questions",
+        "Active service completes during a delayed question",
+        "All 14 preset queries / real worker",
+        "Immutable answer/export hashes while live data changes",
+        "Chinese and English question routing",
+        "Abstention / clarification / scope guards",
+        "Negative SHACL copies block answers",
+        "HTTP failure / cancellation / timeout / retry",
+        "Operator pause retained",
+        "Frozen-vs-current ambiguity and explicit live return",
+        "820/390/320px layout"
+      ]
+    },
+    {
+      "route": "https://jerryma619.github.io/wt-servitization-dashboard/enhanced/",
+      "presets": 14,
+      "queryCursor": 2,
+      "afterDelayedQueryCursor": 23,
+      "servicesBeforeQuestion": 1,
+      "servicesAfterQuestion": 2,
+      "checks": [
+        "WT advances entering and executing questions",
+        "Active service completes during a delayed question",
+        "All 14 preset queries / real worker",
+        "Immutable answer/export hashes while live data changes",
+        "Chinese and English question routing",
+        "Abstention / clarification / scope guards",
+        "Negative SHACL copies block answers",
+        "HTTP failure / cancellation / timeout / retry",
+        "Operator pause retained",
+        "Frozen-vs-current ambiguity and explicit live return",
+        "820/390/320px layout"
+      ]
+    }
+  ],
+  "errors": []
+}
