@@ -73,6 +73,19 @@ test('operating bounds and cut-in apply identically in auto, manual and repair p
     }
   }
 });
+test('automatic crack growth progresses past a resumed 26.5 mm reading without changing its source evidence', () => {
+  for (const windSpeed of [0, 3.4, 8, 15, 40]) {
+    for (const index of [0, 7, 100, 314, 900]) {
+      const held = { ...structuredClone(base), source: 'manual-input', windSpeed, crackMm: 26.5, crackState: 'C2', ...model.conditionPrediction(windSpeed, 26.5) };
+      const original = structuredClone(held);
+      const next = context.simulateAutoTwinPoint({ ...base, windSpeed }, held, index, false);
+      assert.ok(next.crackMm > 26.5);
+      assert.equal(next.source, 'auto-simulation');
+      assert.equal(next.rulP50, model.conditionPrediction(windSpeed, next.crackMm).rulP50);
+      assert.deepEqual(held, original);
+    }
+  }
+});
 test('repair changes crack and recalculates RUL rather than adding artificial RUL gains', () => {
   const repaired = context.applyMaintenanceResult(base, 'predictive-maintenance', 8);
   assert.equal(repaired.crackMm, 20.2);

@@ -22,6 +22,8 @@ The implementation is aligned with the project theme of digital twinning serviti
 
 ## Main Features
 
+Simulation recovery update (25 November 2026): **Resume live DT** releases held manual input and global pause and returns framework / ontology views to current readings without clearing stored service history. Manual holds and paused views are now labelled explicitly. [Investigation, reproduced 26.5 mm case and repair](docs/reviews/2026-11-25-wt-simulation-recovery.md), [local verification](screenshots/simulation-recovery/verification.json). Export transient Data Records before reloading the page.
+
 - WT operation animation with blade crack growth from 0 mm.
 - GPS and real site map context.
 - Wind speed, wind direction, vibration, crack state, and RUL monitoring.

@@ -1,0 +1,196 @@
+[
+  {
+    "mode": "normal",
+    "errors": [],
+    "samples": [
+      {
+        "crack": "0",
+        "cursor": 0,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "0.3",
+        "cursor": 1,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "0.3",
+        "cursor": 1,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "0.6",
+        "cursor": 2,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "0.9",
+        "cursor": 3,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "1.2",
+        "cursor": 4,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "1.5",
+        "cursor": 5,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "1.8",
+        "cursor": 6,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "2.1",
+        "cursor": 7,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      }
+    ]
+  },
+  {
+    "mode": "restored-26.5",
+    "errors": [],
+    "samples": [
+      {
+        "crack": "26.9",
+        "cursor": 8,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "37.4",
+        "cursor": 29,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "26.9",
+        "cursor": 50,
+        "completed": 1,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "38.2",
+        "cursor": 71,
+        "completed": 1,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "29.6",
+        "cursor": 92,
+        "completed": 2,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      }
+    ]
+  },
+  {
+    "mode": "manual-26.5",
+    "errors": [],
+    "samples": [
+      {
+        "crack": "26.5",
+        "cursor": 7,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "26.5",
+        "cursor": 7,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "26.9",
+        "cursor": 8,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "27.3",
+        "cursor": 9,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "27.8",
+        "cursor": 10,
+        "completed": 0,
+        "status": "Current session / Running / 1 monitoring tick = 1 modeled h",
+        "mode": "monitoring",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay",
+        "replay": "LIVE VIEW"
+      },
+      {
+        "crack": "26.5",
+        "status": "Current session / Paused / 1 monitoring tick = 1 modeled h",
+        "source": "Auto DT closed-loop simulation | 315 acquisitions | Chapter 5 controlled C0-C6 replay"
+      }
+    ]
+  }
+]

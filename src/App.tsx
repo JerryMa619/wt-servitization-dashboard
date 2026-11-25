@@ -529,6 +529,26 @@ function App() {
 
   function pauseSimulation(paused = true) { pausedRef.current = paused; setSimulationPaused(paused); }
 
+  function resumeSimulation() {
+    const manual = manualPointRef.current;
+    if (manual) {
+      // Keep the held observation intact; subsequent ticks create new modelled readings.
+      const resumedHistory = [...historyRef.current, manual].slice(-48);
+      historyRef.current = resumedHistory;
+      setHistory(resumedHistory);
+      autoPostServiceOverrideRef.current = true;
+      manualPointRef.current = null;
+      setManualPoint(null);
+    }
+    pauseSimulation(false);
+  }
+
+  function resumeLiveDT() {
+    resumeSimulation();
+    setReplayRequest({ id: ++linkedRequestRef.current, eventId: 'live' });
+    setOntologyFocus({ id: ++linkedRequestRef.current, nodeId: 'recommendation', eventId: 'live' });
+  }
+
   function startDemo(id: string) {
     const selected = demoCases.find(c => c.id === id);
     if (!selected) return;
@@ -658,7 +678,7 @@ function App() {
             Input scenario
           </button>
           {manualPoint ? (
-            <button className="secondary-action" type="button" onClick={() => { manualPointRef.current = null; setManualPoint(null); }}>
+            <button className="secondary-action" type="button" onClick={resumeSimulation}>
               <RotateCcw size={15} />
               Resume simulation
             </button>
@@ -672,10 +692,11 @@ function App() {
 
       <section className="demo-toolbar" aria-label="WT viva controls">
         <label>Viva case<select aria-label="WT viva case" value={demoCase} onChange={e => { if (e.target.value) startDemo(e.target.value); else returnToSession(); }}><option value="">Current session</option>{demoCases.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}</select></label>
-        <button aria-label={simulationPaused ? 'Play WT simulation' : 'Pause WT simulation'} title={simulationPaused ? 'Play WT simulation' : 'Pause WT simulation'} onClick={() => pauseSimulation(!simulationPaused)}>{simulationPaused ? <Play size={16} /> : <Pause size={16} />}</button>
+        <button aria-label={simulationPaused || manualPoint ? 'Play WT simulation' : 'Pause WT simulation'} title={simulationPaused || manualPoint ? 'Play WT simulation' : 'Pause WT simulation'} onClick={() => { if (simulationPaused || manualPoint) resumeSimulation(); else pauseSimulation(); }}>{simulationPaused || manualPoint ? <Play size={16} /> : <Pause size={16} />}</button>
+        <button type="button" onClick={resumeLiveDT} title="Resume automatic simulation and return framework and ontology to current readings"><Play size={16} />Resume live DT</button>
         <button title="Reset isolated demo" aria-label="Reset isolated demo" disabled={!demoCase} onClick={() => startDemo(demoCase)}><RotateCcw size={16} /></button>
         {demoCase && <button onClick={returnToSession}><RotateCcw size={15} />Return to saved session</button>}
-        <span role="status">{demoCase ? 'Isolated in-memory demo / 8 m/s / original session preserved' : 'Current session'} / {simulationPaused || manualPoint ? 'Paused' : 'Running'} / 1 monitoring tick = 1 modeled h</span>
+        <span role="status">{demoCase ? 'Isolated in-memory demo / 8 m/s / original session preserved' : 'Current session'} / {manualPoint ? 'Manual scenario held / automatic services paused' : simulationPaused ? 'Paused' : 'Running'} / 1 monitoring tick = 1 modeled h</span>
         <a href={`${import.meta.env.BASE_URL}cmapss/?story=1`}>C-MAPSS case study</a>
       </section>
 
@@ -716,8 +737,8 @@ function App() {
       <div id="ontology-module"><OntologyPanel
         snapshot={liveSnapshot}
         sessionId={ontologySessionRef.current}
-        paused={simulationPaused}
-        onSimulation={() => pauseSimulation(!simulationPaused)}
+        paused={simulationPaused || !!manualPoint}
+        onSimulation={() => { if (simulationPaused || manualPoint) resumeSimulation(); else pauseSimulation(); }}
         onPause={() => pauseSimulation()}
         executions={ontologyEvents}
         focusRequest={ontologyFocus}
