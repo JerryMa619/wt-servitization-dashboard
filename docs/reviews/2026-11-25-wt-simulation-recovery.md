@@ -48,4 +48,10 @@ After loading the updated page, **Resume live DT** is the explicit recovery acti
 
 An intentionally paused scenario does not progress until explicitly resumed. Frozen/historical snapshots do not become live merely because the background simulator is running. This repair addresses reproducible control-state ambiguity and incomplete resume behavior, not an inferred physical crack limit or a validated failure-progression model. If the exact user's session still stops while showing an unpaused automatic live view, its visible mode and runtime error evidence are needed for a separate diagnosis.
 
-Publication and additional regression results are recorded after verification and deployment.
+## Publication
+
+- Application commit: `ed39c80f0e6464458ed4fcac272961b4e532f638`.
+- [GitHub Pages deployment 45600950127](https://github.com/JerryMa619/wt-servitization-dashboard/actions/runs/45600950127) completed successfully, including the actual source/model checks, production build and deployment jobs.
+- The same recovery script passed on the public standard and enhanced routes. All four controls advanced a held 26.5 mm input to 27.1 / 27.2 / 27.4 / 27.3 mm in the recorded run, and both routes completed a new service cycle (2 -> 3 completed services) with increasing modeled downtime. Completed evidence, manual-record export and independent capture pause checks passed; no runtime page errors were observed.
+- [Public verification](../../screenshots/simulation-recovery/public/verification.json) and before/after/mobile screenshots are tracked separately from local evidence.
+- The final evidence-only commit changes this record, README links and public verification artifacts, not application code. It skips a redundant CI/deployment run; the deployed application commit and successful CI run above remain the verified code version.
